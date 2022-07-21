@@ -1,0 +1,8 @@
+﻿# ディレクトリー
+.vs/
+bin/
+Compiled/
+obj/
+
+# ファイル
+.DS_Store

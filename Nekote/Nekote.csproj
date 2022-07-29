@@ -1,9 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <AssemblyName></AssemblyName>
+        <AssemblyTitle></AssemblyTitle>
+
+        <Company>Yoshinao Inoguchi</Company>
+        <Product></Product>
+        <Description></Description>
+        <Copyright></Copyright>
+
+        <Configuration></Configuration>
+
+        <Version>0.1</Version>
+        <AssemblyVersion></AssemblyVersion>
+        <FileVersion></FileVersion>
+        <InformationalVersion></InformationalVersion>
+    </PropertyGroup>
 
 </Project>

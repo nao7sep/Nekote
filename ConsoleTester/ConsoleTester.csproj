@@ -1,14 +1,29 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Nekote\Nekote.csproj" />
-  </ItemGroup>
+        <AssemblyName></AssemblyName>
+        <AssemblyTitle></AssemblyTitle>
+
+        <Company>Yoshinao Inoguchi</Company>
+        <Product></Product>
+        <Description></Description>
+        <Copyright></Copyright>
+
+        <Configuration></Configuration>
+
+        <Version>0.1</Version>
+        <AssemblyVersion></AssemblyVersion>
+        <FileVersion></FileVersion>
+        <InformationalVersion></InformationalVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Nekote\Nekote.csproj" />
+    </ItemGroup>
 
 </Project>

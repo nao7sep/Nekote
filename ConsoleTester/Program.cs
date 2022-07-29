@@ -1,4 +1,6 @@
-﻿namespace ConsoleTester
+﻿using Nekote;
+
+namespace ConsoleTester
 {
     internal class Program
     {

@@ -11,3 +11,256 @@
 [完了] レポジトリーをクローン
 [完了] 全てのファイルをチェック
 [完了] いったんコミット（繰り返す）
+[完了] クラス継承時に base () も必要か調べる
+
+    次のページの例では base () が書かれていない。これまで「一応」で書いてきたので調べる。
+
+    How to: Create User-Defined Exceptions | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/standard/exceptions/how-to-create-user-defined-exceptions
+
+    --------------------------------------------------------------------------------
+
+    引数のないコンストラクターなら不要らしい。
+
+    inheritance - In C#, do you need to call the base constructor? - Stack Overflow
+    https://stackoverflow.com/questions/18097/in-c-do-you-need-to-call-the-base-constructor
+
+[完了] 例外クラスをいくつか用意
+
+    How to: Create User-Defined Exceptions | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/standard/exceptions/how-to-create-user-defined-exceptions
+
+    --------------------------------------------------------------------------------
+
+    Exception は、message が string? だったり、SerializationInfo を取るものがあったり。
+
+    自分は、一つ前のメモのページにならい、よりシンプルに。
+
+    Exception Constructor (System) | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/api/system.exception.-ctor
+
+    --------------------------------------------------------------------------------
+
+    nException は、Nekote が投げる全ての例外クラスのベースとなるもの。これそのものを投げるのはやめておく。エラーの区別がつかないため。
+
+    nArgumentException は、引数に問題がある場合のもの。
+
+    out of range など、いろいろ用意することも考えたが、.NET のソースを見ていると、けっこう適当な実装になっていて、「このエラーにはちゃんと固有の例外クラスが用意されているのに、こちらでは他の例外クラスが流用されている」のようなことが目立つので、自分も細かくはしない。いろいろなケースがありすぎて、途中で「これ、完璧に分けるのは無理じゃね？」のようになったのだろうと思う。
+
+    nDebugException は、DEBUG 内で投げるもの。他では投げない。nQualityException としてソフトウェアの品質向上のためというニュアンスにすることも考えたが、DEBUG 内のみで飛ぶ、「一応見ておく」「リリース版では見なくていい」のものであることを優先的に明示。
+
+    nFormatException は、構文解析に失敗した場合など。
+
+    nOperationException は、Nekote を使う側にミスがある場合。nArgumentException は、引数の問題。nOperationException は、引数には目に見えて問題があるわけでないが、「インスタンスがこの状態のときにそれはやっちゃあいけない」など、やはり漠然と「使い方」に問題がある場合。Load して IsLoaded が true になったあとの Load というのが好例か。
+
+[完了] 生成された例外クラスのインスタンスが内部的に保持されるようにする
+
+    SortedList の nExceptionLogger に static readonly の Default を用意し、lock (Lock) で Add できるようにしたが、nException のコンストラクターでそうしても StackTrace に情報が入らなかった。
+
+    StackTrace は new でなく throw のときに設定されると仮定し、nException.Throw を用意し、いったん投げて catch して再度 throw の途中でインスタンスを Add するようにしたところ、nException.Throw で投げられたということしか分からない StackTrace になった。
+
+    これらは、ConsoleTester から Nekote のメソッドを呼んでいて、アセンブリーをまたいだからだろう。
+
+    --------------------------------------------------------------------------------
+
+    Attach StackTrace To Exception Without Throwing in C# / .NET - Stack Overflow
+    https://stackoverflow.com/questions/37093261/attach-stacktrace-to-exception-without-throwing-in-c-sharp-net
+
+    --------------------------------------------------------------------------------
+
+    次のコードは、うまくいった。
+
+    typeof (Exception).GetField ("_stackTraceString", BindingFlags.Instance | BindingFlags.NonPublic).SetValue (this, Environment.StackTrace)
+
+    ただ、throw 前に StackTrace を設定し、nExceptionLogger.Default に入れても、throw の時点で StackTrace が変更される。
+
+    Default に入った例外クラスの参照の内容が、その直後の不定の瞬間に変更されることの情報の不整合を嫌い、投げる前から StackTrace を投げたあとと同じ値にするか、投げてから Default に入れながらも、ただ throw new したのと同じシンプルな StackTrace にするか、どちらかを望んだが、「Default に入れた直後、ほんの一瞬の間はまだ要素の内容が最終のものでない」というのは仕様として妥協するしかなさそう。
+
+[完了] アセンブリー情報を参照できるようにする
+
+    visual studio - Equivalent to AssemblyInfo in dotnet core/csproj - Stack Overflow
+    https://stackoverflow.com/questions/42138418/equivalent-to-assemblyinfo-in-dotnet-core-csproj
+
+    --------------------------------------------------------------------------------
+
+    MSBuild properties for Microsoft.NET.Sdk - .NET | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props
+
+    --------------------------------------------------------------------------------
+
+    c# - How can I retrieve the 'AssemblyCompany' setting (in AssemblyInfo.cs)? - Stack Overflow
+    https://stackoverflow.com/questions/3127288/how-can-i-retrieve-the-assemblycompany-setting-in-assemblyinfo-cs
+
+    --------------------------------------------------------------------------------
+
+    GetCustomAttributes は、.csproj でその属性を指定しなくても複数指定しても Count () == 1 になる。前者の場合はアセンブリー名、後者の場合は最後に指定されたものに。
+
+    GetCustomAttribute で読む場合も null のチェックは不要だが、作法として。null の場合、null でなく "" を返す。ほぼ間違いなく null でないものが返るメソッドを Nullable にしないため。
+
+    --------------------------------------------------------------------------------
+
+    GetCompanyString などをキャッシュなしの static メソッドとして用意するのは、キャッシュするほど重たい処理と思えないため。ものすごく多くのアセンブリーの情報を LINQ でソートするなども考えにくい。
+
+    --------------------------------------------------------------------------------
+
+    NeutralResourcesLanguageAttribute を読むものは、System.Resources.ResourceManager パッケージの導入が必要のようなのでまだ実装しない。
+
+    --------------------------------------------------------------------------------
+
+    Nekote は個人で開発しているので Authors に自分の名前を入れるのが作法と感じるが、これはパッケージ関連の属性なので今は使わないでおく。
+
+    また、Repository URL が気になるが、これを設定したから Nekote のバイナリーが手元にある人がレポジトリーに到達できるというものではない。添付のドキュメントにでも書くのが妥当。
+
+    --------------------------------------------------------------------------------
+
+    WINWORD.EXE のプロパティーをエクスプローラーで開くと、英語版 Windows では、以下のようになるようだ。
+
+    File description: Microsoft Word
+    Product name: Microsoft Office
+
+    .csproj で以下の項目を設定すると、結果は次のようになる。
+
+    AssemblyName → ファイル名
+    AssemblyTitle → File description
+
+    MS の考え方は、おそらく以下のようなものだろう。
+
+    AssemblyName → 内部的な名前
+    AssemblyTitle → 慣用的な「どこの何」あるいはソフトのフレンドリー名
+    Product → そのソフトが含まれる製品やシリーズの、マーケティング的な名前
+
+    Product を設定しなければ、AssemblyName が流用される。これは <Product></Product> と書いても同じ。
+
+    「Company + Product + 何か」でフルネームを生成する処理は、Product に社名がもう一度入ることがあるので不可能。Product に含まれる Company を探して除去するなどの処理は、イレギュラーへの対応力が低いため適さない。
+
+    実際の運用としては、Company に社名または便宜的に個人名、Product は上記の意味での値がないなら空、AssemblyName はプロジェクト名と一致なら設定せず、AssemblyTitle も AssemblyName と異なる場合のみ設定でよさそう。
+
+    --------------------------------------------------------------------------------
+
+    少し訂正。
+
+    Product を指定しない場合に AssemblyName が流用されるのはエクスプローラーの挙動。.NET のコードでは空になる。
+
+    また、AssemblyTitle も、.NET では、設定しなければ AssemblyName が流用されるのでなく空になる。
+
+    プログラムにタイトルを表示する場合、「構成ファイルで指定されたもの > ローカライズされたタイトル > AssemblyTitle > AssemblyName」という読み方が良さそう。
+
+    --------------------------------------------------------------------------------
+
+    Version は AssemblyVersionAttribute で読めないと判明。GetName ().Version に変更。これは稀に null を返す。まず大丈夫そうだが、一応 Nullable に。
+
+    AssemblyName.CoreCLR.cs
+    https://source.dot.net/#System.Private.CoreLib/src/System/Reflection/AssemblyName.CoreCLR.cs
+
+    --------------------------------------------------------------------------------
+
+    三つのバージョンは、AssemblyVersion, InformationalVersion, FileVersion で指定できた。Version があっても、これらの値が優先される。しかし、これらをなくすと、いずれでも Version の値が流用される。
+
+    これら三つの関係としては、一つ目のみ残すと三つ目が一つ目を流用するが二つ目はデフォルト値になり、二つ目または三つ目のみ残しても他で流用されない。
+
+    --------------------------------------------------------------------------------
+
+    .csproj をできるだけシンプルにしたい。
+
+    ドキュメントに、三つ全てのバージョンが defaults to the value of $(Version) と書かれているので、今後の変更はないものとみなし、Version のみ指定する。
+
+    AssemblyName も AssemblyTitle も、指定が必要でないなら指定しない。そのために GetAssemblyTitleOrName を実装する。
+
+    Company には個人名を指定。
+
+    他はなくて困らないので今すぐには指定しない。レポジトリーの URL を .csproj に入れるのも、プログラムの内部的な動作に不可欠でない。
+
+    --------------------------------------------------------------------------------
+
+    Version は Nullable なので GetVersionString もそうしたいが、他との整合性が失われるし、Version が実際に null になることが稀のようなので、これも Nullable にしない。
+
+    --------------------------------------------------------------------------------
+
+    Version.TryParse は、少なくとも Major と Minor を必要とする。
+
+    Version.TryParse Method (System) | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/api/system.version.tryparse
+
+    --------------------------------------------------------------------------------
+
+    GetTitleOrNameString は、どこにもデータがなければ "" を返す。しかし、AssemblyName を指定せずに GetName ().Name を見るとプロジェクト名が返ってくるので、実際に "" が返ることはまずない。そのため、Nullable にする必要はない。
+
+    --------------------------------------------------------------------------------
+
+    いや、やはり全体的に Nullable をしっかり使う。null を返してくる可能性の低い、.NET の Nullable のメソッドであっても、可能性がゼロでないなら、Nekote がいたずらに null を潰してはいけない。null が返ってくるかもしれないという情報を呼び出し側に伝えるべき。
+
+    --------------------------------------------------------------------------------
+
+    .csproj への記述のテンプレ:
+
+    <AssemblyName></AssemblyName>
+    <AssemblyTitle></AssemblyTitle>
+
+    <Company>Yoshinao Inoguchi</Company>
+    <Product></Product>
+    <Description></Description>
+    <Copyright></Copyright>
+
+    <Configuration></Configuration>
+
+    <Version>0.1</Version>
+    <AssemblyVersion></AssemblyVersion>
+    <FileVersion></FileVersion>
+    <InformationalVersion></InformationalVersion>
+
+    値が空でキーだけ指定しても何も書かなくても同じようなので、キーは書いておく。
+
+    内部名、フレンドリー名は名前系。
+
+    続いて、文字列による属性系。まず社名あるいは個人名、続いて製品名で、さらに詳しい説明を経て、最後に著作権表示。
+
+    Configuration はたぶん使わないが、これだけ抜くと nAssembly との整合性が失われるので一応。
+
+    最後にバージョン系。全てに引き継がれるものを置き、続いて個別に。AssemblyVersion は .NET でも GetName ().Version で取得できるなど特別扱いなので先に。残り二つはドキュメントにおける順で。
+
+    --------------------------------------------------------------------------------
+
+    Version に 0.0 を指定するとパーズに失敗するので注意。まだアーカイブするに値しない実装中のコードに自分は 0.0 をつけることがあったが、0.1 のまま初回のアーカイブを目指すのが妥当。
+
+[完了] アセンブリー情報を設定
+[却下] アセンブリー情報をどのように設定するか書く
+
+    taskKiller のメモに書いたので手を抜く。
+
+[完了] nAssembly のスピードを調べる
+
+    次の雑なコードを走らせてみた。
+
+    Console.WriteLine ("Average: " + Enumerable.Range (1, 10).Select (x =>
+    {
+        Stopwatch xStopwatch = Stopwatch.StartNew ();
+
+        Enumerable.Repeat (Assembly.GetEntryAssembly (), 1000000).
+            OrderBy (y => nAssembly.GetNameString (y!)).
+            ThenBy (y => nAssembly.GetTitleString (y!)).
+            ThenBy (y => nAssembly.GetVersion (y!)).
+            ToArray ();
+
+        long xElapsedTime = xStopwatch.ElapsedMilliseconds;
+        Console.WriteLine (x + ". " + xElapsedTime);
+        return xElapsedTime;
+    }).Average ());
+
+    結果:
+
+    1. 4079
+    2. 3902
+    3. 3910
+    4. 3950
+    5. 3908
+    6. 4056
+    7. 4526
+    8. 4561
+    9. 4616
+    10. 4590
+    Average: 4209.8
+
+    コードにミスがないなら、アセンブリー情報はキャッシュなしで読んでよさそう。
+
+[完了] taskKiller のログを更新（繰り返す）
+[完了] [7/22] いったんコミット（繰り返す）

@@ -1,4 +1,6 @@
-﻿using Nekote;
+﻿using System.Diagnostics;
+using System.Reflection;
+using Nekote;
 
 namespace ConsoleTester
 {

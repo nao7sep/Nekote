@@ -8,11 +8,11 @@ namespace Nekote
 {
     public class nExceptionLogger: SortedList <DateTime, Exception>
     {
-        public static readonly object Lock = new ();
+        public static readonly object Lock = new object ();
 
         /// <summary>
         /// マルチスレッドなら Lock で lock。
         /// </summary>
-        public static readonly nExceptionLogger Default = new ();
+        public static readonly nExceptionLogger Default = new nExceptionLogger ();
     }
 }

@@ -1,0 +1,15 @@
+﻿[Delete]
+Compiled
+
+[Copy]
+Nekote\bin\Release\net6.0 > Compiled
+
+[Exclude]
+.git
+.vs
+Archived
+ConsoleTester/bin
+ConsoleTester/obj
+Nekote/bin
+Nekote/obj
+.gitignore

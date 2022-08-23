@@ -477,6 +477,136 @@
 
 [完了] [7/30] taskKiller のログを更新（繰り返す）
 [完了] [7/30] いったんコミット（繰り返す）
-[完了] 機能の変更点を元に戻す
+[完了] 昨日の変更点を元に戻す
 
     寝不足で半分寝ながらグダグダ働いた。サクッとやり直す。
+
+[完了] major.minor.patch のバージョニングについて書く
+
+    .NET の Version クラスのドキュメントでは、major.minor[.build[.revision]] とされる。
+
+    Major: Assemblies with the same name but different major versions are not interchangeable. A higher version number might indicate a major rewrite of a product where backward compatibility cannot be assumed.
+
+    Minor: If the name and major version number on two assemblies are the same, but the minor version number is different, this indicates significant enhancement with the intention of backward compatibility. This higher minor version number might indicate a point release of a product or a fully backward-compatible new version of a product.
+
+    Build: A difference in build number represents a recompilation of the same source. Different build numbers might be used when the processor, platform, or compiler changes.
+
+    Revision: Assemblies with the same name, major, and minor version numbers but different revisions are intended to be fully interchangeable. A higher revision number might be used in a build that fixes a security hole in a previously released assembly.
+
+    Version Class (System) | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/api/system.version
+
+    Stack Overflow にもいろいろと書かれている。
+
+    c# - Best practices for assembly naming and versioning? - Stack Overflow
+    https://stackoverflow.com/questions/199823/best-practices-for-assembly-naming-and-versioning
+
+    .net - Best practices/guidance for maintaining assembly version numbers - Stack Overflow
+    https://stackoverflow.com/questions/3768261/best-practices-guidance-for-maintaining-assembly-version-numbers
+
+    依存関係ファイルにより指定されるバージョンのアセンブリーが見つからないときに、どういうバージョン番号のアセンブリーなら代替的にロードされるかという問題もあるようで、.NET のバージョニングは、深入りしたらアカンやつの印象が強い。まだ小規模プロジェクトのうちは、そもそも必要性がないが。
+
+    自分に必要なのは、仕様や操作性が劇的に変わるときの major、機能追加やバグ修正の minor に加えては、ライブラリーにおいてのみ「それを使う側とのリンク時に見つかった問題などをサクッと直したときに上がるもの」としての第三の数字のみ。
+
+    ライブラリーでないなら、ちょっとしたバグ修正でも minor を上げてよい。それへリンクする他のプログラムがないなら他への影響がないため。
+
+    しかし、ライブラリーの側では、それを使う側とのリンク時に、いざ走らせてみたら相性の問題があって落ちたり、メンバー変数では動かないからプロパティーに変更しなければならなかったり、メソッドの引数が増えたから以前のコードとの互換性のためにデフォルト引数が必要になったりの、ライブラリーでない側では考えにくい目的、つまり「呼び出し側に合わせる」という目的でのパッチワークが頻発する。
+
+    そのたびにライブラリーの minor を上げるのでは、機能性とは関係のない、うまくつながるようにしただけの変更などが大きな変更のように見えてしまい、そちらの方が良く、そして安全だからソフト側に組み込まれている Nekote.dll をすぐにでも置き換えなければならないとの誤解につながる可能性がある。
+
+    そういった問題を避けるには、SemVer と呼ばれるものに従った方が良さそう。
+
+    Semantic Versioning 2.0.0 | Semantic Versioning
+    https://semver.org/
+
+    とりあえず、0.0.1 から始める。0.1 は機能的にそれなりに充実したものでないといけないので、0.1.0 からというのは適さない。
+
+    0.0.1 から、Nekote と、それを使う複数のソフトを同時に開発していき、使う側のソフトをリリースするタイミングで Nekote のコードやコメントをある程度チェックして patch を上げて Nekote もアーカイブ。そうすることで、ソフトと Nekote の両方のバージョン番号が含まれるエラーメッセージが届いたときに問題を特定しやすい。
+
+    おそらく 0.0.100 くらいになる頃にはソフト側でも中規模のものがいくつかできている。それらが枯れてきた頃に Nekote を 0.1.0 にする。
+
+    ライブラリーのみ patch がつくのは 0.1.0 以降も同じ。patch が0なら major.minor だけにする考えもあったが、それだと 0.1 と 0.1.1 があるときに 0.1.1 が 0.1 より古い release candidate 的なものであると誤解される可能性がゼロでない。
+
+    A というソフトに 0.10.0 が、B に 0.10.1 が入っていれば、major.minor が同じなので、基本的には A のものをすぐに B のものに置き換える必要はない。
+
+    しかし、C に 0.11.0 が入っていれば、minor が古い Nekote には機能や実装の問題がある「可能性」くらいは気にするべき。
+
+    実際のところ、既存のソフトに広く影響する問題が Nekote の側で見つかれば、まず Nekote を更新して minor を上げてから、A, B, C および他の全てを最新の Nekote.dll とリンクし直して新たにリリースすることになるので、Nekote.dll のみ手作業で置き換えることは今後も必要にならないだろうが、一応、運用上そういう考え方はできるように。
+
+[完了] README.md を書く
+
+    最近のオープンソースの取り組みは、関係者に進捗状況を報告するなどがめんどくさくて、「ここに載せているので、好きなときに見てください」を言いたいだけの部分が大きい。
+
+    そのため、README.md も、0.0.100 くらいになってからやっと書くつもりだった。
+
+    しかし、GitHub に載せる以上、人が見たり使ったりしてくれる可能性を自らゼロにするスタンスは不適切。Nekote を誰かが使ってくれるなど考えもしていないが、0.0.100 がまだまだ先だからこそ、多少は welcoming な構成に。
+
+[完了] 全プロジェクトの README.md を読み返す
+
+    Nekote のものを書いてから。まだ黎明期なので、新しいものを書くたびに何か気づきがある。
+
+[完了] 文字列に Trim をかける基準を見直す
+
+    * ユーザー入力なら必ず洗う
+    * それ以外は、洗わないことがセキュリティーリスクになる場合のみ洗う
+        * その時点で処理やデータ構造に影響を与えるなど
+
+    としたが、それが含まれる同一メモ内で直後の「戻れない」こそが重要と感じる。
+
+    --------------------------------------------------------------------------------
+
+    * インタラクティブな入力 → 洗う
+    * そうでない
+    	* 行末の空白系文字 → 洗う
+    	* そうでない
+    		* 処理やデータ構造に影響がある → 洗う
+    		* そうでない
+    			* 一度しかそこを通らない AND 洗うことにメリットがある → 洗う
+    			* そうでない → 洗わない
+
+    というので様子を見る。
+
+    インタラクティブな入力とは、エラーメッセージを出力して再入力してもらえるところ。
+
+    行末の空白系文字は、自分は、どこだろうと削っている。エディターでそう設定できることが多いし、Markdown でも行末の見えない半角スペースは議論になりがち。インデントは存在が分かるが、行末の空白系文字はそうでない。見えないものは、ない方が管理コストが低い。
+
+    How to add new line in Markdown presentation? - Stack Overflow
+    https://stackoverflow.com/questions/33191744/how-to-add-new-line-in-markdown-presentation
+
+    処理やデータ構造に影響があるのは、たとえば2次元配列に文字列を入れていき CSV として出力するにおいて " " だけのセルが入るようなこと。他の全てのセルが "" なのに一つだけ " " があることで実質的にはデータのない行が出力されるなどは、それを受け取る側での影響があり得る。（もっとも、洗うのを決め打ちにするのも良くないので、デフォルトで洗うようにして、オプションで変更できるようにするだろう）。
+
+    一方、Nekote の仕様による KVS 的ファイルを Nekote でロードするなら、キーや値の先頭や末尾に空白系文字が入ることがラウンドトリップに影響するわけでない。その場合は、ラウンドトリップを経てのデータの同一性こそが重視されるべき。
+
+    一度しかそこを通らず、なおかつ洗うことにメリットがあるのは、たとえば例外情報。なぜか3文字インデントだが、他が4文字なので揃えてよいし、ToString で得られるものの末尾に改行が入る（少なくとも昔はそうだった記憶がある）のも不要。例外情報が3文字インデントの改行つきでデータベースなどに登録されても実害はないが、条件に該当するので洗う。
+
+[却下] 全プロジェクトにおいて Trim や IsNullOrWhiteSpace の適用を再考
+
+    まあいい。めんどくさくなった。他にするべきことがある。
+
+    Trim や IsNullOrWhiteSpace については以前ちゃんと考えた。今回の方針変更は、当時の考えをより具体化・明確化しただけであり、後方互換性のない大きな変更ではない。
+
+[完了] 最初のアーカイブを作り直す
+
+    日曜に7時間も屋内の遊び場で子どもと遊んだことで疲れすぎて逆に眠れず、3時間睡眠で月曜にはグダグダと変なことをした。OK コミットまで行ったが、明らかに考えが足りなかった。
+
+    そのあたりを修正し、最初のアーカイブを作り直し、次回の OK コミット時に差分に変なものが紛れ込んでいて迷わないように今すぐにもう一度 OK コミットを行う。
+
+    --------------------------------------------------------------------------------
+
+    昨日の思考では、「0.0 はどこかに通らなかった記憶があるから最初から 0.1 にしておくが、厳密には 0.1 にまだ至っていないものなので、アーカイブのファイル名にバージョン番号を入れないことでそのことを示唆する」が合理的だったようだ。
+
+    しかし、それでは古いバージョンの Nekote とリンクされたソフトで問題が発生したときに、エラーメッセージで Nekote のバージョンが分からないことで問題の特定により時間がかかる。Nekote.dll のタイムスタンプなどを見ながら、「おそらくこの頃のコードをコンパイルしたものだろう」と考えることになる。
+
+    まだ 0.1 に至っていないものでも、ある程度チェックし、「今のところ大丈夫」と思って他のソフトに組み込んでそちらでアーカイブするなら、Nekote.dll にも固有のバージョン番号があるべき。
+
+    .NET の Version クラスでは、major.minor[.build[.revision]] とされる。
+
+    Version Class (System) | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/api/system.version
+
+    しかし、SemVer と呼ばれるものに従った方が良さそう。
+
+    Semantic Versioning 2.0.0 | Semantic Versioning
+    https://semver.org/
+
+    これについては、そのためのタスクの方のメモに。

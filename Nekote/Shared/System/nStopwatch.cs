@@ -13,8 +13,9 @@ namespace Nekote
         // 実装のチェック項目:
         //     ひとまとめの処理が lock で保護されているか
         //     ひとまとめの処理を分断しうるフラグへの書き込みアクセスが lock で制限されているか
-        //     各メソッドの始まりと終わりにおいて IsRunning と NextAutoPausingUtc の状態が正しいか
+        //     各部の始まりと終わりにおいて CurrentEntryStartUtc と NextAutoPausingUtc の状態が正しいか
         //     NextAutoPausingUtc のチェック時に IsRunning のチェックも必要でないか
+        //     各部で不正な操作のチェックが十分に行われているか
 
         public object Locker = new object ();
 
@@ -131,6 +132,9 @@ namespace Nekote
 
         public void Knock (bool resumes, string? entryName = null, DataType? entryData = null, TagType? entryTag = null)
         {
+            // IsRunning == false でも問題視されない
+            // 自動中断機能により中断されてからの Knock はミスでない
+
             if (AutoPauses == false)
                 throw new nOperationException ();
 
@@ -187,6 +191,9 @@ namespace Nekote
                 CurrentEntryTag = null;
             }
         }
+
+        // Pause/Stop において、自動中断機能がオンなら IsRunning == false は問題視されない
+        // Knock 同様、いつの間にか中断されていると知らずの Pause/Stop はミスでない
 
         public void Pause ()
         {

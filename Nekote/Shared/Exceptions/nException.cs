@@ -8,9 +8,10 @@ namespace Nekote
 {
     public class nException: Exception
     {
-        public static void LogSafely <T> (T exception) where T: Exception
+        public static void LogSafely <ExceptionType> (ExceptionType exception)
+            where ExceptionType: Exception
         {
-            lock (nExceptionLogger.Lock)
+            lock (nExceptionLogger.Locker)
             {
                 nExceptionLogger.Default.Add (DateTime.UtcNow, exception);
             }

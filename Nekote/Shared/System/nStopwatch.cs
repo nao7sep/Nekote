@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Nekote
 {
-    public class nStopwatch <DataType, TagType>
+    public class nStopwatch <DataType, TagType>: IDisposable
         where DataType: class
         where TagType: struct
     {
@@ -71,15 +71,21 @@ namespace Nekote
         public bool AutoPauses = false;
 
         // 最後の計測時の Task のインスタンスが入る
-        // 不要のようなので Dispose や null 設定はされない
+        // 不要のようなので Dispose や null 設定はされない → Reset/Dispose 時のみ null になる
         public Task? AutoPausingTask;
 
-        public TimeSpan AutoPausingInterval = TimeSpan.FromMinutes (3);
+        public static readonly TimeSpan DefaultAutoPausingInterval = TimeSpan.FromMinutes (3);
+
+        public TimeSpan AutoPausingInterval = DefaultAutoPausingInterval;
 
         // 自動中断機能が動いているかどうかは、AutoPausingTask の状態でなく、この変数により判断される
         public DateTime? NextAutoPausingUtc;
 
-        public TimeSpan AutoPausingThreadSleepTimeout = TimeSpan.FromMilliseconds (100);
+        public static readonly TimeSpan DefaultAutoPausingThreadSleepTimeout = TimeSpan.FromMilliseconds (100);
+
+        public TimeSpan AutoPausingThreadSleepTimeout = DefaultAutoPausingThreadSleepTimeout;
+
+        public static int ThreadCount;
 
         private void iStartOrResume (string? entryName, DataType? entryData, TagType? entryTag)
         {
@@ -99,23 +105,33 @@ namespace Nekote
 
                     AutoPausingTask = Task.Run (() =>
                     {
-                        while (true)
+                        try
                         {
-                            // lock 内の lock だが、別スレッドなので関係なし
+                            Interlocked.Increment (ref ThreadCount);
 
-                            lock (Locker)
+                            while (true)
                             {
-                                if (IsRunning == false || NextAutoPausingUtc == null)
-                                    break;
+                                // lock 内の lock だが、別スレッドなので関係なし
 
-                                else if (DateTime.UtcNow >= NextAutoPausingUtc)
+                                lock (Locker)
                                 {
-                                    iPauseOrStop (true);
-                                    break;
-                                }
-                            }
+                                    if (IsRunning == false || NextAutoPausingUtc == null)
+                                        break;
 
-                            Thread.Sleep (AutoPausingThreadSleepTimeout);
+                                    else if (DateTime.UtcNow >= NextAutoPausingUtc)
+                                    {
+                                        iPauseOrStop (true);
+                                        break;
+                                    }
+                                }
+
+                                Thread.Sleep (AutoPausingThreadSleepTimeout);
+                            }
+                        }
+
+                        finally
+                        {
+                            Interlocked.Decrement (ref ThreadCount);
                         }
                     });
                 }
@@ -217,6 +233,32 @@ namespace Nekote
                 throw new nOperationException ();
 
             iPauseOrStop (false);
+        }
+
+        public void Reset ()
+        {
+            lock (Locker)
+            {
+                PreviousEntries.Clear ();
+
+                mCurrentEntryGuid = null;
+                CurrentEntryName = null;
+                CurrentEntryStartUtc = null;
+                CurrentEntryData = null;
+                CurrentEntryTag = null;
+
+                AutoPauses = false;
+                AutoPausingTask = null;
+                AutoPausingInterval = DefaultAutoPausingInterval;
+                NextAutoPausingUtc = null;
+                AutoPausingThreadSleepTimeout = DefaultAutoPausingThreadSleepTimeout;
+            }
+        }
+
+        public void Dispose ()
+        {
+            // 何度でも呼べる
+            Reset ();
         }
     }
 

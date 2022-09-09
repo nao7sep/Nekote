@@ -591,16 +591,6 @@
 
     Nekote の開発の本格化の前に、全てのプロジェクトにおけるメモの書き方や含めるメアドなどを見直した。
 
-[完了] T 型の Data プロパティーを持つクラスの設計について書く
-
-    nStopwatch <T> の実装において、最初、T Data { get; set; } のみ書けば、コンストラクター終了時に値が入っている必要があると叱られた。
-
-    nStopwatch <T> where T: struct なら T Data { get; set; } = default で通るが、クラスでもいいようにするなら where 句をなくし、T? Data { get; set; } = default が良さそう。
-
-    この設計では、T が int などの小さなもので、また、必ず設定されるときに、Data が null でないか毎回見ながらの処理になる無駄がある。しかし、たいていは string またはクラス。string なら IsNullOrEmpty で安全に処理できる。
-
-    Data の代わりに Tag も考えたが、クラスの設計において「残りのいろいろなデータをここに」のプロパティーを自分は Data とすることが多いので整合させた。
-
 [完了] ジェネリックの全ての型に名前を与える
 
     T のみや、T1, T2 ... と連番にするのは、Tuple 的な、中身が全く分からないところに限る。
@@ -666,19 +656,6 @@
 
     --------------------------------------------------------------------------------
 
-    Data と Tag について、
-
-    * 本当に必要か
-    * これらの名前でよいか
-
-    の2点を再考したが、ある程度適当に決めていかないと進まないので暫定的にこれでいく。
-
-    必要か不要かでは必要。クラスの方は必須。もう一つについても、値を一つだけ添えたいときに変数が一つだけのクラスを新たに用意するなどは冗長。
-
-    object にする選択肢もあるが、キャストしてみるまでうまくいくか分からない形での変数保持を避けたい。
-
-    --------------------------------------------------------------------------------
-
     lock の多用を避けなければならない。
 
     たとえば、メンバー変数への一度きりのアクセスによる IsRunning には、内部的には不要。変数の内容を読み込んでいる途中で他のスレッドがその変数のメモリー上でのバイト列をビリビリと引き裂いて上書きするようなことはさすがに考えにくい。
@@ -691,3 +668,146 @@
     * 割ってしまうといけない、加害者にならないための lock
 
     の二つを念頭に。
+
+[完了] nStopwatch.Reset を追加
+
+    nStopwatch のインスタンスがどういった状態であっても、new したばかりの状態にしたい。Task も止めたい。
+
+[完了] .NET アプリ内のスレッドについて調べる
+
+    とりあえず、以下のページに目を通した。
+
+    Threads and threading | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/standard/threading/threads-and-threading
+
+    Exceptions in Managed Threads | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/standard/threading/exceptions-in-managed-threads
+
+    Synchronizing Data for Multithreading | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/standard/threading/synchronizing-data-for-multithreading
+
+    Foreground and Background Threads | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/standard/threading/foreground-and-background-threads
+
+    Managed and Unmanaged Threading in Windows | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/standard/threading/managed-and-unmanaged-threading-in-windows
+
+    Thread Local Storage: Thread-Relative Static Fields and Data Slots | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/standard/threading/thread-local-storage-thread-relative-static-fields-and-data-slots
+
+    Managed Threading Best Practices | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/standard/threading/managed-threading-best-practices
+
+    Reliability Best Practices - .NET Framework | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/framework/performance/reliability-best-practices
+
+    Interlocked Class (System.Threading) | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/api/system.threading.interlocked
+
+    Thread.IsThreadPoolThread Property (System.Threading) | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/api/system.threading.thread.isthreadpoolthread
+
+    Lazy Initialization - .NET Framework | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/framework/performance/lazy-initialization
+
+    BackgroundWorker Class (System.ComponentModel) | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.backgroundworker
+
+    AppDomain Class (System) | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/api/system.appdomain
+
+    --------------------------------------------------------------------------------
+
+    以下のページも読んだ。
+
+    The managed thread pool | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/standard/threading/the-managed-thread-pool
+
+    ThreadPool Class (System.Threading) | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/api/system.threading.threadpool
+
+    ThreadPool.GetMaxThreads(Int32, Int32) Method (System.Threading) | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/api/system.threading.threadpool.getmaxthreads
+
+    ThreadPool.ThreadCount Property (System.Threading) | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/api/system.threading.threadpool.threadcount
+
+[完了] Testers/iStopwatchTester.TestThreadsCompletion を追加
+
+    テストコードを追加していく。
+
+    以前なら、めんどくさくて iTesters.TestStopwatch を全部入りの実装にしていたと思う。ダミーデータの入ったインスタンスを前半で用意して後半で使い回すのは、テストコードを書くにおいては悪くない。実行が一度で済むのも便利。負荷テストだと数時間かかることもある。たぶん成功するテストの場合、単一の Test* を呼んでちょっと散歩に行くなどがよくあった。
+
+    しかし、当たり前だが、必要な部分のみ実行できず、/* と */ であれこれコメントアウトしたり、それでは一部が動かなくなって変数の new をそこだけコピペしたりといった作業がよく必要になった。
+
+    今後は手を抜かず、クラスライブラリーと同様の考え方でメソッドなどを細かく分割する。
+
+    --------------------------------------------------------------------------------
+
+    このテストが必要なのは、スレッド数をリアルタイムで取得する方法を自分は知らないと気づいたため。
+
+    --------------------------------------------------------------------------------
+
+    半分をタイマーで、残り半分を Reset で止めてみる？
+
+    --------------------------------------------------------------------------------
+
+    Task によるスレッドはスレッドプールに入る。
+
+    実装中の TestThreadsCompletion において nStopwatch のインスタンスを100個作り、Task.WaitAll が終了するまで別スレッドで ThreadPool.ThreadCount の値を連続的に表示したところ、4から始まり、すぐに11になり、それからは少しずつ増えていき、プログラム終了直前の時点では29だった。
+
+    というのは Debug モードのときで、Release モードでは、2から始まり、すぐに8になり、最後は26だった。
+
+    ThreadPool.ThreadCount Property (System.Threading) | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/api/system.threading.threadpool.threadcount
+
+    いずれのモードでも、ThreadPool.GetMaxThreads の戻り値は次のようになった。
+
+    workerThreads: 32767
+    completionPortThreads: 1000
+
+    ThreadPool.GetMaxThreads(Int32, Int32) Method (System.Threading) | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/api/system.threading.threadpool.getmaxthreads
+
+    スレッドプールは、必要に応じて拡張され、すぐには収縮しない実装なのだろう。
+
+    大きな数字から減っていくものとしては ThreadPool.PendingWorkItemCount がある。
+
+    これは、Debug モードでは144から始まり、終わりの方で0になった。まだ nStopwatch のタスクは生きていたので、pending から「実行中」のところに入ってカウントされなくなったのだろう。
+
+    Release モードでは143から始まり、終わり方は同様だった。
+
+    ThreadPool.PendingWorkItemCount Property (System.Threading) | Microsoft Docs
+    https://docs.microsoft.com/en-us/dotnet/api/system.threading.threadpool.pendingworkitemcount
+
+    143～144という値は、100の nStopwatch のうち50を別タスクで Reset する実装による。自動中断も Reset も1000ミリ秒が経ってからになる実装なので、6～7の work items がすぐに「実行中」のところに入ったと考えられる。キューにたくさん入るが、同時実行されるのはその程度か。
+
+    使用中のパソコンでは Environment.ProcessorCount が8を返したので、6～7は妥当な値。
+
+    実行中の managed threads の数を正確かつ効率的に数える方法がないようで、ネットで探しても情報がない。Visual Studio のデバッガーに表示が可能なのだから自分で調べる方法もあるに違いないと推測する人がいる程度。
+
+    Type.GetMethod などで internal メソッドを呼んでゴリゴリやれば何とかなるかもしれないが、nStopwatch に ThreadCount を用意する方がシンプル。
+
+    ThreadPoolWorkQueue.cs
+    https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Threading/ThreadPoolWorkQueue.cs
+
+    --------------------------------------------------------------------------------
+
+    nStopwatch.ThreadCount を追加した。
+
+    外から AutoPausingTask を止めるなども想定して public にした。ほぼデバッグにしか使わないものなのでリスクは軽微。
+
+    --------------------------------------------------------------------------------
+
+    実装し、Debug モードで実行したところ、スレッド数は14まで上がり、一瞬0になり、直後18になり、そこから0まで下がった。複数回の実行において、結果はだいたい同じだった。
+
+    次の2行の間に Console.WriteLine を挟んだところ、やはり一瞬0になるのはそこだった。
+
+    	Task.WaitAll (xData.Select (x => x.AutoPausingTask!).ToArray ());
+    	Task.WaitAll (xData.Where (x => x.ResettingTask != null).Select (x => x.ResettingTask!).ToArray ());
+
+    いわゆる deferred query execution をなくすために xData の初期化の直後に xData.Count () を入れたところ、今度は、同時実行できるスレッド数の制限によりスレッドプールの空き待ちが発生したようで、Select が重たくなり、Count () から先になかなか進めなくなった。
+
+    仕組みとしては簡単だが、想定していなかった挙動なので興味深い。スレッド数が0になることの確認はできているので、あえて現行の実装をそのまま残し、コメントを追記し、今後の参考になるようにする。
+
+[完了] いったんコミット（繰り返す）

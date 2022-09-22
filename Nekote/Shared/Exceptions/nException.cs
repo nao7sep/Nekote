@@ -8,7 +8,7 @@ namespace Nekote
 {
     public class nException: Exception
     {
-        public static void LogSafely <ExceptionType> (ExceptionType exception)
+        public static void Log_lock <ExceptionType> (ExceptionType exception)
             where ExceptionType: Exception
         {
             lock (nExceptionLogger.Locker)
@@ -19,17 +19,17 @@ namespace Nekote
 
         public nException ()
         {
-            LogSafely (this);
+            Log_lock (this);
         }
 
         public nException (string message): base (message)
         {
-            LogSafely (this);
+            Log_lock (this);
         }
 
         public nException (string message, Exception inner): base (message, inner)
         {
-            LogSafely (this);
+            Log_lock (this);
         }
     }
 }

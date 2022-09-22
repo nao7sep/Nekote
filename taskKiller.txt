@@ -811,3 +811,48 @@
     仕組みとしては簡単だが、想定していなかった挙動なので興味深い。スレッド数が0になることの確認はできているので、あえて現行の実装をそのまま残し、コメントを追記し、今後の参考になるようにする。
 
 [完了] いったんコミット（繰り返す）
+[完了] https://dzone.com/articles/stateful-or-stateless-classes を読む
+[完了] https://stackoverflow.com/questions/1866794/naming-classes-how-to-avoid-calling-everything-a-whatevermanager を読む
+[完了] https://en.wikipedia.org/wiki/Single-responsibility_principle を読む
+[完了] deferred query execution についてさらに調べる
+
+    LINQ deferred execution explained | by Stefan Schranz | ITNEXT
+    https://itnext.io/linq-deferred-execution-explained-2844838f83ef
+
+    What are the benefits of a Deferred Execution in LINQ? - Stack Overflow
+    https://stackoverflow.com/questions/7324033/what-are-the-benefits-of-a-deferred-execution-in-linq
+
+    ザッと読んだ。基本的なところは理解できている。
+
+[完了] https://medium.com/@brooknovak/benefits-of-writing-stateless-code-with-7-essential-tips-on-how-to-write-stateless-c-ee4a26e9f356 を読む
+[完了] https://en.wikipedia.org/wiki/SOLID 以下のページを読む
+
+    ガッツリやると大変そうだが、ザッと目を通す程度には。
+
+[却下] nStopwatch.AutoPauses の変更の流れを考える
+
+    自動中断のリアルタイムのオン・オフのサンプルコードを考えておく。
+
+    --------------------------------------------------------------------------------
+
+    AutoPauses をプロパティー化し、リアルタイムでの切り換えを試みる。
+
+    --------------------------------------------------------------------------------
+
+    大きな変更が必要になる。元々の想定では、nStopwatch は、インスタンスの生成直後に AutoPauses が設定され、一度も変更されないクラスだった。しかし、タイマーとして実際に使うにおいては、AutoPauses の動的な変更が不可欠。
+
+    AutoPauses が false にされたとき、実装としては、NextAutoPausingUtc を null にしてループから抜けさせるのがシンプル。しかし、false にされた次の瞬間に true にされると、「もうすぐ終わるはずのループ」が終わるより先に新しいものが作られ、NextAutoPausingUtc が true に戻り、二つとも回るだろう。
+
+    それを回避するには、ループを抜けるためのフラグを NextAutoPausingUtc 以外に用意し、それは Task のインスタンスごとに固有のものとする選択肢がある。Task のインスタンスへの参照とその KILL フラグを辞書または Tuple の配列で管理することになる。
+
+    しかし、それでは複雑すぎる。アホな仕様にして CPU に頼るのが良い時代。
+
+    そのため、nStopwatch を、インスタンス生成と同時に Task が作られる仕様に変更する。これは Reset でも止まらず、Dispose によってのみ止まるように。
+
+    --------------------------------------------------------------------------------
+
+    実装中に頭がこんがらないように各部にコメントを書いていたものが増えすぎたのでゴソッと消した。コメントの補助がなければ実装できないのでは設計が難しすぎる。
+
+    --------------------------------------------------------------------------------
+
+    「AutoPauses を変更したければ、このようにしてください」の情報を整理するつもりだったが、設計を大きく変更することになったので、このタスクは却下。

@@ -851,8 +851,72 @@
 
     --------------------------------------------------------------------------------
 
-    実装中に頭がこんがらないように各部にコメントを書いていたものが増えすぎたのでゴソッと消した。コメントの補助がなければ実装できないのでは設計が難しすぎる。
+    「AutoPauses を変更したければ、このようにしてください」の情報を整理するつもりだったが、設計を大きく変更することになったので、このタスクは却下。
+
+[完了] 全プロジェクトの *Safely を *_lock に変更
+
+    safe には、1) 必要に応じて lock される、2) 空の catch でエラーが捕捉される、3) タイムアウトするので無限ループにならない、などの場合がある。全てを *Safely とすると、内部的にどうなっているかがコードを見ない限り分からない。
+
+    _lock, _catch, _timeout あたりをメソッド名にいくつでもつなげる仕様の方が良い。
+
+    *Safely は、プロパティーの命名において困る。UserName を UserNameSafely, UserNameSafe, SafeUserName のようにするのは、いずれも問題がある。UserName_lock により、「これは lock が必要なことがあるものだから、自動的にそうされますよ」が分かるのが、見た目は美しくないが、機能的には最善。
+
+[完了] クラス設計のガイドラインを考える
+
+    下書き程度のメモを用意し、そちらへの情報の追記を始めた。また、既存の情報を現行のコードに適用した。
+
+[完了] 全てのコードをチェック
+
+    クラスのステートフルとステートレスについて考え、必要に応じて既存のクラスを更新するため。
 
     --------------------------------------------------------------------------------
 
-    「AutoPauses を変更したければ、このようにしてください」の情報を整理するつもりだったが、設計を大きく変更することになったので、このタスクは却下。
+    マルチスレッディングにおける考え方の甘さに気づいた。その他にも、現行の全てのプロジェクトにおいてチェックするべきことがいくつか。Nekote だけでなく他のプロジェクトのコードも、VSC でザッと検索する程度には見る。
+
+[完了] iStopwatchTester を消す
+
+    LINQ の挙動が面白くてコードとコメントを残したが、nStopwatch を全面的に見直した今、存在価値が乏しい。
+
+[完了] nStopwatch などの実装を見直す
+
+    古いメモの繰り返しになるが、Start/Resume のたびに Task を作る実装では、Pause/Stop の次の瞬間に Start/Resume が行われた場合に一つ前の Task が止まらない可能性がある。
+
+    最後にコミットしたコードは、以下の通りである。
+
+    AutoPausingTask = Task.Run (() =>
+    {
+        try
+        {
+            Interlocked.Increment (ref ThreadCount);
+
+            while (true)
+            {
+                // lock 内の lock だが、別スレッドなので関係なし
+
+                lock (Locker)
+                {
+                    if (IsRunning == false || NextAutoPausingUtc == null)
+                        break;
+
+                    else if (DateTime.UtcNow >= NextAutoPausingUtc)
+                    {
+                        iPauseOrStop (true);
+                        break;
+                    }
+                }
+
+                Thread.Sleep (AutoPausingThreadSleepTimeout);
+            }
+        }
+
+        finally
+        {
+            Interlocked.Decrement (ref ThreadCount);
+        }
+    });
+
+    このループが過ごす時間のほとんどは Thread.Sleep なので、この間に IsRunning と NextAutoPausingUtc の両方が true と null 以外に戻れば、もう AutoPausingTask に参照が関連付けられていない方の古い Task のインスタンスの while ループが break されない。
+
+    いろいろな実装を試みて右往左往したが、最終的には、「コンストラクターで Task を作り、Dispose でそれを止める」という、とにかくシンプルな仕様になった。
+
+[完了] [9/10] いったんコミット（繰り返す）

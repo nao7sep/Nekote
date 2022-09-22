@@ -67,7 +67,7 @@ namespace Nekote
 
                     if (IsRunning == false)
                         throw new nOperationException ();
-                    
+
                     return DateTime.UtcNow - CurrentEntryStartUtc!.Value;
                 }
             }
@@ -101,7 +101,7 @@ namespace Nekote
 
         private bool mAutoPauses = true;
 
-        public bool AutoPauses
+        public bool AutoPauses_lock
         {
             get
             {
@@ -156,6 +156,7 @@ namespace Nekote
                 try
                 {
                     Interlocked.Increment (ref ThreadCount);
+                    Interlocked.Increment (ref nLibrary.ThreadCount);
 
                     while (true)
                     {
@@ -168,7 +169,7 @@ namespace Nekote
                             // カウント中で、自動中断するべきなら、Pause の処理を
                             // これにより IsRunning のフラグが倒れる
 
-                            if (AutoPauses && IsRunning && DateTime.UtcNow >= NextAutoPausingUtc)
+                            if (AutoPauses_lock && IsRunning && DateTime.UtcNow >= NextAutoPausingUtc)
                                 iPauseOrStop (true);
                         }
 
@@ -179,6 +180,7 @@ namespace Nekote
                 finally
                 {
                     Interlocked.Decrement (ref ThreadCount);
+                    Interlocked.Decrement (ref nLibrary.ThreadCount);
                 }
             });
         }
@@ -208,10 +210,8 @@ namespace Nekote
             CurrentEntryData = entryData;
             CurrentEntryTag = entryTag;
 
-            if (AutoPauses)
+            if (AutoPauses_lock)
                 iUpdateNextAutoPausingUtc ();
-
-            Console.WriteLine ("started");
         }
 
         public void Start_lock (string? entryName = null, DataType? entryData = null, TagType? entryTag = null)
@@ -234,7 +234,7 @@ namespace Nekote
         {
             lock (Locker)
             {
-                if (AutoPauses)
+                if (AutoPauses_lock)
                 {
                     if (IsRunning)
                         iUpdateNextAutoPausingUtc ();
@@ -256,10 +256,11 @@ namespace Nekote
 
         private void iPauseOrStop (bool isPausing)
         {
-            if (AutoPauses)
+            if (AutoPauses_lock)
             {
                 // 自動中断機能がオンのときに IsRunning が倒れていれば、
                 //     既に別ループでの iPauseOrStop により Current* のデータが移されている
+                // 正常な動作においてよくあることなのでエラー扱いされない
 
                 if (IsRunning == false)
                     return;
@@ -297,8 +298,6 @@ namespace Nekote
             CurrentEntryStartUtc = null;
             CurrentEntryData = null;
             CurrentEntryTag = null;
-
-            Console.WriteLine ("stopped");
         }
 
         // Pause/Stop において、自動中断機能がオンなら IsRunning == false は問題視されない
@@ -320,7 +319,7 @@ namespace Nekote
             }
         }
 
-        public void Reset ()
+        public void Reset_lock ()
         {
             lock (Locker)
             {
@@ -332,7 +331,7 @@ namespace Nekote
                 CurrentEntryData = null;
                 CurrentEntryTag = null;
 
-                AutoPauses = true;
+                AutoPauses_lock = true;
                 AutoPausingInterval = DefaultAutoPausingInterval;
                 NextAutoPausingUtc = null;
                 AutoPausingThreadSleepTimeout = DefaultAutoPausingThreadSleepTimeout;

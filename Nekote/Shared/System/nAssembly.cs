@@ -85,7 +85,7 @@ namespace Nekote
             Version? xVersion = GetFileVersion (assembly);
 
             if (xVersion != null)
-                return nConvert.VersionToString (xVersion, fieldCount);
+                return nVersion.ToString (xVersion, fieldCount);
 
             else return null;
         }
@@ -113,7 +113,7 @@ namespace Nekote
             Version? xVersion = GetInformationalVersion (assembly);
 
             if (xVersion != null)
-                return nConvert.VersionToString (xVersion, fieldCount);
+                return nVersion.ToString (xVersion, fieldCount);
 
             else return null;
         }
@@ -169,7 +169,7 @@ namespace Nekote
             Version? xVersion = GetVersion (assembly);
 
             if (xVersion != null)
-                return nConvert.VersionToString (xVersion, fieldCount);
+                return nVersion.ToString (xVersion, fieldCount);
 
             else return null;
         }

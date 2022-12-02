@@ -945,3 +945,144 @@
     特に問題なし。ドキュメントでないので、そういう品質を求めない。作業メモをちょっと整えてレポジトリーにぶち込んだだけのものであり、「あれ？ この部分をなぜこう書いたのか」と自分で分からなくなったときにそれなりの確率で当時の考えを思い出せれば十分。
 
 [完了] nConvert のメソッドをそれぞれの型のためのクラスに移動
+[完了] 空のディレクトリーやファイルを消せるようにする
+
+    BOM だけのファイルを消さない。文字列としては空だが、エンコーディングの情報が存在すると解釈できる。
+
+[却下] nChar に ASCII の記号などの主要な文字を入れる
+
+    なくてよい。空白のみ \x20 と書けば十分。定数にしてしまうと文字列中に使いにくい。
+
+    --------------------------------------------------------------------------------
+
+    ASCII の文字の正式名。
+
+    The Unicode Standard, Version 15.0
+    https://unicode.org/charts/PDF/U0000.pdf
+
+[完了] CRC32 を扱えるようにする
+
+    できれば外部 DLL なしで。
+
+    --------------------------------------------------------------------------------
+
+    多数のファイルと、別の多数のファイルを比較し、一つ目の集合のファイルのうち二つ目の集合に含まれないものを特定するような処理においては、まずハッシュコードを比較することになる。
+
+    CRC32 ではコリジョンがどのくらい起こる？
+
+    長さの一致する二つのファイルのハッシュコードがたまたま一致することが天文学的な低確率になり、それでいてハッシュコード同士の比較のコストが十分に小さいアルゴリズムがあるだろうから、そちらが使いやすければ CRC32 は不要。
+
+    --------------------------------------------------------------------------------
+
+    NuGet で System.IO.Hashing.dll を追加することにより、System.IO.Hashing.Crc32.Hash などを使える。ラップする必要がない。
+
+    Crc32.Hash Method (System.IO.Hashing) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/system.io.hashing.crc32.hash
+
+[却下] .NET の GetHashCode について調べる
+
+    おぼろげだが、以前は文字列をハッシュコードにする .NET の実装が良くなく、Java のアルゴリズムを移植しては、その後、.NET の方が良くなったか、Java のものも問題を言われるようになって改善されたかがあり、それからは .NET の実装に頼るようになったような記憶がある。
+
+    --------------------------------------------------------------------------------
+
+    他者も書いているが、.NET の根幹を成す実装なので大丈夫だろう。ここをほじくることに生産性はない。
+
+    c# - Hash quality and stability of String.GetHashCode() in .NET? - Stack Overflow
+    https://stackoverflow.com/questions/2099998/hash-quality-and-stability-of-string-gethashcode-in-net
+
+[却下] LINQ to Objects について調べる
+
+    以前から使っていた。そういう名前と知らなかっただけ。
+
+[完了] TryDeleteDirectory などについて考える
+
+    うろ覚えだが、.NET の実装では、何かが初めから存在しなくて消せなくてもエラーにならないメソッドと、そういう状況だとエラーになるものの両方があったと思う。どちらでもエラーにならず、bool で結果が返ってくるものがあると便利だろう。
+
+    --------------------------------------------------------------------------------
+
+    シンプルに、元々なくても問題にならない Delete を作った。また、そのことを <summary> に書いた。
+
+[却下] 内容が変わる場合のみファイルに書き込むメソッドを追加
+
+    内容がなくなるならファイルを消すとか、消した場合、上位ディレクトリーを見ていき、空でないものが見つかるまで空のものを消すとかもオプションで可能に。上位ディレクトリーがないなら作成してから書き込むのも便利。
+
+    --------------------------------------------------------------------------------
+
+    File クラスには、*Async メソッドがある。その一例を挙げる。
+
+    File.WriteAllTextAsync Method (System.IO) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltextasync
+
+    ストレージがものすごく遅く、RAM がものすごく大きいパソコンがあるとする。そういうパソコンでの巨大なバッファーの書き込みでソフトがフリーズしないためには、*Async を活用することになる。
+
+    しかし、内容が変わる場合のみの処理の難しさは、変わっていないか照合する処理もまた、上記のパソコンでは時間が掛かるということ。その過程においてもソフトがフリーズしてはならない。
+
+    非同期処理について、もう少しちゃんと学ぶ必要がありそう。
+
+    --------------------------------------------------------------------------------
+
+    次のページを読んだ。
+
+    Asynchronous programming in C# | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/
+
+    --------------------------------------------------------------------------------
+
+    以下のページにもザッと目を通した。同じようなことを何度も説明しているが、よく分からない。自分で作ってみないといけない。
+
+    Asynchronous programming - C# | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/csharp/async
+
+    The Task Asynchronous Programming (TAP) model with async and await (C#)" | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/task-asynchronous-programming-model
+
+    Async return types (C#) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/async-return-types
+
+    Cancel a list of tasks (C#) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/cancel-an-async-task-or-a-list-of-tasks
+
+    Cancel async tasks after a period of time (C#)" | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/cancel-async-tasks-after-a-period-of-time
+
+    Process asynchronous tasks as they complete | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/start-multiple-async-tasks-and-process-them-as-they-complete
+
+    Asynchronous file access (C#) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/using-async-for-file-access
+
+    --------------------------------------------------------------------------------
+
+    とても分かりやすかった。
+
+    C# async await explained - NDepend
+    https://blog.ndepend.com/c-async-await-explained/
+
+    --------------------------------------------------------------------------------
+
+    復習のため、ザッと目を通した。
+
+    Async And Await In C#
+    https://www.c-sharpcorner.com/article/async-and-await-in-c-sharp/
+
+    --------------------------------------------------------------------------------
+
+    nFile.AppendAllBytesAsync の実装が意外と難しい。非同期処理については、そちらに引き継ぐ。
+
+    --------------------------------------------------------------------------------
+
+    内容が変わる場合のみの書き込みについては、気になる点があるため実装を見送る。
+
+    それがそのプログラムのみからアクセスされるファイルなら、最初のロードのときのデータを残しておくか、その内容が展開されてのインスタンスの内容が変更されたかどうかをフラグで判別するべき。書き込む直前にもう一度読み出すのは無駄な処理。
+
+    それがそのプログラム以外からもアクセスされるファイルなら、「変わっていればこちらのデータで上書き」というのは危険。衝突しにくいファイル名で個別に書き出すとか、既存のファイルの名前を変更してからにするとかの安全策が不可欠。
+
+    いずれのケースにおいても、より良い設計が必要。
+
+    同じ内容での書き込みの回避は、SSD を傷めたくなく、また、タイムスタンプを変更したくないため。その実現には、たいてい、変更されたかどうかのフラグが最善。二度読みが前提のメソッドは不要。
+
+[完了] nFile.AppendAllBytesAsync を実装
+
+    いろいろと調べながらの実装になると覚悟したが、FileStream の使用によりサクッと実装できてしまった。
+
+[完了] テキストファイルの UTF エンコーディングを判別できるようにする

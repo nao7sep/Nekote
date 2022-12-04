@@ -14,6 +14,15 @@ namespace Nekote
         // FileStream.cs
         // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/IO/FileStream.cs
 
+        // GB 単位のファイルも読むなら 4 KB ずつはループを回しすぎの気もする
+        // しかし、その下でファイルシステムのキャッシュが利くことや、CPU の L1 キャッシュの大きさなどから、4 KB でよいとのこと
+
+        // HDD 上の二つの大きなファイルの比較など、両方を同時進行で読み込むときには、
+        //     大きなバッファに交互に一気読みすることでシークを大幅に減らせる可能性はある
+
+        // c# - File I/O with streams - best memory buffer size - Stack Overflow
+        // https://stackoverflow.com/questions/3033771/file-i-o-with-streams-best-memory-buffer-size
+
         internal const int iDefaultBufferSize = 4096;
 
         public static bool CanCreate (string path)
@@ -213,6 +222,42 @@ namespace Nekote
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
             return File.AppendAllTextAsync (path, value, encoding, cancellationToken);
+        }
+
+        // まずは、工夫を凝らさない、シンプルな比較を実装しておく
+        // ファイルがないとか読めないとかなら例外が飛ぶ
+
+        public static bool Equals (string path1, string path2)
+        {
+            FileInfo xFile1 = new FileInfo (path1),
+                xFile2 = new FileInfo (path2);
+
+            if (xFile1.Length != xFile2.Length)
+                return false;
+
+            using (FileStream xStream1 = new FileStream (path1, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (FileStream xStream2 = new FileStream (path2, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                byte [] xValues1 = new byte [iDefaultBufferSize],
+                    xValues2 = new byte [iDefaultBufferSize];
+
+                int xLength;
+
+                while ((xLength = xStream1.Read (xValues1, 0, iDefaultBufferSize)) > 0)
+                {
+                    // 長さは「フォーマット」というより「データ」の問題
+                    // 二つ目のファイルが「一つ目のファイルと同じ長さであるべき」というルールに反しているわけだが、
+                    //     それは一つ目のファイルがあっての相対的なことで、二つ目のファイルに絶対的な問題があるわけでない
+
+                    if (xStream2.Read (xValues2, 0, iDefaultBufferSize) != xLength)
+                        throw new nDataException ();
+
+                    if (nArray.Equals (xValues1, 0, xValues2, 0, xLength) == false)
+                        return false;
+                }
+
+                return true;
+            }
         }
 
         private static void iResetAttributesAndOrCreateParentDirectoryIfRequired (string sourcePath, string destPath, bool resetsAttributes, bool createsParentDirectory)

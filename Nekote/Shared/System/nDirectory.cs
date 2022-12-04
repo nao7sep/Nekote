@@ -30,6 +30,76 @@ namespace Nekote
             return Directory.CreateDirectory (path);
         }
 
+        // まずは、存在するディレクトリーを、存在しないパスのところに移動またはコピーするのが前提の簡単なメソッドを用意
+        // 扱わないパスの（正規表現での）指定、処理中にディレクトリーの内容が変わっている場合への対処などは、いずれ専用クラスで
+
+        private static void iMoveOrCopy (bool isMoving, DirectoryInfo sourceDirectory, DirectoryInfo destDirectory, bool overwrites, bool resetsAttributes)
+        {
+            // sourceDirectory がないなら destDirectory を作るより先に落ちてほしい
+            DirectoryInfo [] xSubdirectories = sourceDirectory.GetDirectories ();
+
+            // 移動でもコピーでも、dest* 側が存在しなかったなら、source* 側と同じ作成日時および更新日時を持つべき
+            // しかし、存在したなら「併合」になるため、作成日時が変わらず、更新日時が併合により更新されるべき
+            // いずれの場合も、アクセス日時については OS などの環境に任せる
+
+            bool xIsDestDirectoryCreated = false;
+
+            if (destDirectory.Exists == false)
+            {
+                destDirectory.Create ();
+                xIsDestDirectoryCreated = true;
+            }
+
+            foreach (DirectoryInfo xSourceSubdirectory in xSubdirectories)
+            {
+                DirectoryInfo xDestSubdirectory = new DirectoryInfo (nPath.Join (destDirectory.FullName, xSourceSubdirectory.Name));
+                iMoveOrCopy (isMoving, xSourceSubdirectory, xDestSubdirectory, overwrites, resetsAttributes);
+            }
+
+            foreach (FileInfo xFile in sourceDirectory.GetFiles ())
+            {
+                if (resetsAttributes)
+                    xFile.Attributes = FileAttributes.Normal;
+
+                string xDestFilePath = nPath.Join (destDirectory.FullName, xFile.Name);
+
+                if (isMoving)
+                    xFile.MoveTo (xDestFilePath, overwrites);
+
+                else xFile.CopyTo (xDestFilePath, overwrites);
+            }
+
+            if (xIsDestDirectoryCreated)
+            {
+                destDirectory.CreationTimeUtc = sourceDirectory.CreationTimeUtc;
+                destDirectory.LastWriteTimeUtc = sourceDirectory.LastWriteTimeUtc;
+            }
+
+            // 「移動」なら、上記コードがうまく動けばディレクトリーが空になっているはず
+            // そうでないなら、DirectoryInfo.Delete により例外が飛ぶべき
+
+            // DirectoryInfo.Delete Method (System.IO) | Microsoft Learn
+            // https://learn.microsoft.com/en-us/dotnet/api/system.io.directoryinfo.delete
+
+            if (isMoving /* && sourceDirectory.GetFileSystemInfos ().Length == 0 */)
+            {
+                if (resetsAttributes)
+                    sourceDirectory.Attributes = FileAttributes.Directory;
+
+                sourceDirectory.Delete ();
+            }
+        }
+
+        public static void Move (string sourcePath, string destPath, bool overwrites, bool resetsAttributes = true)
+        {
+            iMoveOrCopy (isMoving: true, new DirectoryInfo (sourcePath), new DirectoryInfo (destPath), overwrites, resetsAttributes);
+        }
+
+        public static void Copy (string sourcePath, string destPath, bool overwrites, bool resetsAttributes = true)
+        {
+            iMoveOrCopy (isMoving: false, new DirectoryInfo (sourcePath), new DirectoryInfo (destPath), overwrites, resetsAttributes);
+        }
+
         private static void iDelete (DirectoryInfo directory, bool isRecursive, bool resetsAttributes)
         {
             if (isRecursive)

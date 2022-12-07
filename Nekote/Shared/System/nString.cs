@@ -8,10 +8,21 @@ namespace Nekote
 {
     public static class nString
     {
+        // 文字列の処理のメソッドを集めていく
+
+        // できるだけ拡張メソッドにする
+        // インスタンスがあってのメソッドのように呼ばれるため、引数が null なら基本的には落ちるに任せる
+
+        // .NET に同じ名前のメソッドがあるなら、名前を異ならせ、可能なら戻り値の型でも区別が付くようにする
+        // 区別を付けるにおいては、引数の違いに頼ることを避ける
+        // たとえば、ToString の場合、引数を取るものが .NET にないとしても、「引数を取るから同じ名前でも」というのは適さない
+        // .NET 側の多重定義を全て把握しているわけでないし、今後の変更による名前の衝突も考えられるため
+        // ToStringEx のように名前を異ならせるのが無難だし、IntelliSense でも分かりやすい
+
         // 最初は TrimAndGetSlice または *Return* を考えたが、シンプルにした
         // ReadOnlySpan が .NET の実装でよく使われているのは、おそらく速いのだろう
 
-        public static ReadOnlySpan <char> TrimAndSlice (string value, bool trimsStart, bool trimsEnd, char trimChar)
+        public static ReadOnlySpan <char> TrimAndSlice (this string value, bool trimsStart, bool trimsEnd, char trimChar)
         {
             int xLength = value.Length,
                 xFirstIndex = 0;
@@ -59,7 +70,7 @@ namespace Nekote
             return value.AsSpan (xFirstIndex, xLastIndex - xFirstIndex + 1);
         }
 
-        public static ReadOnlySpan <char> TrimAndSlice (string value, bool trimsStart, bool trimsEnd, params char [] trimChars)
+        public static ReadOnlySpan <char> TrimAndSlice (this string value, bool trimsStart, bool trimsEnd, params char [] trimChars)
         {
             // 削る文字のチェック以外は、多重定義のものと同一
             // 共通化すると文字ごとに if 文が入って遅くなりそう
@@ -100,32 +111,32 @@ namespace Nekote
             return value.AsSpan (xFirstIndex, xLastIndex - xFirstIndex + 1);
         }
 
-        public static ReadOnlySpan <char> TrimAndSlice (string value, char trimChar)
+        public static ReadOnlySpan <char> TrimAndSlice (this string value, char trimChar)
         {
             return TrimAndSlice (value, true, true, trimChar);
         }
 
-        public static ReadOnlySpan <char> TrimAndSlice (string value, params char [] trimChars)
+        public static ReadOnlySpan <char> TrimAndSlice (this string value, params char [] trimChars)
         {
             return TrimAndSlice (value, true, true, trimChars);
         }
 
-        public static ReadOnlySpan <char> TrimStartAndSlice (string value, char trimChar)
+        public static ReadOnlySpan <char> TrimStartAndSlice (this string value, char trimChar)
         {
             return TrimAndSlice (value, true, false, trimChar);
         }
 
-        public static ReadOnlySpan <char> TrimStartAndSlice (string value, params char [] trimChars)
+        public static ReadOnlySpan <char> TrimStartAndSlice (this string value, params char [] trimChars)
         {
             return TrimAndSlice (value, true, false, trimChars);
         }
 
-        public static ReadOnlySpan <char> TrimEndAndSlice (string value, char trimChar)
+        public static ReadOnlySpan <char> TrimEndAndSlice (this string value, char trimChar)
         {
             return TrimAndSlice (value, false, true, trimChar);
         }
 
-        public static ReadOnlySpan <char> TrimEndAndSlice (string value, params char [] trimChars)
+        public static ReadOnlySpan <char> TrimEndAndSlice (this string value, params char [] trimChars)
         {
             return TrimAndSlice (value, false, true, trimChars);
         }

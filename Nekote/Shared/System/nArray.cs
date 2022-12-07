@@ -21,20 +21,10 @@ namespace Nekote
         // 引数は不変だとみなせる方が、チェックするべきことが減る
 
         public static bool Equals <ValueType> (ValueType [] values1, int firstIndex1, ValueType [] values2, int firstIndex2, int length)
+            where ValueType: struct
         {
-            int xFirstIndex1 = firstIndex1,
-                xFirstIndex2 = firstIndex2,
-                xLastIndex1 = firstIndex1 + length - 1;
-
-            var xComparer = EqualityComparer <ValueType>.Default;
-
-            while (xFirstIndex1 <= xLastIndex1)
-            {
-                if (xComparer.Equals (values1 [xFirstIndex1 ++], values2 [xFirstIndex2 ++]) == false)
-                    return false;
-            }
-
-            return true;
+            // iArrayTester.CompareSpeedsOfComparingArrays の結果に基づき、実装を変更した
+            return values1.AsSpan (firstIndex1, length).SequenceEqual (values2.AsSpan (firstIndex2, length));
         }
     }
 }

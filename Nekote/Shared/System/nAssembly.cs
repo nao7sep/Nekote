@@ -9,7 +9,7 @@ namespace Nekote
 {
     public static class nAssembly
     {
-        public static string? GetNameString (Assembly assembly)
+        public static string? GetNameString (this Assembly assembly)
         {
             string? xName = assembly.GetName ().Name;
 
@@ -22,7 +22,7 @@ namespace Nekote
         // 次のページにあるもののうち、外部パッケージを必要としないものを、ページで現れた順に
         // https://docs.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#assembly-attribute-properties
 
-        public static string? GetCompanyString (Assembly assembly)
+        public static string? GetCompanyString (this Assembly assembly)
         {
             var xAttribute = assembly.GetCustomAttribute <AssemblyCompanyAttribute> ();
 
@@ -32,7 +32,7 @@ namespace Nekote
             else return null;
         }
 
-        public static string? GetConfigurationString (Assembly assembly)
+        public static string? GetConfigurationString (this Assembly assembly)
         {
             var xAttribute = assembly.GetCustomAttribute <AssemblyConfigurationAttribute> ();
 
@@ -42,7 +42,7 @@ namespace Nekote
             else return null;
         }
 
-        public static string? GetCopyrightString (Assembly assembly)
+        public static string? GetCopyrightString (this Assembly assembly)
         {
             var xAttribute = assembly.GetCustomAttribute <AssemblyCopyrightAttribute> ();
 
@@ -52,7 +52,7 @@ namespace Nekote
             else return null;
         }
 
-        public static string? GetDescriptionString (Assembly assembly)
+        public static string? GetDescriptionString (this Assembly assembly)
         {
             var xAttribute = assembly.GetCustomAttribute <AssemblyDescriptionAttribute> ();
 
@@ -62,7 +62,7 @@ namespace Nekote
             else return null;
         }
 
-        public static string? GetFileVersionOriginalString (Assembly assembly)
+        public static string? GetFileVersionOriginalString (this Assembly assembly)
         {
             var xAttribute = assembly.GetCustomAttribute <AssemblyFileVersionAttribute> ();
 
@@ -72,7 +72,7 @@ namespace Nekote
             else return null;
         }
 
-        public static Version? GetFileVersion (Assembly assembly)
+        public static Version? GetFileVersion (this Assembly assembly)
         {
             if (Version.TryParse (GetFileVersionOriginalString (assembly), out Version? xResult))
                 return xResult;
@@ -80,17 +80,17 @@ namespace Nekote
             else return null;
         }
 
-        public static string? GetFileVersionString (Assembly assembly, int fieldCount)
+        public static string? GetFileVersionString (this Assembly assembly, int fieldCount)
         {
             Version? xVersion = GetFileVersion (assembly);
 
             if (xVersion != null)
-                return nVersion.ToString (xVersion, fieldCount);
+                return xVersion.ToStringEx (fieldCount);
 
             else return null;
         }
 
-        public static string? GetInformationalVersionOriginalString (Assembly assembly)
+        public static string? GetInformationalVersionOriginalString (this Assembly assembly)
         {
             var xAttribute = assembly.GetCustomAttribute <AssemblyInformationalVersionAttribute> ();
 
@@ -100,7 +100,7 @@ namespace Nekote
             else return null;
         }
 
-        public static Version? GetInformationalVersion (Assembly assembly)
+        public static Version? GetInformationalVersion (this Assembly assembly)
         {
             if (Version.TryParse (GetInformationalVersionOriginalString (assembly), out Version? xResult))
                 return xResult;
@@ -108,17 +108,17 @@ namespace Nekote
             else return null;
         }
 
-        public static string? GetInformationalVersionString (Assembly assembly, int fieldCount)
+        public static string? GetInformationalVersionString (this Assembly assembly, int fieldCount)
         {
             Version? xVersion = GetInformationalVersion (assembly);
 
             if (xVersion != null)
-                return nVersion.ToString (xVersion, fieldCount);
+                return xVersion.ToStringEx (fieldCount);
 
             else return null;
         }
 
-        public static string? GetProductString (Assembly assembly)
+        public static string? GetProductString (this Assembly assembly)
         {
             var xAttribute = assembly.GetCustomAttribute <AssemblyProductAttribute> ();
 
@@ -131,7 +131,7 @@ namespace Nekote
         /// <summary>
         /// 画面に表示するなら GetTitleOrNameString を。
         /// </summary>
-        public static string? GetTitleString (Assembly assembly)
+        public static string? GetTitleString (this Assembly assembly)
         {
             var xAttribute = assembly.GetCustomAttribute <AssemblyTitleAttribute> ();
 
@@ -141,7 +141,7 @@ namespace Nekote
             else return null;
         }
 
-        public static string? GetTitleOrNameString (Assembly assembly)
+        public static string? GetTitleOrNameString (this Assembly assembly)
         {
             string? xTitle = GetTitleString (assembly);
 
@@ -159,17 +159,17 @@ namespace Nekote
             }
         }
 
-        public static Version? GetVersion (Assembly assembly)
+        public static Version? GetVersion (this Assembly assembly)
         {
             return assembly.GetName ().Version;
         }
 
-        public static string? GetVersionString (Assembly assembly, int fieldCount)
+        public static string? GetVersionString (this Assembly assembly, int fieldCount)
         {
             Version? xVersion = GetVersion (assembly);
 
             if (xVersion != null)
-                return nVersion.ToString (xVersion, fieldCount);
+                return xVersion.ToStringEx (fieldCount);
 
             else return null;
         }

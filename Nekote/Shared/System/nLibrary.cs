@@ -8,6 +8,17 @@ namespace Nekote
 {
     public static class nLibrary
     {
-        public static int ThreadCount;
+        internal static int mThreadCount = 0;
+
+        /// <summary>
+        /// 処理の複雑なプログラムなら、このプロパティーによりスレッド数の変遷をチェックする。
+        /// </summary>
+        public static int ThreadCount
+        {
+            get
+            {
+                return mThreadCount;
+            }
+        }
     }
 }

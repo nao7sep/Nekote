@@ -68,6 +68,10 @@ namespace Nekote
             return File.ReadAllBytesAsync (path, cancellationToken);
         }
 
+        // ファイルの先頭を少しだけ読み込み、エンコーディングを判別するメソッド
+        // FileStream をそのまま使って後続の処理を行いたいが、それでは File.ReadAllLinesAsync などを実装し直すことになる
+        // IO のパフォーマンスについては、ファイルシステムのキャッシュの恩恵があるだろうから、気にするほどでなさそう
+
         private static Encoding? iGetEncoding (string path)
         {
             // ファイルがなければ、どうせどこかで落ちなければならない

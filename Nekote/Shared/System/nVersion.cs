@@ -8,7 +8,7 @@ namespace Nekote
 {
     public static class nVersion
     {
-        public static string? ToString (Version version, int maxFieldCount)
+        public static string? ToStringEx (this Version version, int maxFieldCount)
         {
             // 負だと Math.Min も負になるので一応
             // 大きすぎるのは影響がない

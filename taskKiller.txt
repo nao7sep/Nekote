@@ -1113,3 +1113,137 @@
     --------------------------------------------------------------------------------
 
     nPath.Join を書いた。残りは必要になってから。
+
+[却下] 文字単位のエスケープ・アンエスケープのクラスを試作
+
+    \r を \\r にしたり、< を &lt; にしたりを単一のクラスに任せると、どのくらいパフォーマンスが落ちる？
+
+    Func まみれになる恐れがある。
+
+    C 言語のような処理のみに限定するなら使えるか。
+
+    JSON が 0x20 未満もエスケープすると読んだ記憶があるので確認。
+
+    --------------------------------------------------------------------------------
+
+    気が進まない。仕様が決まっていての変換なので、それぞれに合わせて最適化するべき。一般的なクラスを作るというのは、実装において手を抜きたいだけ。それで節約できる時間は短く、ランタイムにおいて恒常的なコストになる。
+
+[完了] Enumerable クラスの全機能を再確認
+
+    どのメソッドについても、だいたいどういうことをするか程度は分かるのを確認した。
+
+[却下] https://github.com/microsoft/STL/tree/main/stl/src をチェック
+
+    少し見たが、設計も実装も古すぎる。Nekote に実装するべき機能を探すには向かない。よりモダンな言語を参考に。
+
+[却下] https://gcc.gnu.org/onlinedocs/libstdc++/latest-doxygen/hierarchy.html をチェック
+
+    何となく次のページを開いたが、特に参考になる情報はなかった。全体的に設計も実装も古い。
+
+    libstdc++: std::vector< _Tp, _Alloc > Class Template Reference
+    https://gcc.gnu.org/onlinedocs/libstdc++/latest-doxygen/a08551.html
+
+[完了] コードを全体的にチェック
+
+    多少の知見を得た。より良い書き方ができるところや、少し離れてみて自分で詳細を思い出せないからコメントを追記するべきところなどを探す。
+
+[完了] nLibrary.ThreadCount をライブラリーのユーザーが変更できないようにする
+[完了] TimeSpan の平均を計算する方法を調べる
+[完了] 処理中であることをコンソールに表示するメソッドを追加
+
+    | / - \ をくるくると回したい。他の記号で工夫している人もいるだろうから探す。
+
+    --------------------------------------------------------------------------------
+
+    いろいろな UI やページで砂時計が回ったり、円状のものが回ったり。回るというのが最も直感的なので、最初の案で。
+
+[完了] 拡張メソッドの名前が衝突した場合の挙動をチェック
+
+    Nekote の二つのクラスに Trim (this string ...) を追加し、"".Trim を呼んだところ、.NET のものが呼ばれた。追加したものを二つとも Trim1 に変更し、"".Trim1 を呼ぼうとすれば、どちらか分からないとエラーになった。
+
+    ガイドラインとしては、暫定的に次のように考える。
+
+    .NET に同名のメソッドがある → 拡張メソッドにしないか、する場合は名前を異ならせ、戻り値の型などでも区別が付くようにする
+    ない → できるだけ具体的な名前にすることで名前の衝突の可能性を低め、一応、戻り値の型などの工夫も凝らす
+
+[完了] 拡張メソッドにするべきものを探す
+[完了] Parse* を拡張メソッドにしないことについて書く
+
+    To* は左側にインスタンスがあっての変換なので自然だが、Parse* なのに右側に対象がないのは違和感がある。
+
+    たとえば nDateTime.ParseRoundtripString を拡張メソッドにすると、xString.ParseRoundtripString という呼び方ができる。これでは xString が主語となって、その内部の情報を用いて他の何かを処理するように見える。拡張メソッドにするなら、Parse* でなく To* として string から DateTime に「変換」するべき。
+
+    ただ、それをすると string が Parse* だらけになる。
+
+    おそらく同じ理由により、.NET でも int などにおいて ToString はインスタンスメソッド、Parse* は静的メソッドになっている。
+
+[完了] string 型の引数の名前も value とすることについて書く
+
+    string は、int などと異なり ValueType を継承しない。
+
+    String Class (System) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/system.string
+
+    Int32 Struct (System) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/system.int32
+
+    となると value より text などの方が引数名として適する気もするが、.NET でも string クラスのメソッドなどにおいて value が多用されているため、それにならう。
+
+[完了] ジェネリックの where を付けるべきところを探す
+
+    struct は、System.ValueType を指定できない代わりのもの。
+
+    where (generic type constraint) - C# Reference | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/where-generic-type-constraint
+
+    --------------------------------------------------------------------------------
+
+    nArray のメソッドに where ValueType: struct を入れる。string など、ValueType を継承しないものを配列に詰め込んで比較やシャッフルなどの処理を行う可能性は低い。そういうことには LINQ が適する。
+
+[完了] nStopwatch* クラスに詳しいコメントを書く
+
+    コードを書いた自分でも詳細をすぐには思い出せないクラスになっている。それでは使えない。
+
+[完了] BOM の判別の分の読み出しが無駄である件についてコメント
+[完了] https://learn.microsoft.com/en-us/dotnet/api/system.collections.istructuralequatable をチェック
+[完了] 配列の照合のスピードを比較
+
+    Enumerable.SequenceEqual がどのくらい遅いか。
+
+    --------------------------------------------------------------------------------
+
+    このあたりもチェックする。
+
+    MemoryExtensions.SequenceEqual Method (System) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal
+
+    MemoryExtensions.SequenceCompareTo Method (System) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequencecompareto
+
+    --------------------------------------------------------------------------------
+
+    Memory <T> 構造体（クラスでない）も速いそうなので試す。
+
+    Memory<T> Struct (System) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/system.memory-1
+
+    --------------------------------------------------------------------------------
+
+    次のページにベンチマークの結果がある。
+
+    Compare Arrays in C# - Code Maze
+    https://code-maze.com/csharp-compare-arrays/
+
+    --------------------------------------------------------------------------------
+
+    EqualityComparer <T>.Default の速度を調べる。== と Equals が内部的に同じかどうかも。
+
+    --------------------------------------------------------------------------------
+
+    index + temp と、index ++ との比較も。*.Length を他のところに取るかどうかも。細かい工夫それぞれに本当に意味があるかどうか。
+
+    --------------------------------------------------------------------------------
+
+    MemoryExtensions.SequenceEqual が圧倒的に速いと分かったので、細かい調査を省略した。
+
+[完了] nTimeSpan.Average を追加

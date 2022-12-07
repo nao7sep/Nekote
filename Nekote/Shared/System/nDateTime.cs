@@ -9,7 +9,7 @@ namespace Nekote
 {
     public static class nDateTime
     {
-        public static string ToRoundtripString (DateTime value)
+        public static string ToRoundtripString (this DateTime value)
         {
             return value.ToString ("O");
         }

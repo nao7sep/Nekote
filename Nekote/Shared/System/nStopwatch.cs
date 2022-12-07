@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 
 namespace Nekote
 {
+    // .NET の Stopwatch と異なり、こちらは、インスタンス外から構ってやらないとデフォルトでは3分ごとに計測が自動中断するクラス
+    // ボタンを押すたびに3分間、水が流れる蛇口をイメージ
+    // パソコンをさわっている時間の計測など、一時停止に人間のミスが関わってくるところに便利
+
+    // DataType でクラスを、TagType で構造体を一つ扱える
+    // ストップウォッチは、何を計測するかによってはコレクション的な処理も担うことが考えられる
+    // そういう処理が不要なら、nEmptyClass などを使用する、ジェネリックでない方を使う
+
+    // クラスを利用する側での lock をできるだけ減らすため、Locker を内包させ、lock を自動的に行う *_lock メソッドを揃えた
+    // 一つのプログラム内で nStopwatch のインスタンスを多数使うことは稀だろうが、デッドロックには注意が必要
+
     public class nStopwatch <DataType, TagType>: IDisposable
         where DataType: class
         where TagType: struct
@@ -35,6 +46,11 @@ namespace Nekote
             });
         }
 
+        // 基本的には、Start, Pause, Resume, Stop の四つで処理が完結する
+        // Pause と Stop の違いは、現在進行中の計測に関するエントリーの GUID が次回に引き継がれるかどうか
+        // Pause されたなら、PreviousEntries の方で、連続する二つ以上のエントリーの GUID が一致する
+
+        // 古いコメント
         // Pause による GUID の引き継ぎについて
         // Pause は、現行エントリーの GUID が確定したときに、「次のエントリーの GUID にもこれを使ってくれ」としてその値を残す
         // その値は直後が Resume でも Start でも変更されず、その次が Pause でも Stop でもその回の GUID として必ず使われる
@@ -130,6 +146,9 @@ namespace Nekote
 
         private bool mContinuesAutoPausing;
 
+        // 最初は Pause/Stop のたびに Task を作り直す実装にしたが、実装がややこしく、使用時にも注意の必要なクラスになった
+        // そのため、インスタンスの生成時にコンストラクターで Task が作られ、そのまま回り続ける実装に変更した
+
         public readonly Task AutoPausingTask;
 
         public static readonly TimeSpan DefaultAutoPausingInterval = TimeSpan.FromMinutes (3);
@@ -147,7 +166,18 @@ namespace Nekote
 
         public TimeSpan AutoPausingThreadSleepTimeout = DefaultAutoPausingThreadSleepTimeout;
 
-        public static int ThreadCount;
+        private static int mThreadCount = 0;
+
+        /// <summary>
+        /// 処理の複雑なプログラムなら、このプロパティーによりスレッド数の変遷をチェックする。
+        /// </summary>
+        public static int ThreadCount
+        {
+            get
+            {
+                return mThreadCount;
+            }
+        }
 
         private Task iRunAutoPausingTask ()
         {
@@ -155,8 +185,8 @@ namespace Nekote
             {
                 try
                 {
-                    Interlocked.Increment (ref ThreadCount);
-                    Interlocked.Increment (ref nLibrary.ThreadCount);
+                    Interlocked.Increment (ref mThreadCount);
+                    Interlocked.Increment (ref nLibrary.mThreadCount);
 
                     while (true)
                     {
@@ -179,8 +209,8 @@ namespace Nekote
 
                 finally
                 {
-                    Interlocked.Decrement (ref ThreadCount);
-                    Interlocked.Decrement (ref nLibrary.ThreadCount);
+                    Interlocked.Decrement (ref mThreadCount);
+                    Interlocked.Decrement (ref nLibrary.mThreadCount);
                 }
             });
         }
@@ -204,6 +234,8 @@ namespace Nekote
                 if (IsRunning || PreviousEntries.Count == 0)
                     throw new nOperationException ();
             }
+
+            // mCurrentEntryGuid は iPauseOrStop により既に調整されている
 
             CurrentEntryName = entryName;
             CurrentEntryStartUtc = DateTime.UtcNow;
@@ -229,6 +261,10 @@ namespace Nekote
                 iStartOrResume (false, entryName, entryData, entryTag);
             }
         }
+
+        // 上述した、水を流し続けるためのボタンのイメージ
+        // デフォルトでは3分間で自動中断なので、3分未満（「以内」でない）のインターバルでのノックが必要
+        // 既に自動中断されていてのノックの場合、水がその時点から再び流れるのと同様の処理に
 
         public void Knock_lock (bool resumes, string? entryName = null, DataType? entryData = null, TagType? entryTag = null)
         {

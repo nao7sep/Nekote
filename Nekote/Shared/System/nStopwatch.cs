@@ -10,16 +10,14 @@ namespace Nekote
     // ボタンを押すたびに3分間、水が流れる蛇口をイメージ
     // パソコンをさわっている時間の計測など、一時停止に人間のミスが関わってくるところに便利
 
-    // DataType でクラスを、TagType で構造体を一つ扱える
+    // DataType でクラスを、TagType で構造体を一つ扱える → 区別の必要性が乏しかったため where 句なしの TagType に統一
     // ストップウォッチは、何を計測するかによってはコレクション的な処理も担うことが考えられる
-    // そういう処理が不要なら、nEmptyClass などを使用する、ジェネリックでない方を使う
+    // そういう処理が不要なら、nEmptyClass などを使用する、ジェネリックでない方を使う → 潰すだけなので object に変更
 
     // クラスを利用する側での lock をできるだけ減らすため、Locker を内包させ、lock を自動的に行う *_lock メソッドを揃えた
     // 一つのプログラム内で nStopwatch のインスタンスを多数使うことは稀だろうが、デッドロックには注意が必要
 
-    public class nStopwatch <DataType, TagType>: IDisposable
-        where DataType: class
-        where TagType: struct
+    public class nStopwatch <TagType>: IDisposable
     {
         // lock についての考え方
         // これは、メンバー変数やプロパティーに横からアクセスしてくるループがずっと回るクラス
@@ -27,9 +25,9 @@ namespace Nekote
 
         public readonly object Locker = new object ();
 
-        public readonly List <nStopwatchEntry <DataType, TagType>> PreviousEntries = new List <nStopwatchEntry <DataType, TagType>> ();
+        public readonly List <nStopwatchEntry <TagType>> PreviousEntries = new List <nStopwatchEntry <TagType>> ();
 
-        public void AddPreviousEntry_lock (nStopwatchEntry <DataType, TagType> entry)
+        public void AddPreviousEntry_lock (nStopwatchEntry <TagType> entry)
         {
             lock (Locker)
             {
@@ -39,7 +37,7 @@ namespace Nekote
 
         public void AddPreviousEntry_lock (DateTime startUtc, TimeSpan elapsedTime)
         {
-            AddPreviousEntry_lock (new nStopwatchEntry <DataType, TagType>
+            AddPreviousEntry_lock (new nStopwatchEntry <TagType>
             {
                 StartUtc = startUtc,
                 ElapsedTime = elapsedTime
@@ -104,8 +102,6 @@ namespace Nekote
                 }
             }
         }
-
-        public DataType? CurrentEntryData;
 
         public TagType? CurrentEntryTag;
 
@@ -221,7 +217,7 @@ namespace Nekote
             AutoPausingTask = iRunAutoPausingTask ();
         }
 
-        private void iStartOrResume (bool isStarting, string? entryName, DataType? entryData, TagType? entryTag)
+        private void iStartOrResume (bool isStarting, string? entryName, TagType? entryTag)
         {
             if (isStarting)
             {
@@ -239,26 +235,25 @@ namespace Nekote
 
             CurrentEntryName = entryName;
             CurrentEntryStartUtc = DateTime.UtcNow;
-            CurrentEntryData = entryData;
             CurrentEntryTag = entryTag;
 
             if (AutoPauses_lock)
                 iUpdateNextAutoPausingUtc ();
         }
 
-        public void Start_lock (string? entryName = null, DataType? entryData = null, TagType? entryTag = null)
+        public void Start_lock (string? entryName = null, TagType? entryTag = default)
         {
             lock (Locker)
             {
-                iStartOrResume (true, entryName, entryData, entryTag);
+                iStartOrResume (true, entryName, entryTag);
             }
         }
 
-        public void Resume_lock (string? entryName = null, DataType? entryData = null, TagType? entryTag = null)
+        public void Resume_lock (string? entryName = null, TagType? entryTag = default)
         {
             lock (Locker)
             {
-                iStartOrResume (false, entryName, entryData, entryTag);
+                iStartOrResume (false, entryName, entryTag);
             }
         }
 
@@ -266,7 +261,7 @@ namespace Nekote
         // デフォルトでは3分間で自動中断なので、3分未満（「以内」でない）のインターバルでのノックが必要
         // 既に自動中断されていてのノックの場合、水がその時点から再び流れるのと同様の処理に
 
-        public void Knock_lock (bool resumes, string? entryName = null, DataType? entryData = null, TagType? entryTag = null)
+        public void Knock_lock (bool resumes, string? entryName = null, TagType? entryTag = default)
         {
             lock (Locker)
             {
@@ -278,7 +273,7 @@ namespace Nekote
                     else
                     {
                         if (resumes)
-                            iStartOrResume (false, entryName, entryData, entryTag);
+                            iStartOrResume (false, entryName, entryTag);
                     }
                 }
 
@@ -311,13 +306,12 @@ namespace Nekote
             // CurrentEntryStartUtc が null でない前提の処理
             // カウント中であり、自動中断もされていないことの確認は呼び出し側が
 
-            nStopwatchEntry <DataType, TagType> xEntry = new nStopwatchEntry <DataType, TagType> ()
+            nStopwatchEntry <TagType> xEntry = new nStopwatchEntry <TagType> ()
             {
                 Guid = mCurrentEntryGuid ?? Guid.NewGuid (),
                 Name = CurrentEntryName,
                 StartUtc = CurrentEntryStartUtc!.Value,
                 ElapsedTime = DateTime.UtcNow - CurrentEntryStartUtc!.Value,
-                Data = CurrentEntryData,
                 Tag = CurrentEntryTag
             };
 
@@ -332,8 +326,7 @@ namespace Nekote
 
             CurrentEntryName = null;
             CurrentEntryStartUtc = null;
-            CurrentEntryData = null;
-            CurrentEntryTag = null;
+            CurrentEntryTag = default;
         }
 
         // Pause/Stop において、自動中断機能がオンなら IsRunning == false は問題視されない
@@ -364,8 +357,7 @@ namespace Nekote
                 mCurrentEntryGuid = null;
                 CurrentEntryName = null;
                 CurrentEntryStartUtc = null;
-                CurrentEntryData = null;
-                CurrentEntryTag = null;
+                CurrentEntryTag = default;
 
                 AutoPauses_lock = true;
                 AutoPausingInterval = DefaultAutoPausingInterval;
@@ -386,9 +378,9 @@ namespace Nekote
         }
     }
 
-    // Data と Tag が不要なら、こちらを使う
+    // Tag が不要なら、こちらを使う
 
-    public class nStopwatch: nStopwatch <nEmptyClass, nEmptyStruct>
+    public class nStopwatch: nStopwatch <object>
     {
     }
 }

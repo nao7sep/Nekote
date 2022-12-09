@@ -29,7 +29,10 @@ namespace Nekote
 
         // UTF は、もう十分に枯れている
         // 文字の追加は続いても、長さ5以上の BOM を必要とする新しい形式は考えにくい
-        public const int MaxLength = 4;
+
+        // 追記: 枯れているが、円周率ほどの不変性はないため readonly に変更
+
+        public static readonly int MaxLength = 4;
 
         public static Encoding? GetEncoding (byte [] values, int firstIndex, int length)
         {

@@ -188,7 +188,10 @@ namespace Nekote
             }
         }
 
-        public static Task AppendAllBytesAsync (string path, byte [] values, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
+        // .NET に *Async として用意されているもののラッパーは、.NET の方に async が付いていないこともあって async なしでよい
+        // 一方、AppendAllBytesAsync は、async/await でないと FileStream の WriteAsync 中に Dispose が呼ばれる
+
+        public static async Task AppendAllBytesAsync (string path, byte [] values, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
@@ -196,7 +199,7 @@ namespace Nekote
             using (FileStream xStream = new FileStream (path, FileMode.Append, FileAccess.Write, FileShare.Read, iDefaultBufferSize, FileOptions.Asynchronous))
             {
                 // xStream.Seek (0, SeekOrigin.End);
-                return xStream.WriteAsync (values, 0, values.Length, cancellationToken);
+                await xStream.WriteAsync (values, 0, values.Length, cancellationToken);
             }
         }
 

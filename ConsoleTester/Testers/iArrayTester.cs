@@ -50,7 +50,7 @@ namespace ConsoleTester
         // IStructuralEquatable.Equals(Object, IEqualityComparer) Method (System.Collections) | Microsoft Learn
         // https://learn.microsoft.com/en-us/dotnet/api/system.collections.istructuralequatable.equals
 
-        // 2022年12月7日に数年前のノートである SV7 で実行しての結果
+        // 2022年12月7日に数年前のノートである SV7 で実行しての結果 → 古いが、参考のために残す
         // nArray.Equals が MemoryExtensions.SequenceEqual より速いのは、他のプロセスの影響を受けてか
 
         // + で添え字を計算: 129.7964ms
@@ -60,6 +60,19 @@ namespace ConsoleTester
         // Span.SequenceEqual: 27.3518ms
         // MemoryExtensions.SequenceEqual: 28.3833ms
         // nArray.Equals: 27.4096ms
+
+        // 2022年12月9日に SV7 で再実行しての結果
+        // iGenericTester.CompareSpeedsOfNullableAndBoxing の追加により定まったおまじないを適用
+        // 二日前の実行時には、+ で添え字を計算する方が速かったり、オーバーヘッドを考えても EqualityComparer.Default が遅すぎたりに違和感があった
+        // 理由が不明だが、こちらでも Stopwatch の Restart の前に Reset を呼ぶことで、より自然な計測結果が得られるようになった
+
+        // + で添え字を計算: 178.5727ms
+        // ++ で添え字を進める: 119.0396ms
+        // EqualityComparer.Default: 142.5558ms
+        // Enumerable.SequenceEqual: 31.5699ms
+        // Span.SequenceEqual: 28.6523ms
+        // MemoryExtensions.SequenceEqual: 28.35ms
+        // nArray.Equals: 29.0902ms
 
         public static void CompareSpeedsOfComparingArrays ()
         {
@@ -88,6 +101,7 @@ namespace ConsoleTester
 
                 // =============================================================================
 
+                xStopwatch.Reset ();
                 xStopwatch.Restart ();
 
                 for (int tempAlt = 0; tempAlt < xComparisonCount; tempAlt ++)
@@ -103,6 +117,7 @@ namespace ConsoleTester
 
                 // =============================================================================
 
+                xStopwatch.Reset ();
                 xStopwatch.Restart ();
 
                 for (int tempAlt = 0; tempAlt < xComparisonCount; tempAlt ++)
@@ -122,6 +137,7 @@ namespace ConsoleTester
 
                 // =============================================================================
 
+                xStopwatch.Reset ();
                 xStopwatch.Restart ();
 
                 for (int tempAlt = 0; tempAlt < xComparisonCount; tempAlt ++)
@@ -141,6 +157,7 @@ namespace ConsoleTester
 
                 // =============================================================================
 
+                xStopwatch.Reset ();
                 xStopwatch.Restart ();
 
                 for (int tempAlt = 0; tempAlt < xComparisonCount; tempAlt ++)
@@ -150,6 +167,7 @@ namespace ConsoleTester
 
                 // =============================================================================
 
+                xStopwatch.Reset ();
                 xStopwatch.Restart ();
 
                 for (int tempAlt = 0; tempAlt < xComparisonCount; tempAlt ++)
@@ -159,6 +177,7 @@ namespace ConsoleTester
 
                 // =============================================================================
 
+                xStopwatch.Reset ();
                 xStopwatch.Restart ();
 
                 for (int tempAlt = 0; tempAlt < xComparisonCount; tempAlt ++)
@@ -168,6 +187,7 @@ namespace ConsoleTester
 
                 // =============================================================================
 
+                xStopwatch.Reset ();
                 xStopwatch.Restart ();
 
                 for (int tempAlt = 0; tempAlt < xComparisonCount; tempAlt ++)

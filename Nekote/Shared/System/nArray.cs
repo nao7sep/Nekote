@@ -20,11 +20,13 @@ namespace Nekote
         // 大きなメソッドの実装において、後半でまた引数から「元の値」を取りたいことがある
         // 引数は不変だとみなせる方が、チェックするべきことが減る
 
-        public static bool Equals <ValueType> (ValueType [] values1, int firstIndex1, ValueType [] values2, int firstIndex2, int length)
-            where ValueType: struct
+        // where 句で struct に限り、ジェネリックの型名を ValueType としていたが、Shuffle などは参照の配列にも役立つ
+        // 今後、主に値型を扱う配列には ValueType/values を使い、参照もよく扱うなら ElementType/elements を使う
+
+        public static bool Equals <ElementType> (ElementType [] elements1, int firstIndex1, ElementType [] elements2, int firstIndex2, int length)
         {
             // iArrayTester.CompareSpeedsOfComparingArrays の結果に基づき、実装を変更した
-            return values1.AsSpan (firstIndex1, length).SequenceEqual (values2.AsSpan (firstIndex2, length));
+            return elements1.AsSpan (firstIndex1, length).SequenceEqual (elements2.AsSpan (firstIndex2, length));
         }
     }
 }

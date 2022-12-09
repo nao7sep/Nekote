@@ -936,14 +936,6 @@
 
     nStopwatch を書いた。
 
-[完了] タスクリストのログを全体的に再チェック
-
-    考えながら書いているので、右往左往は仕方ない。それとは関係のない、必要でない雑談などを除く。
-
-    --------------------------------------------------------------------------------
-
-    特に問題なし。ドキュメントでないので、そういう品質を求めない。作業メモをちょっと整えてレポジトリーにぶち込んだだけのものであり、「あれ？ この部分をなぜこう書いたのか」と自分で分からなくなったときにそれなりの確率で当時の考えを思い出せれば十分。
-
 [完了] nConvert のメソッドをそれぞれの型のためのクラスに移動
 [完了] 空のディレクトリーやファイルを消せるようにする
 
@@ -1143,10 +1135,6 @@
     libstdc++: std::vector< _Tp, _Alloc > Class Template Reference
     https://gcc.gnu.org/onlinedocs/libstdc++/latest-doxygen/a08551.html
 
-[完了] コードを全体的にチェック
-
-    多少の知見を得た。より良い書き方ができるところや、少し離れてみて自分で詳細を思い出せないからコメントを追記するべきところなどを探す。
-
 [完了] nLibrary.ThreadCount をライブラリーのユーザーが変更できないようにする
 [完了] TimeSpan の平均を計算する方法を調べる
 [完了] 処理中であることをコンソールに表示するメソッドを追加
@@ -1160,11 +1148,6 @@
 [完了] 拡張メソッドの名前が衝突した場合の挙動をチェック
 
     Nekote の二つのクラスに Trim (this string ...) を追加し、"".Trim を呼んだところ、.NET のものが呼ばれた。追加したものを二つとも Trim1 に変更し、"".Trim1 を呼ぼうとすれば、どちらか分からないとエラーになった。
-
-    ガイドラインとしては、暫定的に次のように考える。
-
-    .NET に同名のメソッドがある → 拡張メソッドにしないか、する場合は名前を異ならせ、戻り値の型などでも区別が付くようにする
-    ない → できるだけ具体的な名前にすることで名前の衝突の可能性を低め、一応、戻り値の型などの工夫も凝らす
 
 [完了] 拡張メソッドにするべきものを探す
 [完了] Parse* を拡張メソッドにしないことについて書く
@@ -1247,3 +1230,89 @@
     MemoryExtensions.SequenceEqual が圧倒的に速いと分かったので、細かい調査を省略した。
 
 [完了] nTimeSpan.Average を追加
+[完了] ジェネリッククラスのフィールドの Nullable について調べる
+
+    class Hoge <Type>
+    	public Type Moge;
+
+    を用意する。
+
+    そのままでは「null 非許容の フィールド 'Moge' には、コンストラクターの終了時に null 以外の値が入っていなければなりません。フィールド を Null 許容として宣言することをご検討ください」と言われる。
+
+    従わず、public Type Moge = default とすると、「Null 参照代入の可能性があります」と言われる。
+
+    他に選択肢がなくて public Type? Moge とすると、何も言われなくなる。
+
+    この状態で Console.WriteLine (new Hoge <string> ().Moge == null) → True というのはイメージ通り。
+
+    しかし、string を int にすると、「型 'int' の値が型 'int?' の 'null' に等しくなることはないので、式の結果は常に 'false' になります」と言われる。
+
+    new Hoge <int> () により public Type? Moge は public int? Moge となり、これはつまり public Nullable <int> Moge なのだろうから、null との比較は可能なはず。
+
+    しかし、得られたメッセージだけに基づいて考えるなら、new Hoge <int> () だと public int Moge になるようだ。実際、Console.WriteLine (new Hoge <int> ().Moge == 0) → True になる。
+
+    暗黙的な型変換または演算子のオーバーロードの可能性を考え、Console.WriteLine (new Hoge <int> ().Moge.GetType ().Name) を実行したところ、Int32 と表示された。
+
+    理由が不詳だが、「Type? でフィールドを宣言しても Nullable にならない」「Nullable にしたければ int? などを指定」というのは間違いない。
+
+    --------------------------------------------------------------------------------
+
+    この仕様は、理にかなっているとも思える。
+
+    以前は、? は、int などに付けるものだった。そのうち string? などが出てきた。
+
+    int などに付ける ? は、Nullable 構造体の糖衣構文と認識している。
+
+    一方、string などに付ける ? は、元々の型を変更することなく、コンパイラーがより多くのミスを見付けられるようにする目印に過ぎないものと認識している。こちらの ? は、本質的には何も変えない。
+
+    もし Type? により Moge が、
+
+    struct → Nullable <...>
+    class → コンパイラーが考慮するだけで何も変わらない
+
+    という扱いなら、値型により「値が常に存在するフィールド」を用意できない。
+
+    しかし、Type で宣言させると、コンストラクターの終了時に値が入っていないフィールドになり、それはそれでコンパイラーとしては警告しなければならない。
+
+    どちらもイマイチだから、便宜的に、
+
+    int → 0で初期化される値型のフィールド
+    int? → null で初期化される Nullable <int>
+    string → null で初期化される参照
+
+    という仕様にしたのかもしれない。
+
+    Type? に <int?> だと public int?? Moge と、つまり、public Nullable <Nullable <int>> Moge のようなことになるのでないかと気になったが、実際やってみてそうならないので、「Type? で宣言して default を設定」でしばらく様子見。
+
+    --------------------------------------------------------------------------------
+
+    次のページも参考になる。
+
+    C# 10.0 improves handling of nullable references in generic types - no more AllowNull | endjin - Azure Data Analytics Consultancy UK
+    https://endjin.com/blog/2022/02/csharp-10-generics-nullable-references-improvements-allownull
+
+    --------------------------------------------------------------------------------
+
+    Type? Moge のコードに、
+
+    public void Poge (Type? value = default)
+    {
+        Moge = value;
+    }
+
+    を追加し、new Hoge <int>.Poge (null) としたところ、やはり「ジェネリックだと値型 + ? は便宜的に値型になる」という法則があるようで、コンパイルできなかった。引数が int? value でなく int value となっているようだった。
+
+    引数をなくして Poge を呼んだところ、default により value == 0 となり、Moge には0が入った。
+
+    <int?> で new すれば、Poge に null を渡せたし、引数なしで呼んでも Moge が null になった。
+
+    イレギュラーだが、一貫している仕様なので、慣れてしまうのが早い。
+
+[完了] values, elements の引数名の区別についてコメント
+[完了] nFile.AppendAllBytesAsync において using 内で FileStream.WriteAsync を呼んでよいか調べる
+
+    試したところ落ちたので、テストコードを iAsyncAwaitTester.TestEverything にまとめ、nFile.AppendAllBytesAsync を更新した。
+
+[完了] nStopwatch* の Data と Tag を一つに統合
+
+    .NET の挙動の再確認のために iGenericTester.TestNullability を追加した。その上で Data と Tag を一つに統合した。

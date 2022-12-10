@@ -14,7 +14,7 @@ namespace Nekote
     // ストップウォッチは、何を計測するかによってはコレクション的な処理も担うことが考えられる
     // そういう処理が不要なら、nEmptyClass などを使用する、ジェネリックでない方を使う → 潰すだけなので object に変更
 
-    // クラスを利用する側での lock をできるだけ減らすため、Locker を内包させ、lock を自動的に行う *_lock メソッドを揃えた
+    // クラスを利用する側での lock をできるだけ減らすため、Locker を内包させ、lock を自動的に行う *_lock メソッドを揃えた → 野暮ったかったので廃止し、<summary> を付けた
     // 一つのプログラム内で nStopwatch のインスタンスを多数使うことは稀だろうが、デッドロックには注意が必要
 
     public class nStopwatch <TagType>: IDisposable
@@ -27,7 +27,10 @@ namespace Nekote
 
         public readonly List <nStopwatchEntry <TagType>> PreviousEntries = new List <nStopwatchEntry <TagType>> ();
 
-        public void AddPreviousEntry_lock (nStopwatchEntry <TagType> entry)
+        /// <summary>
+        /// 自動 lock。
+        /// </summary>
+        public void AddPreviousEntry (nStopwatchEntry <TagType> entry)
         {
             lock (Locker)
             {
@@ -35,9 +38,12 @@ namespace Nekote
             }
         }
 
-        public void AddPreviousEntry_lock (DateTime startUtc, TimeSpan elapsedTime)
+        /// <summary>
+        /// 自動 lock。
+        /// </summary>
+        public void AddPreviousEntry (DateTime startUtc, TimeSpan elapsedTime)
         {
-            AddPreviousEntry_lock (new nStopwatchEntry <TagType>
+            AddPreviousEntry (new nStopwatchEntry <TagType>
             {
                 StartUtc = startUtc,
                 ElapsedTime = elapsedTime
@@ -70,7 +76,10 @@ namespace Nekote
             }
         }
 
-        public TimeSpan CurrentEntryElapsedTime_lock
+        /// <summary>
+        /// 自動 lock。
+        /// </summary>
+        public TimeSpan CurrentEntryElapsedTime
         {
             get
             {
@@ -87,7 +96,10 @@ namespace Nekote
             }
         }
 
-        public TimeSpan TotalElapsedTime_lock
+        /// <summary>
+        /// 自動 lock。
+        /// </summary>
+        public TimeSpan TotalElapsedTime
         {
             get
             {
@@ -96,7 +108,7 @@ namespace Nekote
                     long xPreviousEntriesElapsedTimeTicks = PreviousEntries.Sum (x => x.ElapsedTime.Ticks);
 
                     if (IsRunning)
-                        return TimeSpan.FromTicks (xPreviousEntriesElapsedTimeTicks + CurrentEntryElapsedTime_lock.Ticks);
+                        return TimeSpan.FromTicks (xPreviousEntriesElapsedTimeTicks + CurrentEntryElapsedTime.Ticks);
 
                     else return TimeSpan.FromTicks (xPreviousEntriesElapsedTimeTicks);
                 }
@@ -113,7 +125,10 @@ namespace Nekote
 
         private bool mAutoPauses = true;
 
-        public bool AutoPauses_lock
+        /// <summary>
+        /// 自動 lock。
+        /// </summary>
+        public bool AutoPauses
         {
             get
             {
@@ -195,7 +210,7 @@ namespace Nekote
                             // カウント中で、自動中断するべきなら、Pause の処理を
                             // これにより IsRunning のフラグが倒れる
 
-                            if (AutoPauses_lock && IsRunning && DateTime.UtcNow >= NextAutoPausingUtc)
+                            if (AutoPauses && IsRunning && DateTime.UtcNow >= NextAutoPausingUtc)
                                 iPauseOrStop (true);
                         }
 
@@ -237,11 +252,14 @@ namespace Nekote
             CurrentEntryStartUtc = DateTime.UtcNow;
             CurrentEntryTag = entryTag;
 
-            if (AutoPauses_lock)
+            if (AutoPauses)
                 iUpdateNextAutoPausingUtc ();
         }
 
-        public void Start_lock (string? entryName = null, TagType? entryTag = default)
+        /// <summary>
+        /// 自動 lock。
+        /// </summary>
+        public void Start (string? entryName = null, TagType? entryTag = default)
         {
             lock (Locker)
             {
@@ -249,7 +267,10 @@ namespace Nekote
             }
         }
 
-        public void Resume_lock (string? entryName = null, TagType? entryTag = default)
+        /// <summary>
+        /// 自動 lock。
+        /// </summary>
+        public void Resume (string? entryName = null, TagType? entryTag = default)
         {
             lock (Locker)
             {
@@ -261,11 +282,14 @@ namespace Nekote
         // デフォルトでは3分間で自動中断なので、3分未満（「以内」でない）のインターバルでのノックが必要
         // 既に自動中断されていてのノックの場合、水がその時点から再び流れるのと同様の処理に
 
-        public void Knock_lock (bool resumes, string? entryName = null, TagType? entryTag = default)
+        /// <summary>
+        /// 自動 lock。
+        /// </summary>
+        public void Knock (bool resumes, string? entryName = null, TagType? entryTag = default)
         {
             lock (Locker)
             {
-                if (AutoPauses_lock)
+                if (AutoPauses)
                 {
                     if (IsRunning)
                         iUpdateNextAutoPausingUtc ();
@@ -287,7 +311,7 @@ namespace Nekote
 
         private void iPauseOrStop (bool isPausing)
         {
-            if (AutoPauses_lock)
+            if (AutoPauses)
             {
                 // 自動中断機能がオンのときに IsRunning が倒れていれば、
                 //     既に別ループでの iPauseOrStop により Current* のデータが移されている
@@ -315,8 +339,8 @@ namespace Nekote
                 Tag = CurrentEntryTag
             };
 
-            // AddPreviousEntry_lock を使わない
-            // iPauseOrStop は必ず *_lock 内で呼ばれる
+            // AddPreviousEntry を使わない
+            // iPauseOrStop は必ず *_lock 内で呼ばれる → _lock を廃止し、<summary> を付けた
             PreviousEntries.Add (xEntry);
 
             if (isPausing)
@@ -332,7 +356,10 @@ namespace Nekote
         // Pause/Stop において、自動中断機能がオンなら IsRunning == false は問題視されない
         // Knock 同様、いつの間にか中断されていると知らずの Pause/Stop はミスでない
 
-        public void Pause_lock ()
+        /// <summary>
+        /// 自動 lock。
+        /// </summary>
+        public void Pause ()
         {
             lock (Locker)
             {
@@ -340,7 +367,10 @@ namespace Nekote
             }
         }
 
-        public void Stop_lock ()
+        /// <summary>
+        /// 自動 lock。
+        /// </summary>
+        public void Stop ()
         {
             lock (Locker)
             {
@@ -348,7 +378,10 @@ namespace Nekote
             }
         }
 
-        public void Reset_lock ()
+        /// <summary>
+        /// 自動 lock。
+        /// </summary>
+        public void Reset ()
         {
             lock (Locker)
             {
@@ -359,7 +392,7 @@ namespace Nekote
                 CurrentEntryStartUtc = null;
                 CurrentEntryTag = default;
 
-                AutoPauses_lock = true;
+                AutoPauses = true;
                 AutoPausingInterval = DefaultAutoPausingInterval;
                 NextAutoPausingUtc = null;
                 AutoPausingThreadSleepTimeout = DefaultAutoPausingThreadSleepTimeout;

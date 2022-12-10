@@ -8,7 +8,7 @@ namespace Nekote
 {
     public static class nTimeSpan
     {
-        // iValueTypeTester.TestCalculatingAverageOfLongValues の結果に基づき、以下、decimal を積極的に使う
+        // iValueTypeTester.CalculateAverageOfLongValues の結果に基づき、以下、decimal を積極的に使う
         // decimal から long に戻すときには、キャストの Math.Truncate 的な挙動による値の下振れを防ぐために decimal.Round を行う
 
         // Math.Truncate Method (System) | Microsoft Learn

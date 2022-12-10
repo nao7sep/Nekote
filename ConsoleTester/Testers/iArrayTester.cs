@@ -74,7 +74,7 @@ namespace ConsoleTester
         // MemoryExtensions.SequenceEqual: 28.35ms
         // nArray.Equals: 29.0902ms
 
-        public static void CompareSpeedsOfComparingArrays ()
+        public static void CompareComparisonSpeeds ()
         {
             // オーバーヘッドの影響を抑えるため、長めの配列を少ない回数だけ比較
 

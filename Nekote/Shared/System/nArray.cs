@@ -25,7 +25,7 @@ namespace Nekote
 
         public static bool Equals <ElementType> (ElementType [] elements1, int firstIndex1, ElementType [] elements2, int firstIndex2, int length)
         {
-            // iArrayTester.CompareSpeedsOfComparingArrays の結果に基づき、実装を変更した
+            // iArrayTester.CompareComparisonSpeeds の結果に基づき、実装を変更した
             return elements1.AsSpan (firstIndex1, length).SequenceEqual (elements2.AsSpan (firstIndex2, length));
         }
     }

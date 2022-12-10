@@ -1316,3 +1316,72 @@
 [完了] nStopwatch* の Data と Tag を一つに統合
 
     .NET の挙動の再確認のために iGenericTester.TestNullability を追加した。その上で Data と Tag を一つに統合した。
+
+[完了] Random 関連のスピードを比較
+
+    new した Random をそのまま使うのと、lock を挟んで使うのと、Random.Shared を使うのと、RandomNumberGenerator を使うのと、ゆるく関連している Guid.NewGuid を使うのとを比較。Random 以外にも lock をかませてみる。
+
+[完了] メソッド名などを見直す
+
+    CompareSpeedsOfComparingArrays は、CompareComparisonSpeeds の方がシンプル。比較以外を行うものや、配列以外が対象のものをいずれ追加することも想定しての命名だったが、テストコードはライブラリーを使う側に影響を与えないため、困ってから改名すればよい。iArrayTester なのだから、対象が配列なのは分かる。
+
+    --------------------------------------------------------------------------------
+
+    StartWritingToFile などに i を付け忘れているので修正。
+
+    --------------------------------------------------------------------------------
+
+    _lock が野暮ったいので廃止。なくし、<summary> を付ける。
+
+[完了] DateTimeOffset と long の関係について調べる
+
+    DateTimeOffset は、UTC の値と、そこからの時差の値を持つ。DateTime は、特定の点からの時差のみを持ち、それが UTC だというフラグが立っていれば UTC として、そうでなければローカルの日時として扱われる。DateTime における UTC とローカルの日時との間の変換は、時差データを実行環境に依存するようで、不確実。タイムゾーンによらず、確実に UTC に戻したいものには DateTimeOffset が適する。
+
+    DateTimeOffset Struct (System) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset
+
+    DateTime.ToUniversalTime Method (System) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/system.datetime.touniversaltime
+
+    DateTime.ToLocalTime Method (System) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tolocaltime
+
+    long との関係については、DateTimeOffset, DateTime の両方において、UtcTicks とのラウンドトリップが可能。
+
+[却下] Tuple が変更不可能になっている理由を調べる
+
+    たとえば配列の AsSpan を呼ぶと変更可能な Span が得られ、文字列だと ReadOnlySpan が得られる。string は添え字などによる文字の変更が認められないクラスなので理にかなう。
+
+    しかし、Select (x => (Hoge: ..., Moge: ...)) のようなことをしただけで Hoge も Moge も変更不可能なのは、そうでないといけない理由が分からない。ドキュメントに答えがないか調べる。
+
+    --------------------------------------------------------------------------------
+
+    以下のページをザッと読んだ。変更不可能でないといけない理由は分からないままだが、今回はこのくらいで。
+
+    .net - Why Tuple's items are ReadOnly? - Stack Overflow
+    https://stackoverflow.com/questions/3131400/why-tuples-items-are-readonly
+
+    Tuple types - C# reference | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-tuples
+
+    ValueTuple Struct (System) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple
+
+[完了] C# の多次元配列について調べる
+
+    ほとんど使ったことがない。毎回、List に List を入れるなどの実装を行っていた。
+
+    [,] 系の場合、最初に全体の大きさの把握が必要。[][] 系のジャグ配列の場合、各部の初期化がめんどくさい。ツリー構造になっていなくて、特定の次元の取得がやりにくい印象がある。記憶違いの可能性もあるため、使い込んでいるコードを探す。
+
+    --------------------------------------------------------------------------------
+
+    二つ以上のインデックスを指定でき、それらの積に基づく容量が確保される点を除き、ただの配列のようだ。たとえば [2, 3] で new した場合、内部的には [2 * 3] で生成され、[x * 3 + y] で読み書きされていると考えてよいかもしれない。
+
+    まずは3次元でイメージし、立方体のうち「面」を取るには、GetDimension のようなもの、またはそれを内部的に呼ぶ this を使うのだと思ったが、そういったものが見当たらなかった。イテレーターや Span を取っても効率に限界がありそう。
+
+    自分が使ってみたときには、Enumerable.Range による集計に妥協することになった。他者はどうやっているか調べたところ、他者も Range を提案していた。
+
+    多次元配列は、次元数と要素数が事前に分かっていて、入れ子のループでの読み書きが実装として最適なところでは使えるが、それ以外では避けるべきだろう。
+
+    How to extract one array from a multidimensional array in C# - Stack Overflow
+    https://stackoverflow.com/questions/58595180/how-to-extract-one-array-from-a-multidimensional-array-in-c-sharp

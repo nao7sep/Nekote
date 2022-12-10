@@ -10,10 +10,10 @@ namespace ConsoleTester
     internal static class iAsyncAwaitTester
     {
         // async/await でないメソッド
-        // あえて using 内に Task.Run を置き、StartWritingToFile から抜けたあとに Task の実行がどうなるかを調べる
+        // あえて using 内に Task.Run を置き、iStartWritingToFile から抜けたあとに Task の実行がどうなるかを調べる
         // return で抜けては、実行中の Task にお構いなく FileStream.Dispose が呼ばれ、WriteByte が落ちる
 
-        private static Task StartWritingToFile ()
+        private static Task iStartWritingToFile ()
         {
             using (FileStream xStream = new FileStream (Path.GetTempFileName (), FileMode.Open, FileAccess.Write, FileShare.Read))
             {
@@ -24,12 +24,12 @@ namespace ConsoleTester
                         try
                         {
                             xStream.WriteByte (0);
-                            Console.WriteLine ("StartWritingToFile: 書き込みました。");
+                            Console.WriteLine ("iStartWritingToFile: 書き込みました。");
                         }
 
                         catch (Exception xException)
                         {
-                            Console.WriteLine ($"StartWritingToFile: 書き込みに失敗しました。{Environment.NewLine}\x20\x20\x20\x20{xException.GetType ().Name}: {xException.Message}");
+                            Console.WriteLine ($"iStartWritingToFile: 書き込みに失敗しました。{Environment.NewLine}\x20\x20\x20\x20{xException.GetType ().Name}: {xException.Message}");
                         }
 
                         Thread.Sleep (10);
@@ -51,7 +51,7 @@ namespace ConsoleTester
         // このメソッドにおいては、最初の5回くらいは Sleep 中に書き込まれ、直後の await で呼び出し元に Task が渡り、
         //     このメソッドの方は、Task の処理が終わるまで await のところで待ち、それからの Dispose なので最後まで書き込める
 
-        private static async Task StartWritingToFileAsync ()
+        private static async Task iStartWritingToFileAsync ()
         {
             using (FileStream xStream = new FileStream (Path.GetTempFileName (), FileMode.Open, FileAccess.Write, FileShare.Read))
             {
@@ -62,12 +62,12 @@ namespace ConsoleTester
                         try
                         {
                             xStream.WriteByte (0);
-                            Console.WriteLine ("StartWritingToFileAsync: 書き込みました。");
+                            Console.WriteLine ("iStartWritingToFileAsync: 書き込みました。");
                         }
 
                         catch
                         {
-                            Console.WriteLine ("StartWritingToFileAsync: 書き込みに失敗しました。");
+                            Console.WriteLine ("iStartWritingToFileAsync: 書き込みに失敗しました。");
                         }
 
                         Thread.Sleep (10);
@@ -90,7 +90,7 @@ namespace ConsoleTester
         // async/await なしで書くと、ID の出力が並列処理になって数字が混ざる
         // await は残りの処理を逐次実行するため、こちらでは混ざらない
 
-        private static async Task StartMultipleTasksAsync (int millisecondsTimeout)
+        private static async Task iStartMultipleTasksAsync (int millisecondsTimeout)
         {
             for (int temp = 0; temp < 3; temp ++)
             {
@@ -111,7 +111,7 @@ namespace ConsoleTester
             }
         }
 
-        private static async Task StartThrowingExceptionAsync ()
+        private static async Task iStartThrowingExceptionAsync ()
         {
             await Task.Run (() =>
             {
@@ -124,56 +124,56 @@ namespace ConsoleTester
 
         public static void TestEverything ()
         {
-            // StartWritingToFile の結果
+            // iStartWritingToFile の結果
 
-            // StartWritingToFile: 書き込みました。
-            // StartWritingToFile: 書き込みました。
-            // StartWritingToFile: 書き込みました。
-            // StartWritingToFile: 書き込みました。
-            // TestEverything: StartWritingToFile から抜けました。
-            // StartWritingToFile: 書き込みに失敗しました。
+            // iStartWritingToFile: 書き込みました。
+            // iStartWritingToFile: 書き込みました。
+            // iStartWritingToFile: 書き込みました。
+            // iStartWritingToFile: 書き込みました。
+            // TestEverything: iStartWritingToFile から抜けました。
+            // iStartWritingToFile: 書き込みに失敗しました。
             //     ObjectDisposedException: Cannot access a closed Stream.
-            // StartWritingToFile: 書き込みに失敗しました。
+            // iStartWritingToFile: 書き込みに失敗しました。
             //     ObjectDisposedException: Cannot access a closed Stream.
-            // StartWritingToFile: 書き込みに失敗しました。
+            // iStartWritingToFile: 書き込みに失敗しました。
             //     ObjectDisposedException: Cannot access a closed Stream.
-            // StartWritingToFile: 書き込みに失敗しました。
+            // iStartWritingToFile: 書き込みに失敗しました。
             //     ObjectDisposedException: Cannot access a closed Stream.
-            // StartWritingToFile: 書き込みに失敗しました。
+            // iStartWritingToFile: 書き込みに失敗しました。
             //     ObjectDisposedException: Cannot access a closed Stream.
-            // StartWritingToFile: 書き込みに失敗しました。
+            // iStartWritingToFile: 書き込みに失敗しました。
             //     ObjectDisposedException: Cannot access a closed Stream.
 
-            Task xTask = StartWritingToFile ();
-            Console.WriteLine ("TestEverything: StartWritingToFile から抜けました。");
+            Task xTask = iStartWritingToFile ();
+            Console.WriteLine ("TestEverything: iStartWritingToFile から抜けました。");
             xTask.Wait ();
             Console.WriteLine ();
 
-            // StartWritingToFileAsync の結果
+            // iStartWritingToFileAsync の結果
 
-            // StartWritingToFileAsync: 書き込みました。
-            // StartWritingToFileAsync: 書き込みました。
-            // StartWritingToFileAsync: 書き込みました。
-            // StartWritingToFileAsync: 書き込みました。
-            // StartWritingToFileAsync: 書き込みました。
-            // TestEverything: StartWritingToFileAsync から抜けました。
-            // StartWritingToFileAsync: 書き込みました。
-            // StartWritingToFileAsync: 書き込みました。
-            // StartWritingToFileAsync: 書き込みました。
-            // StartWritingToFileAsync: 書き込みました。
-            // StartWritingToFileAsync: 書き込みました。
+            // iStartWritingToFileAsync: 書き込みました。
+            // iStartWritingToFileAsync: 書き込みました。
+            // iStartWritingToFileAsync: 書き込みました。
+            // iStartWritingToFileAsync: 書き込みました。
+            // iStartWritingToFileAsync: 書き込みました。
+            // TestEverything: iStartWritingToFileAsync から抜けました。
+            // iStartWritingToFileAsync: 書き込みました。
+            // iStartWritingToFileAsync: 書き込みました。
+            // iStartWritingToFileAsync: 書き込みました。
+            // iStartWritingToFileAsync: 書き込みました。
+            // iStartWritingToFileAsync: 書き込みました。
 
-            xTask = StartWritingToFileAsync ();
-            Console.WriteLine ("TestEverything: StartWritingToFileAsync から抜けました。");
+            xTask = iStartWritingToFileAsync ();
+            Console.WriteLine ("TestEverything: iStartWritingToFileAsync から抜けました。");
             xTask.Wait ();
             Console.WriteLine ();
 
-            // StartMultipleTasksAsync (30) の結果
+            // iStartMultipleTasksAsync (30) の結果
 
             // 0
             // 0
             // 0
-            // TestEverything: StartMultipleTasksAsync (30) から抜けました。
+            // TestEverything: iStartMultipleTasksAsync (30) から抜けました。
             // 1
             // 1
             // 1
@@ -181,12 +181,12 @@ namespace ConsoleTester
             // 2
             // 2
 
-            xTask = StartMultipleTasksAsync (30);
-            Console.WriteLine ("TestEverything: StartMultipleTasksAsync (30) から抜けました。");
+            xTask = iStartMultipleTasksAsync (30);
+            Console.WriteLine ("TestEverything: iStartMultipleTasksAsync (30) から抜けました。");
             xTask.Wait ();
             Console.WriteLine ();
 
-            // StartMultipleTasksAsync (50) の結果
+            // iStartMultipleTasksAsync (50) の結果
 
             // 0
             // 0
@@ -197,7 +197,7 @@ namespace ConsoleTester
             // 2
             // 2
             // 2
-            // TestEverything: StartMultipleTasksAsync (50) から抜けました。
+            // TestEverything: iStartMultipleTasksAsync (50) から抜けました。
 
             // await は、基本的には「初回登場時に return のように機能するもの」と考えてよいだろう
             // しかし、await 後も処理が続き、await も何度でも登場できることから、「メソッドを抜ける」というイメージを強く持ちすぎるのは危険な気がする
@@ -214,14 +214,14 @@ namespace ConsoleTester
             // c# - How does async await work when if there are multiple awaits in a method which aren't dependent on eachother? - Stack Overflow
             // https://stackoverflow.com/questions/73884534/how-does-async-await-work-when-if-there-are-multiple-awaits-in-a-method-which-ar
 
-            xTask = StartMultipleTasksAsync (50);
-            Console.WriteLine ("TestEverything: StartMultipleTasksAsync (50) から抜けました。");
+            xTask = iStartMultipleTasksAsync (50);
+            Console.WriteLine ("TestEverything: iStartMultipleTasksAsync (50) から抜けました。");
             xTask.Wait ();
             Console.WriteLine ();
 
-            // StartThrowingExceptionAsync の結果
+            // iStartThrowingExceptionAsync の結果
 
-            // TestEverything: StartThrowingExceptionAsync から抜けました。
+            // TestEverything: iStartThrowingExceptionAsync から抜けました。
             // TestEverything: 例外をキャッチしました。
             //     AggregateException: One or more errors occurred. (Exception of type 'System.Exception' was thrown.)
 
@@ -237,8 +237,8 @@ namespace ConsoleTester
             // その上で、fire-and-forget 的な並列処理をできるだけ避け、
             //     並列処理を開始するコードの近辺に大きめの try/catch を置く
 
-            xTask = StartThrowingExceptionAsync ();
-            Console.WriteLine ("TestEverything: StartThrowingExceptionAsync から抜けました。");
+            xTask = iStartThrowingExceptionAsync ();
+            Console.WriteLine ("TestEverything: iStartThrowingExceptionAsync から抜けました。");
 
             try
             {

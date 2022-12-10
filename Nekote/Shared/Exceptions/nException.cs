@@ -8,7 +8,10 @@ namespace Nekote
 {
     public class nException: Exception
     {
-        public static void Log_lock <ExceptionType> (ExceptionType exception)
+        /// <summary>
+        /// 自動 lock。
+        /// </summary>
+        public static void Log <ExceptionType> (ExceptionType exception)
             where ExceptionType: Exception
         {
             lock (nExceptionLogger.Locker)
@@ -19,17 +22,17 @@ namespace Nekote
 
         public nException ()
         {
-            Log_lock (this);
+            Log (this);
         }
 
         public nException (string message): base (message)
         {
-            Log_lock (this);
+            Log (this);
         }
 
         public nException (string message, Exception inner): base (message, inner)
         {
-            Log_lock (this);
+            Log (this);
         }
     }
 }

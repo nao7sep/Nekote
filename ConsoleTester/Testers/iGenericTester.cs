@@ -20,7 +20,7 @@ namespace ConsoleTester
         // Resolve nullable warnings | Microsoft Learn
         // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/nullable-warnings
 
-        private class Something <SomeType>
+        private class iSomeClass <SomeType>
         {
             // CS8618 - Non-nullable variable must contain a non-null value when exiting constructor
             // Consider declaring it as nullable
@@ -76,8 +76,8 @@ namespace ConsoleTester
 
         public static void TestNullability ()
         {
-            Something <string> xSomething = new Something <string> ();
-            Console.WriteLine (xSomething.Hoge == xSomething.Moge); // → True
+            iSomeClass <string> xSomeInstance = new iSomeClass <string> ();
+            Console.WriteLine (xSomeInstance.Hoge == xSomeInstance.Moge); // → True
 
             // CS8625 - Cannot convert null literal to non-nullable reference type
 
@@ -86,39 +86,39 @@ namespace ConsoleTester
             // ? の付いていない string に null を通すのは、コンパイラーが怒ってくるが、できないことではない
 
 #pragma warning disable CS8625
-            xSomething.Poge (null);
+            xSomeInstance.Poge (null);
 #pragma warning restore CS8625
 
-            xSomething.PogeAlt (null);
-            Console.WriteLine (xSomething.Moge == null); // → True
+            xSomeInstance.PogeAlt (null);
+            Console.WriteLine (xSomeInstance.Moge == null); // → True
 
             // =============================================================================
 
-            Something <string?> xSomethingAlt = new Something <string?> ();
+            iSomeClass <string?> xSomeInstanceAlt = new iSomeClass <string?> ();
 
             // SomeType Hoge と SomeType? Moge なので、string? Hoge は分かっても、Nullable <string?> Moge にはなれないので……と思ったが、
             //     string?? はサクッと string? になるようだ
             // string?? と書くと文法ミスだが、ジェネリックの型と引数の型の組み合わせにより ? が複数になるのは問題でない
-            Console.WriteLine (xSomethingAlt.Hoge == xSomethingAlt.Moge); // → True
+            Console.WriteLine (xSomeInstanceAlt.Hoge == xSomeInstanceAlt.Moge); // → True
 
-            xSomethingAlt.Poge (null);
-            xSomethingAlt.PogeAlt (null);
-            Console.WriteLine (xSomethingAlt.Moge == null); // → True
+            xSomeInstanceAlt.Poge (null);
+            xSomeInstanceAlt.PogeAlt (null);
+            Console.WriteLine (xSomeInstanceAlt.Moge == null); // → True
 
             // =============================================================================
 
-            Something <int> xSomethingAlt1 = new Something <int> ();
+            iSomeClass <int> xSomeInstanceAlt1 = new iSomeClass <int> ();
 
             // SomeType Hoge も SomeType? Moge も <int> だと int Hoge と int Moge になり、初期値0で一致
-            Console.WriteLine (xSomethingAlt1.Hoge == xSomethingAlt1.Moge); // → True
+            Console.WriteLine (xSomeInstanceAlt1.Hoge == xSomeInstanceAlt1.Moge); // → True
 
             // 引数の型に ? が付いていても、<int> での new なら無視されて、引数は int value になる
             // そこに null を通せないのは、ただの警告でないので、コメントアウトしないとコンパイルできない
             // PogeAlt の方は、パッと見、Nullable <SomeType> を受け取るように見えるので、今後も注意が必要
             // 「ジェネリックで値型に nullability を与えたければ <...> に ? を入れる」と丸覚えする
 
-            // xSomethingAlt1.Poge (null);
-            // xSomethingAlt1.PogeAlt (null);
+            // xSomeInstanceAlt1.Poge (null);
+            // xSomeInstanceAlt1.PogeAlt (null);
 
             // The result of the expression is always 'value1' since a value of type 'value2' is never equal to 'null' of type 'value3'
 
@@ -133,25 +133,25 @@ namespace ConsoleTester
             // https://learn.microsoft.com/en-us/dotnet/api/system.int32.system-numerics-iequalityoperators-system-int32-system-int32-system-boolean--op_equality
 
 #pragma warning disable CS0472
-            Console.WriteLine (xSomethingAlt1.Moge == null); // → False
+            Console.WriteLine (xSomeInstanceAlt1.Moge == null); // → False
 #pragma warning restore CS0472
 
             // 0で初期化されていることを一応確認
-            Console.WriteLine (xSomethingAlt1.Moge); // → 0
+            Console.WriteLine (xSomeInstanceAlt1.Moge); // → 0
 
             // =============================================================================
 
-            Something <int?> xSomethingAlt2 = new Something <int?> ();
+            iSomeClass <int?> xSomeInstanceAlt2 = new iSomeClass <int?> ();
 
             // SomeType Hoge も SomeType? Moge も int? になり、null として一致
-            Console.WriteLine (xSomethingAlt2.Hoge == xSomethingAlt2.Moge); // → True
+            Console.WriteLine (xSomeInstanceAlt2.Hoge == xSomeInstanceAlt2.Moge); // → True
 
             // 引数も、どちらのメソッドでも int? となり、Nullable <int> が渡される
 
-            xSomethingAlt2.Poge (null);
-            xSomethingAlt2.PogeAlt (null);
+            xSomeInstanceAlt2.Poge (null);
+            xSomeInstanceAlt2.PogeAlt (null);
 
-            Console.WriteLine (xSomethingAlt2.Moge == null); // → True
+            Console.WriteLine (xSomeInstanceAlt2.Moge == null); // → True
         }
 
         // ジェネリックだけに関連しているわけでないが、Nullable とボックス化の速度を比較するメソッドを用意しておく

@@ -10,7 +10,7 @@ namespace ConsoleTester
 
     internal static class iValueTypeTester
     {
-        public static void TestCalculatingAverageOfLongValues ()
+        public static void CalculateAverageOfLongValues ()
         {
             // TimeSpan の平均の算出のために最初に書いたコード
             // 05:30:00 が出力される

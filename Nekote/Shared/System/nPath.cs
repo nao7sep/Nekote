@@ -27,24 +27,24 @@ namespace Nekote
 
         private static string iJoin (string path1, char directorySeparator, string path2)
         {
-            return $"{nString.TrimEndAndSlice (path1, DirectorySeparators)}{directorySeparator}{nString.TrimStartAndSlice (path2, DirectorySeparators)}";
+            return $"{nString.TrimEndAsSpan (path1, DirectorySeparators)}{directorySeparator}{nString.TrimStartAsSpan (path2, DirectorySeparators)}";
         }
 
         private static string iJoin (string path1, char directorySeparator, ReadOnlySpan <char> trimmedPath2, string path3)
         {
-            return $"{nString.TrimEndAndSlice (path1, DirectorySeparators)}{directorySeparator}{trimmedPath2}{directorySeparator}{nString.TrimStartAndSlice (path3, DirectorySeparators)}";
+            return $"{nString.TrimEndAsSpan (path1, DirectorySeparators)}{directorySeparator}{trimmedPath2}{directorySeparator}{nString.TrimStartAsSpan (path3, DirectorySeparators)}";
         }
 
         private static string iJoin (string path1, char directorySeparator, ReadOnlySpan <char> trimmedPath2, ReadOnlySpan <char> trimmedPath3, string path4)
         {
-            return $"{nString.TrimEndAndSlice (path1, DirectorySeparators)}{directorySeparator}{trimmedPath2}{directorySeparator}{trimmedPath3}{directorySeparator}{nString.TrimStartAndSlice (path4, DirectorySeparators)}";
+            return $"{nString.TrimEndAsSpan (path1, DirectorySeparators)}{directorySeparator}{trimmedPath2}{directorySeparator}{trimmedPath3}{directorySeparator}{nString.TrimStartAsSpan (path4, DirectorySeparators)}";
         }
 
         public static string Join (string path1, char directorySeparator, string path2)
         {
             ReadOnlySpan <char>
-                xTrimmedPath1 = nString.TrimAndSlice (path1, DirectorySeparators),
-                xTrimmedPath2 = nString.TrimAndSlice (path2, DirectorySeparators);
+                xTrimmedPath1 = nString.TrimAsSpan (path1, DirectorySeparators),
+                xTrimmedPath2 = nString.TrimAsSpan (path2, DirectorySeparators);
 
             if (xTrimmedPath1.Length > 0)
             {
@@ -71,9 +71,9 @@ namespace Nekote
         public static string Join (string path1, char directorySeparator, string path2, string path3)
         {
             ReadOnlySpan <char>
-                xTrimmedPath1 = nString.TrimAndSlice (path1, DirectorySeparators),
-                xTrimmedPath2 = nString.TrimAndSlice (path2, DirectorySeparators),
-                xTrimmedPath3 = nString.TrimAndSlice (path3, DirectorySeparators);
+                xTrimmedPath1 = nString.TrimAsSpan (path1, DirectorySeparators),
+                xTrimmedPath2 = nString.TrimAsSpan (path2, DirectorySeparators),
+                xTrimmedPath3 = nString.TrimAsSpan (path3, DirectorySeparators);
 
             if (xTrimmedPath1.Length > 0)
             {
@@ -122,10 +122,10 @@ namespace Nekote
         public static string Join (string path1, char directorySeparator, string path2, string path3, string path4)
         {
             ReadOnlySpan <char>
-                xTrimmedPath1 = nString.TrimAndSlice (path1, DirectorySeparators),
-                xTrimmedPath2 = nString.TrimAndSlice (path2, DirectorySeparators),
-                xTrimmedPath3 = nString.TrimAndSlice (path3, DirectorySeparators),
-                xTrimmedPath4 = nString.TrimAndSlice (path4, DirectorySeparators);
+                xTrimmedPath1 = nString.TrimAsSpan (path1, DirectorySeparators),
+                xTrimmedPath2 = nString.TrimAsSpan (path2, DirectorySeparators),
+                xTrimmedPath3 = nString.TrimAsSpan (path3, DirectorySeparators),
+                xTrimmedPath4 = nString.TrimAsSpan (path4, DirectorySeparators);
 
             if (xTrimmedPath1.Length > 0)
             {
@@ -222,7 +222,7 @@ namespace Nekote
             // c# - Why ReadOnlySpan may not be used as a type argument for generic delegates and generic methods? - Stack Overflow
             // https://stackoverflow.com/questions/53155438/why-readonlyspan-may-not-be-used-as-a-type-argument-for-generic-delegates-and-ge
 
-            var xPaths = paths.Select (x => (Path: x, TrimmedPath: nString.TrimAndSlice (x, DirectorySeparators).ToString ())).Where (x => x.TrimmedPath.Length > 0);
+            var xPaths = paths.Select (x => (Path: x, TrimmedPath: nString.TrimAsSpan (x, DirectorySeparators).ToString ())).Where (x => x.TrimmedPath.Length > 0);
             int xCount = xPaths.Count ();
 
             if (xCount >= 3)

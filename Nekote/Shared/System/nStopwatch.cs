@@ -197,7 +197,7 @@ namespace Nekote
                 try
                 {
                     Interlocked.Increment (ref mThreadCount);
-                    Interlocked.Increment (ref nLibrary.mThreadCount);
+                    Interlocked.Increment (ref nLibrary.iThreadCount);
 
                     while (true)
                     {
@@ -221,7 +221,7 @@ namespace Nekote
                 finally
                 {
                     Interlocked.Decrement (ref mThreadCount);
-                    Interlocked.Decrement (ref nLibrary.mThreadCount);
+                    Interlocked.Decrement (ref nLibrary.iThreadCount);
                 }
             });
         }

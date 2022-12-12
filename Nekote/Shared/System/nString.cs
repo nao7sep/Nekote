@@ -8,6 +8,16 @@ namespace Nekote
 {
     public static class nString
     {
+        // CR, LF 以外にもあるようだが、StringReader.ReadLine がこれらしか見ないのでそれにならう
+
+        // Newline - Wikipedia
+        // https://en.wikipedia.org/wiki/Newline
+
+        // StringReader.cs
+        // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/IO/StringReader.cs
+
+        public static readonly char [] NewLineChars = { '\r', '\n' };
+
         // 文字列の処理のメソッドを集めていく
 
         // できるだけ拡張メソッドにする
@@ -53,6 +63,48 @@ namespace Nekote
         public static ReadOnlySpan <char> TrimEndAsSpan (this string value, params char [] trimChars)
         {
             return MemoryExtensions.TrimEnd (value.AsSpan (), trimChars.AsSpan ());
+        }
+
+        public static IEnumerable <string> EnumerateLines (this string value, bool trimsTrailingWhiteSpaces = true, bool reducesEmptyLines = true)
+        {
+            nStringLineReader xReader = new nStringLineReader (value, trimsTrailingWhiteSpaces, reducesEmptyLines);
+
+            while (xReader.ReadLine (out ReadOnlySpan <char> xResult))
+                yield return xResult.ToString ();
+        }
+
+        // 一つ以上の段落のそれぞれに一つ以上の行が入っている文字列を分解
+        // 各部で LINQ が利くように、入れ子の IEnumerable にした
+
+        public static IEnumerable <IEnumerable <string>> EnumerateParagraphs (this string value, bool trimsTrailingWhiteSpaces = true, bool reducesEmptyLines = true)
+        {
+            nStringLineReader xReader = new nStringLineReader (value, trimsTrailingWhiteSpaces, reducesEmptyLines);
+
+            List <string>? xParagraph = null;
+
+            while (xReader.ReadLine (out ReadOnlySpan <char> xResult))
+            {
+                if (xResult.Length > 0)
+                {
+                    if (xParagraph == null)
+                        xParagraph = new List <string> ();
+
+                    xParagraph.Add (xResult.ToString ());
+                }
+
+                else
+                {
+                    if (xParagraph != null)
+                    {
+                        List <string> xParagraphAlt = xParagraph;
+                        xParagraph = null;
+                        yield return xParagraphAlt;
+                    }
+                }
+            }
+
+            if (xParagraph != null)
+                yield return xParagraph;
         }
     }
 }

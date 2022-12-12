@@ -1478,3 +1478,11 @@
     --------------------------------------------------------------------------------
 
     nArray.Shuffle との比較を、nMultiArray を用いて行うメソッドを追加した。
+
+[完了] 文字列を行や段落に分けられるようにする
+[却下] yield return の内部的な仕組みを学ぶ
+
+    内部的な仕組みまでは調べなかったが、一応、次のページを読んだ。
+
+    yield statement - provide the next element in an iterator | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/yield

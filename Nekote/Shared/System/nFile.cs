@@ -88,33 +88,33 @@ namespace Nekote
         /// <summary>
         /// BOM があれば、そちらが優先される。
         /// </summary>
-        public static string [] ReadAllLines (string path, Encoding encoding)
+        public static string [] ReadAllLines (string path, Encoding? encoding = null)
         {
-            return File.ReadAllLines (path, iGetEncoding (path) ?? encoding);
+            return File.ReadAllLines (path, iGetEncoding (path) ?? encoding ?? Encoding.UTF8);
         }
 
         /// <summary>
         /// BOM があれば、そちらが優先される。
         /// </summary>
-        public static Task <string []> ReadAllLinesAsync (string path, Encoding encoding, CancellationToken cancellationToken = default)
+        public static Task <string []> ReadAllLinesAsync (string path, Encoding? encoding = null, CancellationToken cancellationToken = default)
         {
-            return File.ReadAllLinesAsync (path, iGetEncoding (path) ?? encoding, cancellationToken);
+            return File.ReadAllLinesAsync (path, iGetEncoding (path) ?? encoding ?? Encoding.UTF8, cancellationToken);
         }
 
         /// <summary>
         /// BOM があれば、そちらが優先される。
         /// </summary>
-        public static string ReadAllText (string path, Encoding encoding)
+        public static string ReadAllText (string path, Encoding? encoding = null)
         {
-            return File.ReadAllText (path, iGetEncoding (path) ?? encoding);
+            return File.ReadAllText (path, iGetEncoding (path) ?? encoding ?? Encoding.UTF8);
         }
 
         /// <summary>
         /// BOM があれば、そちらが優先される。
         /// </summary>
-        public static Task <string> ReadAllTextAsync (string path, Encoding encoding, CancellationToken cancellationToken = default)
+        public static Task <string> ReadAllTextAsync (string path, Encoding? encoding = null, CancellationToken cancellationToken = default)
         {
-            return File.ReadAllTextAsync (path, iGetEncoding (path) ?? encoding, cancellationToken);
+            return File.ReadAllTextAsync (path, iGetEncoding (path) ?? encoding ?? Encoding.UTF8, cancellationToken);
         }
 
         private static void iCreateParentDirectoryAndOrResetAttributesIfRequired (FileInfo file, bool createsParentDirectory, bool resetsAttributes)
@@ -140,32 +140,32 @@ namespace Nekote
             return File.WriteAllBytesAsync (path, values, cancellationToken);
         }
 
-        public static void WriteAllLines (string path, IEnumerable <string> values, Encoding encoding, bool createsParentDirectory = true, bool resetsAttributes = true)
+        public static void WriteAllLines (string path, IEnumerable <string> values, Encoding? encoding = null, bool createsParentDirectory = true, bool resetsAttributes = true)
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
-            File.WriteAllLines (path, values, encoding);
+            File.WriteAllLines (path, values, encoding ?? Encoding.UTF8);
         }
 
-        public static Task WriteAllLinesAsync (string path, IEnumerable <string> values, Encoding encoding, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
+        public static Task WriteAllLinesAsync (string path, IEnumerable <string> values, Encoding? encoding = null, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
-            return File.WriteAllLinesAsync (path, values, encoding, cancellationToken);
+            return File.WriteAllLinesAsync (path, values, encoding ?? Encoding.UTF8, cancellationToken);
         }
 
-        public static void WriteAllText (string path, string? value, Encoding encoding, bool createsParentDirectory = true, bool resetsAttributes = true)
+        public static void WriteAllText (string path, string? value, Encoding? encoding = null, bool createsParentDirectory = true, bool resetsAttributes = true)
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
-            File.WriteAllText (path, value, encoding);
+            File.WriteAllText (path, value, encoding ?? Encoding.UTF8);
         }
 
-        public static Task WriteAllTextAsync (string path, string? value, Encoding encoding, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
+        public static Task WriteAllTextAsync (string path, string? value, Encoding? encoding = null, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
-            return File.WriteAllTextAsync (path, value, encoding, cancellationToken);
+            return File.WriteAllTextAsync (path, value, encoding ?? Encoding.UTF8, cancellationToken);
         }
 
         // File.AppendAllBytes* がないようなので実装
@@ -203,32 +203,32 @@ namespace Nekote
             }
         }
 
-        public static void AppendAllLines (string path, IEnumerable <string> values, Encoding encoding, bool createsParentDirectory = true, bool resetsAttributes = true)
+        public static void AppendAllLines (string path, IEnumerable <string> values, Encoding? encoding = null, bool createsParentDirectory = true, bool resetsAttributes = true)
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
-            File.AppendAllLines (path, values, encoding);
+            File.AppendAllLines (path, values, encoding ?? Encoding.UTF8);
         }
 
-        public static Task AppendAllLinesAsync (string path, IEnumerable <string> values, Encoding encoding, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
+        public static Task AppendAllLinesAsync (string path, IEnumerable <string> values, Encoding? encoding = null, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
-            return File.AppendAllLinesAsync (path, values, encoding, cancellationToken);
+            return File.AppendAllLinesAsync (path, values, encoding ?? Encoding.UTF8, cancellationToken);
         }
 
-        public static void AppendAllText (string path, string? value, Encoding encoding, bool createsParentDirectory = true, bool resetsAttributes = true)
+        public static void AppendAllText (string path, string? value, Encoding? encoding = null, bool createsParentDirectory = true, bool resetsAttributes = true)
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
-            File.AppendAllText (path, value, encoding);
+            File.AppendAllText (path, value, encoding ?? Encoding.UTF8);
         }
 
-        public static Task AppendAllTextAsync (string path, string? value, Encoding encoding, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
+        public static Task AppendAllTextAsync (string path, string? value, Encoding? encoding = null, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
-            return File.AppendAllTextAsync (path, value, encoding, cancellationToken);
+            return File.AppendAllTextAsync (path, value, encoding ?? Encoding.UTF8, cancellationToken);
         }
 
         // まずは、工夫を凝らさない、シンプルな比較を実装しておく

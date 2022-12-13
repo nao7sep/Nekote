@@ -158,5 +158,30 @@ namespace ConsoleTester
                 "_" + xNewLine +
                 "" + xNewLine);
         }
+
+        public static void EnumerateParagraphs (string filePath)
+        {
+            try
+            {
+                var xParagraphs = nFile.ReadAllText (filePath).EnumerateParagraphs ();
+
+                string xBorderLine = Environment.NewLine + new string ('=', 80) + Environment.NewLine,
+                    xFileContents = string.Join (xBorderLine, xParagraphs.Select (x => string.Join (Environment.NewLine, x.Select (y => $"|{y}|"))));
+
+                string xNewFilePartialPath = nPath.Join (Environment.GetFolderPath (Environment.SpecialFolder.DesktopDirectory), Path.GetFileNameWithoutExtension (filePath)),
+                    xNewFilePath = xNewFilePartialPath + ".txt";
+
+                for (int temp = 1; nFile.CanCreate (xNewFilePath) == false; temp ++)
+                    xNewFilePath = $"{xNewFilePartialPath}-{temp}.txt";
+
+                nFile.WriteAllText (xNewFilePath, xFileContents);
+            }
+
+            catch (Exception xException)
+            {
+                Console.WriteLine (xException.ToString ());
+                Console.ReadLine ();
+            }
+        }
     }
 }

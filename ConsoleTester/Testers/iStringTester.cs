@@ -159,6 +159,11 @@ namespace ConsoleTester
                 "" + xNewLine);
         }
 
+        // nString.EnumerateParagraphs は、nString.EnumerateLines が大丈夫なら大丈夫
+        // さまざまなファイルをザッとチェックするため、ファイルパスを受け取り、処理し、デスクトップに *.txt として保存
+        // 拡張子を変更するのは、段落・行に展開され、それらの明示のための記号入りで再フォーマットされたものは、もはや本来の機能を持たないため
+        // 出力先のファイルが既存なら、ハイフンと1からの連番が付けられる
+
         public static void EnumerateParagraphs (string filePath)
         {
             try
@@ -179,8 +184,8 @@ namespace ConsoleTester
 
             catch (Exception xException)
             {
-                Console.WriteLine (xException.ToString ());
-                Console.ReadLine ();
+                nConsole.WriteErrorHasOccurredMessage (xException);
+                nConsole.WritePressAnyKeyToContinueMessage ();
             }
         }
     }

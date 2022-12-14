@@ -9,6 +9,15 @@ namespace ConsoleTester
     {
         static void Main (string [] args)
         {
+            try
+            {
+            }
+
+            catch (Exception xException)
+            {
+                nConsole.WriteErrorHasOccurredMessage (xException);
+                nConsole.WritePressAnyKeyToCloseThisWindowMessage ();
+            }
         }
     }
 }

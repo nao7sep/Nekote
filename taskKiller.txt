@@ -1486,3 +1486,53 @@
 
     yield statement - provide the next element in an iterator | Microsoft Learn
     https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/yield
+
+[完了] 例外情報の3文字インデントを4文字に変更できるようにする
+
+    インデントの1単位の幅は人により異なる。2文字の人も多いし、自分も以前は2文字だった。3文字の人も、いないわけではないようだ。
+
+    allow user to define tab sizes: 2, 3, 4, ... spaces · Discussion #3404 · community/community
+    https://github.com/community/community/discussions/3404
+
+    3文字を4文字にすれば、4文字を1単位とみなす決め打ちの仕様において「1段分のインデント」を認識し、たとえば HTML の出力時には &nbsp; を並べるのでなく margin-left を使うなどが可能。元々そういう目的で4文字への変更を考えた。
+
+    インデント幅の個人差により、「戻す」というのはやはり現実的でないと感じる。
+
+    それでも3文字から4文字への変更を実装する。インデントを扱う機能のテストになるし、そういう機能があれば、やらない理由もない処理だから。例外は頻繁に飛ぶわけでなく、そのインデントを調整することはナノ秒単位の誤差。
+
+    Nekote では、コンソールアプリにおいて次のような表示も考えている。
+
+    エラーが発生しました:
+    □□□□ここから Exception 系クラスの ToString の結果
+    □□□□□□□□2行目以降が続く
+
+    このときに2段のインデントのところが少し足りず7文字なのを意図的に放置する理由がない。
+
+    --------------------------------------------------------------------------------
+
+    StackTrace.ToString には sb.Append (" ").Append (word_At).Append (' ') という行が含まれている。ザッと探した限り、例外情報の出力におけるインデントはこれくらい。
+
+    StackTrace.cs
+    https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Diagnostics/StackTrace.cs
+
+    --------------------------------------------------------------------------------
+
+    例外を投げてキャッチし、それを innerException に指定してさらに投げたものをキャッチしたところ、次のような例外情報になった。
+
+    System.Exception: Hoge
+     ---> System.Exception: Exception of type 'System.Exception' was thrown.
+       at ConsoleTester.Program.Main(String[] args) in *\Nekote\ConsoleTester\Program.cs:line 16
+       --- End of inner exception stack trace ---
+       at ConsoleTester.Program.Main(String[] args) in *\Nekote\ConsoleTester\Program.cs:line 21
+
+    innerException の分でさらにインデントされるわけでもないようなので、「3文字のインデントがあれば4文字にする」との決め打ちの処理で大丈夫。
+
+    さらに Data プロパティーに情報を入れてみたが、そちらは出力されなかった。他者が Data プロパティーの内容も含めて完全な文字列にする ToString を書いていたので、.NET の実装では無視されるのだろう。
+
+    --------------------------------------------------------------------------------
+
+    インデントを処理する機能を追加するのはほぼ確定だが、例外情報においては、"□□□at□" を探す処理が特異なので単独での実装を行った。
+
+[完了] ConsoleTester の Main メソッドに try/catch を入れる
+
+    例外情報にインデントをつける処理などの実装を急ぐ。

@@ -178,5 +178,9 @@ namespace Nekote
             result = xRemaining.Slice (0, xLineLength);
             return true;
         }
+
+        // ReadLineAsync を作らない
+        // メモリー上の文字列から行ごとの読み込みなので、Task を作るコストの方が大きい場合がほとんど
+        // .NET には StringReader.ReadLineAsync があるが、他と揃えただけの感が大きい
     }
 }

@@ -74,8 +74,8 @@ namespace ConsoleTester
         public static void CompareGenerationSpeeds ()
         {
             const int xTestCount = 10,
-                xNumberCount = 100000000, // 乱数の数
-                xBufferLength = 10000, // 生成するバイト列の長さ
+                xNumberCount = 100_000_000, // 乱数の数
+                xBufferLength = 10_000, // 生成するバイト列の長さ
                 xBufferFillingCount = xNumberCount / xBufferLength; // 割り切れるように
 
             Stopwatch xStopwatch = new Stopwatch ();

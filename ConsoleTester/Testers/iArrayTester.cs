@@ -78,7 +78,7 @@ namespace ConsoleTester
         {
             // オーバーヘッドの影響を抑えるため、長めの配列を少ない回数だけ比較
 
-            const int xArrayLength = 1000000,
+            const int xArrayLength = 1_000_000,
                 xTestCount = 10,
                 xComparisonCount = 100;
 
@@ -240,9 +240,9 @@ namespace ConsoleTester
 
         public static void CompareShufflingSpeeds ()
         {
-            const int xArrayLength = 10000,
+            const int xArrayLength = 10_000,
                 xTestCount = 10,
-                xShufflingCount = 1000;
+                xShufflingCount = 1_000;
 
             int [] xValues = Enumerable.Range (0, xArrayLength).ToArray ();
 

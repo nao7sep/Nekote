@@ -165,7 +165,7 @@ namespace ConsoleTester
         public static void CompareSpeedsOfNullableAndBoxing ()
         {
             const int xTestCount = 10,
-                xHandlingCount = 1000000000;
+                xHandlingCount = 1_000_000_000;
 
             Stopwatch xStopwatch = new Stopwatch ();
 

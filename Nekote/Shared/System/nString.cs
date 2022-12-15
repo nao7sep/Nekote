@@ -65,8 +65,13 @@ namespace Nekote
             return MemoryExtensions.TrimEnd (value.AsSpan (), trimChars.AsSpan ());
         }
 
-        public static IEnumerable <string> EnumerateLines (this string value, bool trimsTrailingWhiteSpaces = true, bool reducesEmptyLines = true)
+        // null を明示的に通す理由については nString.Optimize のコメントが詳しい
+
+        public static IEnumerable <string> EnumerateLines (this string? value, bool trimsTrailingWhiteSpaces = true, bool reducesEmptyLines = true)
         {
+            if (string.IsNullOrEmpty (value))
+                yield break;
+
             nStringLineReader xReader = new nStringLineReader (value, trimsTrailingWhiteSpaces, reducesEmptyLines);
 
             while (xReader.ReadLine (out ReadOnlySpan <char> xResult))
@@ -76,8 +81,11 @@ namespace Nekote
         // 一つ以上の段落のそれぞれに一つ以上の行が入っている文字列を分解
         // 各部で LINQ が利くように、入れ子の IEnumerable にした
 
-        public static IEnumerable <IEnumerable <string>> EnumerateParagraphs (this string value, bool trimsTrailingWhiteSpaces = true, bool reducesEmptyLines = true)
+        public static IEnumerable <IEnumerable <string>> EnumerateParagraphs (this string? value, bool trimsTrailingWhiteSpaces = true, bool reducesEmptyLines = true)
         {
+            if (string.IsNullOrEmpty (value))
+                yield break;
+
             nStringLineReader xReader = new nStringLineReader (value, trimsTrailingWhiteSpaces, reducesEmptyLines);
 
             List <string>? xParagraph = null;
@@ -105,6 +113,32 @@ namespace Nekote
 
             if (xParagraph != null)
                 yield return xParagraph;
+        }
+
+        // 自分は、null を「値が設定されていない」「初期化されていない」と、"" を「"" が設定された」「初期化されている」とみなしている
+        // では、「拡張子がないということ」を示すときに xExtension が null と "" のいずれであるべきかを考えると難しい
+        // 「ない」から null なのか、"" という拡張子があり、それが設定されているから "" なのか、どちらも論理的には成立するため
+
+        // 拡張子を Optimize に通すことは考えにくい
+        // しかし、拡張子のような、どちらでも論理的には成立するものが通るメソッドと同種のメソッドである点には考慮が必要
+        // .NET の WebUtility.HtmlEncode も、個人的には「null なら HTML エンコードがそもそも不要」と思うが、null が通る
+
+        // WebUtility.HtmlEncode Method (System.Net) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/system.net.webutility.htmlencode
+
+        // 構文解析による型変換など、null はもちろん、"" も入力として適さないところでは、null も落ちるべき
+        // 一方、型変換が起こらず、"" が完全に正常値とみなされるところでは、他の多くで null が通るため、特段の理由がなければ null が通るべき
+        // そのチェックにおいて、"" のときにすぐにメソッドを抜けても最後まで処理させても返るものが完全に同一なら、"" でも抜けてよいだろう
+
+        public static string? Optimize (this string? value, nStringOptimizationOptions? options = null, string? newLine = null)
+        {
+            // nStringOptimizer.Optimize では null でも "" が返る
+            // しかし、こちらは、WebUtility.HtmlEncode などに近いメソッドなので null が返るべき
+
+            if (string.IsNullOrEmpty (value))
+                return value;
+
+            return nStringOptimizer.Default.Optimize (value, options, newLine).Value;
         }
     }
 }

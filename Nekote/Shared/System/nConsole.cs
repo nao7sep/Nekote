@@ -55,7 +55,7 @@ namespace Nekote
 
         private static void iPause (string message)
         {
-            Console.Write ($"{message}: ");
+            Console.Write (message + ": ");
             Console.ReadKey (true);
             Console.WriteLine ();
         }

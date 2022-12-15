@@ -44,9 +44,11 @@ namespace Nekote
 
         public nStringLineReader (string value, bool trimsTrailingWhiteSpaces = true, bool reducesEmptyLines = true)
         {
-            mValue = value;
+            // value が null でも落ちないようにした
+
+            mValue = value ?? string.Empty;
             mCurrentIndex = 0;
-            mLastIndex = value.Length - 1;
+            mLastIndex = mValue.Length - 1;
             mTrimsTrailingWhiteSpaces = trimsTrailingWhiteSpaces;
             mReducesEmptyLines = reducesEmptyLines;
 

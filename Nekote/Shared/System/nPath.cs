@@ -25,6 +25,10 @@ namespace Nekote
         // Path.cs
         // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/IO/Path.cs
 
+        // nPath.Join では、それぞれのパスに null が通らないようになっている
+        // 過去、Path.Combine や Path.Join を使っていて、null かもしれないものをつなげたことがない
+        // 各部が null かどうかは呼び出し側で把握し、きちんと条件分岐して安全なパスを作るべき
+
         private static string iJoin (string path1, char directorySeparator, string path2)
         {
             return $"{nString.TrimEndAsSpan (path1, DirectorySeparators)}{directorySeparator}{nString.TrimStartAsSpan (path2, DirectorySeparators)}";

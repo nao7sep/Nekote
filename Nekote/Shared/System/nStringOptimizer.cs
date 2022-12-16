@@ -197,13 +197,11 @@ namespace Nekote
             }
 
             // 呼び出し側に返す List
-            List <string> xLinesAlt = new List <string> ();
+            List <(string? IndentationString, string? VisibleString)> xLinesAlt = new ();
 
             for (int temp = 0; temp < xLines.Count; temp ++)
             {
                 var xLine = xLines [temp];
-
-                string xLineAlt;
 
                 // 行ごとに複数の変数を見るが、扱う文字列の多くが数行から数百行で、ミリオンなどの単位でないため、微々たるコスト
                 // まず変数を見てからそれぞれに for ループを入れることも考えたが、コードを重複させるだけの利益がない
@@ -212,24 +210,28 @@ namespace Nekote
                 // 削れるものがあるなら、xIndentationAdjustmentApplicableLines.Min により、
                 //     「絶対その文字数までは削ってよい」という削り方になっている
 
+                // 仕様変更
+                // 元々は、この場でインデント部分とインライン部分を結合して List <string> に入れていたが、分けたまま入れることにした
+                // ここで結合しても、nStringOptimizationResult.Value のために結合してもコストが同じなので、より生データに近い方を残す
+                // たとえば HTML 化するならインライン部分のみをタグに入れたいことも考えられる
+                // なお、双方の部分で「ないなら null」が保証されるのを確認した
+
                 if (xIndentationTrimmingLength != null && xLine.IndentationString != null)
-                    xLineAlt = xLine.IndentationString.Substring (xIndentationTrimmingLength.Value) + xLine.VisibleString;
+                    xLinesAlt.Add ((xLine.IndentationString.Substring (xIndentationTrimmingLength.Value), xLine.VisibleString));
 
                 // 足す場合、その行が上述した「調整の対象となる行」であるかを見る必要がある
 
                 else if (xExtraIndentationString != null && (xLine.IndentationString != null || xLine.VisibleString != null))
-                    xLineAlt = xExtraIndentationString + xLine.IndentationString + xLine.VisibleString;
+                    xLinesAlt.Add ((xExtraIndentationString + xLine.IndentationString, xLine.VisibleString));
 
-                else xLineAlt = xLine.IndentationString + xLine.VisibleString;
-
-                xLinesAlt.Add (xLineAlt);
+                else xLinesAlt.Add ((xLine.IndentationString, xLine.VisibleString));
             }
 
             return new nStringOptimizationResult
             (
                 xLinesAlt,
-                string.Join (xNewLine, xLinesAlt),
-                xLines.Count (x => x.VisibleString != null),
+                string.Join (xNewLine, xLinesAlt.Select (x => x.IndentationString + x.VisibleString)),
+                xLinesAlt.Count (x => x.VisibleString != null),
 
                 // xMinIndentationLength が null なら、調整の対象となる行が一つもなかったということ
                 // 行が一つもない場合や全ての行が空の場合が当てはまる

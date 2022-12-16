@@ -31,6 +31,14 @@ namespace Nekote
 
             if (string.IsNullOrEmpty (exceptionString))
                 throw new nArgumentException ();
+#else
+            // nString.EnumerateLines は null や空でも落ちないが、null 対応は各メソッドの最上位で明示的に
+            // コストが小さいため、内部で呼び出すメソッドが見ると期待して、そうでなく落ちることの回避を優先
+
+            // if 文が共通だが、いわゆる「プリプロセッサディレクティブ」の使用においては、ブロック単位の記述を心掛ける
+
+            if (string.IsNullOrEmpty (exceptionString))
+                return exceptionString;
 #endif
             string xIndentationString = new string ('\x20', width);
 

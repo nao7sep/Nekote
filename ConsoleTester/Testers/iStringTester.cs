@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -207,7 +208,7 @@ namespace ConsoleTester
                 if (xResult.Lines.Count > 0)
                     Console.WriteLine (string.Join (Environment.NewLine, xResult.Lines.Select (x =>
                     {
-                        return x
+                        return (x.IndentationString + x.VisibleString)
                             .Replace ('\x20', '□')
                             .Replace ('\t', 'T')
                             .Replace ('\xA0', 'N')
@@ -434,6 +435,380 @@ namespace ConsoleTester
 
             // VisibleLineCount: 0
             // MinIndentationLength: 0
+        }
+
+        // 文字列の結合の速度を比較
+
+        // 結論としては、+ と string.Concat には速度差がなく、
+        //     $"" も、コンパイラーによる最適化で + などと同等に速いことがあり、
+        //     string.Format のみ、現時点では単純結合でも絶望的に遅い
+
+        // + は糖衣構文のようなもので、コンパイル時に string.Concat にされるか、
+        //     あるいは + と string.Concat の両方がさらに共通のメソッドを呼ぶと思っていた
+        // しかし、+ には BuiltInOperators が用意されていて、深入りはしていないが、
+        //     その内容は、string.Concat の単純な実装とは、ずいぶんと違っているように見えた
+
+        // c# - where is the string operator + source code? - Stack Overflow
+        // https://stackoverflow.com/questions/58924625/where-is-the-string-operator-source-code
+
+        // BuiltInOperators.cs
+        // https://sourceroslyn.io/#Microsoft.CodeAnalysis.CSharp/Compilation/BuiltInOperators.cs
+
+        // String.Manipulation.cs
+        // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/String.Manipulation.cs
+
+        // 数年前のノートである SV7 での結果
+
+        // operator +: 2621.9396ms
+        // string.Concat: 2620.3285ms
+        // string.Format: 13631.6015ms
+        // string.Format + Parallel.For: 6990.2848ms
+        // interpolation: 2857.9809ms
+
+        // $"" は string.Format と同じくらい遅いはずだから使用を見直そうと思っていた
+        // しかし、結果としては + などと同じくらい速かった
+        // 次のページには、The compiler may replace String.Format with String.Concat if the analyzed behavior would be equivalent to concatenation とある
+        // 明らかに単純結合で、コンパイラーによる最適化を期待できるところでは、コードの可読性のために今後も $"" を積極的に使っていく
+
+        // $ - string interpolation - format string output | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated
+
+        // ついでに、+ や string.Concat に null を渡した場合の挙動について調べた
+        // + については、When one or both operands are of type string,
+        //     the + operator concatenates the string representations of its operands (the string representation of null is an empty string) とあった
+        // string.Concat については、An Empty string is used in place of any null argument とあった
+        // null についても挙動が同じであることと、戻り値が null になることは絶対にないことが分かった
+
+        // Addition operators - + and += | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/addition-operator
+
+        // String.Concat Method (System) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/system.string.concat
+
+        // null の扱いについて調べたのは、+ にマウスポインターを当てたときに表示された string string.operator + (string left, string right) が気になったため
+        // left などに ? が付いていないが、null は余裕で通る
+        // となると、戻り値に ? が付いていないことの信憑性も疑わざるを得ない
+        // 引数に ? が付いていない理由は今も不明だが、null が返らないことが分かったので十分
+
+        public static void CompareStringConcatenationSpeeds ()
+        {
+            const int xTestCount = 10,
+                xConcatenationCount = 100_000_000;
+
+            string xHoge = "hoge",
+                xMoge = "moge",
+                xPoge = "poge",
+                xBoge = "boge",
+                xDoge;
+
+            Stopwatch xStopwatch = new Stopwatch ();
+
+            string [] xLabels = { "operator +", "string.Concat", "string.Format", "string.Format + Parallel.For", "interpolation" };
+            nMultiArray <TimeSpan> xElapsed = new nMultiArray <TimeSpan> ();
+
+            for (int temp = 0; temp < xTestCount; temp ++)
+            {
+                int xLabelIndex = 0;
+
+                // =============================================================================
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xConcatenationCount; tempAlt ++)
+                    xDoge = xHoge + xMoge + xPoge + xBoge;
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xConcatenationCount; tempAlt ++)
+                    xDoge = string.Concat (xHoge, xMoge, xPoge, xBoge);
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xConcatenationCount; tempAlt ++)
+                    xDoge = string.Format ("{0}{1}{2}{3}", xHoge, xMoge, xPoge, xBoge);
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                // 遅い string.Format が Parallel.For ならどうなるか興味本位で
+                // 今回のテストでは倍ほど速くなったので、重たい処理なら積極的に並列化する
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                Parallel.For (0, xConcatenationCount, x =>
+                {
+                    xDoge = string.Format ("{0}{1}{2}{3}", xHoge, xMoge, xPoge, xBoge);
+                });
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xConcatenationCount; tempAlt ++)
+                    xDoge = $"{xHoge}{xMoge}{xPoge}{xBoge}";
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                nConsole.WriteProcessingMessage ("計測中");
+            }
+
+            Console.WriteLine ();
+            Console.WriteLine (iTester.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
+        }
+
+        // 文字列を行に分割する速度の比較
+        // 行末の空白系文字を削るなどする nString.EnumerateLines がそれほど遅くなかった
+        // 改行文字の検索に ReadOnlySpan <char>.IndexOfAny を使うからか
+
+        // StringReader.ReadLine: 2275.9624ms
+        // MemoryExtensions.EnumerateLines: 3080.7091ms
+        // nString.EnumerateLines: 3966.3628ms
+
+        public static void CompareLineEnumerationSpeeds ()
+        {
+            const int xTestCount = 10,
+                xEnumerationCount = 10_000_000;
+
+            string xNewLine = Environment.NewLine,
+                xValue =
+                    "" + xNewLine +
+                    "_" + xNewLine +
+                    "" + xNewLine +
+                    "_a_" + xNewLine +
+                    "" + xNewLine +
+                    "_" + xNewLine +
+                    "" + xNewLine +
+                    "_b_" + xNewLine +
+                    "" + xNewLine +
+                    "_" + xNewLine +
+                    "" + xNewLine;
+
+            List <string> xLines;
+
+            Stopwatch xStopwatch = new Stopwatch ();
+
+            string [] xLabels = { "StringReader.ReadLine", "MemoryExtensions.EnumerateLines", "nString.EnumerateLines" };
+            nMultiArray <TimeSpan> xElapsed = new nMultiArray <TimeSpan> ();
+
+            for (int temp = 0; temp < xTestCount; temp ++)
+            {
+                int xLabelIndex = 0;
+
+                // =============================================================================
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xEnumerationCount; tempAlt ++)
+                {
+                    xLines = new List <string> ();
+
+                    using (StringReader xReader = new StringReader (xValue))
+                    {
+                        string? xLine;
+
+                        while ((xLine = xReader.ReadLine ()) != null)
+                            xLines.Add (xLine);
+                    }
+                }
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xEnumerationCount; tempAlt ++)
+                {
+                    xLines = new List <string> ();
+
+                    var xEnumerator = MemoryExtensions.EnumerateLines (xValue.AsSpan ());
+
+                    while (xEnumerator.MoveNext ())
+                        xLines.Add (xEnumerator.Current.ToString ());
+                }
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xEnumerationCount; tempAlt ++)
+                    nString.EnumerateLines (xValue).ToList ();
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                nConsole.WriteProcessingMessage ("計測中");
+            }
+
+            Console.WriteLine ();
+            Console.WriteLine (iTester.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
+        }
+
+        // 数年前のノートである SV7 での結果
+
+        // nString.Optimize: 1569.5653ms
+
+        // 1ミリ秒あたり637回くらい実行できたようだ
+        // 名前やメールアドレスなど、もっと短いものがほとんどの、数項目から数十項目ほどのフォームで全てを最適化しても1ミリ秒も掛からない
+        // ユーザーの意図を損なう過度な最適化を避けながらも、セキュリティーの向上などのため、nString.Optimize を積極的に使う
+
+        public static void TestStringOptimizationSpeed ()
+        {
+            const int xTestCount = 10,
+                xOptimizationCount = 1_000_000;
+
+            string xNewLine = Environment.NewLine,
+                xValue =
+                    ("" + xNewLine +
+                    "□" + xNewLine +
+                    "" + xNewLine +
+                    "T*T*T" + xNewLine +
+                    "N*N*N" + xNewLine +
+                    "I*I*I" + xNewLine +
+                    "" + xNewLine +
+                    "□" + xNewLine +
+                    "" + xNewLine +
+                    "T*T*T" + xNewLine +
+                    "N*N*N" + xNewLine +
+                    "I*I*I" + xNewLine +
+                    "" + xNewLine +
+                    "□" + xNewLine +
+                    "" + xNewLine)
+                        .Replace ('□', '\x20')
+                        .Replace ('T', '\t')
+                        .Replace ('N', '\xA0')
+                        .Replace ('I', '\x3000');
+
+            Stopwatch xStopwatch = new Stopwatch ();
+
+            string [] xLabels = { "nString.Optimize" };
+            nMultiArray <TimeSpan> xElapsed = new nMultiArray <TimeSpan> ();
+
+            for (int temp = 0; temp < xTestCount; temp ++)
+            {
+                int xLabelIndex = 0;
+
+                // =============================================================================
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xOptimizationCount; tempAlt ++)
+                    xValue.Optimize ();
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                nConsole.WriteProcessingMessage ("計測中");
+            }
+
+            Console.WriteLine ();
+            Console.WriteLine (iTester.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
+        }
+
+        // 後続の TestStringOptimizationAlt とセットで、与えたディレクトリー内の（ほとんど）全てのテキストファイルの内容を最適化し、
+        //     パスの階層構造を保ちながらデスクトップに新規保存するテストを行う
+
+        // これにより Nekote のディレクトリーなどを丸ごと最適化し、WinMerge などで比較したところ、ほとんどのファイルが完全一致した
+
+        // 自作タスク管理ソフトの過去ログを変換したものである taskKiller.txt にハードタブの混入が認められたが、実害がないため対処しない
+
+        private static void iHandleDirectoryForStringOptimizationTest (DirectoryInfo sourceDirectory, DirectoryInfo destDirectory)
+        {
+            // .git などを回避
+            // こういう命名のディレクトリーにユーザーが手作業で作ったファイルが多数含まれることは考えにくい
+
+            if (sourceDirectory.Name.StartsWith ('.'))
+                return;
+
+            // 保存先のディレクトリーを作るより先に、元々のディレクトリーが存在するか見る
+
+            var xSubdirectories = sourceDirectory.GetDirectories ();
+
+            nDirectory.Create (destDirectory.FullName);
+
+            foreach (DirectoryInfo xSubdirectory in xSubdirectories)
+                iHandleDirectoryForStringOptimizationTest (xSubdirectory, new DirectoryInfo (nPath.Join (destDirectory.FullName, xSubdirectory.Name)));
+
+            foreach (FileInfo xSourceFile in sourceDirectory.GetFiles ())
+            {
+                // .gitignore は処理されてもよいが、それくらいしか思い当たらない
+                // ディレクトリーの回避と挙動を整合させておく
+
+                if (xSourceFile.Name.StartsWith ('.'))
+                    continue;
+
+                // バイナリーからエンコーディングを検出し、可能ならそれでテキストを別ルートでバイナリーにする
+                // BOM 分を除く部分が一致すれば、ラウンドトリップの成功によりテキスト系ファイルの可能性が高いと判断
+                // 不一致部分が BOM のみなのか調べないし、Shift-JIS などを正しく扱えないだろうから、今のところメソッド化しない
+                // エンコーディングを判別するライブラリーを Nekote に組み込むことも検討したが、
+                //     今はむしろローカルのエンコーディングの使用を減らしていく時代
+
+                string xText = nFile.ReadAllText (xSourceFile.FullName);
+                byte [] xBinary = nFile.ReadAllBytes (xSourceFile.FullName);
+                Encoding? xEncoding = nBom.GetEncoding (xBinary, 0, xBinary.Length);
+                byte [] xBinaryFromText = (xEncoding ?? Encoding.UTF8).GetBytes (xText);
+
+                if (xBinaryFromText.Length <= xBinary.Length)
+                {
+                    if (nArray.Equals (xBinary, xBinary.Length - xBinaryFromText.Length, xBinaryFromText, 0, xBinaryFromText.Length))
+                    {
+                        string xDestFilePath = nPath.Join (destDirectory.FullName, xSourceFile.Name),
+                            xDestFileContents = xText.Optimize ()!;
+
+                        // 最適化すると、「段落の集合」のような扱いになり、区切りとして空行は入るが、末尾の改行は落ちる
+                        // 末尾の改行だけで diff ソフトで「不一致」と表示されないようにしておく
+
+                        if (xDestFileContents != xText && (xDestFileContents + Environment.NewLine) == xText)
+                            xDestFileContents += Environment.NewLine;
+
+                        nFile.WriteAllText (xDestFilePath, xDestFileContents, xEncoding ?? Encoding.UTF8);
+
+                        // diff ソフトでチェック済みのディレクトリーを同期するときに「保存先のファイルの方が新しいようですが」と毎回言われないように
+                        File.SetLastWriteTimeUtc (xDestFilePath, xSourceFile.LastWriteTimeUtc);
+
+                        Console.WriteLine ("ファイルを作成しました: " + xDestFilePath);
+                    }
+                }
+            }
+        }
+
+        public static void TestStringOptimizationAlt (string directoryPath)
+        {
+            DirectoryInfo xSourceDirectory = new DirectoryInfo (directoryPath);
+
+            string xDestDirectoryPartialPath = nPath.Join (Environment.GetFolderPath (Environment.SpecialFolder.DesktopDirectory), xSourceDirectory.Name),
+                xDestDirectoryPath = xDestDirectoryPartialPath;
+
+            for (int temp = 1; nDirectory.CanCreate (xDestDirectoryPath) == false; temp ++)
+                xDestDirectoryPath = $"{xDestDirectoryPartialPath}-{temp}";
+
+            iHandleDirectoryForStringOptimizationTest (xSourceDirectory, new DirectoryInfo (xDestDirectoryPath));
         }
     }
 }

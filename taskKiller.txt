@@ -1540,3 +1540,146 @@
 [完了] 全ての catch で例外情報を記録
 [完了] 文字列の最適化のメソッドを追加
 [完了] 文字列にインデントを追加するメソッドを追加
+[完了] Char.ToUpperInvariant などに Ordinal のものがない理由を書く
+
+    再確認してから。合字に関することだったと思う。
+
+    --------------------------------------------------------------------------------
+
+    文字列処理には、Ordinal 系、InvariantCulture 系、CurrentCulture 系の三つがある。それぞれ、「バイト単位」「合字などを認識するが、カルチャーに影響されないもの」「カルチャーに影響されるもの」と認識。
+
+    たとえば、ヨーロッパでは、アルファベットの a の上に小さな丸を付けた文字が使われる。この文字には1文字の å が用意されているが、a + 特殊な丸（エディターでの挙動が変なので貼り付けない）でも同じ文字を表現できるようだ。コードでは、前者は "\u00e5" に、後者は "\u0061\u030a" になる。これらの文字列を string.Compare で比較する場合、Ordinal 系では不一致になり、InvariantCulture 系では一致する。
+
+    というところに、Ordinal 系の ToUpper* などがない理由が集約されている。
+
+    もしかすると、a + 特殊な丸を1文字ずつ大文字にして A + 特殊な丸にするのは、そういう文字もあって問題でないかもしれない。しかし、もし、この特殊な丸は小文字にしか付かないものだとすれば、2文字で1文字と扱われる文字のうち a の部分のみ Ordinal 系のメソッドにより大文字にされて、存在しない文字の組み合わせになるのは、情報の破損である。
+
+    一方、InvariantCulture 系なら、「この a は次が特殊な丸だから大文字にしてはならない」という判断になり、2文字で å が表現される状態が保たれるかもしれない。（調べたところ Å があるようで、a + 特殊な丸においては Ordinal 系で a 単体を A にしても大丈夫そうだが、ここでは、それが不可能と仮定して Ordinal 系のリスクを理解）。
+
+    上記については、次のページに情報がある。
+
+    Best Practices for Comparing Strings in .NET | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices-strings
+
+[完了] StringComparer のプロパティーの使い分けについて書く
+
+    文字列処理には、Ordinal 系、InvariantCulture 系、CurrentCulture 系の三つがある。
+
+    いろいろなページに目を通したが、どこで何を使うべきかについては人によって考えが異なる。
+
+    といったなか、Microsoft によるページが総まとめとしてよくまとまっていた。
+
+    Best Practices for Comparing Strings in .NET | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices-strings
+
+    改めて文字列処理を考えると、照合と比較はずいぶんと異なる。照合は、同一性の確認による是非の判断が多く、「一致する」との判断には責任やリスクが伴いがち。比較は、ソートに代表される、ユーザーの利便性を高める処理においてよく行われることで、一致するかどうかに責任やリスクが伴わないことが多く、多少の不正確が許容される。
+
+    漢字には音読みと訓読みがある。たとえば人名をふりがなデータなしで Unicode の文字コード順で並び替えると、絶望的に不正確。a, i, u, e, o は、文字コードの順序が日本語の文字としてのそれとは異なる。そのため、ローマ字をソートには使えない。人名の正確なソートには、やはりふりがなが不可避。
+
+    そのふりがなも、ひらがなとカタカナが混在する場合には注意が必要。
+
+    Console.Write (string.Join (", ", new string [] { "ああ", "アホ", "いい" }.OrderBy (x => x))) を実行すると「ああ, アホ, いい」が表示されるが、
+    Console.Write (string.Join (", ", new string [] { "ああ", "アホ", "いい" }.OrderBy (x => x, StringComparer.Ordinal))) だと「ああ, いい, アホ」になる。
+
+    string.Compare のページには、The comparison uses the current culture to obtain culture-specific information such as casing rules and the alphabetic order of individual characters とある。これは、コードにおいては、StringComparison comparisonType が指定されない場合に StringComparison.CurrentCulture が自動的に設定される実装による。
+
+    String.Compare Method (System) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/system.string.compare
+
+    String.Comparison.cs
+    https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/String.Comparison.cs
+
+    これは string.CompareTo でも同様で、同じく内部的に StringComparison.CurrentCulture が設定されている。
+
+    といった、CurrentCulture での比較が .NET の黎明期からのデフォルトの挙動になっていたことと整合させたのか、OrderBy も、OrderedEnumerable.GetEnumerableSorter に次のコードがある。
+
+    if (typeof (TKey) == typeof (string) && comparer == Comparer <string>.Default)
+        comparer = (IComparer <TKey>) StringComparer.CurrentCulture;
+
+    OrderBy.cs
+    https://source.dot.net/#System.Linq/System/Linq/OrderBy.cs
+
+    OrderedEnumerable.cs
+    https://source.dot.net/#System.Linq/System/Linq/OrderedEnumerable.cs
+
+    そのため、デフォルトの挙動で、ひらがなとカタカナの混在はうまく処理される。
+
+    蛇足だが、ここには次のページの内容も関わっているのだろう。
+
+    日本語文字列照合順番 - Wikipedia
+    https://ja.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E8%AA%9E%E6%96%87%E5%AD%97%E5%88%97%E7%85%A7%E5%90%88%E9%A0%86%E7%95%AA
+
+    スレッドを日本語のカルチャーにして CurrentCulture 系を使うか、文字列処理のメソッドに直接、日本語のカルチャーを指定するかにより、このルールも（？）適用される可能性がある。実際どうなのかは調べれば分かるだろうが、適用されるかどうかにより StringComparer のプロパティーの使い分けなどが影響を受けるわけでないため、現時点では深入りを避ける。
+
+    上記のコードに StringComparer.InvariantCulture を指定すると、意外と「ああ, アホ, いい」が表示される。ということは、InvariantCulture は、Char.ToUpperInvariant についてのタスクのメモに書いた å などの合字のみ扱うのでなく、「他のカルチャーに影響せず、どのカルチャーが指定されているときでも行われてよい配慮」を常に行うことも考えられる。
+
+    といったこともまた結論には影響しない。そのうち忘れるので備忘録として書いておいた。
+
+    --------------------------------------------------------------------------------
+
+    使い分けについては、次のように考えている。
+
+    * Ordinal 系 → 特段の理由がなければ、これを使う（デフォルト扱い）
+    * InvariantCulture 系 → 文字の変換、置換、ソート結果が一定してほしいところなどに
+    * CurrentCulture 系 → コードの透明性・確実性に影響するため使わない
+    * 具体的なカルチャー → ユーザーに表示するデータのソートなどに
+
+    照合においては Ordinal 系が安全。å を1文字で書いても2文字にしても同じ文字列と認識されるようなことは、さまざまな攻撃に利用できてしまう。
+
+    比較においても、特段の理由がなければ Ordinal 系を使う。しかし、ソートが関わってくるなら、たいてい Ordinal 系より適するものがある。
+
+    InvariantCulture 系は、å の例もあって、文字の変換においてはデフォルト。そのため、char.ToUpperInvariant などを常用する。
+
+    置換は、挙動としては変換と通じるものがある。たとえば、å を含む単語を Å を含む大文字に置換したいとき、1文字の å と、a + 特殊な丸の2文字による å の両方が Å を含む大文字の単語に置き換えられることが、その置換を行う側の意図だろう。検索文字列とバイト単位で一致する å しか置換されないのでは不足があるため、ここでも InvariantCulture 系が適する。
+
+    ソート結果が一致しなければならないところにも InvariantCulture 系は適する。
+
+    たとえばファイルパスのリストを毎回ソートしてファイルに保存する場合、そのアプリを起動するユーザーのパソコンのロケール設定によりファイルの内容が異なるべきでない。大昔、Dropbox で共有していたそういうファイルを自分のパソコンではバックアップのため Subversion レポジトリーにコミットしていた。自分以外が別のパソコンで同じアプリを開くたびに Dropbox により自分の手元のファイルの内容の順序が変わり、SVN でのコミット時に余計な差分が出ていた。
+
+    CurrentCulture 系は、スレッドの CurrentCulture プロパティーの値に依存するため避ける。そちらがいつの間にか改ざんされていれば、照合や比較の挙動の変化がセキュリティーリスクになる可能性がある。
+
+    特定のユーザーに表示するデータのソートなど、他のユーザーへの影響を考えにくく、その人で完結することには、その人の具体的なカルチャーの使用が適する。ソートの順序に基づき入力項目の表現を調整するなどはないわけで、より良い表示にするベストエフォート系の仕様にデメリットはない。
+
+    --------------------------------------------------------------------------------
+
+    近々、nStringDictionary を作る。そのキーには、Ordinal を使う可能性が高い。
+
+    Ordinal 系なのは、想定外の一致によるセキュリティーリスクなどを懸念してのこと。
+
+    case-sensitive にするのは、JSON がそうなっているようなのと、その方が処理が速いため。
+
+    Preface
+    https://docs.oracle.com/en/database/oracle/oracle-database/21/adjsn/preface.html
+
+    NoSQL データベースである Cassandra では、データは byte [] で保存され、case-insensitive な照合は不可能とのこと。case-insensitive な処理が必要なら、初めから小文字で保存するべきとの意見がある。これも速度を考えてのことだろう。
+
+    How to read cassandra data with out case sensitive - Stack Overflow
+    https://stackoverflow.com/questions/3649979/how-to-read-cassandra-data-with-out-case-sensitive
+
+    蛇足だが、次のページには、Use the String.ToUpperInvariant method instead of the String.ToLowerInvariant method when you normalize strings for comparison とある。
+
+    他のところには、Comparisons made using StringComparison.OrdinalIgnoreCase are behaviorally the composition of two calls: calling ToUpperInvariant on both string arguments, and doing a comparison using StringComparison.Ordinal というのもある。
+
+    Best Practices for Comparing Strings in .NET | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices-strings
+
+    自分も、英文の大半は小文字なので、わずかな大文字を小文字にするノーマライズを考えがちだが、大文字にしろと Microsoft の文書に複数回、明記されているため、.NET のコードでは大文字にしようと思う。（大文字のみのデータがどこかに流れ込んだ場合にそれが比較のために生成されたものと視覚的に分かりやすいメリットもあるか）。
+
+    nStringDictionary が扱うファイルフォーマット（の一つ？）は、INI ファイルに似ている。INI ファイルは、case-insensitive のようだ。
+
+    INI file - Wikipedia
+    https://en.wikipedia.org/wiki/INI_file#Case_sensitivity
+
+    ユーザーが手作業で抜き差しするキーなら case-insensitive の方が二つの理由で良さそうとも思う。一つは、大文字・小文字の違いにより設定が反映されないのを防げること。もう一つは、大文字・小文字だけ異なる二つ以上のキーを自分が誤って定義してしまう可能性がゼロになること。
+
+    しかし、いずれも、構文解析のパフォーマンスを恒常的に落とすほどのリスクでない。
+
+    たとえばパスワードでは大文字・小文字が区別されることが多い。そのことにユーザーが慣れているため、「キーは大文字・小文字が区別されますよ」と目立つところに書いておけば、ほとんどの人は注意してくれる。
+
+    大文字・小文字のみ異なる二つの以上のキーについては、そういうものが見付かり次第、デバッグモードなら警告されるようにするのが一つの選択肢。キーについては、その他にもいろいろなことをチェックしようと考えている。
+
+    HTML など、構文解析のコストがその後のレンダリングのコストに比べて微々たるものであるところでは、要素名やプロパティー名の表記の自由度は、その技術を利用するにおけるハードルを少し下げる。
+
+    しかし、nStringDictionary が扱うデータやその出力先のファイルについては、簡易的な CRUD などにも使われる可能性を想定するなら、とにかく少しでもパフォーマンスの高い実装になっているべき。
+
+[完了] NameValueCollection のラッパークラスを用意

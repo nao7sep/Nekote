@@ -18,6 +18,19 @@ namespace Nekote
 
         public static readonly char [] NewLineChars = { '\r', '\n' };
 
+        // InvariantCulture での null や "" の文字列化と位置付け
+
+        public static string GetLiteralIfNullOrEmpty (string? value)
+        {
+            if (value == null)
+                return nStringLiterals.NullLabel;
+
+            if (value.Length == 0)
+                return nStringLiterals.EmptyLabel;
+
+            return value;
+        }
+
         // 文字列の処理のメソッドを集めていく
 
         // できるだけ拡張メソッドにする

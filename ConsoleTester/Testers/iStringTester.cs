@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -809,6 +810,58 @@ namespace ConsoleTester
                 xDestDirectoryPath = $"{xDestDirectoryPartialPath}-{temp}";
 
             iHandleDirectoryForStringOptimizationTest (xSourceDirectory, new DirectoryInfo (xDestDirectoryPath));
+        }
+
+        public static void TestNameValueCollection ()
+        {
+            nNameValueCollection xCollection = new nNameValueCollection (new NameValueCollection ());
+
+            // (Empty) になるのを確認した
+            // Console.WriteLine (xCollection.ToFriendlyString ()); // OK
+
+            // Console.WriteLine (xCollection.Keys.Count); // 0
+            // Console.WriteLine (xCollection.AllKeys.Length); // 0
+            // Console.WriteLine (xCollection.ContainsKey (null)); // False
+
+            xCollection.SetString (null, null);
+            // Console.WriteLine (xCollection.Keys.Count); // 1
+            // Console.WriteLine (xCollection.AllKeys.Length); // 1
+            // Console.WriteLine (xCollection.ContainsKey (null)); // True
+
+            // ソートのテストのため、キーの連番を降順に
+
+            xCollection.SetString ("Name-2", null); // OK
+            xCollection.SetString ("Name-2", string.Empty); // OK
+            xCollection.SetString ("Name-2", "hoge"); // OK
+            xCollection.SetString ("Name-2", $"hoge{Environment.NewLine}moge"); // OK
+
+            // AddString が、キーが既存がどうかに関わらず null を保持するのを確認
+
+            xCollection.AddString ("Name-1", null); // OK
+            xCollection.AddString ("Name-1", null); // OK
+            xCollection.AddString ("Name-1", string.Empty); // OK
+            xCollection.AddString ("Name-1", "hoge"); // OK
+            xCollection.AddString ("Name-1", $"hoge{Environment.NewLine}moge"); // OK
+
+            string xString = xCollection.ToFriendlyString ();
+
+            // (Null): (Null)
+            // Name-1:
+            //     [0] (Null)
+            //     [1] (Null)
+            //     [2] (Empty)
+            //     [3] hoge
+            //     [4]
+            //         hoge
+            //         moge
+            // Name-2:
+            //     hoge
+            //     moge
+
+            Console.WriteLine (xString);
+
+            // 末尾に余計な改行などが付いていないことを確認した
+            // Console.WriteLine (xString.Optimize () == xString); // True
         }
     }
 }

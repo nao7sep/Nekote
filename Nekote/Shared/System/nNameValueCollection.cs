@@ -123,6 +123,23 @@ namespace Nekote
     {
         // ラッパーなので、既に存在する NameValueCollection のインスタンスなしには初期化できなくしている
 
+        // 一応、基底クラスを派生クラスにキャストする方法がないか調べた
+        // AutoMapper や TinyMapper といったライブラリーを使えば可能のようだ
+
+        // c# - Convert base class to derived class - Stack Overflow
+        // https://stackoverflow.com/questions/12565736/convert-base-class-to-derived-class
+
+        // AutoMapper/AutoMapper: A convention-based object-object mapper in .NET.
+        // https://github.com/AutoMapper/AutoMapper
+
+        // TinyMapper/TinyMapper: A quick object-object mapper for .NET
+        // https://github.com/TinyMapper/TinyMapper
+
+        // base (...) は、内部的には Add (NameValueCollection) になっている
+        // 要素のコピーをなくすため、NameValueCollection の元々のインスタンスを保持するクラス、
+        //     あるいは拡張メソッド入りの静的クラスとすることも考えたが、それでは AddString を実装できない
+        // BaseGet を使うには、いったん要素をコピーするのは不可避
+
         public nNameValueCollection (NameValueCollection collection): base (collection)
         {
         }
@@ -130,9 +147,35 @@ namespace Nekote
         // ToFriendlyString では、AllKeys.OrderBy のところで IComparer の中身が string? でないと怒られる
         // こちらでは ? なしで問題ないようだが、Keys に null キーも入るのが確認されているため一応
 
+        // このクラスや、次に作る nStringDictionary などではデバッグモードのときにキーをチェックする考えだったが、やめておく
+        // キーに null、空の文字列、トリミングにより長さの変わる文字列などが指定されるのは、呼び出し側のミスである可能性を否定できない
+        // しかし、たとえば xKey と xValue があって SetString (xValue, xValue) と書くなどのミスは、すぐに見付かる
+
+        // 特定のユーザーのカルチャーを指定する場合、StringComparer.Create が良さそう
+        // StringComparer.InvariantCultureIgnoreCase などは StringComparer 型で、これは IEqualityComparer <string> を継承
+        // StringComparer.Create に CultureInfo を与えて生成したインスタンスを IEqualityComparer <string> として渡す
+
+        // StringComparer.Create Method (System) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/system.stringcomparer.create
+
         public bool ContainsKey (string? name, IEqualityComparer <string?>? comparer = null)
         {
-            // 先述した理由により Keys の方を使う
+            // NameObjectCollectionBase のメソッドの多くが protected なので、それらの利用による実装も考えた
+
+            // Get も Add も BaseGet → FindEntry という実装
+            // FindEntry と、その中で参照される _entriesTable は、いずれも private
+            // もっとも、キーが null かどうかの事前チェックにより、BaseGet は FindEntry と同様に使える
+            // Hashtable の this まではアクセスできることになる
+
+            // 問題は、Hashtable の this もまた、キーがないのか、キーはあって値が null なのかを区別しないこと
+            // To distinguish between null that is returned because the specified key is not found and null that is returned because the value of the specified key is null,
+            //     use the Contains method or the ContainsKey method to determine if the key exists in the list とある
+            // protected メソッドを使っても Hashtable の this までしかアクセスできないため、Keys/AllKeys を見るしかない
+
+            // Hashtable.Item[Object] Property (System.Collections) | Microsoft Learn
+            // https://learn.microsoft.com/en-us/dotnet/api/system.collections.hashtable.item
+
+            // Keys と AllKeys の二つのうち、先述した理由により Keys の方を使う
             // null キーは、最初は Keys に含まれず、一度 Set などを行えば、それからは含まれる
             // ここで name == null の場合を個別に見る必要はない
 
@@ -315,7 +358,7 @@ namespace Nekote
                     xBuilder.Append ($"\x20{nStringLiterals.NullLabel}");
 
                 // xValues [0] == null の場合を既に見たので、ここでは null でない
-                // 値が一つなので、添え字を伴わない1行の表示として、インデントは1段分になる
+                // 値が一つなので、添え字を伴わない表示として、インデントは1段分になる
 
                 else if (xValues.Length == 1)
                     iAppend (minIndentationLength: 4, xValues [0]!);

@@ -1,0 +1,6001 @@
+﻿CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: アフリカーンス語
+EnglishName: Afrikaans
+IetfLanguageTag: af
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0036 (54)
+LCID: 0x0036, (54)
+Name: af
+NativeName: Afrikaans
+Parent: (Empty)
+ThreeLetterISOLanguageName: afr
+ThreeLetterWindowsLanguageName: AFK
+TwoLetterISOLanguageName: af
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アフリカーンス語 (南アフリカ)
+    EnglishName: Afrikaans (South Africa)
+    IetfLanguageTag: af-ZA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0436 (1078)
+    LCID: 0x0436, (1078)
+    Name: af-ZA
+    NativeName: Afrikaans (Suid-Afrika)
+    Parent: af
+    ThreeLetterISOLanguageName: afr
+    ThreeLetterWindowsLanguageName: AFK
+    TwoLetterISOLanguageName: af
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: アムハラ語
+EnglishName: Amharic
+IetfLanguageTag: am
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x005E (94)
+LCID: 0x005E, (94)
+Name: am
+NativeName: አማርኛ
+Parent: (Empty)
+ThreeLetterISOLanguageName: amh
+ThreeLetterWindowsLanguageName: AMH
+TwoLetterISOLanguageName: am
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アムハラ語 (エチオピア)
+    EnglishName: Amharic (Ethiopia)
+    IetfLanguageTag: am-ET
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x045E (1118)
+    LCID: 0x045E, (1118)
+    Name: am-ET
+    NativeName: አማርኛ (ኢትዮጵያ)
+    Parent: am
+    ThreeLetterISOLanguageName: amh
+    ThreeLetterWindowsLanguageName: AMH
+    TwoLetterISOLanguageName: am
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: アラビア語
+EnglishName: Arabic
+IetfLanguageTag: ar
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0001 (1)
+LCID: 0x0001, (1)
+Name: ar
+NativeName: العربية
+Parent: (Empty)
+ThreeLetterISOLanguageName: ara
+ThreeLetterWindowsLanguageName: ARA
+TwoLetterISOLanguageName: ar
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (アラブ首長国連邦)
+    EnglishName: Arabic (United Arab Emirates)
+    IetfLanguageTag: ar-AE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x3801 (14337)
+    LCID: 0x3801, (14337)
+    Name: ar-AE
+    NativeName: العربية (الإمارات العربية المتحدة)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARU
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (バーレーン)
+    EnglishName: Arabic (Bahrain)
+    IetfLanguageTag: ar-BH
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x3C01 (15361)
+    LCID: 0x3C01, (15361)
+    Name: ar-BH
+    NativeName: العربية (البحرين)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARH
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (アルジェリア)
+    EnglishName: Arabic (Algeria)
+    IetfLanguageTag: ar-DZ
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x1401 (5121)
+    LCID: 0x1401, (5121)
+    Name: ar-DZ
+    NativeName: العربية (الجزائر)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARG
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (エジプト)
+    EnglishName: Arabic (Egypt)
+    IetfLanguageTag: ar-EG
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0C01 (3073)
+    LCID: 0x0C01, (3073)
+    Name: ar-EG
+    NativeName: العربية (مصر)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARE
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (イラク)
+    EnglishName: Arabic (Iraq)
+    IetfLanguageTag: ar-IQ
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0801 (2049)
+    LCID: 0x0801, (2049)
+    Name: ar-IQ
+    NativeName: العربية (العراق)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARI
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (ヨルダン)
+    EnglishName: Arabic (Jordan)
+    IetfLanguageTag: ar-JO
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x2C01 (11265)
+    LCID: 0x2C01, (11265)
+    Name: ar-JO
+    NativeName: العربية (الأردن)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARJ
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (クウェート)
+    EnglishName: Arabic (Kuwait)
+    IetfLanguageTag: ar-KW
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x3401 (13313)
+    LCID: 0x3401, (13313)
+    Name: ar-KW
+    NativeName: العربية (الكويت)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARK
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (レバノン)
+    EnglishName: Arabic (Lebanon)
+    IetfLanguageTag: ar-LB
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x3001 (12289)
+    LCID: 0x3001, (12289)
+    Name: ar-LB
+    NativeName: العربية (لبنان)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARB
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (リビア)
+    EnglishName: Arabic (Libya)
+    IetfLanguageTag: ar-LY
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x1001 (4097)
+    LCID: 0x1001, (4097)
+    Name: ar-LY
+    NativeName: العربية (ليبيا)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARL
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (モロッコ)
+    EnglishName: Arabic (Morocco)
+    IetfLanguageTag: ar-MA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x1801 (6145)
+    LCID: 0x1801, (6145)
+    Name: ar-MA
+    NativeName: العربية (المغرب)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARM
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (オマーン)
+    EnglishName: Arabic (Oman)
+    IetfLanguageTag: ar-OM
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x2001 (8193)
+    LCID: 0x2001, (8193)
+    Name: ar-OM
+    NativeName: العربية (عُمان)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARO
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (カタール)
+    EnglishName: Arabic (Qatar)
+    IetfLanguageTag: ar-QA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x4001 (16385)
+    LCID: 0x4001, (16385)
+    Name: ar-QA
+    NativeName: العربية (قطر)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARQ
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (サウジアラビア)
+    EnglishName: Arabic (Saudi Arabia)
+    IetfLanguageTag: ar-SA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0401 (1025)
+    LCID: 0x0401, (1025)
+    Name: ar-SA
+    NativeName: العربية (المملكة العربية السعودية)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARA
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (シリア)
+    EnglishName: Arabic (Syria)
+    IetfLanguageTag: ar-SY
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x2801 (10241)
+    LCID: 0x2801, (10241)
+    Name: ar-SY
+    NativeName: العربية (سوريا)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARS
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (チュニジア)
+    EnglishName: Arabic (Tunisia)
+    IetfLanguageTag: ar-TN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x1C01 (7169)
+    LCID: 0x1C01, (7169)
+    Name: ar-TN
+    NativeName: العربية (تونس)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ART
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アラビア語 (イエメン)
+    EnglishName: Arabic (Yemen)
+    IetfLanguageTag: ar-YE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x2401 (9217)
+    LCID: 0x2401, (9217)
+    Name: ar-YE
+    NativeName: العربية (اليمن)
+    Parent: ar
+    ThreeLetterISOLanguageName: ara
+    ThreeLetterWindowsLanguageName: ARY
+    TwoLetterISOLanguageName: ar
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: マプチェ語
+EnglishName: Mapuche
+IetfLanguageTag: arn
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x007A (122)
+LCID: 0x007A, (122)
+Name: arn
+NativeName: Mapudungun
+Parent: (Empty)
+ThreeLetterISOLanguageName: arn
+ThreeLetterWindowsLanguageName: MPD
+TwoLetterISOLanguageName: arn
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: マプチェ語 (チリ)
+    EnglishName: Mapuche (Chile)
+    IetfLanguageTag: arn-CL
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x047A (1146)
+    LCID: 0x047A, (1146)
+    Name: arn-CL
+    NativeName: Mapuche (Chile)
+    Parent: arn
+    ThreeLetterISOLanguageName: arn
+    ThreeLetterWindowsLanguageName: MPD
+    TwoLetterISOLanguageName: arn
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: アッサム語
+EnglishName: Assamese
+IetfLanguageTag: as
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x004D (77)
+LCID: 0x004D, (77)
+Name: as
+NativeName: অসমীয়া
+Parent: (Empty)
+ThreeLetterISOLanguageName: asm
+ThreeLetterWindowsLanguageName: ASM
+TwoLetterISOLanguageName: as
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アッサム語 (インド)
+    EnglishName: Assamese (India)
+    IetfLanguageTag: as-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x044D (1101)
+    LCID: 0x044D, (1101)
+    Name: as-IN
+    NativeName: অসমীয়া (ভাৰত)
+    Parent: as
+    ThreeLetterISOLanguageName: asm
+    ThreeLetterWindowsLanguageName: ASM
+    TwoLetterISOLanguageName: as
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: アゼルバイジャン語
+EnglishName: Azerbaijani
+IetfLanguageTag: az
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x002C (44)
+LCID: 0x002C, (44)
+Name: az
+NativeName: azərbaycan
+Parent: (Empty)
+ThreeLetterISOLanguageName: aze
+ThreeLetterWindowsLanguageName: AZE
+TwoLetterISOLanguageName: az
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: アゼルバイジャン語 (キリル文字)
+EnglishName: Azerbaijani (Cyrillic)
+IetfLanguageTag: az-Cyrl
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x742C (29740)
+LCID: 0x742C, (29740)
+Name: az-Cyrl
+NativeName: азәрбајҹан (Кирил)
+Parent: az
+ThreeLetterISOLanguageName: aze
+ThreeLetterWindowsLanguageName: AZC
+TwoLetterISOLanguageName: az
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アゼルバイジャン語 (キリル文字、アゼルバイジャン)
+    EnglishName: Azerbaijani (Cyrillic, Azerbaijan)
+    IetfLanguageTag: az-Cyrl-AZ
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x082C (2092)
+    LCID: 0x082C, (2092)
+    Name: az-Cyrl-AZ
+    NativeName: азәрбајҹан (Кирил, Азәрбајҹан)
+    Parent: az-Cyrl
+    ThreeLetterISOLanguageName: aze
+    ThreeLetterWindowsLanguageName: AZC
+    TwoLetterISOLanguageName: az
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: アゼルバイジャン語 (ラテン文字)
+EnglishName: Azerbaijani (Latin)
+IetfLanguageTag: az-Latn
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x782C (30764)
+LCID: 0x782C, (30764)
+Name: az-Latn
+NativeName: azərbaycan (latın)
+Parent: az
+ThreeLetterISOLanguageName: aze
+ThreeLetterWindowsLanguageName: AZE
+TwoLetterISOLanguageName: az
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アゼルバイジャン語 (ラテン文字、アゼルバイジャン)
+    EnglishName: Azerbaijani (Latin, Azerbaijan)
+    IetfLanguageTag: az-Latn-AZ
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x042C (1068)
+    LCID: 0x042C, (1068)
+    Name: az-Latn-AZ
+    NativeName: azərbaycan (latın, Azərbaycan)
+    Parent: az-Latn
+    ThreeLetterISOLanguageName: aze
+    ThreeLetterWindowsLanguageName: AZE
+    TwoLetterISOLanguageName: az
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: バシキール語
+EnglishName: Bashkir
+IetfLanguageTag: ba
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x006D (109)
+LCID: 0x006D, (109)
+Name: ba
+NativeName: Bashkir
+Parent: (Empty)
+ThreeLetterISOLanguageName: bak
+ThreeLetterWindowsLanguageName: BAS
+TwoLetterISOLanguageName: ba
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: バシキール語 (ロシア)
+    EnglishName: Bashkir (Russia)
+    IetfLanguageTag: ba-RU
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x046D (1133)
+    LCID: 0x046D, (1133)
+    Name: ba-RU
+    NativeName: Bashkir (Russia)
+    Parent: ba
+    ThreeLetterISOLanguageName: bak
+    ThreeLetterWindowsLanguageName: BAS
+    TwoLetterISOLanguageName: ba
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ベラルーシ語
+EnglishName: Belarusian
+IetfLanguageTag: be
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0023 (35)
+LCID: 0x0023, (35)
+Name: be
+NativeName: беларуская
+Parent: (Empty)
+ThreeLetterISOLanguageName: bel
+ThreeLetterWindowsLanguageName: BEL
+TwoLetterISOLanguageName: be
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ベラルーシ語 (ベラルーシ)
+    EnglishName: Belarusian (Belarus)
+    IetfLanguageTag: be-BY
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0423 (1059)
+    LCID: 0x0423, (1059)
+    Name: be-BY
+    NativeName: беларуская (Беларусь)
+    Parent: be
+    ThreeLetterISOLanguageName: bel
+    ThreeLetterWindowsLanguageName: BEL
+    TwoLetterISOLanguageName: be
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ブルガリア語
+EnglishName: Bulgarian
+IetfLanguageTag: bg
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0002 (2)
+LCID: 0x0002, (2)
+Name: bg
+NativeName: български
+Parent: (Empty)
+ThreeLetterISOLanguageName: bul
+ThreeLetterWindowsLanguageName: BGR
+TwoLetterISOLanguageName: bg
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ブルガリア語 (ブルガリア)
+    EnglishName: Bulgarian (Bulgaria)
+    IetfLanguageTag: bg-BG
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0402 (1026)
+    LCID: 0x0402, (1026)
+    Name: bg-BG
+    NativeName: български (България)
+    Parent: bg
+    ThreeLetterISOLanguageName: bul
+    ThreeLetterWindowsLanguageName: BGR
+    TwoLetterISOLanguageName: bg
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ベンガル語
+EnglishName: Bangla
+IetfLanguageTag: bn
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0045 (69)
+LCID: 0x0045, (69)
+Name: bn
+NativeName: বাংলা
+Parent: (Empty)
+ThreeLetterISOLanguageName: ben
+ThreeLetterWindowsLanguageName: BNB
+TwoLetterISOLanguageName: bn
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ベンガル語 (バングラデシュ)
+    EnglishName: Bangla (Bangladesh)
+    IetfLanguageTag: bn-BD
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0845 (2117)
+    LCID: 0x0845, (2117)
+    Name: bn-BD
+    NativeName: বাংলা (বাংলাদেশ)
+    Parent: bn
+    ThreeLetterISOLanguageName: ben
+    ThreeLetterWindowsLanguageName: BNB
+    TwoLetterISOLanguageName: bn
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ベンガル語 (インド)
+    EnglishName: Bangla (India)
+    IetfLanguageTag: bn-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0445 (1093)
+    LCID: 0x0445, (1093)
+    Name: bn-IN
+    NativeName: বাংলা (ভারত)
+    Parent: bn
+    ThreeLetterISOLanguageName: ben
+    ThreeLetterWindowsLanguageName: BNG
+    TwoLetterISOLanguageName: bn
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: チベット語
+EnglishName: Tibetan
+IetfLanguageTag: bo
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0051 (81)
+LCID: 0x0051, (81)
+Name: bo
+NativeName: བོད་སྐད་
+Parent: (Empty)
+ThreeLetterISOLanguageName: bod
+ThreeLetterWindowsLanguageName: BOB
+TwoLetterISOLanguageName: bo
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: チベット語 (中国)
+    EnglishName: Tibetan (China)
+    IetfLanguageTag: bo-CN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0451 (1105)
+    LCID: 0x0451, (1105)
+    Name: bo-CN
+    NativeName: བོད་སྐད་ (རྒྱ་ནག)
+    Parent: bo
+    ThreeLetterISOLanguageName: bod
+    ThreeLetterWindowsLanguageName: BOB
+    TwoLetterISOLanguageName: bo
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ブルトン語
+EnglishName: Breton
+IetfLanguageTag: br
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x007E (126)
+LCID: 0x007E, (126)
+Name: br
+NativeName: brezhoneg
+Parent: (Empty)
+ThreeLetterISOLanguageName: bre
+ThreeLetterWindowsLanguageName: BRE
+TwoLetterISOLanguageName: br
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ブルトン語 (フランス)
+    EnglishName: Breton (France)
+    IetfLanguageTag: br-FR
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x047E (1150)
+    LCID: 0x047E, (1150)
+    Name: br-FR
+    NativeName: brezhoneg (Frañs)
+    Parent: br
+    ThreeLetterISOLanguageName: bre
+    ThreeLetterWindowsLanguageName: BRE
+    TwoLetterISOLanguageName: br
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ボスニア語
+EnglishName: Bosnian
+IetfLanguageTag: bs
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x781A (30746)
+LCID: 0x781A, (30746)
+Name: bs
+NativeName: bosanski
+Parent: (Empty)
+ThreeLetterISOLanguageName: bos
+ThreeLetterWindowsLanguageName: BSB
+TwoLetterISOLanguageName: bs
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ボスニア語 (キリル文字)
+EnglishName: Bosnian (Cyrillic)
+IetfLanguageTag: bs-Cyrl
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x641A (25626)
+LCID: 0x641A, (25626)
+Name: bs-Cyrl
+NativeName: босански (ћирилица)
+Parent: bs
+ThreeLetterISOLanguageName: bos
+ThreeLetterWindowsLanguageName: BSC
+TwoLetterISOLanguageName: bs
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ボスニア語 (キリル文字、ボスニア・ヘルツェゴビナ)
+    EnglishName: Bosnian (Cyrillic, Bosnia & Herzegovina)
+    IetfLanguageTag: bs-Cyrl-BA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x201A (8218)
+    LCID: 0x201A, (8218)
+    Name: bs-Cyrl-BA
+    NativeName: босански (ћирилица, Босна и Херцеговина)
+    Parent: bs-Cyrl
+    ThreeLetterISOLanguageName: bos
+    ThreeLetterWindowsLanguageName: BSC
+    TwoLetterISOLanguageName: bs
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ボスニア語 (ラテン文字)
+EnglishName: Bosnian (Latin)
+IetfLanguageTag: bs-Latn
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x681A (26650)
+LCID: 0x681A, (26650)
+Name: bs-Latn
+NativeName: bosanski (latinica)
+Parent: bs
+ThreeLetterISOLanguageName: bos
+ThreeLetterWindowsLanguageName: BSB
+TwoLetterISOLanguageName: bs
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ボスニア語 (ラテン文字、ボスニア・ヘルツェゴビナ)
+    EnglishName: Bosnian (Latin, Bosnia & Herzegovina)
+    IetfLanguageTag: bs-Latn-BA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x141A (5146)
+    LCID: 0x141A, (5146)
+    Name: bs-Latn-BA
+    NativeName: bosanski (latinica, Bosna i Hercegovina)
+    Parent: bs-Latn
+    ThreeLetterISOLanguageName: bos
+    ThreeLetterWindowsLanguageName: BSB
+    TwoLetterISOLanguageName: bs
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: カタロニア語
+EnglishName: Catalan
+IetfLanguageTag: ca
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0003 (3)
+LCID: 0x0003, (3)
+Name: ca
+NativeName: català
+Parent: (Empty)
+ThreeLetterISOLanguageName: cat
+ThreeLetterWindowsLanguageName: CAT
+TwoLetterISOLanguageName: ca
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: カタロニア語 (スペイン)
+    EnglishName: Catalan (Spain)
+    IetfLanguageTag: ca-ES
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0403 (1027)
+    LCID: 0x0403, (1027)
+    Name: ca-ES
+    NativeName: català (Espanya)
+    Parent: ca
+    ThreeLetterISOLanguageName: cat
+    ThreeLetterWindowsLanguageName: CAT
+    TwoLetterISOLanguageName: ca
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: チェロキー語
+EnglishName: Cherokee
+IetfLanguageTag: chr
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x005C (92)
+LCID: 0x005C, (92)
+Name: chr
+NativeName: ᏣᎳᎩ
+Parent: (Empty)
+ThreeLetterISOLanguageName: chr
+ThreeLetterWindowsLanguageName: CRE
+TwoLetterISOLanguageName: chr
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: コルシカ語
+EnglishName: Corsican
+IetfLanguageTag: co
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0083 (131)
+LCID: 0x0083, (131)
+Name: co
+NativeName: Corsican
+Parent: (Empty)
+ThreeLetterISOLanguageName: cos
+ThreeLetterWindowsLanguageName: COS
+TwoLetterISOLanguageName: co
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: コルシカ語 (フランス)
+    EnglishName: Corsican (France)
+    IetfLanguageTag: co-FR
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0483 (1155)
+    LCID: 0x0483, (1155)
+    Name: co-FR
+    NativeName: Corsican (France)
+    Parent: co
+    ThreeLetterISOLanguageName: cos
+    ThreeLetterWindowsLanguageName: COS
+    TwoLetterISOLanguageName: co
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: チェコ語
+EnglishName: Czech
+IetfLanguageTag: cs
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0005 (5)
+LCID: 0x0005, (5)
+Name: cs
+NativeName: čeština
+Parent: (Empty)
+ThreeLetterISOLanguageName: ces
+ThreeLetterWindowsLanguageName: CSY
+TwoLetterISOLanguageName: cs
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: チェコ語 (チェコ)
+    EnglishName: Czech (Czechia)
+    IetfLanguageTag: cs-CZ
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0405 (1029)
+    LCID: 0x0405, (1029)
+    Name: cs-CZ
+    NativeName: čeština (Česko)
+    Parent: cs
+    ThreeLetterISOLanguageName: ces
+    ThreeLetterWindowsLanguageName: CSY
+    TwoLetterISOLanguageName: cs
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ウェールズ語
+EnglishName: Welsh
+IetfLanguageTag: cy
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0052 (82)
+LCID: 0x0052, (82)
+Name: cy
+NativeName: Cymraeg
+Parent: (Empty)
+ThreeLetterISOLanguageName: cym
+ThreeLetterWindowsLanguageName: CYM
+TwoLetterISOLanguageName: cy
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ウェールズ語 (イギリス)
+    EnglishName: Welsh (United Kingdom)
+    IetfLanguageTag: cy-GB
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0452 (1106)
+    LCID: 0x0452, (1106)
+    Name: cy-GB
+    NativeName: Cymraeg (Y Deyrnas Unedig)
+    Parent: cy
+    ThreeLetterISOLanguageName: cym
+    ThreeLetterWindowsLanguageName: CYM
+    TwoLetterISOLanguageName: cy
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: デンマーク語
+EnglishName: Danish
+IetfLanguageTag: da
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0006 (6)
+LCID: 0x0006, (6)
+Name: da
+NativeName: dansk
+Parent: (Empty)
+ThreeLetterISOLanguageName: dan
+ThreeLetterWindowsLanguageName: DAN
+TwoLetterISOLanguageName: da
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: デンマーク語 (デンマーク)
+    EnglishName: Danish (Denmark)
+    IetfLanguageTag: da-DK
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0406 (1030)
+    LCID: 0x0406, (1030)
+    Name: da-DK
+    NativeName: dansk (Danmark)
+    Parent: da
+    ThreeLetterISOLanguageName: dan
+    ThreeLetterWindowsLanguageName: DAN
+    TwoLetterISOLanguageName: da
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ドイツ語
+EnglishName: German
+IetfLanguageTag: de
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0007 (7)
+LCID: 0x0007, (7)
+Name: de
+NativeName: Deutsch
+Parent: (Empty)
+ThreeLetterISOLanguageName: deu
+ThreeLetterWindowsLanguageName: DEU
+TwoLetterISOLanguageName: de
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ドイツ語 (オーストリア)
+    EnglishName: German (Austria)
+    IetfLanguageTag: de-AT
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0C07 (3079)
+    LCID: 0x0C07, (3079)
+    Name: de-AT
+    NativeName: Deutsch (Österreich)
+    Parent: de
+    ThreeLetterISOLanguageName: deu
+    ThreeLetterWindowsLanguageName: DEA
+    TwoLetterISOLanguageName: de
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ドイツ語 (スイス)
+    EnglishName: German (Switzerland)
+    IetfLanguageTag: de-CH
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0807 (2055)
+    LCID: 0x0807, (2055)
+    Name: de-CH
+    NativeName: Deutsch (Schweiz)
+    Parent: de
+    ThreeLetterISOLanguageName: deu
+    ThreeLetterWindowsLanguageName: DES
+    TwoLetterISOLanguageName: de
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ドイツ語 (ドイツ)
+    EnglishName: German (Germany)
+    IetfLanguageTag: de-DE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0407 (1031)
+    LCID: 0x0407, (1031)
+    Name: de-DE
+    NativeName: Deutsch (Deutschland)
+    Parent: de
+    ThreeLetterISOLanguageName: deu
+    ThreeLetterWindowsLanguageName: DEU
+    TwoLetterISOLanguageName: de
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ドイツ語 (リヒテンシュタイン)
+    EnglishName: German (Liechtenstein)
+    IetfLanguageTag: de-LI
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x1407 (5127)
+    LCID: 0x1407, (5127)
+    Name: de-LI
+    NativeName: Deutsch (Liechtenstein)
+    Parent: de
+    ThreeLetterISOLanguageName: deu
+    ThreeLetterWindowsLanguageName: DEC
+    TwoLetterISOLanguageName: de
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ドイツ語 (ルクセンブルク)
+    EnglishName: German (Luxembourg)
+    IetfLanguageTag: de-LU
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x1007 (4103)
+    LCID: 0x1007, (4103)
+    Name: de-LU
+    NativeName: Deutsch (Luxemburg)
+    Parent: de
+    ThreeLetterISOLanguageName: deu
+    ThreeLetterWindowsLanguageName: DEL
+    TwoLetterISOLanguageName: de
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: 低地ソルブ語
+EnglishName: Lower Sorbian
+IetfLanguageTag: dsb
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x7C2E (31790)
+LCID: 0x7C2E, (31790)
+Name: dsb
+NativeName: dolnoserbšćina
+Parent: (Empty)
+ThreeLetterISOLanguageName: dsb
+ThreeLetterWindowsLanguageName: DSB
+TwoLetterISOLanguageName: dsb
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 低地ソルブ語 (ドイツ)
+    EnglishName: Lower Sorbian (Germany)
+    IetfLanguageTag: dsb-DE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x082E (2094)
+    LCID: 0x082E, (2094)
+    Name: dsb-DE
+    NativeName: dolnoserbšćina (Nimska)
+    Parent: dsb
+    ThreeLetterISOLanguageName: dsb
+    ThreeLetterWindowsLanguageName: DSB
+    TwoLetterISOLanguageName: dsb
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ディベヒ語
+EnglishName: Divehi
+IetfLanguageTag: dv
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0065 (101)
+LCID: 0x0065, (101)
+Name: dv
+NativeName: Divehi
+Parent: (Empty)
+ThreeLetterISOLanguageName: div
+ThreeLetterWindowsLanguageName: DIV
+TwoLetterISOLanguageName: dv
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ディベヒ語 (モルディブ)
+    EnglishName: Divehi (Maldives)
+    IetfLanguageTag: dv-MV
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0465 (1125)
+    LCID: 0x0465, (1125)
+    Name: dv-MV
+    NativeName: Divehi (Maldives)
+    Parent: dv
+    ThreeLetterISOLanguageName: div
+    ThreeLetterWindowsLanguageName: DIV
+    TwoLetterISOLanguageName: dv
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ギリシャ語
+EnglishName: Greek
+IetfLanguageTag: el
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0008 (8)
+LCID: 0x0008, (8)
+Name: el
+NativeName: Ελληνικά
+Parent: (Empty)
+ThreeLetterISOLanguageName: ell
+ThreeLetterWindowsLanguageName: ELL
+TwoLetterISOLanguageName: el
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ギリシャ語 (ギリシャ)
+    EnglishName: Greek (Greece)
+    IetfLanguageTag: el-GR
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0408 (1032)
+    LCID: 0x0408, (1032)
+    Name: el-GR
+    NativeName: Ελληνικά (Ελλάδα)
+    Parent: el
+    ThreeLetterISOLanguageName: ell
+    ThreeLetterWindowsLanguageName: ELL
+    TwoLetterISOLanguageName: el
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: 英語
+EnglishName: English
+IetfLanguageTag: en
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0009 (9)
+LCID: 0x0009, (9)
+Name: en
+NativeName: English
+Parent: (Empty)
+ThreeLetterISOLanguageName: eng
+ThreeLetterWindowsLanguageName: ENU
+TwoLetterISOLanguageName: en
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (オーストラリア)
+    EnglishName: English (Australia)
+    IetfLanguageTag: en-AU
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0C09 (3081)
+    LCID: 0x0C09, (3081)
+    Name: en-AU
+    NativeName: English (Australia)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENA
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (ベリーズ)
+    EnglishName: English (Belize)
+    IetfLanguageTag: en-BZ
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x2809 (10249)
+    LCID: 0x2809, (10249)
+    Name: en-BZ
+    NativeName: English (Belize)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENL
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (カナダ)
+    EnglishName: English (Canada)
+    IetfLanguageTag: en-CA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x1009 (4105)
+    LCID: 0x1009, (4105)
+    Name: en-CA
+    NativeName: English (Canada)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENC
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (イギリス)
+    EnglishName: English (United Kingdom)
+    IetfLanguageTag: en-GB
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0809 (2057)
+    LCID: 0x0809, (2057)
+    Name: en-GB
+    NativeName: English (United Kingdom)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENG
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (中華人民共和国香港特別行政区)
+    EnglishName: English (Hong Kong SAR)
+    IetfLanguageTag: en-HK
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x3C09 (15369)
+    LCID: 0x3C09, (15369)
+    Name: en-HK
+    NativeName: English (Hong Kong SAR)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENH
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (アイルランド)
+    EnglishName: English (Ireland)
+    IetfLanguageTag: en-IE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x1809 (6153)
+    LCID: 0x1809, (6153)
+    Name: en-IE
+    NativeName: English (Ireland)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENI
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (インド)
+    EnglishName: English (India)
+    IetfLanguageTag: en-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x4009 (16393)
+    LCID: 0x4009, (16393)
+    Name: en-IN
+    NativeName: English (India)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENN
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (ジャマイカ)
+    EnglishName: English (Jamaica)
+    IetfLanguageTag: en-JM
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x2009 (8201)
+    LCID: 0x2009, (8201)
+    Name: en-JM
+    NativeName: English (Jamaica)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENJ
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (マレーシア)
+    EnglishName: English (Malaysia)
+    IetfLanguageTag: en-MY
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x4409 (17417)
+    LCID: 0x4409, (17417)
+    Name: en-MY
+    NativeName: English (Malaysia)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENM
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (ニュージーランド)
+    EnglishName: English (New Zealand)
+    IetfLanguageTag: en-NZ
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x1409 (5129)
+    LCID: 0x1409, (5129)
+    Name: en-NZ
+    NativeName: English (New Zealand)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENZ
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (フィリピン)
+    EnglishName: English (Philippines)
+    IetfLanguageTag: en-PH
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x3409 (13321)
+    LCID: 0x3409, (13321)
+    Name: en-PH
+    NativeName: English (Philippines)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENP
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (シンガポール)
+    EnglishName: English (Singapore)
+    IetfLanguageTag: en-SG
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x4809 (18441)
+    LCID: 0x4809, (18441)
+    Name: en-SG
+    NativeName: English (Singapore)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENE
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (トリニダード・トバゴ)
+    EnglishName: English (Trinidad & Tobago)
+    IetfLanguageTag: en-TT
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x2C09 (11273)
+    LCID: 0x2C09, (11273)
+    Name: en-TT
+    NativeName: English (Trinidad & Tobago)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENT
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (アメリカ合衆国)
+    EnglishName: English (United States)
+    IetfLanguageTag: en-US
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0409 (1033)
+    LCID: 0x0409, (1033)
+    Name: en-US
+    NativeName: English (United States)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENU
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (南アフリカ)
+    EnglishName: English (South Africa)
+    IetfLanguageTag: en-ZA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x1C09 (7177)
+    LCID: 0x1C09, (7177)
+    Name: en-ZA
+    NativeName: English (South Africa)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENS
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 英語 (ジンバブエ)
+    EnglishName: English (Zimbabwe)
+    IetfLanguageTag: en-ZW
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x3009 (12297)
+    LCID: 0x3009, (12297)
+    Name: en-ZW
+    NativeName: English (Zimbabwe)
+    Parent: en
+    ThreeLetterISOLanguageName: eng
+    ThreeLetterWindowsLanguageName: ENW
+    TwoLetterISOLanguageName: en
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: スペイン語
+EnglishName: Spanish
+IetfLanguageTag: es
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x000A (10)
+LCID: 0x000A, (10)
+Name: es
+NativeName: español
+Parent: (Empty)
+ThreeLetterISOLanguageName: spa
+ThreeLetterWindowsLanguageName: ESP
+TwoLetterISOLanguageName: es
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (ラテンアメリカ)
+    EnglishName: Spanish (Latin America)
+    IetfLanguageTag: es-419
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x580A (22538)
+    LCID: 0x580A, (22538)
+    Name: es-419
+    NativeName: español (Latinoamérica)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESJ
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (アルゼンチン)
+    EnglishName: Spanish (Argentina)
+    IetfLanguageTag: es-AR
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x2C0A (11274)
+    LCID: 0x2C0A, (11274)
+    Name: es-AR
+    NativeName: español (Argentina)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESS
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (ボリビア)
+    EnglishName: Spanish (Bolivia)
+    IetfLanguageTag: es-BO
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x400A (16394)
+    LCID: 0x400A, (16394)
+    Name: es-BO
+    NativeName: español (Bolivia)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESB
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (チリ)
+    EnglishName: Spanish (Chile)
+    IetfLanguageTag: es-CL
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x340A (13322)
+    LCID: 0x340A, (13322)
+    Name: es-CL
+    NativeName: español (Chile)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESL
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (コロンビア)
+    EnglishName: Spanish (Colombia)
+    IetfLanguageTag: es-CO
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x240A (9226)
+    LCID: 0x240A, (9226)
+    Name: es-CO
+    NativeName: español (Colombia)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESO
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (コスタリカ)
+    EnglishName: Spanish (Costa Rica)
+    IetfLanguageTag: es-CR
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x140A (5130)
+    LCID: 0x140A, (5130)
+    Name: es-CR
+    NativeName: español (Costa Rica)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESC
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (キューバ)
+    EnglishName: Spanish (Cuba)
+    IetfLanguageTag: es-CU
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x5C0A (23562)
+    LCID: 0x5C0A, (23562)
+    Name: es-CU
+    NativeName: español (Cuba)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESK
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (ドミニカ共和国)
+    EnglishName: Spanish (Dominican Republic)
+    IetfLanguageTag: es-DO
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x1C0A (7178)
+    LCID: 0x1C0A, (7178)
+    Name: es-DO
+    NativeName: español (República Dominicana)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESD
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (エクアドル)
+    EnglishName: Spanish (Ecuador)
+    IetfLanguageTag: es-EC
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x300A (12298)
+    LCID: 0x300A, (12298)
+    Name: es-EC
+    NativeName: español (Ecuador)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESF
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (スペイン)
+    EnglishName: Spanish (Spain)
+    IetfLanguageTag: es-ES
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0C0A (3082)
+    LCID: 0x0C0A, (3082)
+    Name: es-ES
+    NativeName: español (España)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESN
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (グアテマラ)
+    EnglishName: Spanish (Guatemala)
+    IetfLanguageTag: es-GT
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x100A (4106)
+    LCID: 0x100A, (4106)
+    Name: es-GT
+    NativeName: español (Guatemala)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESG
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (ホンジュラス)
+    EnglishName: Spanish (Honduras)
+    IetfLanguageTag: es-HN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x480A (18442)
+    LCID: 0x480A, (18442)
+    Name: es-HN
+    NativeName: español (Honduras)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESH
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (メキシコ)
+    EnglishName: Spanish (Mexico)
+    IetfLanguageTag: es-MX
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x080A (2058)
+    LCID: 0x080A, (2058)
+    Name: es-MX
+    NativeName: español (México)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESM
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (ニカラグア)
+    EnglishName: Spanish (Nicaragua)
+    IetfLanguageTag: es-NI
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x4C0A (19466)
+    LCID: 0x4C0A, (19466)
+    Name: es-NI
+    NativeName: español (Nicaragua)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESI
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (パナマ)
+    EnglishName: Spanish (Panama)
+    IetfLanguageTag: es-PA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x180A (6154)
+    LCID: 0x180A, (6154)
+    Name: es-PA
+    NativeName: español (Panamá)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESA
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (ペルー)
+    EnglishName: Spanish (Peru)
+    IetfLanguageTag: es-PE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x280A (10250)
+    LCID: 0x280A, (10250)
+    Name: es-PE
+    NativeName: español (Perú)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESR
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (プエルトリコ)
+    EnglishName: Spanish (Puerto Rico)
+    IetfLanguageTag: es-PR
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x500A (20490)
+    LCID: 0x500A, (20490)
+    Name: es-PR
+    NativeName: español (Puerto Rico)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESU
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (パラグアイ)
+    EnglishName: Spanish (Paraguay)
+    IetfLanguageTag: es-PY
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x3C0A (15370)
+    LCID: 0x3C0A, (15370)
+    Name: es-PY
+    NativeName: español (Paraguay)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESZ
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (エルサルバドル)
+    EnglishName: Spanish (El Salvador)
+    IetfLanguageTag: es-SV
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x440A (17418)
+    LCID: 0x440A, (17418)
+    Name: es-SV
+    NativeName: español (El Salvador)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESE
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (アメリカ合衆国)
+    EnglishName: Spanish (United States)
+    IetfLanguageTag: es-US
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x540A (21514)
+    LCID: 0x540A, (21514)
+    Name: es-US
+    NativeName: español (Estados Unidos)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: EST
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (ウルグアイ)
+    EnglishName: Spanish (Uruguay)
+    IetfLanguageTag: es-UY
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x380A (14346)
+    LCID: 0x380A, (14346)
+    Name: es-UY
+    NativeName: español (Uruguay)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESY
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スペイン語 (ベネズエラ)
+    EnglishName: Spanish (Venezuela)
+    IetfLanguageTag: es-VE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x200A (8202)
+    LCID: 0x200A, (8202)
+    Name: es-VE
+    NativeName: español (Venezuela)
+    Parent: es
+    ThreeLetterISOLanguageName: spa
+    ThreeLetterWindowsLanguageName: ESV
+    TwoLetterISOLanguageName: es
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: エストニア語
+EnglishName: Estonian
+IetfLanguageTag: et
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0025 (37)
+LCID: 0x0025, (37)
+Name: et
+NativeName: eesti
+Parent: (Empty)
+ThreeLetterISOLanguageName: est
+ThreeLetterWindowsLanguageName: ETI
+TwoLetterISOLanguageName: et
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: エストニア語 (エストニア)
+    EnglishName: Estonian (Estonia)
+    IetfLanguageTag: et-EE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0425 (1061)
+    LCID: 0x0425, (1061)
+    Name: et-EE
+    NativeName: eesti (Eesti)
+    Parent: et
+    ThreeLetterISOLanguageName: est
+    ThreeLetterWindowsLanguageName: ETI
+    TwoLetterISOLanguageName: et
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: バスク語
+EnglishName: Basque
+IetfLanguageTag: eu
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x002D (45)
+LCID: 0x002D, (45)
+Name: eu
+NativeName: euskara
+Parent: (Empty)
+ThreeLetterISOLanguageName: eus
+ThreeLetterWindowsLanguageName: EUQ
+TwoLetterISOLanguageName: eu
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: バスク語 (スペイン)
+    EnglishName: Basque (Spain)
+    IetfLanguageTag: eu-ES
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x042D (1069)
+    LCID: 0x042D, (1069)
+    Name: eu-ES
+    NativeName: euskara (Espainia)
+    Parent: eu
+    ThreeLetterISOLanguageName: eus
+    ThreeLetterWindowsLanguageName: EUQ
+    TwoLetterISOLanguageName: eu
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ペルシア語
+EnglishName: Persian
+IetfLanguageTag: fa
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0029 (41)
+LCID: 0x0029, (41)
+Name: fa
+NativeName: فارسی
+Parent: (Empty)
+ThreeLetterISOLanguageName: fas
+ThreeLetterWindowsLanguageName: FAR
+TwoLetterISOLanguageName: fa
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ペルシア語 (イラン)
+    EnglishName: Persian (Iran)
+    IetfLanguageTag: fa-IR
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0429 (1065)
+    LCID: 0x0429, (1065)
+    Name: fa-IR
+    NativeName: فارسی (ایران)
+    Parent: fa
+    ThreeLetterISOLanguageName: fas
+    ThreeLetterWindowsLanguageName: FAR
+    TwoLetterISOLanguageName: fa
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: フラ語
+EnglishName: Fulah
+IetfLanguageTag: ff
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0067 (103)
+LCID: 0x0067, (103)
+Name: ff
+NativeName: Pulaar
+Parent: (Empty)
+ThreeLetterISOLanguageName: ful
+ThreeLetterWindowsLanguageName: FUL
+TwoLetterISOLanguageName: ff
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: フラ語 (ラテン文字)
+EnglishName: Fulah (Latin)
+IetfLanguageTag: ff-Latn
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x7C67 (31847)
+LCID: 0x7C67, (31847)
+Name: ff-Latn
+NativeName: Fulah (Latin)
+Parent: ff
+ThreeLetterISOLanguageName: ful
+ThreeLetterWindowsLanguageName: FUL
+TwoLetterISOLanguageName: ff
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フラ語 (ラテン文字、セネガル)
+    EnglishName: Fulah (Latin, Senegal)
+    IetfLanguageTag: ff-Latn-SN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0867 (2151)
+    LCID: 0x0867, (2151)
+    Name: ff-Latn-SN
+    NativeName: Fulah (Latin, Senegal)
+    Parent: ff-Latn
+    ThreeLetterISOLanguageName: ful
+    ThreeLetterWindowsLanguageName: FUL
+    TwoLetterISOLanguageName: ff
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: フィンランド語
+EnglishName: Finnish
+IetfLanguageTag: fi
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x000B (11)
+LCID: 0x000B, (11)
+Name: fi
+NativeName: suomi
+Parent: (Empty)
+ThreeLetterISOLanguageName: fin
+ThreeLetterWindowsLanguageName: FIN
+TwoLetterISOLanguageName: fi
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フィンランド語 (フィンランド)
+    EnglishName: Finnish (Finland)
+    IetfLanguageTag: fi-FI
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x040B (1035)
+    LCID: 0x040B, (1035)
+    Name: fi-FI
+    NativeName: suomi (Suomi)
+    Parent: fi
+    ThreeLetterISOLanguageName: fin
+    ThreeLetterWindowsLanguageName: FIN
+    TwoLetterISOLanguageName: fi
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: フィリピノ語
+EnglishName: Filipino
+IetfLanguageTag: fil
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0064 (100)
+LCID: 0x0064, (100)
+Name: fil
+NativeName: Filipino
+Parent: (Empty)
+ThreeLetterISOLanguageName: fil
+ThreeLetterWindowsLanguageName: FPO
+TwoLetterISOLanguageName: fil
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フィリピノ語 (フィリピン)
+    EnglishName: Filipino (Philippines)
+    IetfLanguageTag: fil-PH
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0464 (1124)
+    LCID: 0x0464, (1124)
+    Name: fil-PH
+    NativeName: Filipino (Pilipinas)
+    Parent: fil
+    ThreeLetterISOLanguageName: fil
+    ThreeLetterWindowsLanguageName: FPO
+    TwoLetterISOLanguageName: fil
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: フェロー語
+EnglishName: Faroese
+IetfLanguageTag: fo
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0038 (56)
+LCID: 0x0038, (56)
+Name: fo
+NativeName: føroyskt
+Parent: (Empty)
+ThreeLetterISOLanguageName: fao
+ThreeLetterWindowsLanguageName: FOS
+TwoLetterISOLanguageName: fo
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フェロー語 (フェロー諸島)
+    EnglishName: Faroese (Faroe Islands)
+    IetfLanguageTag: fo-FO
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0438 (1080)
+    LCID: 0x0438, (1080)
+    Name: fo-FO
+    NativeName: føroyskt (Føroyar)
+    Parent: fo
+    ThreeLetterISOLanguageName: fao
+    ThreeLetterWindowsLanguageName: FOS
+    TwoLetterISOLanguageName: fo
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: フランス語
+EnglishName: French
+IetfLanguageTag: fr
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x000C (12)
+LCID: 0x000C, (12)
+Name: fr
+NativeName: français
+Parent: (Empty)
+ThreeLetterISOLanguageName: fra
+ThreeLetterWindowsLanguageName: FRA
+TwoLetterISOLanguageName: fr
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フランス語 (ベルギー)
+    EnglishName: French (Belgium)
+    IetfLanguageTag: fr-BE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x080C (2060)
+    LCID: 0x080C, (2060)
+    Name: fr-BE
+    NativeName: français (Belgique)
+    Parent: fr
+    ThreeLetterISOLanguageName: fra
+    ThreeLetterWindowsLanguageName: FRB
+    TwoLetterISOLanguageName: fr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フランス語 (カナダ)
+    EnglishName: French (Canada)
+    IetfLanguageTag: fr-CA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0C0C (3084)
+    LCID: 0x0C0C, (3084)
+    Name: fr-CA
+    NativeName: français (Canada)
+    Parent: fr
+    ThreeLetterISOLanguageName: fra
+    ThreeLetterWindowsLanguageName: FRC
+    TwoLetterISOLanguageName: fr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フランス語 (コンゴ民主共和国[キンシャサ])
+    EnglishName: French (Congo [DRC])
+    IetfLanguageTag: fr-CD
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x240C (9228)
+    LCID: 0x240C, (9228)
+    Name: fr-CD
+    NativeName: français (Congo [République démocratique du])
+    Parent: fr
+    ThreeLetterISOLanguageName: fra
+    ThreeLetterWindowsLanguageName: FRD
+    TwoLetterISOLanguageName: fr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フランス語 (スイス)
+    EnglishName: French (Switzerland)
+    IetfLanguageTag: fr-CH
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x100C (4108)
+    LCID: 0x100C, (4108)
+    Name: fr-CH
+    NativeName: français (Suisse)
+    Parent: fr
+    ThreeLetterISOLanguageName: fra
+    ThreeLetterWindowsLanguageName: FRS
+    TwoLetterISOLanguageName: fr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フランス語 (コートジボワール)
+    EnglishName: French (Côte d’Ivoire)
+    IetfLanguageTag: fr-CI
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x300C (12300)
+    LCID: 0x300C, (12300)
+    Name: fr-CI
+    NativeName: français (Côte d’Ivoire)
+    Parent: fr
+    ThreeLetterISOLanguageName: fra
+    ThreeLetterWindowsLanguageName: FRI
+    TwoLetterISOLanguageName: fr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フランス語 (カメルーン)
+    EnglishName: French (Cameroon)
+    IetfLanguageTag: fr-CM
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x2C0C (11276)
+    LCID: 0x2C0C, (11276)
+    Name: fr-CM
+    NativeName: français (Cameroun)
+    Parent: fr
+    ThreeLetterISOLanguageName: fra
+    ThreeLetterWindowsLanguageName: FRE
+    TwoLetterISOLanguageName: fr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フランス語 (フランス)
+    EnglishName: French (France)
+    IetfLanguageTag: fr-FR
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x040C (1036)
+    LCID: 0x040C, (1036)
+    Name: fr-FR
+    NativeName: français (France)
+    Parent: fr
+    ThreeLetterISOLanguageName: fra
+    ThreeLetterWindowsLanguageName: FRA
+    TwoLetterISOLanguageName: fr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フランス語 (ハイチ)
+    EnglishName: French (Haiti)
+    IetfLanguageTag: fr-HT
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x3C0C (15372)
+    LCID: 0x3C0C, (15372)
+    Name: fr-HT
+    NativeName: français (Haïti)
+    Parent: fr
+    ThreeLetterISOLanguageName: fra
+    ThreeLetterWindowsLanguageName: FRH
+    TwoLetterISOLanguageName: fr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フランス語 (ルクセンブルク)
+    EnglishName: French (Luxembourg)
+    IetfLanguageTag: fr-LU
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x140C (5132)
+    LCID: 0x140C, (5132)
+    Name: fr-LU
+    NativeName: français (Luxembourg)
+    Parent: fr
+    ThreeLetterISOLanguageName: fra
+    ThreeLetterWindowsLanguageName: FRL
+    TwoLetterISOLanguageName: fr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フランス語 (モロッコ)
+    EnglishName: French (Morocco)
+    IetfLanguageTag: fr-MA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x380C (14348)
+    LCID: 0x380C, (14348)
+    Name: fr-MA
+    NativeName: français (Maroc)
+    Parent: fr
+    ThreeLetterISOLanguageName: fra
+    ThreeLetterWindowsLanguageName: FRO
+    TwoLetterISOLanguageName: fr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フランス語 (モナコ)
+    EnglishName: French (Monaco)
+    IetfLanguageTag: fr-MC
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x180C (6156)
+    LCID: 0x180C, (6156)
+    Name: fr-MC
+    NativeName: français (Monaco)
+    Parent: fr
+    ThreeLetterISOLanguageName: fra
+    ThreeLetterWindowsLanguageName: FRM
+    TwoLetterISOLanguageName: fr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フランス語 (マリ)
+    EnglishName: French (Mali)
+    IetfLanguageTag: fr-ML
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x340C (13324)
+    LCID: 0x340C, (13324)
+    Name: fr-ML
+    NativeName: français (Mali)
+    Parent: fr
+    ThreeLetterISOLanguageName: fra
+    ThreeLetterWindowsLanguageName: FRF
+    TwoLetterISOLanguageName: fr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フランス語 (レユニオン)
+    EnglishName: French (Réunion)
+    IetfLanguageTag: fr-RE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x200C (8204)
+    LCID: 0x200C, (8204)
+    Name: fr-RE
+    NativeName: français (La Réunion)
+    Parent: fr
+    ThreeLetterISOLanguageName: fra
+    ThreeLetterWindowsLanguageName: FRR
+    TwoLetterISOLanguageName: fr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: フランス語 (セネガル)
+    EnglishName: French (Senegal)
+    IetfLanguageTag: fr-SN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x280C (10252)
+    LCID: 0x280C, (10252)
+    Name: fr-SN
+    NativeName: français (Sénégal)
+    Parent: fr
+    ThreeLetterISOLanguageName: fra
+    ThreeLetterWindowsLanguageName: FRN
+    TwoLetterISOLanguageName: fr
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: 西フリジア語
+EnglishName: Western Frisian
+IetfLanguageTag: fy
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0062 (98)
+LCID: 0x0062, (98)
+Name: fy
+NativeName: Frysk
+Parent: (Empty)
+ThreeLetterISOLanguageName: fry
+ThreeLetterWindowsLanguageName: FYN
+TwoLetterISOLanguageName: fy
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 西フリジア語 (オランダ)
+    EnglishName: Western Frisian (Netherlands)
+    IetfLanguageTag: fy-NL
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0462 (1122)
+    LCID: 0x0462, (1122)
+    Name: fy-NL
+    NativeName: Frysk (Nederlân)
+    Parent: fy
+    ThreeLetterISOLanguageName: fry
+    ThreeLetterWindowsLanguageName: FYN
+    TwoLetterISOLanguageName: fy
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: アイルランド語
+EnglishName: Irish
+IetfLanguageTag: ga
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x003C (60)
+LCID: 0x003C, (60)
+Name: ga
+NativeName: Gaeilge
+Parent: (Empty)
+ThreeLetterISOLanguageName: gle
+ThreeLetterWindowsLanguageName: IRE
+TwoLetterISOLanguageName: ga
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アイルランド語 (アイルランド)
+    EnglishName: Irish (Ireland)
+    IetfLanguageTag: ga-IE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x083C (2108)
+    LCID: 0x083C, (2108)
+    Name: ga-IE
+    NativeName: Gaeilge (Éire)
+    Parent: ga
+    ThreeLetterISOLanguageName: gle
+    ThreeLetterWindowsLanguageName: IRE
+    TwoLetterISOLanguageName: ga
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: スコットランド・ゲール語
+EnglishName: Scottish Gaelic
+IetfLanguageTag: gd
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0091 (145)
+LCID: 0x0091, (145)
+Name: gd
+NativeName: Gàidhlig
+Parent: (Empty)
+ThreeLetterISOLanguageName: gla
+ThreeLetterWindowsLanguageName: GLA
+TwoLetterISOLanguageName: gd
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スコットランド・ゲール語 (イギリス)
+    EnglishName: Scottish Gaelic (United Kingdom)
+    IetfLanguageTag: gd-GB
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0491 (1169)
+    LCID: 0x0491, (1169)
+    Name: gd-GB
+    NativeName: Gàidhlig (An Rìoghachd Aonaichte)
+    Parent: gd
+    ThreeLetterISOLanguageName: gla
+    ThreeLetterWindowsLanguageName: GLA
+    TwoLetterISOLanguageName: gd
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ガリシア語
+EnglishName: Galician
+IetfLanguageTag: gl
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0056 (86)
+LCID: 0x0056, (86)
+Name: gl
+NativeName: galego
+Parent: (Empty)
+ThreeLetterISOLanguageName: glg
+ThreeLetterWindowsLanguageName: GLC
+TwoLetterISOLanguageName: gl
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ガリシア語 (スペイン)
+    EnglishName: Galician (Spain)
+    IetfLanguageTag: gl-ES
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0456 (1110)
+    LCID: 0x0456, (1110)
+    Name: gl-ES
+    NativeName: galego (España)
+    Parent: gl
+    ThreeLetterISOLanguageName: glg
+    ThreeLetterWindowsLanguageName: GLC
+    TwoLetterISOLanguageName: gl
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: グアラニー語
+EnglishName: Guarani
+IetfLanguageTag: gn
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0074 (116)
+LCID: 0x0074, (116)
+Name: gn
+NativeName: Guarani
+Parent: (Empty)
+ThreeLetterISOLanguageName: grn
+ThreeLetterWindowsLanguageName: GRN
+TwoLetterISOLanguageName: gn
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: グアラニー語 (パラグアイ)
+    EnglishName: Guarani (Paraguay)
+    IetfLanguageTag: gn-PY
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0474 (1140)
+    LCID: 0x0474, (1140)
+    Name: gn-PY
+    NativeName: Guarani (Paraguay)
+    Parent: gn
+    ThreeLetterISOLanguageName: grn
+    ThreeLetterWindowsLanguageName: GRN
+    TwoLetterISOLanguageName: gn
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: スイスドイツ語
+EnglishName: Swiss German
+IetfLanguageTag: gsw
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0084 (132)
+LCID: 0x0084, (132)
+Name: gsw
+NativeName: Schwiizertüütsch
+Parent: (Empty)
+ThreeLetterISOLanguageName: gsw
+ThreeLetterWindowsLanguageName: ZZZ
+TwoLetterISOLanguageName: gsw
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スイスドイツ語 (フランス)
+    EnglishName: Swiss German (France)
+    IetfLanguageTag: gsw-FR
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0484 (1156)
+    LCID: 0x0484, (1156)
+    Name: gsw-FR
+    NativeName: Elsässisch (Frànkrisch)
+    Parent: gsw
+    ThreeLetterISOLanguageName: gsw
+    ThreeLetterWindowsLanguageName: GSW
+    TwoLetterISOLanguageName: gsw
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: グジャラート語
+EnglishName: Gujarati
+IetfLanguageTag: gu
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0047 (71)
+LCID: 0x0047, (71)
+Name: gu
+NativeName: ગુજરાતી
+Parent: (Empty)
+ThreeLetterISOLanguageName: guj
+ThreeLetterWindowsLanguageName: GUJ
+TwoLetterISOLanguageName: gu
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: グジャラート語 (インド)
+    EnglishName: Gujarati (India)
+    IetfLanguageTag: gu-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0447 (1095)
+    LCID: 0x0447, (1095)
+    Name: gu-IN
+    NativeName: ગુજરાતી (ભારત)
+    Parent: gu
+    ThreeLetterISOLanguageName: guj
+    ThreeLetterWindowsLanguageName: GUJ
+    TwoLetterISOLanguageName: gu
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ハウサ語
+EnglishName: Hausa
+IetfLanguageTag: ha
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0068 (104)
+LCID: 0x0068, (104)
+Name: ha
+NativeName: Hausa
+Parent: (Empty)
+ThreeLetterISOLanguageName: hau
+ThreeLetterWindowsLanguageName: HAU
+TwoLetterISOLanguageName: ha
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ハワイ語
+EnglishName: Hawaiian
+IetfLanguageTag: haw
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0075 (117)
+LCID: 0x0075, (117)
+Name: haw
+NativeName: ʻŌlelo Hawaiʻi
+Parent: (Empty)
+ThreeLetterISOLanguageName: haw
+ThreeLetterWindowsLanguageName: HAW
+TwoLetterISOLanguageName: haw
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ハワイ語 (アメリカ合衆国)
+    EnglishName: Hawaiian (United States)
+    IetfLanguageTag: haw-US
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0475 (1141)
+    LCID: 0x0475, (1141)
+    Name: haw-US
+    NativeName: ʻŌlelo Hawaiʻi (ʻAmelika Hui Pū ʻIa)
+    Parent: haw
+    ThreeLetterISOLanguageName: haw
+    ThreeLetterWindowsLanguageName: HAW
+    TwoLetterISOLanguageName: haw
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ヘブライ語
+EnglishName: Hebrew
+IetfLanguageTag: he
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x000D (13)
+LCID: 0x000D, (13)
+Name: he
+NativeName: עברית
+Parent: (Empty)
+ThreeLetterISOLanguageName: heb
+ThreeLetterWindowsLanguageName: HEB
+TwoLetterISOLanguageName: he
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ヘブライ語 (イスラエル)
+    EnglishName: Hebrew (Israel)
+    IetfLanguageTag: he-IL
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x040D (1037)
+    LCID: 0x040D, (1037)
+    Name: he-IL
+    NativeName: עברית (ישראל)
+    Parent: he
+    ThreeLetterISOLanguageName: heb
+    ThreeLetterWindowsLanguageName: HEB
+    TwoLetterISOLanguageName: he
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ヒンディー語
+EnglishName: Hindi
+IetfLanguageTag: hi
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0039 (57)
+LCID: 0x0039, (57)
+Name: hi
+NativeName: हिन्दी
+Parent: (Empty)
+ThreeLetterISOLanguageName: hin
+ThreeLetterWindowsLanguageName: HIN
+TwoLetterISOLanguageName: hi
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ヒンディー語 (インド)
+    EnglishName: Hindi (India)
+    IetfLanguageTag: hi-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0439 (1081)
+    LCID: 0x0439, (1081)
+    Name: hi-IN
+    NativeName: हिन्दी (भारत)
+    Parent: hi
+    ThreeLetterISOLanguageName: hin
+    ThreeLetterWindowsLanguageName: HIN
+    TwoLetterISOLanguageName: hi
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: クロアチア語
+EnglishName: Croatian
+IetfLanguageTag: hr
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x001A (26)
+LCID: 0x001A, (26)
+Name: hr
+NativeName: hrvatski
+Parent: (Empty)
+ThreeLetterISOLanguageName: hrv
+ThreeLetterWindowsLanguageName: HRV
+TwoLetterISOLanguageName: hr
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: クロアチア語 (ボスニア・ヘルツェゴビナ)
+    EnglishName: Croatian (Bosnia & Herzegovina)
+    IetfLanguageTag: hr-BA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x101A (4122)
+    LCID: 0x101A, (4122)
+    Name: hr-BA
+    NativeName: hrvatski (Bosna i Hercegovina)
+    Parent: hr
+    ThreeLetterISOLanguageName: hrv
+    ThreeLetterWindowsLanguageName: HRB
+    TwoLetterISOLanguageName: hr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: クロアチア語 (クロアチア)
+    EnglishName: Croatian (Croatia)
+    IetfLanguageTag: hr-HR
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x041A (1050)
+    LCID: 0x041A, (1050)
+    Name: hr-HR
+    NativeName: hrvatski (Hrvatska)
+    Parent: hr
+    ThreeLetterISOLanguageName: hrv
+    ThreeLetterWindowsLanguageName: HRV
+    TwoLetterISOLanguageName: hr
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: 高地ソルブ語
+EnglishName: Upper Sorbian
+IetfLanguageTag: hsb
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x002E (46)
+LCID: 0x002E, (46)
+Name: hsb
+NativeName: hornjoserbšćina
+Parent: (Empty)
+ThreeLetterISOLanguageName: hsb
+ThreeLetterWindowsLanguageName: HSB
+TwoLetterISOLanguageName: hsb
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 高地ソルブ語 (ドイツ)
+    EnglishName: Upper Sorbian (Germany)
+    IetfLanguageTag: hsb-DE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x042E (1070)
+    LCID: 0x042E, (1070)
+    Name: hsb-DE
+    NativeName: hornjoserbšćina (Němska)
+    Parent: hsb
+    ThreeLetterISOLanguageName: hsb
+    ThreeLetterWindowsLanguageName: HSB
+    TwoLetterISOLanguageName: hsb
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ハンガリー語
+EnglishName: Hungarian
+IetfLanguageTag: hu
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x000E (14)
+LCID: 0x000E, (14)
+Name: hu
+NativeName: magyar
+Parent: (Empty)
+ThreeLetterISOLanguageName: hun
+ThreeLetterWindowsLanguageName: HUN
+TwoLetterISOLanguageName: hu
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ハンガリー語 (ハンガリー)
+    EnglishName: Hungarian (Hungary)
+    IetfLanguageTag: hu-HU
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x040E (1038)
+    LCID: 0x040E, (1038)
+    Name: hu-HU
+    NativeName: magyar (Magyarország)
+    Parent: hu
+    ThreeLetterISOLanguageName: hun
+    ThreeLetterWindowsLanguageName: HUN
+    TwoLetterISOLanguageName: hu
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: アルメニア語
+EnglishName: Armenian
+IetfLanguageTag: hy
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x002B (43)
+LCID: 0x002B, (43)
+Name: hy
+NativeName: հայերեն
+Parent: (Empty)
+ThreeLetterISOLanguageName: hye
+ThreeLetterWindowsLanguageName: HYE
+TwoLetterISOLanguageName: hy
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アルメニア語 (アルメニア)
+    EnglishName: Armenian (Armenia)
+    IetfLanguageTag: hy-AM
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x042B (1067)
+    LCID: 0x042B, (1067)
+    Name: hy-AM
+    NativeName: հայերեն (Հայաստան)
+    Parent: hy
+    ThreeLetterISOLanguageName: hye
+    ThreeLetterWindowsLanguageName: HYE
+    TwoLetterISOLanguageName: hy
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: インドネシア語
+EnglishName: Indonesian
+IetfLanguageTag: id
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0021 (33)
+LCID: 0x0021, (33)
+Name: id
+NativeName: Indonesia
+Parent: (Empty)
+ThreeLetterISOLanguageName: ind
+ThreeLetterWindowsLanguageName: IND
+TwoLetterISOLanguageName: id
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: インドネシア語 (インドネシア)
+    EnglishName: Indonesian (Indonesia)
+    IetfLanguageTag: id-ID
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0421 (1057)
+    LCID: 0x0421, (1057)
+    Name: id-ID
+    NativeName: Indonesia (Indonesia)
+    Parent: id
+    ThreeLetterISOLanguageName: ind
+    ThreeLetterWindowsLanguageName: IND
+    TwoLetterISOLanguageName: id
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: イボ語
+EnglishName: Igbo
+IetfLanguageTag: ig
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0070 (112)
+LCID: 0x0070, (112)
+Name: ig
+NativeName: Asụsụ Igbo
+Parent: (Empty)
+ThreeLetterISOLanguageName: ibo
+ThreeLetterWindowsLanguageName: IBO
+TwoLetterISOLanguageName: ig
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: イボ語 (ナイジェリア)
+    EnglishName: Igbo (Nigeria)
+    IetfLanguageTag: ig-NG
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0470 (1136)
+    LCID: 0x0470, (1136)
+    Name: ig-NG
+    NativeName: Asụsụ Igbo (Naịjịrịa)
+    Parent: ig
+    ThreeLetterISOLanguageName: ibo
+    ThreeLetterWindowsLanguageName: IBO
+    TwoLetterISOLanguageName: ig
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: イ語
+EnglishName: Yi
+IetfLanguageTag: ii
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0078 (120)
+LCID: 0x0078, (120)
+Name: ii
+NativeName: ꆈꌠꉙ
+Parent: (Empty)
+ThreeLetterISOLanguageName: iii
+ThreeLetterWindowsLanguageName: III
+TwoLetterISOLanguageName: ii
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: イ語 (中国)
+    EnglishName: Yi (China)
+    IetfLanguageTag: ii-CN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0478 (1144)
+    LCID: 0x0478, (1144)
+    Name: ii-CN
+    NativeName: ꆈꌠꉙ (ꍏꇩ)
+    Parent: ii
+    ThreeLetterISOLanguageName: iii
+    ThreeLetterWindowsLanguageName: III
+    TwoLetterISOLanguageName: ii
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: アイスランド語
+EnglishName: Icelandic
+IetfLanguageTag: is
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x000F (15)
+LCID: 0x000F, (15)
+Name: is
+NativeName: íslenska
+Parent: (Empty)
+ThreeLetterISOLanguageName: isl
+ThreeLetterWindowsLanguageName: ISL
+TwoLetterISOLanguageName: is
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アイスランド語 (アイスランド)
+    EnglishName: Icelandic (Iceland)
+    IetfLanguageTag: is-IS
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x040F (1039)
+    LCID: 0x040F, (1039)
+    Name: is-IS
+    NativeName: íslenska (Ísland)
+    Parent: is
+    ThreeLetterISOLanguageName: isl
+    ThreeLetterWindowsLanguageName: ISL
+    TwoLetterISOLanguageName: is
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: イタリア語
+EnglishName: Italian
+IetfLanguageTag: it
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0010 (16)
+LCID: 0x0010, (16)
+Name: it
+NativeName: italiano
+Parent: (Empty)
+ThreeLetterISOLanguageName: ita
+ThreeLetterWindowsLanguageName: ITA
+TwoLetterISOLanguageName: it
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: イタリア語 (スイス)
+    EnglishName: Italian (Switzerland)
+    IetfLanguageTag: it-CH
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0810 (2064)
+    LCID: 0x0810, (2064)
+    Name: it-CH
+    NativeName: italiano (Svizzera)
+    Parent: it
+    ThreeLetterISOLanguageName: ita
+    ThreeLetterWindowsLanguageName: ITS
+    TwoLetterISOLanguageName: it
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: イタリア語 (イタリア)
+    EnglishName: Italian (Italy)
+    IetfLanguageTag: it-IT
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0410 (1040)
+    LCID: 0x0410, (1040)
+    Name: it-IT
+    NativeName: italiano (Italia)
+    Parent: it
+    ThreeLetterISOLanguageName: ita
+    ThreeLetterWindowsLanguageName: ITA
+    TwoLetterISOLanguageName: it
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: イヌクティトット語
+EnglishName: Inuktitut
+IetfLanguageTag: iu
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x005D (93)
+LCID: 0x005D, (93)
+Name: iu
+NativeName: Inuktitut
+Parent: (Empty)
+ThreeLetterISOLanguageName: iku
+ThreeLetterWindowsLanguageName: IUK
+TwoLetterISOLanguageName: iu
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: イヌクティトット語 (ラテン文字)
+EnglishName: Inuktitut (Latin)
+IetfLanguageTag: iu-Latn
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x7C5D (31837)
+LCID: 0x7C5D, (31837)
+Name: iu-Latn
+NativeName: Inuktitut (Latin)
+Parent: iu
+ThreeLetterISOLanguageName: iku
+ThreeLetterWindowsLanguageName: IUK
+TwoLetterISOLanguageName: iu
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: イヌクティトット語 (ラテン文字、カナダ)
+    EnglishName: Inuktitut (Latin, Canada)
+    IetfLanguageTag: iu-Latn-CA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x085D (2141)
+    LCID: 0x085D, (2141)
+    Name: iu-Latn-CA
+    NativeName: Inuktitut (Latin, Canada)
+    Parent: iu-Latn
+    ThreeLetterISOLanguageName: iku
+    ThreeLetterWindowsLanguageName: IUK
+    TwoLetterISOLanguageName: iu
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: 日本語
+EnglishName: Japanese
+IetfLanguageTag: ja
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0011 (17)
+LCID: 0x0011, (17)
+Name: ja
+NativeName: 日本語
+Parent: (Empty)
+ThreeLetterISOLanguageName: jpn
+ThreeLetterWindowsLanguageName: JPN
+TwoLetterISOLanguageName: ja
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 日本語 (日本)
+    EnglishName: Japanese (Japan)
+    IetfLanguageTag: ja-JP
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0411 (1041)
+    LCID: 0x0411, (1041)
+    Name: ja-JP
+    NativeName: 日本語 (日本)
+    Parent: ja
+    ThreeLetterISOLanguageName: jpn
+    ThreeLetterWindowsLanguageName: JPN
+    TwoLetterISOLanguageName: ja
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ジョージア語
+EnglishName: Georgian
+IetfLanguageTag: ka
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0037 (55)
+LCID: 0x0037, (55)
+Name: ka
+NativeName: ქართული
+Parent: (Empty)
+ThreeLetterISOLanguageName: kat
+ThreeLetterWindowsLanguageName: KAT
+TwoLetterISOLanguageName: ka
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ジョージア語 (ジョージア)
+    EnglishName: Georgian (Georgia)
+    IetfLanguageTag: ka-GE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0437 (1079)
+    LCID: 0x0437, (1079)
+    Name: ka-GE
+    NativeName: ქართული (საქართველო)
+    Parent: ka
+    ThreeLetterISOLanguageName: kat
+    ThreeLetterWindowsLanguageName: KAT
+    TwoLetterISOLanguageName: ka
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: カザフ語
+EnglishName: Kazakh
+IetfLanguageTag: kk
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x003F (63)
+LCID: 0x003F, (63)
+Name: kk
+NativeName: қазақ тілі
+Parent: (Empty)
+ThreeLetterISOLanguageName: kaz
+ThreeLetterWindowsLanguageName: KKZ
+TwoLetterISOLanguageName: kk
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: カザフ語 (カザフスタン)
+    EnglishName: Kazakh (Kazakhstan)
+    IetfLanguageTag: kk-KZ
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x043F (1087)
+    LCID: 0x043F, (1087)
+    Name: kk-KZ
+    NativeName: қазақ тілі (Қазақстан)
+    Parent: kk
+    ThreeLetterISOLanguageName: kaz
+    ThreeLetterWindowsLanguageName: KKZ
+    TwoLetterISOLanguageName: kk
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: グリーンランド語
+EnglishName: Kalaallisut
+IetfLanguageTag: kl
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x006F (111)
+LCID: 0x006F, (111)
+Name: kl
+NativeName: kalaallisut
+Parent: (Empty)
+ThreeLetterISOLanguageName: kal
+ThreeLetterWindowsLanguageName: KAL
+TwoLetterISOLanguageName: kl
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: グリーンランド語 (グリーンランド)
+    EnglishName: Kalaallisut (Greenland)
+    IetfLanguageTag: kl-GL
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x046F (1135)
+    LCID: 0x046F, (1135)
+    Name: kl-GL
+    NativeName: kalaallisut (Kalaallit Nunaat)
+    Parent: kl
+    ThreeLetterISOLanguageName: kal
+    ThreeLetterWindowsLanguageName: KAL
+    TwoLetterISOLanguageName: kl
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: クメール語
+EnglishName: Khmer
+IetfLanguageTag: km
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0053 (83)
+LCID: 0x0053, (83)
+Name: km
+NativeName: ខ្មែរ
+Parent: (Empty)
+ThreeLetterISOLanguageName: khm
+ThreeLetterWindowsLanguageName: KHM
+TwoLetterISOLanguageName: km
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: クメール語 (カンボジア)
+    EnglishName: Khmer (Cambodia)
+    IetfLanguageTag: km-KH
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0453 (1107)
+    LCID: 0x0453, (1107)
+    Name: km-KH
+    NativeName: ខ្មែរ (កម្ពុជា)
+    Parent: km
+    ThreeLetterISOLanguageName: khm
+    ThreeLetterWindowsLanguageName: KHM
+    TwoLetterISOLanguageName: km
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: カンナダ語
+EnglishName: Kannada
+IetfLanguageTag: kn
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x004B (75)
+LCID: 0x004B, (75)
+Name: kn
+NativeName: ಕನ್ನಡ
+Parent: (Empty)
+ThreeLetterISOLanguageName: kan
+ThreeLetterWindowsLanguageName: KDI
+TwoLetterISOLanguageName: kn
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: カンナダ語 (インド)
+    EnglishName: Kannada (India)
+    IetfLanguageTag: kn-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x044B (1099)
+    LCID: 0x044B, (1099)
+    Name: kn-IN
+    NativeName: ಕನ್ನಡ (ಭಾರತ)
+    Parent: kn
+    ThreeLetterISOLanguageName: kan
+    ThreeLetterWindowsLanguageName: KDI
+    TwoLetterISOLanguageName: kn
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: 韓国語
+EnglishName: Korean
+IetfLanguageTag: ko
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0012 (18)
+LCID: 0x0012, (18)
+Name: ko
+NativeName: 한국어
+Parent: (Empty)
+ThreeLetterISOLanguageName: kor
+ThreeLetterWindowsLanguageName: KOR
+TwoLetterISOLanguageName: ko
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 韓国語 (韓国)
+    EnglishName: Korean (Korea)
+    IetfLanguageTag: ko-KR
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0412 (1042)
+    LCID: 0x0412, (1042)
+    Name: ko-KR
+    NativeName: 한국어(대한민국)
+    Parent: ko
+    ThreeLetterISOLanguageName: kor
+    ThreeLetterWindowsLanguageName: KOR
+    TwoLetterISOLanguageName: ko
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: コンカニ語
+EnglishName: Konkani
+IetfLanguageTag: kok
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0057 (87)
+LCID: 0x0057, (87)
+Name: kok
+NativeName: कोंकणी
+Parent: (Empty)
+ThreeLetterISOLanguageName: kok
+ThreeLetterWindowsLanguageName: KNK
+TwoLetterISOLanguageName: kok
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: コンカニ語 (インド)
+    EnglishName: Konkani (India)
+    IetfLanguageTag: kok-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0457 (1111)
+    LCID: 0x0457, (1111)
+    Name: kok-IN
+    NativeName: कोंकणी (भारत)
+    Parent: kok
+    ThreeLetterISOLanguageName: kok
+    ThreeLetterWindowsLanguageName: KNK
+    TwoLetterISOLanguageName: kok
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: カシミール語
+EnglishName: Kashmiri
+IetfLanguageTag: ks
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0060 (96)
+LCID: 0x0060, (96)
+Name: ks
+NativeName: کٲشُر
+Parent: (Empty)
+ThreeLetterISOLanguageName: kas
+ThreeLetterWindowsLanguageName: ZZZ
+TwoLetterISOLanguageName: ks
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: キルギス語
+EnglishName: Kyrgyz
+IetfLanguageTag: ky
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0040 (64)
+LCID: 0x0040, (64)
+Name: ky
+NativeName: кыргызча
+Parent: (Empty)
+ThreeLetterISOLanguageName: kir
+ThreeLetterWindowsLanguageName: KYR
+TwoLetterISOLanguageName: ky
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: キルギス語 (キルギス)
+    EnglishName: Kyrgyz (Kyrgyzstan)
+    IetfLanguageTag: ky-KG
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0440 (1088)
+    LCID: 0x0440, (1088)
+    Name: ky-KG
+    NativeName: кыргызча (Кыргызстан)
+    Parent: ky
+    ThreeLetterISOLanguageName: kir
+    ThreeLetterWindowsLanguageName: KYR
+    TwoLetterISOLanguageName: ky
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ルクセンブルク語
+EnglishName: Luxembourgish
+IetfLanguageTag: lb
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x006E (110)
+LCID: 0x006E, (110)
+Name: lb
+NativeName: Lëtzebuergesch
+Parent: (Empty)
+ThreeLetterISOLanguageName: ltz
+ThreeLetterWindowsLanguageName: LBX
+TwoLetterISOLanguageName: lb
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ルクセンブルク語 (ルクセンブルク)
+    EnglishName: Luxembourgish (Luxembourg)
+    IetfLanguageTag: lb-LU
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x046E (1134)
+    LCID: 0x046E, (1134)
+    Name: lb-LU
+    NativeName: Lëtzebuergesch (Lëtzebuerg)
+    Parent: lb
+    ThreeLetterISOLanguageName: ltz
+    ThreeLetterWindowsLanguageName: LBX
+    TwoLetterISOLanguageName: lb
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ラオ語
+EnglishName: Lao
+IetfLanguageTag: lo
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0054 (84)
+LCID: 0x0054, (84)
+Name: lo
+NativeName: ລາວ
+Parent: (Empty)
+ThreeLetterISOLanguageName: lao
+ThreeLetterWindowsLanguageName: LAO
+TwoLetterISOLanguageName: lo
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ラオ語 (ラオス)
+    EnglishName: Lao (Laos)
+    IetfLanguageTag: lo-LA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0454 (1108)
+    LCID: 0x0454, (1108)
+    Name: lo-LA
+    NativeName: ລາວ (ລາວ)
+    Parent: lo
+    ThreeLetterISOLanguageName: lao
+    ThreeLetterWindowsLanguageName: LAO
+    TwoLetterISOLanguageName: lo
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: リトアニア語
+EnglishName: Lithuanian
+IetfLanguageTag: lt
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0027 (39)
+LCID: 0x0027, (39)
+Name: lt
+NativeName: lietuvių
+Parent: (Empty)
+ThreeLetterISOLanguageName: lit
+ThreeLetterWindowsLanguageName: LTH
+TwoLetterISOLanguageName: lt
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: リトアニア語 (リトアニア)
+    EnglishName: Lithuanian (Lithuania)
+    IetfLanguageTag: lt-LT
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0427 (1063)
+    LCID: 0x0427, (1063)
+    Name: lt-LT
+    NativeName: lietuvių (Lietuva)
+    Parent: lt
+    ThreeLetterISOLanguageName: lit
+    ThreeLetterWindowsLanguageName: LTH
+    TwoLetterISOLanguageName: lt
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ラトビア語
+EnglishName: Latvian
+IetfLanguageTag: lv
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0026 (38)
+LCID: 0x0026, (38)
+Name: lv
+NativeName: latviešu
+Parent: (Empty)
+ThreeLetterISOLanguageName: lav
+ThreeLetterWindowsLanguageName: LVI
+TwoLetterISOLanguageName: lv
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ラトビア語 (ラトビア)
+    EnglishName: Latvian (Latvia)
+    IetfLanguageTag: lv-LV
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0426 (1062)
+    LCID: 0x0426, (1062)
+    Name: lv-LV
+    NativeName: latviešu (Latvija)
+    Parent: lv
+    ThreeLetterISOLanguageName: lav
+    ThreeLetterWindowsLanguageName: LVI
+    TwoLetterISOLanguageName: lv
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: マオリ語
+EnglishName: Maori
+IetfLanguageTag: mi
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0081 (129)
+LCID: 0x0081, (129)
+Name: mi
+NativeName: Māori
+Parent: (Empty)
+ThreeLetterISOLanguageName: mri
+ThreeLetterWindowsLanguageName: MRI
+TwoLetterISOLanguageName: mi
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: マオリ語 (ニュージーランド)
+    EnglishName: Maori (New Zealand)
+    IetfLanguageTag: mi-NZ
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0481 (1153)
+    LCID: 0x0481, (1153)
+    Name: mi-NZ
+    NativeName: Māori (Aotearoa)
+    Parent: mi
+    ThreeLetterISOLanguageName: mri
+    ThreeLetterWindowsLanguageName: MRI
+    TwoLetterISOLanguageName: mi
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: マケドニア語
+EnglishName: Macedonian
+IetfLanguageTag: mk
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x002F (47)
+LCID: 0x002F, (47)
+Name: mk
+NativeName: македонски
+Parent: (Empty)
+ThreeLetterISOLanguageName: mkd
+ThreeLetterWindowsLanguageName: MKI
+TwoLetterISOLanguageName: mk
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: マケドニア語 (北マケドニア)
+    EnglishName: Macedonian (North Macedonia)
+    IetfLanguageTag: mk-MK
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x042F (1071)
+    LCID: 0x042F, (1071)
+    Name: mk-MK
+    NativeName: македонски (Северна Македонија)
+    Parent: mk
+    ThreeLetterISOLanguageName: mkd
+    ThreeLetterWindowsLanguageName: MKI
+    TwoLetterISOLanguageName: mk
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: マラヤーラム語
+EnglishName: Malayalam
+IetfLanguageTag: ml
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x004C (76)
+LCID: 0x004C, (76)
+Name: ml
+NativeName: മലയാളം
+Parent: (Empty)
+ThreeLetterISOLanguageName: mal
+ThreeLetterWindowsLanguageName: MYM
+TwoLetterISOLanguageName: ml
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: マラヤーラム語 (インド)
+    EnglishName: Malayalam (India)
+    IetfLanguageTag: ml-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x044C (1100)
+    LCID: 0x044C, (1100)
+    Name: ml-IN
+    NativeName: മലയാളം (ഇന്ത്യ)
+    Parent: ml
+    ThreeLetterISOLanguageName: mal
+    ThreeLetterWindowsLanguageName: MYM
+    TwoLetterISOLanguageName: ml
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: モンゴル語
+EnglishName: Mongolian
+IetfLanguageTag: mn
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0050 (80)
+LCID: 0x0050, (80)
+Name: mn
+NativeName: монгол
+Parent: (Empty)
+ThreeLetterISOLanguageName: mon
+ThreeLetterWindowsLanguageName: MON
+TwoLetterISOLanguageName: mn
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: モンゴル語 (モンゴル)
+    EnglishName: Mongolian (Mongolia)
+    IetfLanguageTag: mn-MN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0450 (1104)
+    LCID: 0x0450, (1104)
+    Name: mn-MN
+    NativeName: монгол (Монгол)
+    Parent: mn
+    ThreeLetterISOLanguageName: mon
+    ThreeLetterWindowsLanguageName: MNN
+    TwoLetterISOLanguageName: mn
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: モンゴル語 (モンゴル文字)
+EnglishName: Mongolian (Mongolian)
+IetfLanguageTag: mn-Mong
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x7C50 (31824)
+LCID: 0x7C50, (31824)
+Name: mn-Mong
+NativeName: Mongolian (Mongolian)
+Parent: mn
+ThreeLetterISOLanguageName: mon
+ThreeLetterWindowsLanguageName: MNG
+TwoLetterISOLanguageName: mn
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: モンゴル語 (モンゴル文字、中国)
+    EnglishName: Mongolian (Mongolian, China)
+    IetfLanguageTag: mn-Mong-CN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0850 (2128)
+    LCID: 0x0850, (2128)
+    Name: mn-Mong-CN
+    NativeName: Mongolian (Mongolian, China)
+    Parent: mn-Mong
+    ThreeLetterISOLanguageName: mon
+    ThreeLetterWindowsLanguageName: MNG
+    TwoLetterISOLanguageName: mn
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: モンゴル語 (モンゴル文字、モンゴル)
+    EnglishName: Mongolian (Mongolian, Mongolia)
+    IetfLanguageTag: mn-Mong-MN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0C50 (3152)
+    LCID: 0x0C50, (3152)
+    Name: mn-Mong-MN
+    NativeName: ᠮᠣᠩᠭᠣᠯ (ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ᠌, ᠮᠣᠩᠭᠣᠯ)
+    Parent: mn-Mong
+    ThreeLetterISOLanguageName: mon
+    ThreeLetterWindowsLanguageName: MNM
+    TwoLetterISOLanguageName: mn
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: モーホーク語
+EnglishName: Mohawk
+IetfLanguageTag: moh
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x007C (124)
+LCID: 0x007C, (124)
+Name: moh
+NativeName: Kanienʼkéha
+Parent: (Empty)
+ThreeLetterISOLanguageName: moh
+ThreeLetterWindowsLanguageName: MWK
+TwoLetterISOLanguageName: moh
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: モーホーク語 (カナダ)
+    EnglishName: Mohawk (Canada)
+    IetfLanguageTag: moh-CA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x047C (1148)
+    LCID: 0x047C, (1148)
+    Name: moh-CA
+    NativeName: Mohawk (Canada)
+    Parent: moh
+    ThreeLetterISOLanguageName: moh
+    ThreeLetterWindowsLanguageName: MWK
+    TwoLetterISOLanguageName: moh
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: マラーティー語
+EnglishName: Marathi
+IetfLanguageTag: mr
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x004E (78)
+LCID: 0x004E, (78)
+Name: mr
+NativeName: मराठी
+Parent: (Empty)
+ThreeLetterISOLanguageName: mar
+ThreeLetterWindowsLanguageName: MAR
+TwoLetterISOLanguageName: mr
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: マラーティー語 (インド)
+    EnglishName: Marathi (India)
+    IetfLanguageTag: mr-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x044E (1102)
+    LCID: 0x044E, (1102)
+    Name: mr-IN
+    NativeName: मराठी (भारत)
+    Parent: mr
+    ThreeLetterISOLanguageName: mar
+    ThreeLetterWindowsLanguageName: MAR
+    TwoLetterISOLanguageName: mr
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: マレー語
+EnglishName: Malay
+IetfLanguageTag: ms
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x003E (62)
+LCID: 0x003E, (62)
+Name: ms
+NativeName: Melayu
+Parent: (Empty)
+ThreeLetterISOLanguageName: msa
+ThreeLetterWindowsLanguageName: MSL
+TwoLetterISOLanguageName: ms
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: マレー語 (ブルネイ)
+    EnglishName: Malay (Brunei)
+    IetfLanguageTag: ms-BN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x083E (2110)
+    LCID: 0x083E, (2110)
+    Name: ms-BN
+    NativeName: Melayu (Brunei)
+    Parent: ms
+    ThreeLetterISOLanguageName: msa
+    ThreeLetterWindowsLanguageName: MSB
+    TwoLetterISOLanguageName: ms
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: マレー語 (マレーシア)
+    EnglishName: Malay (Malaysia)
+    IetfLanguageTag: ms-MY
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x043E (1086)
+    LCID: 0x043E, (1086)
+    Name: ms-MY
+    NativeName: Melayu (Malaysia)
+    Parent: ms
+    ThreeLetterISOLanguageName: msa
+    ThreeLetterWindowsLanguageName: MSL
+    TwoLetterISOLanguageName: ms
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: マルタ語
+EnglishName: Maltese
+IetfLanguageTag: mt
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x003A (58)
+LCID: 0x003A, (58)
+Name: mt
+NativeName: Malti
+Parent: (Empty)
+ThreeLetterISOLanguageName: mlt
+ThreeLetterWindowsLanguageName: MLT
+TwoLetterISOLanguageName: mt
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: マルタ語 (マルタ)
+    EnglishName: Maltese (Malta)
+    IetfLanguageTag: mt-MT
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x043A (1082)
+    LCID: 0x043A, (1082)
+    Name: mt-MT
+    NativeName: Malti (Malta)
+    Parent: mt
+    ThreeLetterISOLanguageName: mlt
+    ThreeLetterWindowsLanguageName: MLT
+    TwoLetterISOLanguageName: mt
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ミャンマー語
+EnglishName: Burmese
+IetfLanguageTag: my
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0055 (85)
+LCID: 0x0055, (85)
+Name: my
+NativeName: မြန်မာ
+Parent: (Empty)
+ThreeLetterISOLanguageName: mya
+ThreeLetterWindowsLanguageName: MYA
+TwoLetterISOLanguageName: my
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ミャンマー語 (ミャンマー [ビルマ])
+    EnglishName: Burmese (Myanmar)
+    IetfLanguageTag: my-MM
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0455 (1109)
+    LCID: 0x0455, (1109)
+    Name: my-MM
+    NativeName: မြန်မာ (မြန်မာ)
+    Parent: my
+    ThreeLetterISOLanguageName: mya
+    ThreeLetterWindowsLanguageName: MYA
+    TwoLetterISOLanguageName: my
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ノルウェー語(ブークモール)
+EnglishName: Norwegian Bokmål
+IetfLanguageTag: nb
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x7C14 (31764)
+LCID: 0x7C14, (31764)
+Name: nb
+NativeName: norsk bokmål
+Parent: (Empty)
+ThreeLetterISOLanguageName: nob
+ThreeLetterWindowsLanguageName: NOR
+TwoLetterISOLanguageName: nb
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ノルウェー語(ブークモール) (ノルウェー)
+    EnglishName: Norwegian Bokmål (Norway)
+    IetfLanguageTag: nb-NO
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0414 (1044)
+    LCID: 0x0414, (1044)
+    Name: nb-NO
+    NativeName: norsk bokmål (Norge)
+    Parent: nb
+    ThreeLetterISOLanguageName: nob
+    ThreeLetterWindowsLanguageName: NOR
+    TwoLetterISOLanguageName: nb
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ネパール語
+EnglishName: Nepali
+IetfLanguageTag: ne
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0061 (97)
+LCID: 0x0061, (97)
+Name: ne
+NativeName: नेपाली
+Parent: (Empty)
+ThreeLetterISOLanguageName: nep
+ThreeLetterWindowsLanguageName: NEP
+TwoLetterISOLanguageName: ne
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ネパール語 (インド)
+    EnglishName: Nepali (India)
+    IetfLanguageTag: ne-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0861 (2145)
+    LCID: 0x0861, (2145)
+    Name: ne-IN
+    NativeName: नेपाली (भारत)
+    Parent: ne
+    ThreeLetterISOLanguageName: nep
+    ThreeLetterWindowsLanguageName: NEI
+    TwoLetterISOLanguageName: ne
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ネパール語 (ネパール)
+    EnglishName: Nepali (Nepal)
+    IetfLanguageTag: ne-NP
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0461 (1121)
+    LCID: 0x0461, (1121)
+    Name: ne-NP
+    NativeName: नेपाली (नेपाल)
+    Parent: ne
+    ThreeLetterISOLanguageName: nep
+    ThreeLetterWindowsLanguageName: NEP
+    TwoLetterISOLanguageName: ne
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: オランダ語
+EnglishName: Dutch
+IetfLanguageTag: nl
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0013 (19)
+LCID: 0x0013, (19)
+Name: nl
+NativeName: Nederlands
+Parent: (Empty)
+ThreeLetterISOLanguageName: nld
+ThreeLetterWindowsLanguageName: NLD
+TwoLetterISOLanguageName: nl
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: オランダ語 (ベルギー)
+    EnglishName: Dutch (Belgium)
+    IetfLanguageTag: nl-BE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0813 (2067)
+    LCID: 0x0813, (2067)
+    Name: nl-BE
+    NativeName: Nederlands (België)
+    Parent: nl
+    ThreeLetterISOLanguageName: nld
+    ThreeLetterWindowsLanguageName: NLB
+    TwoLetterISOLanguageName: nl
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: オランダ語 (オランダ)
+    EnglishName: Dutch (Netherlands)
+    IetfLanguageTag: nl-NL
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0413 (1043)
+    LCID: 0x0413, (1043)
+    Name: nl-NL
+    NativeName: Nederlands (Nederland)
+    Parent: nl
+    ThreeLetterISOLanguageName: nld
+    ThreeLetterWindowsLanguageName: NLD
+    TwoLetterISOLanguageName: nl
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ノルウェー語(ニーノシュク)
+EnglishName: Norwegian Nynorsk
+IetfLanguageTag: nn
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x7814 (30740)
+LCID: 0x7814, (30740)
+Name: nn
+NativeName: nynorsk
+Parent: (Empty)
+ThreeLetterISOLanguageName: nno
+ThreeLetterWindowsLanguageName: NON
+TwoLetterISOLanguageName: nn
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ノルウェー語(ニーノシュク) (ノルウェー)
+    EnglishName: Norwegian Nynorsk (Norway)
+    IetfLanguageTag: nn-NO
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0814 (2068)
+    LCID: 0x0814, (2068)
+    Name: nn-NO
+    NativeName: nynorsk (Noreg)
+    Parent: nn
+    ThreeLetterISOLanguageName: nno
+    ThreeLetterWindowsLanguageName: NON
+    TwoLetterISOLanguageName: nn
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: 北部ソト語
+EnglishName: Sesotho sa Leboa
+IetfLanguageTag: nso
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x006C (108)
+LCID: 0x006C, (108)
+Name: nso
+NativeName: Sesotho sa Leboa
+Parent: (Empty)
+ThreeLetterISOLanguageName: nso
+ThreeLetterWindowsLanguageName: NSO
+TwoLetterISOLanguageName: nso
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 北部ソト語 (南アフリカ)
+    EnglishName: Sesotho sa Leboa (South Africa)
+    IetfLanguageTag: nso-ZA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x046C (1132)
+    LCID: 0x046C, (1132)
+    Name: nso-ZA
+    NativeName: Sesotho sa Leboa (South Africa)
+    Parent: nso
+    ThreeLetterISOLanguageName: nso
+    ThreeLetterWindowsLanguageName: NSO
+    TwoLetterISOLanguageName: nso
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: オック語
+EnglishName: Occitan
+IetfLanguageTag: oc
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0082 (130)
+LCID: 0x0082, (130)
+Name: oc
+NativeName: Occitan
+Parent: (Empty)
+ThreeLetterISOLanguageName: oci
+ThreeLetterWindowsLanguageName: OCI
+TwoLetterISOLanguageName: oc
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: オック語 (フランス)
+    EnglishName: Occitan (France)
+    IetfLanguageTag: oc-FR
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0482 (1154)
+    LCID: 0x0482, (1154)
+    Name: oc-FR
+    NativeName: Occitan (France)
+    Parent: oc
+    ThreeLetterISOLanguageName: oci
+    ThreeLetterWindowsLanguageName: OCI
+    TwoLetterISOLanguageName: oc
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: オロモ語
+EnglishName: Oromo
+IetfLanguageTag: om
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0072 (114)
+LCID: 0x0072, (114)
+Name: om
+NativeName: Oromoo
+Parent: (Empty)
+ThreeLetterISOLanguageName: orm
+ThreeLetterWindowsLanguageName: ORM
+TwoLetterISOLanguageName: om
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: オロモ語 (エチオピア)
+    EnglishName: Oromo (Ethiopia)
+    IetfLanguageTag: om-ET
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0472 (1138)
+    LCID: 0x0472, (1138)
+    Name: om-ET
+    NativeName: Oromoo (Itoophiyaa)
+    Parent: om
+    ThreeLetterISOLanguageName: orm
+    ThreeLetterWindowsLanguageName: ORM
+    TwoLetterISOLanguageName: om
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: オディア語
+EnglishName: Odia
+IetfLanguageTag: or
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0048 (72)
+LCID: 0x0048, (72)
+Name: or
+NativeName: ଓଡ଼ିଆ
+Parent: (Empty)
+ThreeLetterISOLanguageName: ori
+ThreeLetterWindowsLanguageName: ORI
+TwoLetterISOLanguageName: or
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: オディア語 (インド)
+    EnglishName: Odia (India)
+    IetfLanguageTag: or-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0448 (1096)
+    LCID: 0x0448, (1096)
+    Name: or-IN
+    NativeName: ଓଡ଼ିଆ (ଭାରତ)
+    Parent: or
+    ThreeLetterISOLanguageName: ori
+    ThreeLetterWindowsLanguageName: ORI
+    TwoLetterISOLanguageName: or
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: パンジャブ語
+EnglishName: Punjabi
+IetfLanguageTag: pa
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0046 (70)
+LCID: 0x0046, (70)
+Name: pa
+NativeName: ਪੰਜਾਬੀ
+Parent: (Empty)
+ThreeLetterISOLanguageName: pan
+ThreeLetterWindowsLanguageName: PAN
+TwoLetterISOLanguageName: pa
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: パンジャブ語 (アラビア文字)
+EnglishName: Punjabi (Arabic)
+IetfLanguageTag: pa-Arab
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x7C46 (31814)
+LCID: 0x7C46, (31814)
+Name: pa-Arab
+NativeName: پنجابی (عربی)
+Parent: pa
+ThreeLetterISOLanguageName: pan
+ThreeLetterWindowsLanguageName: PAP
+TwoLetterISOLanguageName: pa
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: パンジャブ語 (アラビア文字、パキスタン)
+    EnglishName: Punjabi (Arabic, Pakistan)
+    IetfLanguageTag: pa-Arab-PK
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0846 (2118)
+    LCID: 0x0846, (2118)
+    Name: pa-Arab-PK
+    NativeName: پنجابی (عربی, پاکستان)
+    Parent: pa-Arab
+    ThreeLetterISOLanguageName: pan
+    ThreeLetterWindowsLanguageName: PAP
+    TwoLetterISOLanguageName: pa
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ポーランド語
+EnglishName: Polish
+IetfLanguageTag: pl
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0015 (21)
+LCID: 0x0015, (21)
+Name: pl
+NativeName: polski
+Parent: (Empty)
+ThreeLetterISOLanguageName: pol
+ThreeLetterWindowsLanguageName: PLK
+TwoLetterISOLanguageName: pl
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ポーランド語 (ポーランド)
+    EnglishName: Polish (Poland)
+    IetfLanguageTag: pl-PL
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0415 (1045)
+    LCID: 0x0415, (1045)
+    Name: pl-PL
+    NativeName: polski (Polska)
+    Parent: pl
+    ThreeLetterISOLanguageName: pol
+    ThreeLetterWindowsLanguageName: PLK
+    TwoLetterISOLanguageName: pl
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: パシュトゥー語
+EnglishName: Pashto
+IetfLanguageTag: ps
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0063 (99)
+LCID: 0x0063, (99)
+Name: ps
+NativeName: پښتو
+Parent: (Empty)
+ThreeLetterISOLanguageName: pus
+ThreeLetterWindowsLanguageName: PAS
+TwoLetterISOLanguageName: ps
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: パシュトゥー語 (アフガニスタン)
+    EnglishName: Pashto (Afghanistan)
+    IetfLanguageTag: ps-AF
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0463 (1123)
+    LCID: 0x0463, (1123)
+    Name: ps-AF
+    NativeName: پښتو (افغانستان)
+    Parent: ps
+    ThreeLetterISOLanguageName: pus
+    ThreeLetterWindowsLanguageName: PAS
+    TwoLetterISOLanguageName: ps
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ポルトガル語
+EnglishName: Portuguese
+IetfLanguageTag: pt
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0016 (22)
+LCID: 0x0016, (22)
+Name: pt
+NativeName: português
+Parent: (Empty)
+ThreeLetterISOLanguageName: por
+ThreeLetterWindowsLanguageName: PTB
+TwoLetterISOLanguageName: pt
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ポルトガル語 (ブラジル)
+    EnglishName: Portuguese (Brazil)
+    IetfLanguageTag: pt-BR
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0416 (1046)
+    LCID: 0x0416, (1046)
+    Name: pt-BR
+    NativeName: português (Brasil)
+    Parent: pt
+    ThreeLetterISOLanguageName: por
+    ThreeLetterWindowsLanguageName: PTB
+    TwoLetterISOLanguageName: pt
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ポルトガル語 (ポルトガル)
+    EnglishName: Portuguese (Portugal)
+    IetfLanguageTag: pt-PT
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0816 (2070)
+    LCID: 0x0816, (2070)
+    Name: pt-PT
+    NativeName: português (Portugal)
+    Parent: pt
+    ThreeLetterISOLanguageName: por
+    ThreeLetterWindowsLanguageName: PTG
+    TwoLetterISOLanguageName: pt
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: キチェ語
+EnglishName: Kʼicheʼ
+IetfLanguageTag: quc
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0086 (134)
+LCID: 0x0086, (134)
+Name: quc
+NativeName: Kʼicheʼ
+Parent: (Empty)
+ThreeLetterISOLanguageName: quc
+ThreeLetterWindowsLanguageName: QUC
+TwoLetterISOLanguageName: quc
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ロマンシュ語
+EnglishName: Romansh
+IetfLanguageTag: rm
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0017 (23)
+LCID: 0x0017, (23)
+Name: rm
+NativeName: rumantsch
+Parent: (Empty)
+ThreeLetterISOLanguageName: roh
+ThreeLetterWindowsLanguageName: RMC
+TwoLetterISOLanguageName: rm
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ロマンシュ語 (スイス)
+    EnglishName: Romansh (Switzerland)
+    IetfLanguageTag: rm-CH
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0417 (1047)
+    LCID: 0x0417, (1047)
+    Name: rm-CH
+    NativeName: rumantsch (Svizra)
+    Parent: rm
+    ThreeLetterISOLanguageName: roh
+    ThreeLetterWindowsLanguageName: RMC
+    TwoLetterISOLanguageName: rm
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ルーマニア語
+EnglishName: Romanian
+IetfLanguageTag: ro
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0018 (24)
+LCID: 0x0018, (24)
+Name: ro
+NativeName: română
+Parent: (Empty)
+ThreeLetterISOLanguageName: ron
+ThreeLetterWindowsLanguageName: ROM
+TwoLetterISOLanguageName: ro
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ルーマニア語 (モルドバ)
+    EnglishName: Romanian (Moldova)
+    IetfLanguageTag: ro-MD
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0818 (2072)
+    LCID: 0x0818, (2072)
+    Name: ro-MD
+    NativeName: română (Republica Moldova)
+    Parent: ro
+    ThreeLetterISOLanguageName: ron
+    ThreeLetterWindowsLanguageName: ROD
+    TwoLetterISOLanguageName: ro
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ルーマニア語 (ルーマニア)
+    EnglishName: Romanian (Romania)
+    IetfLanguageTag: ro-RO
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0418 (1048)
+    LCID: 0x0418, (1048)
+    Name: ro-RO
+    NativeName: română (România)
+    Parent: ro
+    ThreeLetterISOLanguageName: ron
+    ThreeLetterWindowsLanguageName: ROM
+    TwoLetterISOLanguageName: ro
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ロシア語
+EnglishName: Russian
+IetfLanguageTag: ru
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0019 (25)
+LCID: 0x0019, (25)
+Name: ru
+NativeName: русский
+Parent: (Empty)
+ThreeLetterISOLanguageName: rus
+ThreeLetterWindowsLanguageName: RUS
+TwoLetterISOLanguageName: ru
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ロシア語 (モルドバ)
+    EnglishName: Russian (Moldova)
+    IetfLanguageTag: ru-MD
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0819 (2073)
+    LCID: 0x0819, (2073)
+    Name: ru-MD
+    NativeName: русский (Молдова)
+    Parent: ru
+    ThreeLetterISOLanguageName: rus
+    ThreeLetterWindowsLanguageName: RUM
+    TwoLetterISOLanguageName: ru
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ロシア語 (ロシア)
+    EnglishName: Russian (Russia)
+    IetfLanguageTag: ru-RU
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0419 (1049)
+    LCID: 0x0419, (1049)
+    Name: ru-RU
+    NativeName: русский (Россия)
+    Parent: ru
+    ThreeLetterISOLanguageName: rus
+    ThreeLetterWindowsLanguageName: RUS
+    TwoLetterISOLanguageName: ru
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: キニアルワンダ語
+EnglishName: Kinyarwanda
+IetfLanguageTag: rw
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0087 (135)
+LCID: 0x0087, (135)
+Name: rw
+NativeName: Kinyarwanda
+Parent: (Empty)
+ThreeLetterISOLanguageName: kin
+ThreeLetterWindowsLanguageName: KIN
+TwoLetterISOLanguageName: rw
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: キニアルワンダ語 (ルワンダ)
+    EnglishName: Kinyarwanda (Rwanda)
+    IetfLanguageTag: rw-RW
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0487 (1159)
+    LCID: 0x0487, (1159)
+    Name: rw-RW
+    NativeName: Kinyarwanda (U Rwanda)
+    Parent: rw
+    ThreeLetterISOLanguageName: kin
+    ThreeLetterWindowsLanguageName: KIN
+    TwoLetterISOLanguageName: rw
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: サンスクリット語
+EnglishName: Sanskrit
+IetfLanguageTag: sa
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x004F (79)
+LCID: 0x004F, (79)
+Name: sa
+NativeName: संस्कृत भाषा
+Parent: (Empty)
+ThreeLetterISOLanguageName: san
+ThreeLetterWindowsLanguageName: SAN
+TwoLetterISOLanguageName: sa
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: サンスクリット語 (インド)
+    EnglishName: Sanskrit (India)
+    IetfLanguageTag: sa-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x044F (1103)
+    LCID: 0x044F, (1103)
+    Name: sa-IN
+    NativeName: Sanskrit (India)
+    Parent: sa
+    ThreeLetterISOLanguageName: san
+    ThreeLetterWindowsLanguageName: SAN
+    TwoLetterISOLanguageName: sa
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: サハ語
+EnglishName: Sakha
+IetfLanguageTag: sah
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0085 (133)
+LCID: 0x0085, (133)
+Name: sah
+NativeName: саха тыла
+Parent: (Empty)
+ThreeLetterISOLanguageName: sah
+ThreeLetterWindowsLanguageName: SAH
+TwoLetterISOLanguageName: sah
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: サハ語 (ロシア)
+    EnglishName: Sakha (Russia)
+    IetfLanguageTag: sah-RU
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0485 (1157)
+    LCID: 0x0485, (1157)
+    Name: sah-RU
+    NativeName: саха тыла (Арассыыйа)
+    Parent: sah
+    ThreeLetterISOLanguageName: sah
+    ThreeLetterWindowsLanguageName: SAH
+    TwoLetterISOLanguageName: sah
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: シンド語
+EnglishName: Sindhi
+IetfLanguageTag: sd
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0059 (89)
+LCID: 0x0059, (89)
+Name: sd
+NativeName: سنڌي
+Parent: (Empty)
+ThreeLetterISOLanguageName: snd
+ThreeLetterWindowsLanguageName: SIP
+TwoLetterISOLanguageName: sd
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: 北サーミ語
+EnglishName: Northern Sami
+IetfLanguageTag: se
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x003B (59)
+LCID: 0x003B, (59)
+Name: se
+NativeName: davvisámegiella
+Parent: (Empty)
+ThreeLetterISOLanguageName: sme
+ThreeLetterWindowsLanguageName: SME
+TwoLetterISOLanguageName: se
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 北サーミ語 (フィンランド)
+    EnglishName: Northern Sami (Finland)
+    IetfLanguageTag: se-FI
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0C3B (3131)
+    LCID: 0x0C3B, (3131)
+    Name: se-FI
+    NativeName: davvisámegiella (Suopma)
+    Parent: se
+    ThreeLetterISOLanguageName: sme
+    ThreeLetterWindowsLanguageName: SMG
+    TwoLetterISOLanguageName: se
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 北サーミ語 (ノルウェー)
+    EnglishName: Northern Sami (Norway)
+    IetfLanguageTag: se-NO
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x043B (1083)
+    LCID: 0x043B, (1083)
+    Name: se-NO
+    NativeName: davvisámegiella (Norga)
+    Parent: se
+    ThreeLetterISOLanguageName: sme
+    ThreeLetterWindowsLanguageName: SME
+    TwoLetterISOLanguageName: se
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 北サーミ語 (スウェーデン)
+    EnglishName: Northern Sami (Sweden)
+    IetfLanguageTag: se-SE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x083B (2107)
+    LCID: 0x083B, (2107)
+    Name: se-SE
+    NativeName: davvisámegiella (Ruoŧŧa)
+    Parent: se
+    ThreeLetterISOLanguageName: sme
+    ThreeLetterWindowsLanguageName: SMF
+    TwoLetterISOLanguageName: se
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: シンハラ語
+EnglishName: Sinhala
+IetfLanguageTag: si
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x005B (91)
+LCID: 0x005B, (91)
+Name: si
+NativeName: සිංහල
+Parent: (Empty)
+ThreeLetterISOLanguageName: sin
+ThreeLetterWindowsLanguageName: SIN
+TwoLetterISOLanguageName: si
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: シンハラ語 (スリランカ)
+    EnglishName: Sinhala (Sri Lanka)
+    IetfLanguageTag: si-LK
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x045B (1115)
+    LCID: 0x045B, (1115)
+    Name: si-LK
+    NativeName: සිංහල (ශ්‍රී ලංකාව)
+    Parent: si
+    ThreeLetterISOLanguageName: sin
+    ThreeLetterWindowsLanguageName: SIN
+    TwoLetterISOLanguageName: si
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: スロバキア語
+EnglishName: Slovak
+IetfLanguageTag: sk
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x001B (27)
+LCID: 0x001B, (27)
+Name: sk
+NativeName: slovenčina
+Parent: (Empty)
+ThreeLetterISOLanguageName: slk
+ThreeLetterWindowsLanguageName: SKY
+TwoLetterISOLanguageName: sk
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スロバキア語 (スロバキア)
+    EnglishName: Slovak (Slovakia)
+    IetfLanguageTag: sk-SK
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x041B (1051)
+    LCID: 0x041B, (1051)
+    Name: sk-SK
+    NativeName: slovenčina (Slovensko)
+    Parent: sk
+    ThreeLetterISOLanguageName: slk
+    ThreeLetterWindowsLanguageName: SKY
+    TwoLetterISOLanguageName: sk
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: スロベニア語
+EnglishName: Slovenian
+IetfLanguageTag: sl
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0024 (36)
+LCID: 0x0024, (36)
+Name: sl
+NativeName: slovenščina
+Parent: (Empty)
+ThreeLetterISOLanguageName: slv
+ThreeLetterWindowsLanguageName: SLV
+TwoLetterISOLanguageName: sl
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スロベニア語 (スロベニア)
+    EnglishName: Slovenian (Slovenia)
+    IetfLanguageTag: sl-SI
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0424 (1060)
+    LCID: 0x0424, (1060)
+    Name: sl-SI
+    NativeName: slovenščina (Slovenija)
+    Parent: sl
+    ThreeLetterISOLanguageName: slv
+    ThreeLetterWindowsLanguageName: SLV
+    TwoLetterISOLanguageName: sl
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: 南サーミ語
+EnglishName: Southern Sami
+IetfLanguageTag: sma
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x783B (30779)
+LCID: 0x783B, (30779)
+Name: sma
+NativeName: Åarjelsaemien gïele
+Parent: (Empty)
+ThreeLetterISOLanguageName: sma
+ThreeLetterWindowsLanguageName: SMB
+TwoLetterISOLanguageName: sma
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 南サーミ語 (ノルウェー)
+    EnglishName: Southern Sami (Norway)
+    IetfLanguageTag: sma-NO
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x183B (6203)
+    LCID: 0x183B, (6203)
+    Name: sma-NO
+    NativeName: Southern Sami (Norway)
+    Parent: sma
+    ThreeLetterISOLanguageName: sma
+    ThreeLetterWindowsLanguageName: SMA
+    TwoLetterISOLanguageName: sma
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 南サーミ語 (スウェーデン)
+    EnglishName: Southern Sami (Sweden)
+    IetfLanguageTag: sma-SE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x1C3B (7227)
+    LCID: 0x1C3B, (7227)
+    Name: sma-SE
+    NativeName: Southern Sami (Sweden)
+    Parent: sma
+    ThreeLetterISOLanguageName: sma
+    ThreeLetterWindowsLanguageName: SMB
+    TwoLetterISOLanguageName: sma
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ルレ・サーミ語
+EnglishName: Lule Sami
+IetfLanguageTag: smj
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x7C3B (31803)
+LCID: 0x7C3B, (31803)
+Name: smj
+NativeName: julevsámegiella
+Parent: (Empty)
+ThreeLetterISOLanguageName: smj
+ThreeLetterWindowsLanguageName: SMK
+TwoLetterISOLanguageName: smj
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ルレ・サーミ語 (ノルウェー)
+    EnglishName: Lule Sami (Norway)
+    IetfLanguageTag: smj-NO
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x103B (4155)
+    LCID: 0x103B, (4155)
+    Name: smj-NO
+    NativeName: Lule Sami (Norway)
+    Parent: smj
+    ThreeLetterISOLanguageName: smj
+    ThreeLetterWindowsLanguageName: SMJ
+    TwoLetterISOLanguageName: smj
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ルレ・サーミ語 (スウェーデン)
+    EnglishName: Lule Sami (Sweden)
+    IetfLanguageTag: smj-SE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x143B (5179)
+    LCID: 0x143B, (5179)
+    Name: smj-SE
+    NativeName: Lule Sami (Sweden)
+    Parent: smj
+    ThreeLetterISOLanguageName: smj
+    ThreeLetterWindowsLanguageName: SMK
+    TwoLetterISOLanguageName: smj
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: イナリ・サーミ語
+EnglishName: Inari Sami
+IetfLanguageTag: smn
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x703B (28731)
+LCID: 0x703B, (28731)
+Name: smn
+NativeName: anarâškielâ
+Parent: (Empty)
+ThreeLetterISOLanguageName: smn
+ThreeLetterWindowsLanguageName: SMN
+TwoLetterISOLanguageName: smn
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: イナリ・サーミ語 (フィンランド)
+    EnglishName: Inari Sami (Finland)
+    IetfLanguageTag: smn-FI
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x243B (9275)
+    LCID: 0x243B, (9275)
+    Name: smn-FI
+    NativeName: anarâškielâ (Suomâ)
+    Parent: smn
+    ThreeLetterISOLanguageName: smn
+    ThreeLetterWindowsLanguageName: SMN
+    TwoLetterISOLanguageName: smn
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: スコルト・サーミ語
+EnglishName: Skolt Sami
+IetfLanguageTag: sms
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x743B (29755)
+LCID: 0x743B, (29755)
+Name: sms
+NativeName: Skolt Sami
+Parent: (Empty)
+ThreeLetterISOLanguageName: sms
+ThreeLetterWindowsLanguageName: SMS
+TwoLetterISOLanguageName: sms
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スコルト・サーミ語 (フィンランド)
+    EnglishName: Skolt Sami (Finland)
+    IetfLanguageTag: sms-FI
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x203B (8251)
+    LCID: 0x203B, (8251)
+    Name: sms-FI
+    NativeName: Skolt Sami (Finland)
+    Parent: sms
+    ThreeLetterISOLanguageName: sms
+    ThreeLetterWindowsLanguageName: SMS
+    TwoLetterISOLanguageName: sms
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ソマリ語
+EnglishName: Somali
+IetfLanguageTag: so
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0077 (119)
+LCID: 0x0077, (119)
+Name: so
+NativeName: Soomaali
+Parent: (Empty)
+ThreeLetterISOLanguageName: som
+ThreeLetterWindowsLanguageName: SOM
+TwoLetterISOLanguageName: so
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ソマリ語 (ソマリア)
+    EnglishName: Somali (Somalia)
+    IetfLanguageTag: so-SO
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0477 (1143)
+    LCID: 0x0477, (1143)
+    Name: so-SO
+    NativeName: Soomaali (Soomaaliya)
+    Parent: so
+    ThreeLetterISOLanguageName: som
+    ThreeLetterWindowsLanguageName: SOM
+    TwoLetterISOLanguageName: so
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: アルバニア語
+EnglishName: Albanian
+IetfLanguageTag: sq
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x001C (28)
+LCID: 0x001C, (28)
+Name: sq
+NativeName: shqip
+Parent: (Empty)
+ThreeLetterISOLanguageName: sqi
+ThreeLetterWindowsLanguageName: SQI
+TwoLetterISOLanguageName: sq
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: アルバニア語 (アルバニア)
+    EnglishName: Albanian (Albania)
+    IetfLanguageTag: sq-AL
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x041C (1052)
+    LCID: 0x041C, (1052)
+    Name: sq-AL
+    NativeName: shqip (Shqipëri)
+    Parent: sq
+    ThreeLetterISOLanguageName: sqi
+    ThreeLetterWindowsLanguageName: SQI
+    TwoLetterISOLanguageName: sq
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: セルビア語
+EnglishName: Serbian
+IetfLanguageTag: sr
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x7C1A (31770)
+LCID: 0x7C1A, (31770)
+Name: sr
+NativeName: српски
+Parent: (Empty)
+ThreeLetterISOLanguageName: srp
+ThreeLetterWindowsLanguageName: SRB
+TwoLetterISOLanguageName: sr
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: セルビア語 (キリル文字)
+EnglishName: Serbian (Cyrillic)
+IetfLanguageTag: sr-Cyrl
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x6C1A (27674)
+LCID: 0x6C1A, (27674)
+Name: sr-Cyrl
+NativeName: српски (ћирилица)
+Parent: sr
+ThreeLetterISOLanguageName: srp
+ThreeLetterWindowsLanguageName: SRO
+TwoLetterISOLanguageName: sr
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: セルビア語 (キリル文字、ボスニア・ヘルツェゴビナ)
+    EnglishName: Serbian (Cyrillic, Bosnia & Herzegovina)
+    IetfLanguageTag: sr-Cyrl-BA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x1C1A (7194)
+    LCID: 0x1C1A, (7194)
+    Name: sr-Cyrl-BA
+    NativeName: српски (ћирилица, Босна и Херцеговина)
+    Parent: sr-Cyrl
+    ThreeLetterISOLanguageName: srp
+    ThreeLetterWindowsLanguageName: SRN
+    TwoLetterISOLanguageName: sr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: セルビア語 (キリル文字、モンテネグロ)
+    EnglishName: Serbian (Cyrillic, Montenegro)
+    IetfLanguageTag: sr-Cyrl-ME
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x301A (12314)
+    LCID: 0x301A, (12314)
+    Name: sr-Cyrl-ME
+    NativeName: српски (ћирилица, Црна Гора)
+    Parent: sr-Cyrl
+    ThreeLetterISOLanguageName: srp
+    ThreeLetterWindowsLanguageName: SRQ
+    TwoLetterISOLanguageName: sr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: セルビア語 (キリル文字、セルビア)
+    EnglishName: Serbian (Cyrillic, Serbia)
+    IetfLanguageTag: sr-Cyrl-RS
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x281A (10266)
+    LCID: 0x281A, (10266)
+    Name: sr-Cyrl-RS
+    NativeName: српски (ћирилица, Србија)
+    Parent: sr-Cyrl
+    ThreeLetterISOLanguageName: srp
+    ThreeLetterWindowsLanguageName: SRO
+    TwoLetterISOLanguageName: sr
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: セルビア語 (ラテン文字)
+EnglishName: Serbian (Latin)
+IetfLanguageTag: sr-Latn
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x701A (28698)
+LCID: 0x701A, (28698)
+Name: sr-Latn
+NativeName: srpski (latinica)
+Parent: sr
+ThreeLetterISOLanguageName: srp
+ThreeLetterWindowsLanguageName: SRM
+TwoLetterISOLanguageName: sr
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: セルビア語 (ラテン文字、ボスニア・ヘルツェゴビナ)
+    EnglishName: Serbian (Latin, Bosnia & Herzegovina)
+    IetfLanguageTag: sr-Latn-BA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x181A (6170)
+    LCID: 0x181A, (6170)
+    Name: sr-Latn-BA
+    NativeName: srpski (latinica, Bosna i Hercegovina)
+    Parent: sr-Latn
+    ThreeLetterISOLanguageName: srp
+    ThreeLetterWindowsLanguageName: SRS
+    TwoLetterISOLanguageName: sr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: セルビア語 (ラテン文字、モンテネグロ)
+    EnglishName: Serbian (Latin, Montenegro)
+    IetfLanguageTag: sr-Latn-ME
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x2C1A (11290)
+    LCID: 0x2C1A, (11290)
+    Name: sr-Latn-ME
+    NativeName: srpski (latinica, Crna Gora)
+    Parent: sr-Latn
+    ThreeLetterISOLanguageName: srp
+    ThreeLetterWindowsLanguageName: SRP
+    TwoLetterISOLanguageName: sr
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: セルビア語 (ラテン文字、セルビア)
+    EnglishName: Serbian (Latin, Serbia)
+    IetfLanguageTag: sr-Latn-RS
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x241A (9242)
+    LCID: 0x241A, (9242)
+    Name: sr-Latn-RS
+    NativeName: srpski (latinica, Srbija)
+    Parent: sr-Latn
+    ThreeLetterISOLanguageName: srp
+    ThreeLetterWindowsLanguageName: SRM
+    TwoLetterISOLanguageName: sr
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: 南部ソト語
+EnglishName: Sesotho
+IetfLanguageTag: st
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0030 (48)
+LCID: 0x0030, (48)
+Name: st
+NativeName: Sesotho
+Parent: (Empty)
+ThreeLetterISOLanguageName: sot
+ThreeLetterWindowsLanguageName: SOT
+TwoLetterISOLanguageName: st
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: 南部ソト語 (南アフリカ)
+    EnglishName: Sesotho (South Africa)
+    IetfLanguageTag: st-ZA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0430 (1072)
+    LCID: 0x0430, (1072)
+    Name: st-ZA
+    NativeName: Sesotho (South Africa)
+    Parent: st
+    ThreeLetterISOLanguageName: sot
+    ThreeLetterWindowsLanguageName: SOT
+    TwoLetterISOLanguageName: st
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: スウェーデン語
+EnglishName: Swedish
+IetfLanguageTag: sv
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x001D (29)
+LCID: 0x001D, (29)
+Name: sv
+NativeName: svenska
+Parent: (Empty)
+ThreeLetterISOLanguageName: swe
+ThreeLetterWindowsLanguageName: SVE
+TwoLetterISOLanguageName: sv
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スウェーデン語 (フィンランド)
+    EnglishName: Swedish (Finland)
+    IetfLanguageTag: sv-FI
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x081D (2077)
+    LCID: 0x081D, (2077)
+    Name: sv-FI
+    NativeName: svenska (Finland)
+    Parent: sv
+    ThreeLetterISOLanguageName: swe
+    ThreeLetterWindowsLanguageName: SVF
+    TwoLetterISOLanguageName: sv
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スウェーデン語 (スウェーデン)
+    EnglishName: Swedish (Sweden)
+    IetfLanguageTag: sv-SE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x041D (1053)
+    LCID: 0x041D, (1053)
+    Name: sv-SE
+    NativeName: svenska (Sverige)
+    Parent: sv
+    ThreeLetterISOLanguageName: swe
+    ThreeLetterWindowsLanguageName: SVE
+    TwoLetterISOLanguageName: sv
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: スワヒリ語
+EnglishName: Kiswahili
+IetfLanguageTag: sw
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0041 (65)
+LCID: 0x0041, (65)
+Name: sw
+NativeName: Kiswahili
+Parent: (Empty)
+ThreeLetterISOLanguageName: swa
+ThreeLetterWindowsLanguageName: SWK
+TwoLetterISOLanguageName: sw
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: スワヒリ語 (ケニア)
+    EnglishName: Kiswahili (Kenya)
+    IetfLanguageTag: sw-KE
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0441 (1089)
+    LCID: 0x0441, (1089)
+    Name: sw-KE
+    NativeName: Kiswahili (Kenya)
+    Parent: sw
+    ThreeLetterISOLanguageName: swa
+    ThreeLetterWindowsLanguageName: SWK
+    TwoLetterISOLanguageName: sw
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: シリア語
+EnglishName: Syriac
+IetfLanguageTag: syr
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x005A (90)
+LCID: 0x005A, (90)
+Name: syr
+NativeName: Syriac
+Parent: (Empty)
+ThreeLetterISOLanguageName: syr
+ThreeLetterWindowsLanguageName: SYR
+TwoLetterISOLanguageName: syr
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: シリア語 (シリア)
+    EnglishName: Syriac (Syria)
+    IetfLanguageTag: syr-SY
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x045A (1114)
+    LCID: 0x045A, (1114)
+    Name: syr-SY
+    NativeName: Syriac (Syria)
+    Parent: syr
+    ThreeLetterISOLanguageName: syr
+    ThreeLetterWindowsLanguageName: SYR
+    TwoLetterISOLanguageName: syr
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: タミル語
+EnglishName: Tamil
+IetfLanguageTag: ta
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0049 (73)
+LCID: 0x0049, (73)
+Name: ta
+NativeName: தமிழ்
+Parent: (Empty)
+ThreeLetterISOLanguageName: tam
+ThreeLetterWindowsLanguageName: TAI
+TwoLetterISOLanguageName: ta
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: タミル語 (インド)
+    EnglishName: Tamil (India)
+    IetfLanguageTag: ta-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0449 (1097)
+    LCID: 0x0449, (1097)
+    Name: ta-IN
+    NativeName: தமிழ் (இந்தியா)
+    Parent: ta
+    ThreeLetterISOLanguageName: tam
+    ThreeLetterWindowsLanguageName: TAI
+    TwoLetterISOLanguageName: ta
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: タミル語 (スリランカ)
+    EnglishName: Tamil (Sri Lanka)
+    IetfLanguageTag: ta-LK
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0849 (2121)
+    LCID: 0x0849, (2121)
+    Name: ta-LK
+    NativeName: தமிழ் (இலங்கை)
+    Parent: ta
+    ThreeLetterISOLanguageName: tam
+    ThreeLetterWindowsLanguageName: TAM
+    TwoLetterISOLanguageName: ta
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: テルグ語
+EnglishName: Telugu
+IetfLanguageTag: te
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x004A (74)
+LCID: 0x004A, (74)
+Name: te
+NativeName: తెలుగు
+Parent: (Empty)
+ThreeLetterISOLanguageName: tel
+ThreeLetterWindowsLanguageName: TEL
+TwoLetterISOLanguageName: te
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: テルグ語 (インド)
+    EnglishName: Telugu (India)
+    IetfLanguageTag: te-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x044A (1098)
+    LCID: 0x044A, (1098)
+    Name: te-IN
+    NativeName: తెలుగు (భారతదేశం)
+    Parent: te
+    ThreeLetterISOLanguageName: tel
+    ThreeLetterWindowsLanguageName: TEL
+    TwoLetterISOLanguageName: te
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: タジク語
+EnglishName: Tajik
+IetfLanguageTag: tg
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0028 (40)
+LCID: 0x0028, (40)
+Name: tg
+NativeName: тоҷикӣ
+Parent: (Empty)
+ThreeLetterISOLanguageName: tgk
+ThreeLetterWindowsLanguageName: TAJ
+TwoLetterISOLanguageName: tg
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: タイ語
+EnglishName: Thai
+IetfLanguageTag: th
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x001E (30)
+LCID: 0x001E, (30)
+Name: th
+NativeName: ไทย
+Parent: (Empty)
+ThreeLetterISOLanguageName: tha
+ThreeLetterWindowsLanguageName: THA
+TwoLetterISOLanguageName: th
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: タイ語 (タイ)
+    EnglishName: Thai (Thailand)
+    IetfLanguageTag: th-TH
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x041E (1054)
+    LCID: 0x041E, (1054)
+    Name: th-TH
+    NativeName: ไทย (ไทย)
+    Parent: th
+    ThreeLetterISOLanguageName: tha
+    ThreeLetterWindowsLanguageName: THA
+    TwoLetterISOLanguageName: th
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ティグリニア語
+EnglishName: Tigrinya
+IetfLanguageTag: ti
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0073 (115)
+LCID: 0x0073, (115)
+Name: ti
+NativeName: ትግርኛ
+Parent: (Empty)
+ThreeLetterISOLanguageName: tir
+ThreeLetterWindowsLanguageName: TIR
+TwoLetterISOLanguageName: ti
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ティグリニア語 (エリトリア)
+    EnglishName: Tigrinya (Eritrea)
+    IetfLanguageTag: ti-ER
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0873 (2163)
+    LCID: 0x0873, (2163)
+    Name: ti-ER
+    NativeName: ትግርኛ (ኤርትራ)
+    Parent: ti
+    ThreeLetterISOLanguageName: tir
+    ThreeLetterWindowsLanguageName: TIR
+    TwoLetterISOLanguageName: ti
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ティグリニア語 (エチオピア)
+    EnglishName: Tigrinya (Ethiopia)
+    IetfLanguageTag: ti-ET
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0473 (1139)
+    LCID: 0x0473, (1139)
+    Name: ti-ET
+    NativeName: ትግርኛ (ኢትዮጵያ)
+    Parent: ti
+    ThreeLetterISOLanguageName: tir
+    ThreeLetterWindowsLanguageName: TIE
+    TwoLetterISOLanguageName: ti
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: トルクメン語
+EnglishName: Turkmen
+IetfLanguageTag: tk
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0042 (66)
+LCID: 0x0042, (66)
+Name: tk
+NativeName: türkmen dili
+Parent: (Empty)
+ThreeLetterISOLanguageName: tuk
+ThreeLetterWindowsLanguageName: TUK
+TwoLetterISOLanguageName: tk
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: トルクメン語 (トルクメニスタン)
+    EnglishName: Turkmen (Turkmenistan)
+    IetfLanguageTag: tk-TM
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0442 (1090)
+    LCID: 0x0442, (1090)
+    Name: tk-TM
+    NativeName: türkmen dili (Türkmenistan)
+    Parent: tk
+    ThreeLetterISOLanguageName: tuk
+    ThreeLetterWindowsLanguageName: TUK
+    TwoLetterISOLanguageName: tk
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ツワナ語
+EnglishName: Setswana
+IetfLanguageTag: tn
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0032 (50)
+LCID: 0x0032, (50)
+Name: tn
+NativeName: Setswana
+Parent: (Empty)
+ThreeLetterISOLanguageName: tsn
+ThreeLetterWindowsLanguageName: TSN
+TwoLetterISOLanguageName: tn
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ツワナ語 (ボツワナ)
+    EnglishName: Setswana (Botswana)
+    IetfLanguageTag: tn-BW
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0832 (2098)
+    LCID: 0x0832, (2098)
+    Name: tn-BW
+    NativeName: Setswana (Botswana)
+    Parent: tn
+    ThreeLetterISOLanguageName: tsn
+    ThreeLetterWindowsLanguageName: TSB
+    TwoLetterISOLanguageName: tn
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ツワナ語 (南アフリカ)
+    EnglishName: Setswana (South Africa)
+    IetfLanguageTag: tn-ZA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0432 (1074)
+    LCID: 0x0432, (1074)
+    Name: tn-ZA
+    NativeName: Setswana (South Africa)
+    Parent: tn
+    ThreeLetterISOLanguageName: tsn
+    ThreeLetterWindowsLanguageName: TSN
+    TwoLetterISOLanguageName: tn
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: トルコ語
+EnglishName: Turkish
+IetfLanguageTag: tr
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x001F (31)
+LCID: 0x001F, (31)
+Name: tr
+NativeName: Türkçe
+Parent: (Empty)
+ThreeLetterISOLanguageName: tur
+ThreeLetterWindowsLanguageName: TRK
+TwoLetterISOLanguageName: tr
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: トルコ語 (トルコ)
+    EnglishName: Turkish (Turkey)
+    IetfLanguageTag: tr-TR
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x041F (1055)
+    LCID: 0x041F, (1055)
+    Name: tr-TR
+    NativeName: Türkçe (Türkiye)
+    Parent: tr
+    ThreeLetterISOLanguageName: tur
+    ThreeLetterWindowsLanguageName: TRK
+    TwoLetterISOLanguageName: tr
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ツォンガ語
+EnglishName: Xitsonga
+IetfLanguageTag: ts
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0031 (49)
+LCID: 0x0031, (49)
+Name: ts
+NativeName: Xitsonga
+Parent: (Empty)
+ThreeLetterISOLanguageName: tso
+ThreeLetterWindowsLanguageName: TSO
+TwoLetterISOLanguageName: ts
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ツォンガ語 (南アフリカ)
+    EnglishName: Xitsonga (South Africa)
+    IetfLanguageTag: ts-ZA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0431 (1073)
+    LCID: 0x0431, (1073)
+    Name: ts-ZA
+    NativeName: Xitsonga (South Africa)
+    Parent: ts
+    ThreeLetterISOLanguageName: tso
+    ThreeLetterWindowsLanguageName: TSO
+    TwoLetterISOLanguageName: ts
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: タタール語
+EnglishName: Tatar
+IetfLanguageTag: tt
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0044 (68)
+LCID: 0x0044, (68)
+Name: tt
+NativeName: татар
+Parent: (Empty)
+ThreeLetterISOLanguageName: tat
+ThreeLetterWindowsLanguageName: TTT
+TwoLetterISOLanguageName: tt
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: タタール語 (ロシア)
+    EnglishName: Tatar (Russia)
+    IetfLanguageTag: tt-RU
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0444 (1092)
+    LCID: 0x0444, (1092)
+    Name: tt-RU
+    NativeName: татар (Россия)
+    Parent: tt
+    ThreeLetterISOLanguageName: tat
+    ThreeLetterWindowsLanguageName: TTT
+    TwoLetterISOLanguageName: tt
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: 中央アトラス・タマジクト語
+EnglishName: Central Atlas Tamazight
+IetfLanguageTag: tzm
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x005F (95)
+LCID: 0x005F, (95)
+Name: tzm
+NativeName: Tamaziɣt n laṭlaṣ
+Parent: (Empty)
+ThreeLetterISOLanguageName: tzm
+ThreeLetterWindowsLanguageName: TZA
+TwoLetterISOLanguageName: tzm
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ウイグル語
+EnglishName: Uyghur
+IetfLanguageTag: ug
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0080 (128)
+LCID: 0x0080, (128)
+Name: ug
+NativeName: ئۇيغۇرچە
+Parent: (Empty)
+ThreeLetterISOLanguageName: uig
+ThreeLetterWindowsLanguageName: UIG
+TwoLetterISOLanguageName: ug
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ウイグル語 (中国)
+    EnglishName: Uyghur (China)
+    IetfLanguageTag: ug-CN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0480 (1152)
+    LCID: 0x0480, (1152)
+    Name: ug-CN
+    NativeName: ئۇيغۇرچە (جۇڭگو)
+    Parent: ug
+    ThreeLetterISOLanguageName: uig
+    ThreeLetterWindowsLanguageName: UIG
+    TwoLetterISOLanguageName: ug
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ウクライナ語
+EnglishName: Ukrainian
+IetfLanguageTag: uk
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0022 (34)
+LCID: 0x0022, (34)
+Name: uk
+NativeName: українська
+Parent: (Empty)
+ThreeLetterISOLanguageName: ukr
+ThreeLetterWindowsLanguageName: UKR
+TwoLetterISOLanguageName: uk
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ウクライナ語 (ウクライナ)
+    EnglishName: Ukrainian (Ukraine)
+    IetfLanguageTag: uk-UA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0422 (1058)
+    LCID: 0x0422, (1058)
+    Name: uk-UA
+    NativeName: українська (Україна)
+    Parent: uk
+    ThreeLetterISOLanguageName: ukr
+    ThreeLetterWindowsLanguageName: UKR
+    TwoLetterISOLanguageName: uk
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ウルドゥー語
+EnglishName: Urdu
+IetfLanguageTag: ur
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0020 (32)
+LCID: 0x0020, (32)
+Name: ur
+NativeName: اردو
+Parent: (Empty)
+ThreeLetterISOLanguageName: urd
+ThreeLetterWindowsLanguageName: URD
+TwoLetterISOLanguageName: ur
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ウルドゥー語 (インド)
+    EnglishName: Urdu (India)
+    IetfLanguageTag: ur-IN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0820 (2080)
+    LCID: 0x0820, (2080)
+    Name: ur-IN
+    NativeName: اردو (بھارت)
+    Parent: ur
+    ThreeLetterISOLanguageName: urd
+    ThreeLetterWindowsLanguageName: URI
+    TwoLetterISOLanguageName: ur
+    UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ウルドゥー語 (パキスタン)
+    EnglishName: Urdu (Pakistan)
+    IetfLanguageTag: ur-PK
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0420 (1056)
+    LCID: 0x0420, (1056)
+    Name: ur-PK
+    NativeName: اردو (پاکستان)
+    Parent: ur
+    ThreeLetterISOLanguageName: urd
+    ThreeLetterWindowsLanguageName: URD
+    TwoLetterISOLanguageName: ur
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ウズベク語
+EnglishName: Uzbek
+IetfLanguageTag: uz
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0043 (67)
+LCID: 0x0043, (67)
+Name: uz
+NativeName: o‘zbek
+Parent: (Empty)
+ThreeLetterISOLanguageName: uzb
+ThreeLetterWindowsLanguageName: UZB
+TwoLetterISOLanguageName: uz
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ウズベク語 (キリル文字)
+EnglishName: Uzbek (Cyrillic)
+IetfLanguageTag: uz-Cyrl
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x7843 (30787)
+LCID: 0x7843, (30787)
+Name: uz-Cyrl
+NativeName: ўзбекча (Кирил)
+Parent: uz
+ThreeLetterISOLanguageName: uzb
+ThreeLetterWindowsLanguageName: UZC
+TwoLetterISOLanguageName: uz
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ウズベク語 (キリル文字、ウズベキスタン)
+    EnglishName: Uzbek (Cyrillic, Uzbekistan)
+    IetfLanguageTag: uz-Cyrl-UZ
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0843 (2115)
+    LCID: 0x0843, (2115)
+    Name: uz-Cyrl-UZ
+    NativeName: ўзбекча (Кирил, Ўзбекистон)
+    Parent: uz-Cyrl
+    ThreeLetterISOLanguageName: uzb
+    ThreeLetterWindowsLanguageName: UZC
+    TwoLetterISOLanguageName: uz
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ウズベク語 (ラテン文字)
+EnglishName: Uzbek (Latin)
+IetfLanguageTag: uz-Latn
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x7C43 (31811)
+LCID: 0x7C43, (31811)
+Name: uz-Latn
+NativeName: o‘zbek (lotin)
+Parent: uz
+ThreeLetterISOLanguageName: uzb
+ThreeLetterWindowsLanguageName: UZB
+TwoLetterISOLanguageName: uz
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ウズベク語 (ラテン文字、ウズベキスタン)
+    EnglishName: Uzbek (Latin, Uzbekistan)
+    IetfLanguageTag: uz-Latn-UZ
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0443 (1091)
+    LCID: 0x0443, (1091)
+    Name: uz-Latn-UZ
+    NativeName: o‘zbek (lotin, Oʻzbekiston)
+    Parent: uz-Latn
+    ThreeLetterISOLanguageName: uzb
+    ThreeLetterWindowsLanguageName: UZB
+    TwoLetterISOLanguageName: uz
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ベンダ語
+EnglishName: Venda
+IetfLanguageTag: ve
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0033 (51)
+LCID: 0x0033, (51)
+Name: ve
+NativeName: Venda
+Parent: (Empty)
+ThreeLetterISOLanguageName: ven
+ThreeLetterWindowsLanguageName: ZZZ
+TwoLetterISOLanguageName: ve
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ベンダ語 (南アフリカ)
+    EnglishName: Venda (South Africa)
+    IetfLanguageTag: ve-ZA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0433 (1075)
+    LCID: 0x0433, (1075)
+    Name: ve-ZA
+    NativeName: Venda (South Africa)
+    Parent: ve
+    ThreeLetterISOLanguageName: ven
+    ThreeLetterWindowsLanguageName: ZZZ
+    TwoLetterISOLanguageName: ve
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ベトナム語
+EnglishName: Vietnamese
+IetfLanguageTag: vi
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x002A (42)
+LCID: 0x002A, (42)
+Name: vi
+NativeName: Tiếng Việt
+Parent: (Empty)
+ThreeLetterISOLanguageName: vie
+ThreeLetterWindowsLanguageName: VIT
+TwoLetterISOLanguageName: vi
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ベトナム語 (ベトナム)
+    EnglishName: Vietnamese (Vietnam)
+    IetfLanguageTag: vi-VN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x042A (1066)
+    LCID: 0x042A, (1066)
+    Name: vi-VN
+    NativeName: Tiếng Việt (Việt Nam)
+    Parent: vi
+    ThreeLetterISOLanguageName: vie
+    ThreeLetterWindowsLanguageName: VIT
+    TwoLetterISOLanguageName: vi
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ウォロフ語
+EnglishName: Wolof
+IetfLanguageTag: wo
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0088 (136)
+LCID: 0x0088, (136)
+Name: wo
+NativeName: Wolof
+Parent: (Empty)
+ThreeLetterISOLanguageName: wol
+ThreeLetterWindowsLanguageName: WOL
+TwoLetterISOLanguageName: wo
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ウォロフ語 (セネガル)
+    EnglishName: Wolof (Senegal)
+    IetfLanguageTag: wo-SN
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0488 (1160)
+    LCID: 0x0488, (1160)
+    Name: wo-SN
+    NativeName: Wolof (Senegaal)
+    Parent: wo
+    ThreeLetterISOLanguageName: wol
+    ThreeLetterWindowsLanguageName: WOL
+    TwoLetterISOLanguageName: wo
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: コサ語
+EnglishName: isiXhosa
+IetfLanguageTag: xh
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0034 (52)
+LCID: 0x0034, (52)
+Name: xh
+NativeName: isiXhosa
+Parent: (Empty)
+ThreeLetterISOLanguageName: xho
+ThreeLetterWindowsLanguageName: XHO
+TwoLetterISOLanguageName: xh
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: コサ語 (南アフリカ)
+    EnglishName: isiXhosa (South Africa)
+    IetfLanguageTag: xh-ZA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0434 (1076)
+    LCID: 0x0434, (1076)
+    Name: xh-ZA
+    NativeName: isiXhosa (eMzantsi Afrika)
+    Parent: xh
+    ThreeLetterISOLanguageName: xho
+    ThreeLetterWindowsLanguageName: XHO
+    TwoLetterISOLanguageName: xh
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: イディッシュ語
+EnglishName: Yiddish
+IetfLanguageTag: yi
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x003D (61)
+LCID: 0x003D, (61)
+Name: yi
+NativeName: ייִדיש
+Parent: (Empty)
+ThreeLetterISOLanguageName: yid
+ThreeLetterWindowsLanguageName: ZZZ
+TwoLetterISOLanguageName: yi
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: イディッシュ語 (世界)
+    EnglishName: Yiddish (World)
+    IetfLanguageTag: yi-001
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x043D (1085)
+    LCID: 0x043D, (1085)
+    Name: yi-001
+    NativeName: ייִדיש (וועלט)
+    Parent: yi
+    ThreeLetterISOLanguageName: yid
+    ThreeLetterWindowsLanguageName: ZZZ
+    TwoLetterISOLanguageName: yi
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ヨルバ語
+EnglishName: Yoruba
+IetfLanguageTag: yo
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x006A (106)
+LCID: 0x006A, (106)
+Name: yo
+NativeName: Èdè Yorùbá
+Parent: (Empty)
+ThreeLetterISOLanguageName: yor
+ThreeLetterWindowsLanguageName: YOR
+TwoLetterISOLanguageName: yo
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ヨルバ語 (ナイジェリア)
+    EnglishName: Yoruba (Nigeria)
+    IetfLanguageTag: yo-NG
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x046A (1130)
+    LCID: 0x046A, (1130)
+    Name: yo-NG
+    NativeName: Èdè Yorùbá (Orilẹ̀-èdè Nàìjíríà)
+    Parent: yo
+    ThreeLetterISOLanguageName: yor
+    ThreeLetterWindowsLanguageName: YOR
+    TwoLetterISOLanguageName: yo
+    UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: 中国語
+EnglishName: Chinese
+IetfLanguageTag: zh
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x7804 (30724)
+LCID: 0x7804, (30724)
+Name: zh
+NativeName: 中文
+Parent: (Empty)
+ThreeLetterISOLanguageName: zho
+ThreeLetterWindowsLanguageName: CHS
+TwoLetterISOLanguageName: zh
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: 中国語 (簡体字)
+EnglishName: Chinese (Simplified)
+IetfLanguageTag: zh-Hans
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0004 (4)
+LCID: 0x0004, (4)
+Name: zh-Hans
+NativeName: 中文（简体）
+Parent: zh
+ThreeLetterISOLanguageName: zho
+ThreeLetterWindowsLanguageName: CHS
+TwoLetterISOLanguageName: zh
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: 中国語 (繁体字)
+EnglishName: Chinese (Traditional)
+IetfLanguageTag: zh-Hant
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x7C04 (31748)
+LCID: 0x7C04, (31748)
+Name: zh-Hant
+NativeName: 中文（繁體）
+Parent: zh
+ThreeLetterISOLanguageName: zho
+ThreeLetterWindowsLanguageName: ZHH
+TwoLetterISOLanguageName: zh
+UseUserOverride: False
+
+CultureTypes: NeutralCultures, InstalledWin32Cultures
+DisplayName: ズールー語
+EnglishName: isiZulu
+IetfLanguageTag: zu
+IsNeutralCulture: True
+IsReadOnly: True
+KeyboardLayoutId: 0x0035 (53)
+LCID: 0x0035, (53)
+Name: zu
+NativeName: isiZulu
+Parent: (Empty)
+ThreeLetterISOLanguageName: zul
+ThreeLetterWindowsLanguageName: ZUL
+TwoLetterISOLanguageName: zu
+UseUserOverride: False
+
+    CultureTypes: SpecificCultures, InstalledWin32Cultures
+    DisplayName: ズールー語 (南アフリカ)
+    EnglishName: isiZulu (South Africa)
+    IetfLanguageTag: zu-ZA
+    IsNeutralCulture: False
+    IsReadOnly: True
+    KeyboardLayoutId: 0x0435 (1077)
+    LCID: 0x0435, (1077)
+    Name: zu-ZA
+    NativeName: isiZulu (iNingizimu Afrika)
+    Parent: zu
+    ThreeLetterISOLanguageName: zul
+    ThreeLetterWindowsLanguageName: ZUL
+    TwoLetterISOLanguageName: zu
+    UseUserOverride: False
+
+================================================================================
+
+CultureTypes: SpecificCultures, InstalledWin32Cultures
+DisplayName: Invariant Language (Invariant Country)
+EnglishName: Invariant Language (Invariant Country)
+IetfLanguageTag: (Empty)
+IsNeutralCulture: False
+IsReadOnly: True
+KeyboardLayoutId: 0x007F (127)
+LCID: 0x007F, (127)
+Name: (Empty)
+NativeName: Invariant Language (Invariant Country)
+Parent: (Empty)
+ThreeLetterISOLanguageName: ivl
+ThreeLetterWindowsLanguageName: IVL
+TwoLetterISOLanguageName: iv
+UseUserOverride: False
+
+CultureTypes: SpecificCultures, InstalledWin32Cultures
+DisplayName: カタロニア語 (スペイン、バレンシア方言)
+EnglishName: Catalan (Spain, Valencian)
+IetfLanguageTag: ca-ES-VALENCIA
+IsNeutralCulture: False
+IsReadOnly: True
+KeyboardLayoutId: 0x0803 (2051)
+LCID: 0x0803, (2051)
+Name: ca-ES-VALENCIA
+NativeName: valencià (Espanya, valencià)
+Parent: ca-ES
+ThreeLetterISOLanguageName: cat
+ThreeLetterWindowsLanguageName: VAL
+TwoLetterISOLanguageName: ca
+UseUserOverride: False
+
+CultureTypes: SpecificCultures, InstalledWin32Cultures
+DisplayName: ゾンカ語 (ブータン)
+EnglishName: Dzongkha (Bhutan)
+IetfLanguageTag: dz-BT
+IsNeutralCulture: False
+IsReadOnly: True
+KeyboardLayoutId: 0x0C51 (3153)
+LCID: 0x0C51, (3153)
+Name: dz-BT
+NativeName: རྫོང་ཁ། (འབྲུག།)
+Parent: dz
+ThreeLetterISOLanguageName: dzo
+ThreeLetterWindowsLanguageName: ZZZ
+TwoLetterISOLanguageName: dz
+UseUserOverride: False

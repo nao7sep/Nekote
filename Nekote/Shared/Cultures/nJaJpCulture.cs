@@ -25,10 +25,10 @@ namespace Nekote
     // その方が、CultureInfo.GetCultures から Select でゴソッと作ったり、キーや添え字でのアクセスを可能にしたりできる
     // しかし、自分が Cultures ディレクトリーにより行いたいのは、むしろ、カルチャーごとの、共通化しにくいコードを整理していくこと
     // たとえば ja-JP では、「この文章は、中学生や各学年の小学生にとって難しくないか」の判別のため、常用漢字のリストを取得できるようにしたい
-    // もちろんウェブシステムなどは、RightToLeft も勘案されての、最大公約数的に、どのカルチャーであってもユーザーエクスペリエンスが大きく損なわれない設計が必要
+    // もちろんウェブシステムなどには、RightToLeft も勘案されての、最大公約数的な、どのカルチャーであってもユーザーエクスペリエンスが大きく損なわれない設計が必要
     // しかし、ローカルのアプリケーションにおいては、自分や関係者が習熟しているカルチャーに特化した作り込みも必要になる
     // Cultures ディレクトリーは、そういうコードのためのもの
-    // ただ CultureInfo.GetCultures が返すというだけで、全く無知のカルチャーも一応は揃えるところでない
+    // CultureInfo.GetCultures が返すというだけで、全く無知のカルチャーも一応は揃えるところでない
     // シンプルに「カルチャー特有のコードを、Nekote の他の部分とは疎結合で整理していくところ」と認識するのが良いだろう
     // その点において、「Nekote の中核的なコードは n*Culture に一切依存しない」というのが、守るべきルール
 
@@ -48,9 +48,9 @@ namespace Nekote
 
     public static class nJaJpCulture
     {
-        private static CultureInfo? mInfo;
+        private static CultureInfo? mCulture;
 
-        public static CultureInfo Info
+        public static CultureInfo Culture
         {
             get
             {
@@ -71,10 +71,34 @@ namespace Nekote
                 // CultureInfo Constructor (System.Globalization) | Microsoft Learn
                 // https://learn.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo.-ctor
 
-                if (mInfo == null)
-                    mInfo = CultureInfo.GetCultureInfo ("ja-JP", predefinedOnly: true);
+                // Windows の設定に影響を受けるというのがピンとこなかったので、もう少し調べた
+                // CultureInfo.UseUserOverride が false になっていれば、とりあえず大丈夫そう
 
-                return mInfo;
+                // c# - How to detect if CurrentCulture has been customised by the user? - Stack Overflow
+                // https://stackoverflow.com/questions/21280754/how-to-detect-if-currentculture-has-been-customised-by-the-user
+
+                // CultureInfo のプロパティーとして得られるものは、InvariantCulture 以外、null あるいは影響あり
+
+                // Console.WriteLine (CultureInfo.CurrentCulture.UseUserOverride); // True
+                // Console.WriteLine (CultureInfo.CurrentUICulture.UseUserOverride); // True
+                // Console.WriteLine (CultureInfo.DefaultThreadCurrentCulture?.UseUserOverride == null); // True
+                // Console.WriteLine (CultureInfo.DefaultThreadCurrentUICulture?.UseUserOverride == null); // True
+                // Console.WriteLine (CultureInfo.InstalledUICulture.UseUserOverride); // True
+                // Console.WriteLine (CultureInfo.InvariantCulture.UseUserOverride); // False
+
+                // CultureInfo.GetCultureInfo で取得したものは大丈夫
+                // Console.WriteLine (nJaJpCulture.Culture.UseUserOverride); // False
+
+                // ja でなく ja-JP として一致していること、その上で UseUserOverride のみ異なることの確認
+
+                // Console.WriteLine (CultureInfo.GetCultureInfo ("ja").LCID); // 17
+                // Console.WriteLine (CultureInfo.CurrentCulture.LCID); // 1041
+                // Console.WriteLine (nJaJpCulture.Culture.LCID); // 1041
+
+                if (mCulture == null)
+                    mCulture = CultureInfo.GetCultureInfo ("ja-JP", predefinedOnly: true);
+
+                return mCulture;
             }
         }
 
@@ -88,7 +112,7 @@ namespace Nekote
             get
             {
                 if (mComparer == null)
-                    mComparer = StringComparer.Create (Info, ignoreCase: false);
+                    mComparer = StringComparer.Create (Culture, ignoreCase: false);
 
                 return mComparer;
             }
@@ -101,7 +125,7 @@ namespace Nekote
             get
             {
                 if (mComparerIgnoreCase == null)
-                    mComparerIgnoreCase = StringComparer.Create (Info, ignoreCase: true);
+                    mComparerIgnoreCase = StringComparer.Create (Culture, ignoreCase: true);
 
                 return mComparerIgnoreCase;
             }

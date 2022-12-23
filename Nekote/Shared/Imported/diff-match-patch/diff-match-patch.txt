@@ -1,0 +1,29 @@
+﻿Google による diff の実装
+
+公式の NuGet パッケージがないようで、自動更新できないため、ソースファイルをそのまま取り込む
+最後の更新から4年が経っているようなので、Nekote のアーカイブ時に更新されていないかたまに見に行く程度でよい
+
+google/diff-match-patch: Diff Match Patch is a high-performance library in multiple languages that manipulates plain text.
+https://github.com/google/diff-match-patch
+
+Apache License Version 2.0, January 2004 が適用されている
+他のライセンスとの比較においても、かなりゆるいもののようだ
+
+diff-match-patch/LICENSE at master · google/diff-match-patch
+https://github.com/google/diff-match-patch/blob/master/LICENSE
+
+Comparison of free and open-source software licenses - Wikipedia
+https://en.wikipedia.org/wiki/Comparison_of_free_and_open-source_software_licenses
+
+GitHub へのリンクで実質的には足りるが、一応、適用されているライセンスの尊重の方法も
+次のページに、HOW TO APPLY THE APACHE LICENSE TO YOUR WORK として、
+    Include a copy of the Apache License, typically in a file called LICENSE, in your work, and consider also including a NOTICE file that references the License とある
+そのうち NOTICE ファイルについては、Wikipedia にも情報がある
+LICENSE が引き継がれていれば、NOTICE は必須でなさそう
+開発者への敬意を表し、AUTHORS も入れておく
+
+Apache License, Version 2.0
+https://www.apache.org/licenses/LICENSE-2.0
+
+Apache License - Wikipedia
+https://en.wikipedia.org/wiki/Apache_License

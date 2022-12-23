@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DiffMatchPatch;
 using Nekote;
 
 namespace ConsoleTester
@@ -217,6 +218,154 @@ namespace ConsoleTester
 
             Console.WriteLine ();
             Console.WriteLine ($"Error Count: {xErrorCount}");
+        }
+
+        // Windows 11/10, Mac の三つで出力した Cultures-*.txt を探し、差分を HTML ファイルとしてデスクトップに保存する
+        // WinMerge などでも diff を取れるが、Windows でのみ入る文字列や、OS による記号の違いによる影響を排除
+
+        // 既存の Cultures-*.txt の diff を取ったものを入れておく
+
+        // Cultures-diff-20221223T080704Z.htm → Windows 11 と Windows 10 の差分
+        // Cultures-diff-20221223T080705Z.htm → Windows 11 と Mac の差分
+        // Cultures-diff-20221223T080706Z.htm → Windows 10 と Mac の差分
+
+        public static void CompareCultureInfoFiles ()
+        {
+            string [] xArgs = Environment.GetCommandLineArgs ();
+
+            // 常に完全な情報が得られるとは限らないようなのでチェック
+            // ギリギリ、プログラムへの「引数」の問題なので、そういう例外クラスを
+
+            // Environment.GetCommandLineArgs Method (System) | Microsoft Learn
+            // https://learn.microsoft.com/en-us/dotnet/api/system.environment.getcommandlineargs
+
+            if (xArgs.Length == 0 || Path.IsPathFullyQualified (xArgs [0]) == false)
+                throw new nArgumentException ();
+
+            string? xDirectoryPath = Path.GetDirectoryName (xArgs [0]);
+
+            if (xDirectoryPath == null || Directory.Exists (xDirectoryPath) == false)
+                throw new nArgumentException ();
+
+            string? [] xFilePaths =
+            {
+                iTester.FindFileOrDirectory (xDirectoryPath, "Cultures-20221221T081021Z.txt"),
+                iTester.FindFileOrDirectory (xDirectoryPath, "Cultures-20221221T081106Z.txt"),
+                iTester.FindFileOrDirectory (xDirectoryPath, "Cultures-20221223T012020Z.txt")
+            };
+
+            // ここでは、引数に問題があるのでなく、「データ」の取得に必要なファイルが見付からない
+
+            if (xFilePaths.Any (x => x == null))
+                throw new nDataException ();
+
+            // Windows は半角、Mac は全角
+            // 半角 → 全角にすると、LCID の列などにも全角が入る
+            // DisplayName 欄は ja-JP ロケールでの出力なので全体が全角でもよいが、
+            //     キーを見てから置換するほどの作り込みに利益がない
+
+            var xFileContents = xFilePaths.Select (x => nFile.ReadAllText (x!)
+                .Replace (", InstalledWin32Cultures", string.Empty, StringComparison.Ordinal)
+                .Replace ("（", " (", StringComparison.Ordinal)
+                .Replace ("）", ")", StringComparison.Ordinal));
+
+            string iCompare (string value1, string value2)
+            {
+                diff_match_patch xDmp = new diff_match_patch ();
+
+                // diff_main には、bool checklines を持つものもある
+                // コードのコメントに、Speedup flag
+                //     If false, then don't run a line-level diff first to identify the changed areas
+                //     If true, then run a faster slightly less optimal diff とある
+
+                var xDiffs = xDmp.diff_main (value1, value2);
+
+                // diff_cleanupSemantic により、1文字ずつ「削除」「挿入」「削除」「挿入」となるようなことが緩和されるか
+                // 実装まで詳しく理解したわけでないが、実際にやってみたところ、何となく慌ただしさが落ち着いていた
+
+                // API · google/diff-match-patch Wiki
+                // https://github.com/google/diff-match-patch/wiki/API
+
+                xDmp.diff_cleanupSemantic (xDiffs);
+
+                StringBuilder xBuilder = new StringBuilder (Math.Max (value1.Length, value2.Length));
+
+                foreach (Diff xDiff in xDiffs)
+                {
+                    // まず DELETE から得られるので、その順で見ている
+
+                    // ちゃんと作るなら、DELETE または INSERT の text 中の改行を目に見える記号にするべき
+                    // そうでないと、<span ...>\r\n</span> では文字の増減が視覚的に分からない
+
+                    if (xDiff.operation == Operation.DELETE)
+                        xBuilder.Append ($"<span class=\"deleted\">{nHtml.Encode (xDiff.text)}</span>");
+
+                    else if (xDiff.operation == Operation.INSERT)
+                        xBuilder.Append ($"<span class=\"inserted\">{nHtml.Encode (xDiff.text)}</span>");
+
+                    else xBuilder.Append (nHtml.Encode (xDiff.text));
+                }
+
+                // 各 diff の位置や長さが予測不能なので、親カルチャー用の div と子カルチャー用の div を作って後者に左側 margin を設定するなどが難しい
+                // 子カルチャーの途中から空行を経て次の親カルチャーの途中までが <span> に入るなどがあるため
+                // 作り込むようなところでないため、&nbsp; と <br/> でサラッと
+
+                nStringOptimizationResult xResult = nStringOptimizer.Default.Optimize (xBuilder.ToString ());
+
+                string xIndentationString = "&nbsp;&nbsp;&nbsp;&nbsp;";
+
+                string xString = string.Join ("<br/>" + Environment.NewLine, xResult.Lines.Select (x =>
+                {
+                    if (string.IsNullOrEmpty (x.IndentationString) == false && string.IsNullOrEmpty (x.VisibleString) == false)
+                        return xIndentationString + x.VisibleString;
+
+                    else return x.VisibleString;
+                }));
+
+                xBuilder.Clear ();
+
+                xBuilder.AppendLine ("<html>");
+                xBuilder.AppendLine ("<head>");
+                xBuilder.AppendLine ("    <style>");
+                xBuilder.AppendLine ("        span.deleted { background: red; color: white }");
+                xBuilder.AppendLine ("        span.inserted { background: blue; color: white }");
+                xBuilder.AppendLine ("    </style>");
+                xBuilder.AppendLine ("</head>");
+                xBuilder.AppendLine ("<body>");
+                xBuilder.AppendLine ();
+                xBuilder.AppendLine (xString);
+                xBuilder.AppendLine ();
+                xBuilder.AppendLine ("</body>");
+                xBuilder.AppendLine ("</html>");
+
+                return xBuilder.ToString ();
+            }
+
+            void iSave (string contents)
+            {
+                string xFileName = $"Cultures-diff-{DateTime.UtcNow.ToString ("yyyyMMdd'T'HHmmss'Z'", CultureInfo.InvariantCulture)}.htm",
+                    xFilePath = nPath.Join (Environment.GetFolderPath (Environment.SpecialFolder.DesktopDirectory), xFileName);
+
+                // 引数にもデータにも問題がなく、やってみての失敗
+                // 「操作」「作戦」といったニュアンスで、ランタイムの問題を
+
+                if (nFile.CanCreate (xFilePath) == false)
+                    throw new nOperationException ();
+
+                nFile.WriteAllText (xFilePath, contents);
+            }
+
+            // 左から右へカニが歩いて行くイメージ
+            // 0, 1 の次が 1, 2 では、また左に戻ることになる
+
+            // 「秒」でファイル名がぶつかるので Sleep で手抜き
+            // 何度も実行するコードでない
+
+            iSave (iCompare (xFileContents.ElementAt (0), xFileContents.ElementAt (1)));
+            Thread.Sleep (1000);
+            iSave (iCompare (xFileContents.ElementAt (0), xFileContents.ElementAt (2)));
+            Thread.Sleep (1000);
+            iSave (iCompare (xFileContents.ElementAt (1), xFileContents.ElementAt (2)));
         }
     }
 }

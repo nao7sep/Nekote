@@ -74,6 +74,8 @@ namespace ConsoleTester
             }
         }
 
+        // Mac での動作を確認した
+
         public static void TestNullability ()
         {
             iSomeClass <string> xSomeInstance = new iSomeClass <string> ();
@@ -161,6 +163,13 @@ namespace ConsoleTester
         // https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/types/boxing-and-unboxing
 
         // 以下は、それよりも、Stopwatch の不可解な挙動を示すものとして価値を持つ
+
+        // M1 の MacBook Pro での実行結果
+        // Windows での実行結果を扱うところが他の問題で忙しいので、ここに書いておく
+        // M1 はたいてい数年前のノートである SV7 より速いが、ここでは SV7 の方が速いようだ
+
+        // Nullable: 313.4423ms
+        // Boxing: 312.9171ms
 
         public static void CompareSpeedsOfNullableAndBoxing ()
         {

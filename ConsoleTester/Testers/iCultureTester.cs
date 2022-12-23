@@ -19,6 +19,23 @@ namespace ConsoleTester
         // Windows 11 → Cultures-20221221T081021Z.txt
         // Windows 10 → Cultures-20221221T081106Z.txt
 
+        // Mac (Ventura 13.1) での出力結果（2022年12月23日）
+
+        // Cultures-20221223T012020Z.txt
+
+        // Nekote を Mac でコンパイル・実行するのは今回が初めてで、そのことも関係してか、初回は DisplayName などが英語で出た
+        // Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo ("ja-JP") の実行により、日本語になった
+        // 以来、CurrentCulture を設定しなくても日本語で出ている
+
+        // Windows で出力したものには、CultureTypes のところに InstalledWin32Cultures が入る
+        // それ以外に違いのないエントリーがとても多い
+        // .NET におけるカルチャー情報は、International Components for Unicode (ICU) というライブラリーに依存しているとのこと
+        // 以前は National Language Support (NLS) を使っていたが、Windows 10 May 2019 Update から ICU になった
+        // Unix 系 OS は元々 ICU だそうで、だから Windows 11/10, Mac での出力結果が概ね一致した
+
+        // Globalization and ICU - .NET | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/core/extensions/globalization-icu
+
         public static void GetCultures ()
         {
             List <CultureInfo> xDisplayedCultures = new List <CultureInfo> ();
@@ -166,8 +183,14 @@ namespace ConsoleTester
                     iAppendCulture (true, xCulture);
             }
 
+            // ここで x, y が null になることはない
+            // 通常は、StringComparer のコードを一例として、それぞれが null の場合の条件分岐を行う
+
+            // StringComparer.cs
+            // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/StringComparer.cs
+
             var xLeftOutCultures = xAllCultures.Except (xDisplayedCultures,
-                new nEqualityComparer <CultureInfo> ((x, y) => string.Equals (x.Name, y.Name, StringComparison.InvariantCultureIgnoreCase)));
+                new nEqualityComparer <CultureInfo> ((x, y) => string.Equals (x!.Name, y!.Name, StringComparison.InvariantCultureIgnoreCase)));
 
             // InvariantCulture が必ず入るが、作法として
 

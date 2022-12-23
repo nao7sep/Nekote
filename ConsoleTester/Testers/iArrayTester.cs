@@ -74,6 +74,17 @@ namespace ConsoleTester
         // MemoryExtensions.SequenceEqual: 28.35ms
         // nArray.Equals: 29.0902ms
 
+        // M1 の MacBook Pro での実行結果
+        // 速度差にバラつきがあって興味深い
+
+        // + で添え字を計算: 96.7037ms
+        // ++ で添え字を進める: 106.2967ms
+        // EqualityComparer.Default: 117.988ms
+        // Enumerable.SequenceEqual: 10.9027ms
+        // Span.SequenceEqual: 10.8272ms
+        // MemoryExtensions.SequenceEqual: 10.8157ms
+        // nArray.Equals: 10.8129ms
+
         public static void CompareComparisonSpeeds ()
         {
             // オーバーヘッドの影響を抑えるため、長めの配列を少ない回数だけ比較
@@ -213,6 +224,8 @@ namespace ConsoleTester
         // 単一の型しか扱えず、情報の意味や関係を認識しないクラスなので、ビッグデータなどに使われるわけでもない
         // せいぜい2～3次元の簡単なデータ収集および LINQ による簡単な集計なので、パフォーマンスより手軽さ
 
+        // Mac での動作を確認した
+
         public static void TestMultiArray ()
         {
             nMultiArray <int> xArray = new nMultiArray <int> ();
@@ -237,6 +250,15 @@ namespace ConsoleTester
         // OrderBy + Random.Next: 1467.0703ms
         // OrderBy + Random.Shared.Next: 1488.7698ms
         // OrderBy + Guid.NewGuid: 2592.9404ms
+
+        // M1 の MacBook Pro での実行結果
+        // Guid.NewGuid がものすごく遅いようだ
+
+        // nArray.Shuffle + Random.Next: 81.5038ms
+        // nArray.Shuffle + Random.Shared.Next: 136.9164ms
+        // OrderBy + Random.Next: 1115.6953ms
+        // OrderBy + Random.Shared.Next: 1130.747ms
+        // OrderBy + Guid.NewGuid: 7352.9924ms
 
         public static void CompareShufflingSpeeds ()
         {

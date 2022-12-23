@@ -122,6 +122,8 @@ namespace ConsoleTester
         // 挙動を見たいだけなので、単一のメソッドに全て入れていく
         // 今後、何か調べたいことがあっても、ここに入れることを検討する
 
+        // Mac での動作を確認した
+
         public static void TestEverything ()
         {
             // iStartWritingToFile の結果

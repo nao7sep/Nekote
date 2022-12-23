@@ -10,6 +10,8 @@ namespace ConsoleTester
 
     internal static class iValueTypeTester
     {
+        // Mac での動作を確認した
+
         public static void CalculateAverageOfLongValues ()
         {
             // TimeSpan の平均の算出のために最初に書いたコード

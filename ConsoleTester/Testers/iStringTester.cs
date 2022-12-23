@@ -17,6 +17,8 @@ namespace ConsoleTester
 
         // 半角空白が分かりやすいよう、入出力の両方において _ に置き換えている
 
+        // Mac での動作を確認した
+
         public static void EnumerateLines ()
         {
             void iEnumerateLinesAlt (string value, bool trimsTrailingWhiteSpaces, bool reducesEmptyLines)
@@ -166,6 +168,8 @@ namespace ConsoleTester
         // 拡張子を変更するのは、段落・行に展開され、それらの明示のための記号入りで再フォーマットされたものは、もはや本来の機能を持たないため
         // 出力先のファイルが既存なら、ハイフンと1からの連番が付けられる
 
+        // Mac での動作を確認した
+
         public static void EnumerateParagraphs (string filePath)
         {
             try
@@ -191,6 +195,8 @@ namespace ConsoleTester
                 nConsole.WritePressAnyKeyToContinueMessage ();
             }
         }
+
+        // Mac での動作を確認した
 
         public static void TestStringOptimization ()
         {
@@ -466,6 +472,16 @@ namespace ConsoleTester
         // string.Format + Parallel.For: 6990.2848ms
         // interpolation: 2857.9809ms
 
+        // M1 の MacBook Pro での実行結果
+        // CPU のアーキテクチャーの違いをエミュレーションでしのいでいるのか、
+        //     Parallel.For を使ってもあまり速くならないのが興味深い
+
+        // operator +: 1868.7173ms
+        // string.Concat: 1859.7751ms
+        // string.Format: 9680.5629ms
+        // string.Format + Parallel.For: 7360.5268ms
+        // interpolation: 1933.3954ms
+
         // $"" は string.Format と同じくらい遅いはずだから使用を見直そうと思っていた
         // しかし、結果としては + などと同じくらい速かった
         // 次のページには、The compiler may replace String.Format with String.Concat if the analyzed behavior would be equivalent to concatenation とある
@@ -576,12 +592,21 @@ namespace ConsoleTester
         }
 
         // 文字列を行に分割する速度の比較
+        // 数年前のノートである SV7 での実行結果
+
         // 行末の空白系文字を削るなどする nString.EnumerateLines がそれほど遅くなかった
         // 改行文字の検索に ReadOnlySpan <char>.IndexOfAny を使うからか
 
         // StringReader.ReadLine: 2275.9624ms
         // MemoryExtensions.EnumerateLines: 3080.7091ms
         // nString.EnumerateLines: 3966.3628ms
+
+        // M1 の MacBook Pro での実行結果
+        // だいたいのテストで Mac の方が速いのに、ここでは全面的に負けている
+
+        // StringReader.ReadLine: 3566.2762ms
+        // MemoryExtensions.EnumerateLines: 4321.9534ms
+        // nString.EnumerateLines: 5562.8636ms
 
         public static void CompareLineEnumerationSpeeds ()
         {
@@ -676,6 +701,11 @@ namespace ConsoleTester
         // 1ミリ秒あたり637回くらい実行できたようだ
         // 名前やメールアドレスなど、もっと短いものがほとんどの、数項目から数十項目ほどのフォームで全てを最適化しても1ミリ秒も掛からない
         // ユーザーの意図を損なう過度な最適化を避けながらも、セキュリティーの向上などのため、nString.Optimize を積極的に使う
+
+        // M1 の MacBook Pro での実行結果
+        // CompareLineEnumerationSpeeds が遅かったのに最適化が速い理由は分からない
+
+        // nString.Optimize: 1274.7906ms
 
         public static void TestStringOptimizationSpeed ()
         {
@@ -799,6 +829,8 @@ namespace ConsoleTester
             }
         }
 
+        // Mac での動作を確認した
+
         public static void TestStringOptimizationAlt (string directoryPath)
         {
             DirectoryInfo xSourceDirectory = new DirectoryInfo (directoryPath);
@@ -811,6 +843,8 @@ namespace ConsoleTester
 
             iHandleDirectoryForStringOptimizationTest (xSourceDirectory, new DirectoryInfo (xDestDirectoryPath));
         }
+
+        // Mac での動作を確認した
 
         public static void TestNameValueCollection ()
         {

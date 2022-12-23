@@ -24,6 +24,25 @@ namespace ConsoleTester
         // RandomNumberGenerator.GetBytes: 32.0578ms
         // Guid.NewGuid: 7583.3231ms
 
+        // M1 の MacBook Pro でも実行してみた
+        // Guid.NewGuid がものすごく遅い
+
+        // Random.Next: 283.1949ms
+        // lock + Random.Next: 1324.1301ms
+        // Random.Shared.Next: 530.6852ms
+        // Random.NextBytes: 14.826ms
+        // RandomNumberGenerator.GetBytes: 86.0756ms
+        // Guid.NewGuid: 57316.1172ms
+
+        // どちらも .NET 外の API を使っているようだ
+        // 具体的に何が遅いのかまでは深入りしない
+
+        // runtime/Guid.Unix.cs at main · dotnet/runtime
+        // https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Guid.Unix.cs
+
+        // runtime/Guid.Windows.cs at main · dotnet/runtime
+        // https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Guid.Windows.cs
+
         // Next などは1億回の所要時間
         // 何か間違えたかと思うほど高速だが、たとえば iArrayTester.CompareComparisonSpeeds では
         //     長さ100万の配列を100回比較（つまり双方からの1億回の読み出しおよび照合）で100ミリ秒台なので、妥当な所要時間

@@ -52,12 +52,25 @@ namespace ConsoleTester
             return null;
         }
 
-        public static string? FindFileOrDirectory (string currentDirectoryPath, string targetName)
+        public static string? FindFileOrDirectory (string targetName)
         {
-            if (Path.IsPathFullyQualified (currentDirectoryPath) == false)
+            string [] xArgs = Environment.GetCommandLineArgs ();
+
+            // 常に完全な情報が得られるとは限らないようなのでチェック
+            // ギリギリ、プログラムへの「引数」の問題なので、そういう例外クラスを
+
+            // Environment.GetCommandLineArgs Method (System) | Microsoft Learn
+            // https://learn.microsoft.com/en-us/dotnet/api/system.environment.getcommandlineargs
+
+            if (xArgs.Length == 0 || Path.IsPathFullyQualified (xArgs [0]) == false)
                 throw new nArgumentException ();
 
-            DirectoryInfo? xCurrentDirectory = new DirectoryInfo (currentDirectoryPath);
+            string? xDirectoryPath = Path.GetDirectoryName (xArgs [0]);
+
+            if (xDirectoryPath == null || Directory.Exists (xDirectoryPath) == false)
+                throw new nArgumentException ();
+
+            DirectoryInfo? xCurrentDirectory = new DirectoryInfo (xDirectoryPath);
 
             List <string> xIgnoredSubdirectoryPaths = new List <string> ();
 

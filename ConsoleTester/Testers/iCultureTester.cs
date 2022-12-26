@@ -263,7 +263,13 @@ namespace ConsoleTester
                 //     If false, then don't run a line-level diff first to identify the changed areas
                 //     If true, then run a faster slightly less optimal diff とある
 
-                var xDiffs = xDmp.diff_main (value1, value2);
+                // checklines を指定しなければ、デフォルトで true になる
+                // 20221227-003100.png がゴチャゴチャなので false も試したが、少なくともこの部分では全く変化がなかった
+                // その上、他の部分で、元々キーなどが共通しやすい差分データがエラいことになり、さらに数バイト分、<span> がちりばめられた
+                // 一方、日本語のメールやブログ記事などでは、「まずは行単位で比較されてゴソッと」がなくなり、誤字・脱字が文字単位でより良く分かるかもしれない
+                // 今後、diff-match-patch を使うときにはここのコードを見るだろうから、メモを添えて引数を明示的に指定しておく
+
+                var xDiffs = xDmp.diff_main (value1, value2, checklines: true);
 
                 // diff_cleanupSemantic により、1文字ずつ「削除」「挿入」「削除」「挿入」となるようなことが緩和されるか
                 // 実装まで詳しく理解したわけでないが、実際にやってみたところ、何となく慌ただしさが落ち着いていた
@@ -601,6 +607,12 @@ namespace ConsoleTester
 
             // Hiragana (Unicode block) - Wikipedia
             // https://en.wikipedia.org/wiki/Hiragana_(Unicode_block)
+
+            // UnicodeRanges.Hiragana の使用も選択肢
+            // もう値が変わらないだろうから、既存のコードはそのまま
+
+            // UnicodeRanges.Hiragana Property (System.Text.Unicode) | Microsoft Learn
+            // https://learn.microsoft.com/en-us/dotnet/api/system.text.unicode.unicoderanges.hiragana
 
             var xKanji3 = xString3.ToCharArray ().Where (x => (x >= 0x3040 && x <= 0x309F) == false);
 

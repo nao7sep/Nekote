@@ -924,9 +924,20 @@ namespace ConsoleTester
 
             void iIsContained (IEnumerable <char> chars)
             {
-                // あいうえお順も考えたが、今後、ライブラリー側の更新により順序が変わる可能性がある
-                // マージやバイナリーサーチも想定するなら、単純に値で並び替えられたものにもメリットがある
-                string xString = string.Join (", ", chars.OrderBy (x => x).Select (y => $"'{y}'"));
+                // 最初、コードポイント順に並び替えたが、さまざまなところで、あいうえお順のリストを目にする
+
+                // 先ほども引用した「学年別漢字配当表」を、ja-JP によるソートの結果と比較すると、次のようになる
+
+                // 一右雨円王音下火花貝学気九休玉金　空月犬見五口校左三山　子四糸字耳七車手十出女小上森人水正生青夕石赤　千川先早草足村大男竹中虫町天田土二日入年白八百文木本名　目　立力林六（学年別漢字配当表）
+                // 一右雨円王音下火花貝学気　休玉金九空月犬見五口校左三山四子　糸字耳七車手十出女小上森人水正生青　石赤先千川　早草足村大男竹中虫町天田土二日入年白八百文　本名木目夕立力林六 (ja-JP)
+
+                // 別表　学年別漢字配当表：文部科学省
+                // https://www.mext.go.jp/a_menu/shotou/new-cs/youryou/syo/koku/001.htm
+
+                // 人間が目視で漢字を探すにおいて、主たる読みをイメージして二分探索を行うなら、この程度の精度でも十分に役立つ
+                // ということから、最終的な配列についてのみ、ICU による、あいうえお順 (ja-JP) でのソートを行う
+
+                string xString = string.Join (", ", nEnumerable.OrderBy (chars, nJaJpCulture.Comparer).Select (x => $"'{x.Value}'"));
 
                 if (xFileContents.Contains (xString, StringComparison.Ordinal) == false)
                 {
@@ -944,7 +955,8 @@ namespace ConsoleTester
             for (int temp = 0; temp < 6; temp ++)
                 iIsContained (xKanji2.ElementAt (temp)); // 1～6年生
 
-            iIsContained (xKanji3.Except (xKanji2.SelectMany (x => x))); // 中学（以降？）
+            // nJaJpCulture.cs の方に書いた理由により、出力をやめる
+            // iIsContained (xKanji3.Except (xKanji2.SelectMany (x => x))); // 中学（以降？）
 
             iIsContained (xKanji5a); // 常用漢字以外の文字とその異体字
             iIsContained (xKanji5b); // 常用漢字の異体字

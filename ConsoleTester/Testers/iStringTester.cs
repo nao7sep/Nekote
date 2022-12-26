@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -896,6 +897,57 @@ namespace ConsoleTester
 
             // 末尾に余計な改行などが付いていないことを確認した
             // Console.WriteLine (xString.Optimize () == xString); // True
+        }
+
+        // DiffMatchPatch.cs は、2022年12月26日現在、2018年7月31日から更新が止まっている
+        // その間の C# の変化により Nullable 関連の警告が多い
+        // GitHub の Issues を見る限り、バグが落ちきっているコード
+        // 警告を無効化し、Nekote での使用を継続する
+
+        // 何かをテストするわけでないため、ここでよいのか迷う
+        // ここでは、ここでダメな特段の理由がないという消極的判断を
+
+        public static void PatchDiffMatchPatch ()
+        {
+            string? xFilePath = iTester.FindFileOrDirectory ("DiffMatchPatch.cs");
+            Encoding? xEncoding = nFile.GetEncoding (xFilePath!);
+
+            // ASCII かと思えば、BOM 付きの UTF-8 だった
+
+            // if (xEncoding != null)
+            //     Console.WriteLine (xEncoding.EncodingName); // → Unicode (UTF-8)
+
+            string xFileContents = nFile.ReadAllText (xFilePath!);
+
+            int xIndex = xFileContents.IndexOf ("using System;", StringComparison.Ordinal),
+                xIndexAlt = xFileContents.IndexOf ("#pragma warning disable CS8600", 0, xIndex, StringComparison.Ordinal);
+
+            if (xIndexAlt >= 0)
+            {
+                Console.WriteLine ("既にパッチされています。");
+                return;
+            }
+
+            xIndexAlt = xFileContents.IndexOf ('\n', StringComparison.Ordinal);
+            string xNewLine = xIndexAlt >= 1 && xFileContents [xIndexAlt - 1] == '\r' ? "\r\n" : "\n";
+
+            xFileContents = xFileContents.Insert (xIndex,
+                "// iStringTester.PatchDiffMatchPatch" + xNewLine +
+                xNewLine +
+                "#pragma warning disable CS8600" + xNewLine +
+                "#pragma warning disable CS8602" + xNewLine +
+                "#pragma warning disable CS8603" + xNewLine +
+                "#pragma warning disable CS8765" + xNewLine +
+                xNewLine);
+
+            xFileContents +=
+                xNewLine +
+                "#pragma warning restore CS8600" + xNewLine +
+                "#pragma warning restore CS8602" + xNewLine +
+                "#pragma warning restore CS8603" + xNewLine +
+                "#pragma warning restore CS8765" + xNewLine;
+
+            nFile.WriteAllText (xFilePath!, xFileContents, xEncoding);
         }
     }
 }

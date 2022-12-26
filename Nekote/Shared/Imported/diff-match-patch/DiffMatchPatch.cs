@@ -16,6 +16,13 @@
  * limitations under the License.
  */
 
+// iStringTester.PatchDiffMatchPatch
+
+#pragma warning disable CS8600
+#pragma warning disable CS8602
+#pragma warning disable CS8603
+#pragma warning disable CS8765
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -2294,3 +2301,8 @@ namespace DiffMatchPatch {
     }
   }
 }
+
+#pragma warning restore CS8600
+#pragma warning restore CS8602
+#pragma warning restore CS8603
+#pragma warning restore CS8765

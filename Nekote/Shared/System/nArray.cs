@@ -59,7 +59,7 @@ namespace Nekote
         // https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions
 
         // Contains, ContainsAny, ContainsAnyExcept, IndexOf, IndexOfAny, IndexOfAnyExcept, LastIndexOf, LastIndexOfAny, LastIndexOfAnyExcept を実装しない
-        // MemoryExtensions に *IndexOf* が揃っていて、Contains* は IndexOf* で代用できる
+        // MemoryExtensions に *IndexOf* が揃っていて、Contains* は IndexOf* で代用できる → 見落としたようだが、Contains も用意されている
         // .NET 4 の頃の知識で実装を考えたが、Core 2.1 で実装されたようである MemoryExtensions で足りると知った
 
         // Copy を実装しない → やはり実装する

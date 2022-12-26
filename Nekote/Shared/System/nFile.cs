@@ -72,7 +72,7 @@ namespace Nekote
         // FileStream をそのまま使って後続の処理を行いたいが、それでは File.ReadAllLinesAsync などを実装し直すことになる
         // IO のパフォーマンスについては、ファイルシステムのキャッシュの恩恵があるだろうから、気にするほどでなさそう
 
-        private static Encoding? iGetEncoding (string path)
+        public static Encoding? GetEncoding (string path)
         {
             // ファイルがなければ、どうせどこかで落ちなければならない
             // ファイルがあれば、長さ0でも問題にならない
@@ -90,7 +90,7 @@ namespace Nekote
         /// </summary>
         public static string [] ReadAllLines (string path, Encoding? encoding = null)
         {
-            return File.ReadAllLines (path, iGetEncoding (path) ?? encoding ?? Encoding.UTF8);
+            return File.ReadAllLines (path, GetEncoding (path) ?? encoding ?? Encoding.UTF8);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Nekote
         /// </summary>
         public static Task <string []> ReadAllLinesAsync (string path, Encoding? encoding = null, CancellationToken cancellationToken = default)
         {
-            return File.ReadAllLinesAsync (path, iGetEncoding (path) ?? encoding ?? Encoding.UTF8, cancellationToken);
+            return File.ReadAllLinesAsync (path, GetEncoding (path) ?? encoding ?? Encoding.UTF8, cancellationToken);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Nekote
         /// </summary>
         public static string ReadAllText (string path, Encoding? encoding = null)
         {
-            return File.ReadAllText (path, iGetEncoding (path) ?? encoding ?? Encoding.UTF8);
+            return File.ReadAllText (path, GetEncoding (path) ?? encoding ?? Encoding.UTF8);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Nekote
         /// </summary>
         public static Task <string> ReadAllTextAsync (string path, Encoding? encoding = null, CancellationToken cancellationToken = default)
         {
-            return File.ReadAllTextAsync (path, iGetEncoding (path) ?? encoding ?? Encoding.UTF8, cancellationToken);
+            return File.ReadAllTextAsync (path, GetEncoding (path) ?? encoding ?? Encoding.UTF8, cancellationToken);
         }
 
         private static void iCreateParentDirectoryAndOrResetAttributesIfRequired (FileInfo file, bool createsParentDirectory, bool resetsAttributes)

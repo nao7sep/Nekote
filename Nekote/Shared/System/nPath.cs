@@ -255,5 +255,38 @@ namespace Nekote
         {
             return Join (Path.DirectorySeparatorChar, paths);
         }
+
+        // Join では、各部のトリミングなどにより長さが0になれば、その部分は初めからなかったことにされる
+        // たとえば、nPath.Join ("/", "hoge", "\\", "moge") は、問題なく hoge\moge になる
+
+        // Map は、Join と似ているが、絶対パスに相対パスをつなげてマッピングするメソッドのため、一つ目の引数が絶対パスでないと例外が飛ぶ
+        // そこまでするべきか迷ったが、たとえば nApp.DirectoryPath は、Environment.GetCommandLineArgs の戻り値にパスが含まれるかなどをチェックする
+        // Map は、path が絶対パスであるというのが処理に不可欠の条件なので、そのことが null 参照や範囲外のインデックスと同様にチェックされてよい
+
+        public static string Map (string path, char directorySeparator, params string [] paths)
+        {
+            if (Path.IsPathFullyQualified (path) == false)
+                throw new nArgumentException ();
+
+            var xPaths = paths.Select (x => (Path: x, TrimmedPath: nString.TrimAsSpan (x, DirectorySeparators).ToString ())).Where (x => x.TrimmedPath.Length > 0);
+            int xCount = xPaths.Count ();
+
+            if (xCount >= 2)
+            {
+                string xJoinedMiddlePaths = string.Join (directorySeparator, xPaths.Take (0..^1).Select (x => x.TrimmedPath));
+                return iJoin (path, directorySeparator, xJoinedMiddlePaths, xPaths.Last ().Path);
+            }
+
+            if (xCount == 1)
+                return iJoin (path, directorySeparator, xPaths.Last ().Path);
+
+            // if (xCount == 0)
+                return path;
+        }
+
+        public static string Map (string path, params string [] paths)
+        {
+            return Map (path, Path.DirectorySeparatorChar, paths);
+        }
     }
 }

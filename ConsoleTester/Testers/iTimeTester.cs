@@ -191,5 +191,109 @@ namespace ConsoleTester
 
             Console.WriteLine ("OK");
         }
+
+        // 2022年12月28日の実行結果
+
+        // TimeZones-20221228T140339Z.txt (Windows 11)
+        // TimeZones-20221228T140515Z.txt (Windows 10)
+        // TimeZones-20221228T140856Z.txt (Mac)
+
+        // Windows によるファイルは 175～176 KB で、Mac によるものは 5,813 KB
+        // Mac の方が圧倒的にそれっぽいデータ
+
+        // たとえば「オーストラリア東部標準時」には149の adjustment rules があり、
+        //     そのうち最後の30エントリーほどは未来のデータ
+        // 後述する、全てが 0:00 on January 1 になる問題も Mac では起こらない
+        // Mac でも 0:00 on January 1 はあるが、始まりと終わりの両方がそうなっているところは、ザッと見た限りなさそう
+        // つまり、DaylightTransitionStart: 0:00 on January 1 のエントリーでも、
+        //     終わりは DaylightTransitionEnd: 2:59 on April 2 となっていて、
+        //     それらが DateStart: 2023/1/1 および DateEnd: 2023/4/2 と整合しているなど
+
+        // 「どこどこの○年○月○日の何時が本当は何時だったか」といったことを突き詰めるプログラミングの経験はまだないが、
+        //     今後そういうニーズが生じれば、そういうものは Mac で作るべきということを覚えておく
+
+        public static void GetTimeZones ()
+        {
+            StringBuilder xBuilder = new StringBuilder ();
+
+            foreach (var xTimeZone in TimeZoneInfo.GetSystemTimeZones ().OrderBy (x => x.BaseUtcOffset).ThenBy (y => y.Id, StringComparer.Ordinal))
+            {
+                if (xBuilder.Length > 0)
+                    xBuilder.AppendLine ();
+
+                // TimeZoneInfo Class (System) | Microsoft Learn
+                // https://learn.microsoft.com/en-us/dotnet/api/system.timezoneinfo
+
+                // TimeZoneInfo.AdjustmentRule Class (System) | Microsoft Learn
+                // https://learn.microsoft.com/en-us/dotnet/api/system.timezoneinfo.adjustmentrule
+
+                // TimeZoneInfo.TransitionTime Struct (System) | Microsoft Learn
+                // https://learn.microsoft.com/en-us/dotnet/api/system.timezoneinfo.transitiontime
+
+                xBuilder.AppendLine ($"BaseUtcOffset: {xTimeZone.BaseUtcOffset.ToRoundtripString ()}");
+                xBuilder.AppendLine ($"DaylightName: {xTimeZone.DaylightName}");
+                xBuilder.AppendLine ($"DisplayName: {xTimeZone.DisplayName}");
+                xBuilder.AppendLine ($"HasIanaId: {xTimeZone.HasIanaId}");
+                xBuilder.AppendLine ($"Id: {xTimeZone.Id}");
+                xBuilder.AppendLine ($"StandardName: {xTimeZone.StandardName}");
+                xBuilder.AppendLine ($"SupportsDaylightSavingTime: {xTimeZone.SupportsDaylightSavingTime}");
+
+                // アルファベット順では一番だが、実際に表示すれば、ここの方が見やすい
+
+                var xRules = xTimeZone.GetAdjustmentRules ();
+
+                if (xRules.Length > 0)
+                {
+                    xBuilder.AppendLine ("AdjustmentRules:");
+
+                    for (int temp = 0; temp < xRules.Length; temp ++)
+                    {
+                        xBuilder.AppendLine (FormattableString.Invariant ($"\x20\x20\x20\x20[{temp}]"));
+
+                        var xRule = xRules [temp];
+
+                        string iToString (TimeZoneInfo.TransitionTime time)
+                        {
+                            // Use fixed-date rules for time transitions that occur on a specific day of a specific month (such as 2:00 A.M. on November 3)
+                            //     Use floating-date rules for time transitions that occur on a specific day of a specific week of a specific month (such as 2:00 A.M. on the first Sunday of November)
+                            //     といった説明があるので、それにならった
+
+                            // Month は1～12
+
+                            // IsFixedDateRule == true なら Month と Day で日付を得られるはずだが、なぜか全てが 0:00 on January 1 になる
+                            // TimeZoneInfo.TransitionTime.Day のページのコードをコピペで実行してもそうなので、どこかにバグがあるか → Mac では大丈夫のようだ
+
+                            // TimeZoneInfo.TransitionTime.Day Property (System) | Microsoft Learn
+                            // https://learn.microsoft.com/en-us/dotnet/api/system.timezoneinfo.transitiontime.day
+
+                            if (time.IsFixedDateRule)
+                                return FormattableString.Invariant ($"{time.TimeOfDay.ToFriendlyTimeShortString ()} on {nInvariantCulture.MonthNames [time.Month - 1]} {time.Day}");
+
+                            // nInvariantCulture.GetOrdinalNumberString を用意したが、Week は5が「5番目」でなく「最後」を意味するようだ
+                            // その曜日が4回しかない月において「最後」として Week が5のところがあるかどうかについては、今回は深入りしない
+
+                            string [] xWeekStrings = { "first", "second", "third", "fourth", "last" };
+
+                            // DayOfWeek Enum (System) | Microsoft Learn
+                            // https://learn.microsoft.com/en-us/dotnet/api/system.dayofweek
+
+                            return $"{time.TimeOfDay.ToFriendlyTimeShortString ()} on the {xWeekStrings [time.Week - 1]} {nInvariantCulture.DayOfWeekNames [(int) time.DayOfWeek]} of {nInvariantCulture.MonthNames [time.Month - 1]}";
+                        }
+
+                        xBuilder.AppendLine ($"\x20\x20\x20\x20\x20\x20\x20 BaseUtcOffsetDelta: {xRule.BaseUtcOffsetDelta.ToRoundtripString ()}");
+                        xBuilder.AppendLine ($"\x20\x20\x20\x20\x20\x20\x20 DateEnd: {xRule.DateEnd.ToFriendlyDateString ()}");
+                        xBuilder.AppendLine ($"\x20\x20\x20\x20\x20\x20\x20 DateStart: {xRule.DateStart.ToFriendlyDateString ()}");
+                        xBuilder.AppendLine ($"\x20\x20\x20\x20\x20\x20\x20 DaylightDelta: {xRule.DaylightDelta.ToRoundtripString ()}");
+                        xBuilder.AppendLine ($"\x20\x20\x20\x20\x20\x20\x20 DaylightTransitionEnd: {iToString (xRule.DaylightTransitionEnd)}");
+                        xBuilder.AppendLine ($"\x20\x20\x20\x20\x20\x20\x20 DaylightTransitionStart: {iToString (xRule.DaylightTransitionStart)}");
+                    }
+                }
+            }
+
+            string xFilePath = nPath.Map (Environment.GetFolderPath (Environment.SpecialFolder.DesktopDirectory), $"TimeZones-{DateTime.UtcNow.ToMinimalUniversalDateTimeString ()}.txt");
+            nFile.WriteAllText (xFilePath, xBuilder.ToString ());
+
+            Console.WriteLine (xBuilder.ToString ());
+        }
     }
 }

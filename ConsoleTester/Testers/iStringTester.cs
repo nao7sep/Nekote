@@ -948,5 +948,125 @@ namespace ConsoleTester
 
             nFile.WriteAllText (xFilePath!, xFileContents, xEncoding);
         }
+
+        // 2022年12月28日の実行結果
+
+        // Encodings-20221228T140339Z.txt (Windows 11)
+        // Encodings-20221228T140516Z.txt (Windows 10)
+        // Encodings-20221228T140856Z.txt (Mac)
+
+        // .NET 内部のデータを取得しただけなのか、三つとも内容が同じ
+        // ファイルサイズが少し異なるのは、改行の違いによる
+
+        public static void GetEncodings ()
+        {
+            // Console.WriteLine (Encoding.GetEncodings ().Max (x => x.CodePage)); // → 65001
+
+            StringBuilder xBuilder = new StringBuilder ();
+
+            // Encoding.GetEncodings Method (System.Text) | Microsoft Learn
+            // https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getencodings
+
+            Encoding.RegisterProvider (CodePagesEncodingProvider.Instance);
+
+            foreach (EncodingInfo xEncoding in Encoding.GetEncodings ().OrderBy (x => x.CodePage))
+            {
+                if (xBuilder.Length > 0)
+                    xBuilder.AppendLine ();
+
+                // EncodingInfo の三つは、必ず取得できる
+                // Encoding.GetEncoding には、こちらの CodePage または Name を与える
+
+                // EncodingInfo Class (System.Text) | Microsoft Learn
+                // https://learn.microsoft.com/en-us/dotnet/api/system.text.encodinginfo
+
+                xBuilder.AppendLine (FormattableString.Invariant ($"CodePage: 0x{xEncoding.CodePage:X4} ({xEncoding.CodePage})"));
+                xBuilder.AppendLine ($"DisplayName: {xEncoding.DisplayName}");
+                xBuilder.AppendLine ($"Name: {xEncoding.Name}");
+
+                Encoding xEncodingAlt = xEncoding.GetEncoding ();
+
+                xBuilder.AppendLine ("\x20\x20\x20 Encoding:");
+
+                string xIndentationString = "\x20\x20\x20\x20\x20\x20\x20\x20";
+
+                // Encoding クラスの方は、データを取得しようとすると落ちるプロパティーが多々ある
+
+                // Encoding Class (System.Text) | Microsoft Learn
+                // https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding
+
+                // EncodingTable.InternalGetCodePageDataItem によると、WebName → BodyName/HeaderName
+                // データの重複になるが、プロパティーの存在は確かなので一応そのまま出力
+
+                // EncodingTable.cs
+                // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Text/EncodingTable.cs
+
+                try { xBuilder.AppendLine (xIndentationString + "BodyName: " + xEncodingAlt.BodyName); } catch {}
+
+                try { xBuilder.AppendLine (xIndentationString + FormattableString.Invariant ($"CodePage: 0x{xEncodingAlt.CodePage:X4} ({xEncodingAlt.CodePage})")); } catch {}
+
+                // 日本語のエンコーディング名を取得できなくなっていることについて
+
+                // 以前は「日本語 (シフト JIS)」のようなエンコーディング名を取得できたが、今では Japanese (Shift-JIS) のみ
+                // EncodingTable.GetDisplayName では、SR.GetResourceString ("Globalization_cp_" + codePage.ToString ()) により名前を得られない場合、s_englishNames のものが設定される
+                // SR.GetResourceString を呼ぶ方法を探したところ、Environment に internal static string? GetResourceStringLocal (string key) => SR.GetResourceString (key) を発見
+
+                // Environment.CoreCLR.cs
+                // https://source.dot.net/#System.Private.CoreLib/src/System/Environment.CoreCLR.cs
+
+                // これは、typeof (Environment).GetMethod ("GetResourceStringLocal", BindingFlags.NonPublic | BindingFlags.Static)
+                //     .Invoke (null, new object [] { "Globalization_cp_" }) のようにすれば使えた
+                // SR クラスにキーがたくさんあり、適当に指定してみたところ日本語のメッセージを得られた
+
+                // System.SR.cs
+                // https://source.dot.net/#System.Private.CoreLib/artifacts/obj/coreclr/System.Private.CoreLib/x64/Debug/System.SR.cs
+
+                // しかし、"Globalization_cp_" + codePage.ToString () ではダメだった
+                // Encoding.RegisterProvider (CodePagesEncodingProvider.Instance) が必要になったことからも、ただデータがないのだろう
+
+                // ResourceManager を使うために NuGet で System.Resources.ResourceManager を入れてみたが、こちらは動かなかった
+                // 互換性の問題か、何かミスっていたのか不詳だが、GetResourceStringLocal でダメだったので深入りしなかった
+
+                // ResourceManager Class (System.Resources) | Microsoft Learn
+                // https://learn.microsoft.com/en-us/dotnet/api/system.resources.resourcemanager
+
+                // NuGet Gallery | System.Resources.ResourceManager 4.3.0
+                // https://www.nuget.org/packages/System.Resources.ResourceManager/
+
+                try { xBuilder.AppendLine (xIndentationString + "EncodingName: " + xEncodingAlt.EncodingName); } catch {}
+
+                try { xBuilder.AppendLine (xIndentationString + "HeaderName: " + xEncodingAlt.HeaderName); } catch {}
+
+                // 多くのエンコーディングで get 時に落ちるプロパティーが四つ続く
+                // イマイチよく分からないものばかりだが、とりあえず出力しておく
+
+                try { xBuilder.AppendLine (xIndentationString + "IsBrowserDisplay: " + xEncodingAlt.IsBrowserDisplay); } catch {}
+                try { xBuilder.AppendLine (xIndentationString + "IsBrowserSave: " + xEncodingAlt.IsBrowserSave); } catch {}
+                try { xBuilder.AppendLine (xIndentationString + "IsMailNewsDisplay: " + xEncodingAlt.IsMailNewsDisplay); } catch {}
+                try { xBuilder.AppendLine (xIndentationString + "IsMailNewsSave: " + xEncodingAlt.IsMailNewsSave); } catch {}
+
+                try { xBuilder.AppendLine (xIndentationString + "IsReadOnly: " + xEncodingAlt.IsReadOnly); } catch {}
+                try { xBuilder.AppendLine (xIndentationString + "IsSingleByte: " + xEncodingAlt.IsSingleByte); } catch {}
+
+                if (xEncodingAlt.Preamble.Length > 0)
+                {
+                    try { xBuilder.AppendLine (xIndentationString + "Preamble: " + string.Join (" ", xEncodingAlt.Preamble.ToArray ().Select (x => $"0x{x:X2}"))); } catch {}
+                }
+
+                try { xBuilder.AppendLine (xIndentationString + "WebName: " + xEncodingAlt.WebName); } catch {}
+
+                // 80～90年代に使われ、Unicode の台頭により使われなくなったとのこと
+
+                // Windows code page - Wikipedia
+                // https://en.wikipedia.org/wiki/Windows_code_page
+
+                try { xBuilder.AppendLine (xIndentationString + FormattableString.Invariant ($"WindowsCodePage: 0x{xEncodingAlt.WindowsCodePage:X4} ({xEncodingAlt.WindowsCodePage})")); } catch {}
+            }
+
+            string xFilePath = nPath.Map (Environment.GetFolderPath (Environment.SpecialFolder.DesktopDirectory), $"Encodings-{DateTime.UtcNow.ToMinimalUniversalDateTimeString ()}.txt");
+            nFile.WriteAllText (xFilePath, xBuilder.ToString ());
+
+            Console.WriteLine (xBuilder.ToString ());
+        }
     }
 }

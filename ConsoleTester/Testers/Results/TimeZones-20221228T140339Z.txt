@@ -1,0 +1,4907 @@
+﻿BaseUtcOffset: -12:00:00
+DaylightName: 日付変更線 (夏時間)
+DisplayName: (UTC-12:00) 国際日付変更線 西側
+HasIanaId: False
+Id: Dateline Standard Time
+StandardName: 日付変更線 (標準時)
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: -11:00:00
+DaylightName: UTC-11
+DisplayName: (UTC-11:00) 協定世界時-11
+HasIanaId: False
+Id: UTC-11
+StandardName: UTC-11
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: -10:00:00
+DaylightName: アリューシャン夏時間
+DisplayName: (UTC-10:00) アリューシャン諸島
+HasIanaId: False
+Id: Aleutian Standard Time
+StandardName: アリューシャン標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+
+BaseUtcOffset: -10:00:00
+DaylightName: ハワイ夏時間
+DisplayName: (UTC-10:00) ハワイ
+HasIanaId: False
+Id: Hawaiian Standard Time
+StandardName: ハワイ標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: -09:30:00
+DaylightName: マルキーズ夏時間
+DisplayName: (UTC-09:30) マルキーズ諸島
+HasIanaId: False
+Id: Marquesas Standard Time
+StandardName: マルキーズ標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: -09:00:00
+DaylightName: アラスカ夏時間
+DisplayName: (UTC-09:00) アラスカ
+HasIanaId: False
+Id: Alaskan Standard Time
+StandardName: アラスカ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+
+BaseUtcOffset: -09:00:00
+DaylightName: UTC-09
+DisplayName: (UTC-09:00) 協定世界時-09
+HasIanaId: False
+Id: UTC-09
+StandardName: UTC-09
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: -08:00:00
+DaylightName: 太平洋夏時間
+DisplayName: (UTC-08:00) 太平洋標準時 (米国およびカナダ)
+HasIanaId: False
+Id: Pacific Standard Time
+StandardName: 太平洋標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+
+BaseUtcOffset: -08:00:00
+DaylightName: 太平洋夏時間 (メキシコ)
+DisplayName: (UTC-08:00) バハカリフォルニア
+HasIanaId: False
+Id: Pacific Standard Time (Mexico)
+StandardName: 太平洋標準時 (メキシコ)
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+
+BaseUtcOffset: -08:00:00
+DaylightName: UTC-08
+DisplayName: (UTC-08:00) 協定世界時-08
+HasIanaId: False
+Id: UTC-08
+StandardName: UTC-08
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: -07:00:00
+DaylightName: 山地夏時間
+DisplayName: (UTC-07:00) 山地標準時 (米国およびカナダ)
+HasIanaId: False
+Id: Mountain Standard Time
+StandardName: 山地標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+
+BaseUtcOffset: -07:00:00
+DaylightName: 山地夏時間 (メキシコ)
+DisplayName: (UTC-07:00) チワワ、ラパス、マサトラン
+HasIanaId: False
+Id: Mountain Standard Time (Mexico)
+StandardName: 山地標準時 (メキシコ)
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+
+BaseUtcOffset: -07:00:00
+DaylightName: 米国 山地夏時間
+DisplayName: (UTC-07:00) アリゾナ
+HasIanaId: False
+Id: US Mountain Standard Time
+StandardName: 米国 山地標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: -07:00:00
+DaylightName: ユーコン夏時間
+DisplayName: (UTC-07:00) ユーコン
+HasIanaId: False
+Id: Yukon Standard Time
+StandardName: ユーコン標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2006/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [2]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [3]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [4]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [5]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [6]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [7]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [8]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [9]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [10]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [11]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [12]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [13]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [14]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2020/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Wednesday of January
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+
+BaseUtcOffset: -06:00:00
+DaylightName: カナダ中部夏時間
+DisplayName: (UTC-06:00) サスカチュワン
+HasIanaId: False
+Id: Canada Central Standard Time
+StandardName: カナダ中部標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: -06:00:00
+DaylightName: 中央アメリカ夏時間
+DisplayName: (UTC-06:00) 中央アメリカ
+HasIanaId: False
+Id: Central America Standard Time
+StandardName: 中央アメリカ標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: -06:00:00
+DaylightName: 中部夏時間
+DisplayName: (UTC-06:00) 中部標準時 (米国およびカナダ)
+HasIanaId: False
+Id: Central Standard Time
+StandardName: 中部標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+
+BaseUtcOffset: -06:00:00
+DaylightName: 中部夏時間 (メキシコ)
+DisplayName: (UTC-06:00) グアダラハラ、メキシコシティ、モンテレー
+HasIanaId: False
+Id: Central Standard Time (Mexico)
+StandardName: 中部標準時 (メキシコ)
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+
+BaseUtcOffset: -06:00:00
+DaylightName: イースター島夏時間
+DisplayName: (UTC-06:00) イースター島
+HasIanaId: False
+Id: Easter Island Standard Time
+StandardName: イースター島標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the second Saturday of March
+        DaylightTransitionStart: 22:00 on the second Saturday of October
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the last Saturday of March
+        DaylightTransitionStart: 22:00 on the second Saturday of October
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the second Saturday of March
+        DaylightTransitionStart: 22:00 on the second Saturday of October
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the first Saturday of April
+        DaylightTransitionStart: 22:00 on the second Saturday of October
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the first Saturday of May
+        DaylightTransitionStart: 22:00 on the third Saturday of August
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the last Saturday of April
+        DaylightTransitionStart: 22:00 on the first Saturday of September
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the last Saturday of April
+        DaylightTransitionStart: 22:00 on the first Saturday of September
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the last Saturday of April
+        DaylightTransitionStart: 22:00 on the first Saturday of September
+    [8]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the second Saturday of May
+        DaylightTransitionStart: 22:00 on the second Saturday of August
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the second Saturday of May
+        DaylightTransitionStart: 22:00 on the second Saturday of August
+    [11]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the second Saturday of May
+        DaylightTransitionStart: 22:00 on the second Saturday of August
+    [12]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the first Saturday of April
+        DaylightTransitionStart: 22:00 on the first Saturday of September
+    [13]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2020/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the first Saturday of April
+        DaylightTransitionStart: 22:00 on the first Saturday of September
+    [14]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2021/12/31
+        DateStart: 2021/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the first Saturday of April
+        DaylightTransitionStart: 22:00 on the first Saturday of September
+    [15]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2022/12/31
+        DateStart: 2022/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the first Saturday of April
+        DaylightTransitionStart: 22:00 on the second Saturday of September
+    [16]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2023/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 22:00 on the first Saturday of April
+        DaylightTransitionStart: 22:00 on the first Saturday of September
+
+BaseUtcOffset: -05:00:00
+DaylightName: キューバ夏時間
+DisplayName: (UTC-05:00) ハバナ
+HasIanaId: False
+Id: Cuba Standard Time
+StandardName: キューバ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2003/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Sunday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2004/12/31
+        DateStart: 2004/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Thursday of January
+        DaylightTransitionStart: 0:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2005/12/31
+        DateStart: 2005/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 2006/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Sunday of January
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the second Sunday of March
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the third Sunday of March
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the second Sunday of March
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the second Sunday of March
+    [8]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the second Sunday of November
+        DaylightTransitionStart: 0:00 on the third Sunday of March
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the first Sunday of November
+        DaylightTransitionStart: 0:00 on the first Sunday of April
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the first Sunday of November
+        DaylightTransitionStart: 0:00 on the second Sunday of March
+
+BaseUtcOffset: -05:00:00
+DaylightName: 東部夏時間
+DisplayName: (UTC-05:00) 東部標準時 (米国およびカナダ)
+HasIanaId: False
+Id: Eastern Standard Time
+StandardName: 東部標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+
+BaseUtcOffset: -05:00:00
+DaylightName: 東部夏時間 (メキシコ)
+DisplayName: (UTC-05:00) チェトゥマル
+HasIanaId: False
+Id: Eastern Standard Time (Mexico)
+StandardName: 東部標準時 (メキシコ)
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2014/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Thursday of January
+        DaylightTransitionStart: 2:00 on the first Sunday of February
+
+BaseUtcOffset: -05:00:00
+DaylightName: ハイチ夏時間
+DisplayName: (UTC-05:00) ハイチ
+HasIanaId: False
+Id: Haiti Standard Time
+StandardName: ハイチ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of October
+        DaylightTransitionStart: 23:59 on the first Saturday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+
+BaseUtcOffset: -05:00:00
+DaylightName: 南アメリカ太平洋夏時間
+DisplayName: (UTC-05:00) ボゴタ、リマ、キト、リオ ブランコ
+HasIanaId: False
+Id: SA Pacific Standard Time
+StandardName: 南アメリカ太平洋標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: -05:00:00
+DaylightName: タークス・カイコス諸島夏時間
+DisplayName: (UTC-05:00) タークス・カイコス諸島
+HasIanaId: False
+Id: Turks And Caicos Standard Time
+StandardName: タークス・カイコス諸島標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Thursday of January
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+
+BaseUtcOffset: -05:00:00
+DaylightName: 米国 東部夏時間
+DisplayName: (UTC-05:00) インディアナ東部
+HasIanaId: False
+Id: US Eastern Standard Time
+StandardName: 米国 東部標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 2006/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+
+BaseUtcOffset: -04:00:00
+DaylightName: 大西洋夏時間
+DisplayName: (UTC-04:00) 大西洋標準時 (カナダ)
+HasIanaId: False
+Id: Atlantic Standard Time
+StandardName: 大西洋標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+
+BaseUtcOffset: -04:00:00
+DaylightName: 中央ブラジル夏時間
+DisplayName: (UTC-04:00) クイアバ
+HasIanaId: False
+Id: Central Brazilian Standard Time
+StandardName: 中央ブラジル標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2004/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Thursday of January
+        DaylightTransitionStart: 0:00 on the first Tuesday of November
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2005/12/31
+        DateStart: 2005/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 0:00 on the third Sunday of October
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 2006/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 0:00 on the first Sunday of November
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of February
+        DaylightTransitionStart: 0:00 on the second Sunday of October
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 0:00 on the third Sunday of October
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [8]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the fourth Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [11]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [12]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [13]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the second Saturday of October
+    [14]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the first Saturday of November
+    [15]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the third Sunday of February
+        DaylightTransitionStart: 0:00 on the first Tuesday of January
+
+BaseUtcOffset: -04:00:00
+DaylightName: 太平洋南アメリカ夏時間
+DisplayName: (UTC-04:00) サンティアゴ
+HasIanaId: False
+Id: Pacific SA Standard Time
+StandardName: 太平洋南アメリカ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of March
+        DaylightTransitionStart: 23:59 on the second Saturday of October
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of March
+        DaylightTransitionStart: 23:59 on the second Saturday of October
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of March
+        DaylightTransitionStart: 23:59 on the second Saturday of October
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the first Saturday of April
+        DaylightTransitionStart: 23:59 on the second Saturday of October
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the first Saturday of May
+        DaylightTransitionStart: 23:59 on the third Saturday of August
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of April
+        DaylightTransitionStart: 23:59 on the first Saturday of September
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of April
+        DaylightTransitionStart: 23:59 on the first Saturday of September
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of April
+        DaylightTransitionStart: 23:59 on the first Saturday of September
+    [8]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of May
+        DaylightTransitionStart: 23:59 on the second Saturday of August
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of May
+        DaylightTransitionStart: 23:59 on the second Saturday of August
+    [11]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of May
+        DaylightTransitionStart: 23:59 on the second Saturday of August
+    [12]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the first Saturday of April
+        DaylightTransitionStart: 23:59 on the first Saturday of September
+    [13]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2020/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the first Saturday of April
+        DaylightTransitionStart: 23:59 on the first Saturday of September
+    [14]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2021/12/31
+        DateStart: 2021/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the first Saturday of April
+        DaylightTransitionStart: 23:59 on the first Saturday of September
+    [15]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2022/12/31
+        DateStart: 2022/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the first Saturday of April
+        DaylightTransitionStart: 23:59 on the second Saturday of September
+    [16]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2023/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the first Saturday of April
+        DaylightTransitionStart: 23:59 on the first Saturday of September
+
+BaseUtcOffset: -04:00:00
+DaylightName: パラグアイ夏時間
+DisplayName: (UTC-04:00) アスンシオン
+HasIanaId: False
+Id: Paraguay Standard Time
+StandardName: パラグアイ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of March
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the first Saturday of March
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of April
+        DaylightTransitionStart: 23:59 on the first Saturday of October
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of April
+        DaylightTransitionStart: 23:59 on the first Saturday of October
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the first Saturday of April
+        DaylightTransitionStart: 23:59 on the first Saturday of October
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the fourth Saturday of March
+        DaylightTransitionStart: 23:59 on the first Saturday of October
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the fourth Saturday of March
+        DaylightTransitionStart: 23:59 on the first Saturday of October
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of March
+        DaylightTransitionStart: 23:59 on the first Saturday of October
+    [8]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of March
+        DaylightTransitionStart: 23:59 on the first Saturday of October
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of March
+        DaylightTransitionStart: 23:59 on the last Saturday of September
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the fourth Saturday of March
+        DaylightTransitionStart: 23:59 on the first Saturday of October
+    [11]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the fourth Saturday of March
+        DaylightTransitionStart: 23:59 on the first Saturday of October
+    [12]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2020/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of March
+        DaylightTransitionStart: 23:59 on the first Saturday of October
+    [13]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2021/12/31
+        DateStart: 2021/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of March
+        DaylightTransitionStart: 23:59 on the first Saturday of October
+    [14]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2022/12/31
+        DateStart: 2022/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of March
+        DaylightTransitionStart: 23:59 on the first Saturday of October
+    [15]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2023/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the fourth Sunday of March
+        DaylightTransitionStart: 0:00 on the first Sunday of October
+
+BaseUtcOffset: -04:00:00
+DaylightName: 南アメリカ西部夏時間
+DisplayName: (UTC-04:00) ジョージタウン、ラパス、マナウス、サンフアン
+HasIanaId: False
+Id: SA Western Standard Time
+StandardName: 南アメリカ西部標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: -04:00:00
+DaylightName: ベネズエラ夏時間
+DisplayName: (UTC-04:00) カラカス
+HasIanaId: False
+Id: Venezuela Standard Time
+StandardName: ベネズエラ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -00:30:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 00:30:00
+        DaylightTransitionEnd: 3:00 on the second Sunday of December
+        DaylightTransitionStart: 0:00 on the first Monday of January
+    [1]
+        BaseUtcOffsetDelta: -00:30:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [2]
+        BaseUtcOffsetDelta: -00:30:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: -00:30:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: -00:30:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [5]
+        BaseUtcOffsetDelta: -00:30:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [6]
+        BaseUtcOffsetDelta: -00:30:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [7]
+        BaseUtcOffsetDelta: -00:30:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [8]
+        BaseUtcOffsetDelta: -00:30:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: -00:30:00
+        DaylightTransitionEnd: 2:30 on the first Sunday of May
+        DaylightTransitionStart: 0:00 on the first Friday of January
+
+BaseUtcOffset: -03:30:00
+DaylightName: ニューファンドランド夏時間
+DisplayName: (UTC-03:30) ニューファンドランド
+HasIanaId: False
+Id: Newfoundland Standard Time
+StandardName: ニューファンドランド標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:01 on the last Sunday of October
+        DaylightTransitionStart: 0:01 on the first Sunday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:01 on the first Sunday of November
+        DaylightTransitionStart: 0:01 on the second Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:01 on the first Sunday of November
+        DaylightTransitionStart: 0:01 on the second Sunday of March
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:01 on the first Sunday of November
+        DaylightTransitionStart: 0:01 on the second Sunday of March
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:01 on the first Sunday of November
+        DaylightTransitionStart: 0:01 on the second Sunday of March
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 0:01 on the second Sunday of March
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+
+BaseUtcOffset: -03:00:00
+DaylightName: アルゼンチン夏時間
+DisplayName: (UTC-03:00) ブエノスアイレス
+HasIanaId: False
+Id: Argentina Standard Time
+StandardName: アルゼンチン標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Monday of January
+        DaylightTransitionStart: 0:00 on the last Sunday of December
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the third Sunday of March
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of March
+        DaylightTransitionStart: 0:00 on the first Thursday of January
+
+BaseUtcOffset: -03:00:00
+DaylightName: バイア夏時間
+DisplayName: (UTC-03:00) サルバドル
+HasIanaId: False
+Id: Bahia Standard Time
+StandardName: バイア標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the fourth Saturday of February
+        DaylightTransitionStart: 0:00 on the first Sunday of January
+
+BaseUtcOffset: -03:00:00
+DaylightName: 南アメリカ東部夏時間
+DisplayName: (UTC-03:00) ブラジリア
+HasIanaId: False
+Id: E. South America Standard Time
+StandardName: 南アメリカ東部標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2004/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of February
+        DaylightTransitionStart: 0:00 on the first Tuesday of November
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2005/12/31
+        DateStart: 2005/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 0:00 on the third Sunday of October
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 2006/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 0:00 on the first Sunday of November
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of February
+        DaylightTransitionStart: 0:00 on the second Sunday of October
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 0:00 on the third Sunday of October
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [8]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the fourth Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [11]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [12]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the third Saturday of October
+    [13]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the second Saturday of October
+    [14]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 23:59 on the first Saturday of November
+    [15]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the third Sunday of February
+        DaylightTransitionStart: 0:00 on the first Tuesday of January
+
+BaseUtcOffset: -03:00:00
+DaylightName: グリーンランド夏時間
+DisplayName: (UTC-03:00) グリーンランド
+HasIanaId: False
+Id: Greenland Standard Time
+StandardName: グリーンランド標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2004/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2005/12/31
+        DateStart: 2005/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 2006/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the fourth Saturday of March
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the fourth Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+    [8]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the fourth Saturday of March
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+    [11]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the fourth Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+    [12]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+    [13]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+    [14]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the fourth Saturday of March
+    [15]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+    [16]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2020/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the fourth Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+    [17]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2021/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:00 on the last Saturday of October
+        DaylightTransitionStart: 22:00 on the last Saturday of March
+
+BaseUtcOffset: -03:00:00
+DaylightName: マガジャネス夏時間
+DisplayName: (UTC-03:00) プンタアレーナス
+HasIanaId: False
+Id: Magallanes Standard Time
+StandardName: マガジャネス標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2007/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of March
+        DaylightTransitionStart: 23:59 on the second Saturday of October
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of March
+        DaylightTransitionStart: 23:59 on the second Saturday of October
+    [2]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of March
+        DaylightTransitionStart: 23:59 on the second Saturday of October
+    [3]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the first Saturday of April
+        DaylightTransitionStart: 23:59 on the second Saturday of October
+    [4]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the first Saturday of May
+        DaylightTransitionStart: 23:59 on the third Saturday of August
+    [5]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of April
+        DaylightTransitionStart: 23:59 on the first Saturday of September
+    [6]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of April
+        DaylightTransitionStart: 23:59 on the first Saturday of September
+    [7]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of April
+        DaylightTransitionStart: 23:59 on the first Saturday of September
+    [8]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the second Saturday of May
+        DaylightTransitionStart: 23:59 on the second Saturday of August
+
+BaseUtcOffset: -03:00:00
+DaylightName: モンテビデオ夏時間
+DisplayName: (UTC-03:00) モンテビデオ
+HasIanaId: False
+Id: Montevideo Standard Time
+StandardName: モンテビデオ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the second Sunday of March
+        DaylightTransitionStart: 2:00 on the first Sunday of October
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the second Sunday of March
+        DaylightTransitionStart: 0:00 on the first Thursday of January
+
+BaseUtcOffset: -03:00:00
+DaylightName: SA 東部夏時間
+DisplayName: (UTC-03:00) カイエンヌ、フォルタレザ 
+HasIanaId: False
+Id: SA Eastern Standard Time
+StandardName: SA 東部標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: -03:00:00
+DaylightName: サンピエール夏時間
+DisplayName: (UTC-03:00) サンピエール・ミクロン
+HasIanaId: False
+Id: Saint Pierre Standard Time
+StandardName: サンピエール標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of November
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+
+BaseUtcOffset: -03:00:00
+DaylightName: トカンチンス夏時間
+DisplayName: (UTC-03:00) アラグァイナ
+HasIanaId: False
+Id: Tocantins Standard Time
+StandardName: トカンチンス標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Sunday of January
+        DaylightTransitionStart: 0:00 on the third Sunday of October
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of February
+        DaylightTransitionStart: 0:00 on the first Tuesday of January
+
+BaseUtcOffset: -02:00:00
+DaylightName: 中央大西洋夏時間
+DisplayName: (UTC-02:00) 中央大西洋 - 廃止
+HasIanaId: False
+Id: Mid-Atlantic Standard Time
+StandardName: 中央大西洋標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of September
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+
+BaseUtcOffset: -02:00:00
+DaylightName: UTC-02
+DisplayName: (UTC-02:00) 協定世界時-02
+HasIanaId: False
+Id: UTC-02
+StandardName: UTC-02
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: -01:00:00
+DaylightName: アゾレス諸島夏時間
+DisplayName: (UTC-01:00) アゾレス諸島
+HasIanaId: False
+Id: Azores Standard Time
+StandardName: アゾレス諸島標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the last Sunday of March
+
+BaseUtcOffset: -01:00:00
+DaylightName: カーボベルデ夏時間
+DisplayName: (UTC-01:00) カーボベルデ諸島
+HasIanaId: False
+Id: Cape Verde Standard Time
+StandardName: カーボベルデ標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 00:00:00
+DaylightName: GMT 夏時間
+DisplayName: (UTC+00:00) ダブリン、エジンバラ、リスボン、ロンドン
+HasIanaId: False
+Id: GMT Standard Time
+StandardName: GMT 標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 1:00 on the last Sunday of March
+
+BaseUtcOffset: 00:00:00
+DaylightName: グリニッジ夏時間
+DisplayName: (UTC+00:00) モンロビア、レイキャビク
+HasIanaId: False
+Id: Greenwich Standard Time
+StandardName: グリニッジ標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 00:00:00
+DaylightName: モロッコ夏時間
+DisplayName: (UTC+01:00) カサブランカ
+HasIanaId: False
+Id: Morocco Standard Time
+StandardName: モロッコ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Sunday of August
+        DaylightTransitionStart: 23:59 on the last Saturday of May
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Thursday of August
+        DaylightTransitionStart: 23:59 on the last Sunday of May
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the first Saturday of August
+        DaylightTransitionStart: 23:59 on the first Saturday of May
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of July
+        DaylightTransitionStart: 23:59 on the first Saturday of April
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of September
+        DaylightTransitionStart: 2:00 on the last Sunday of April
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of April
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [8]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the fourth Sunday of October
+        DaylightTransitionStart: 2:00 on the fourth Sunday of March
+    [11]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Tuesday of January
+        DaylightTransitionStart: 2:00 on the second Sunday of June
+    [12]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2020/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the third Sunday of April
+        DaylightTransitionStart: 2:00 on the last Sunday of May
+    [13]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2021/12/31
+        DateStart: 2021/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the second Sunday of April
+        DaylightTransitionStart: 2:00 on the third Sunday of May
+    [14]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2022/12/31
+        DateStart: 2022/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of March
+        DaylightTransitionStart: 2:00 on the second Sunday of May
+    [15]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2023/12/31
+        DateStart: 2023/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the third Sunday of March
+        DaylightTransitionStart: 2:00 on the fourth Sunday of April
+    [16]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2024/12/31
+        DateStart: 2024/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the second Sunday of March
+        DaylightTransitionStart: 2:00 on the second Sunday of April
+    [17]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2025/12/31
+        DateStart: 2025/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of February
+        DaylightTransitionStart: 2:00 on the first Sunday of April
+    [18]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2026/12/31
+        DateStart: 2026/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the third Sunday of February
+        DaylightTransitionStart: 2:00 on the fourth Sunday of March
+    [19]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2027/12/31
+        DateStart: 2027/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the first Sunday of February
+        DaylightTransitionStart: 2:00 on the second Sunday of March
+    [20]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2028/12/31
+        DateStart: 2028/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the fourth Sunday of January
+        DaylightTransitionStart: 2:00 on the first Sunday of March
+    [21]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2029/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the second Sunday of January
+        DaylightTransitionStart: 2:00 on the third Sunday of February
+
+BaseUtcOffset: 00:00:00
+DaylightName: サントメ夏時間
+DisplayName: (UTC+00:00) サントメ
+HasIanaId: False
+Id: Sao Tome Standard Time
+StandardName: サントメ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: -01:00:00
+        DaylightTransitionEnd: 1:00 on the first Monday of January
+        DaylightTransitionStart: 0:00 on the first Monday of January
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Tuesday of January
+        DaylightTransitionStart: 0:00 on the first Tuesday of January
+
+BaseUtcOffset: 00:00:00
+DaylightName: 協定世界時
+DisplayName: (UTC) 協定世界時
+HasIanaId: True
+Id: UTC
+StandardName: 協定世界時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 01:00:00
+DaylightName: 中央ヨーロッパ夏時間
+DisplayName: (UTC+01:00) ベオグラード、ブラチスラバ、ブダペスト、リュブリャナ、プラハ
+HasIanaId: False
+Id: Central Europe Standard Time
+StandardName: 中央ヨーロッパ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+
+BaseUtcOffset: 01:00:00
+DaylightName: 中央ヨーロピアン夏時間
+DisplayName: (UTC+01:00) サラエボ、スコピエ、ワルシャワ、ザグレブ
+HasIanaId: False
+Id: Central European Standard Time
+StandardName: 中央ヨーロピアン標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+
+BaseUtcOffset: 01:00:00
+DaylightName: ロマンス夏時間
+DisplayName: (UTC+01:00) ブリュッセル、コペンハーゲン、マドリード、パリ
+HasIanaId: False
+Id: Romance Standard Time
+StandardName: ロマンス標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+
+BaseUtcOffset: 01:00:00
+DaylightName: 西中央アフリカ夏時間
+DisplayName: (UTC+01:00) 西中央アフリカ
+HasIanaId: False
+Id: W. Central Africa Standard Time
+StandardName: 西中央アフリカ標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 01:00:00
+DaylightName: 西ヨーロッパ夏時間
+DisplayName: (UTC+01:00) アムステルダム、ベルリン､ベルン、ローマ､ストックホルム､ウィーン
+HasIanaId: False
+Id: W. Europe Standard Time
+StandardName: 西ヨーロッパ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+
+BaseUtcOffset: 02:00:00
+DaylightName: 東ヨーロッパ夏時間
+DisplayName: (UTC+02:00) キシナウ
+HasIanaId: False
+Id: E. Europe Standard Time
+StandardName: 東ヨーロッパ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+
+BaseUtcOffset: 02:00:00
+DaylightName: エジプト夏時間
+DisplayName: (UTC+02:00) カイロ
+HasIanaId: False
+Id: Egypt Standard Time
+StandardName: エジプト標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2005/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of September
+        DaylightTransitionStart: 0:00 on the last Friday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 2006/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Thursday of September
+        DaylightTransitionStart: 0:00 on the last Friday of April
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the first Thursday of September
+        DaylightTransitionStart: 23:59 on the last Thursday of April
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of August
+        DaylightTransitionStart: 23:59 on the last Thursday of April
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Thursday of August
+        DaylightTransitionStart: 23:59 on the fourth Thursday of April
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of September
+        DaylightTransitionStart: 23:59 on the last Thursday of April
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of September
+        DaylightTransitionStart: 23:59 on the third Thursday of May
+
+BaseUtcOffset: 02:00:00
+DaylightName: FLE 夏時間
+DisplayName: (UTC+02:00) ヘルシンキ、キエフ、リガ、ソフィア、タリン、ビリニュス
+HasIanaId: False
+Id: FLE Standard Time
+StandardName: FLE 標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 4:00 on the last Sunday of October
+        DaylightTransitionStart: 3:00 on the last Sunday of March
+
+BaseUtcOffset: 02:00:00
+DaylightName: GTB 夏時間
+DisplayName: (UTC+02:00) アテネ、ブカレスト
+HasIanaId: False
+Id: GTB Standard Time
+StandardName: GTB 標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 4:00 on the last Sunday of October
+        DaylightTransitionStart: 3:00 on the last Sunday of March
+
+BaseUtcOffset: 02:00:00
+DaylightName: エルサレム夏時間
+DisplayName: (UTC+02:00) エルサレム
+HasIanaId: False
+Id: Israel Standard Time
+StandardName: エルサレム標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2004/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the fourth Wednesday of September
+        DaylightTransitionStart: 1:00 on the first Wednesday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2005/12/31
+        DateStart: 2005/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the second Sunday of October
+        DaylightTransitionStart: 2:00 on the first Friday of April
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 2006/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of October
+        DaylightTransitionStart: 2:00 on the last Friday of March
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the third Sunday of September
+        DaylightTransitionStart: 2:00 on the last Friday of March
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of October
+        DaylightTransitionStart: 2:00 on the last Friday of March
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of September
+        DaylightTransitionStart: 2:00 on the last Friday of March
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the second Sunday of September
+        DaylightTransitionStart: 2:00 on the last Friday of March
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of October
+        DaylightTransitionStart: 2:00 on the first Friday of April
+    [8]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the fourth Sunday of September
+        DaylightTransitionStart: 2:00 on the last Friday of March
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Friday of March
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Friday of March
+    [11]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Friday of March
+    [12]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Friday of March
+    [13]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the fourth Friday of March
+    [14]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the fourth Friday of March
+    [15]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Friday of March
+    [16]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2020/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Friday of March
+    [17]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2021/12/31
+        DateStart: 2021/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Friday of March
+    [18]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2022/12/31
+        DateStart: 2022/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Friday of March
+    [19]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2023/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the fourth Friday of March
+
+BaseUtcOffset: 02:00:00
+DaylightName: ヨルダン夏時間
+DisplayName: (UTC+03:00) アンマン
+HasIanaId: False
+Id: Jordan Standard Time
+StandardName: ヨルダン標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Friday of October
+        DaylightTransitionStart: 23:59 on the last Thursday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Sunday of January
+        DaylightTransitionStart: 23:59 on the last Thursday of March
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the third Friday of December
+        DaylightTransitionStart: 0:00 on the first Tuesday of January
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Friday of October
+        DaylightTransitionStart: 23:59 on the last Thursday of March
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Friday of October
+        DaylightTransitionStart: 23:59 on the last Thursday of March
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Friday of October
+        DaylightTransitionStart: 23:59 on the last Thursday of March
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Friday of October
+        DaylightTransitionStart: 23:59 on the last Thursday of March
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Friday of October
+        DaylightTransitionStart: 23:59 on the last Thursday of March
+    [8]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Friday of October
+        DaylightTransitionStart: 23:59 on the last Thursday of March
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2020/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Friday of October
+        DaylightTransitionStart: 23:59 on the last Thursday of March
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2021/12/31
+        DateStart: 2021/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Friday of October
+        DaylightTransitionStart: 23:59 on the last Thursday of March
+    [11]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2022/12/31
+        DateStart: 2022/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 23:59 on the last Thursday of February
+    [12]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2023/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+
+BaseUtcOffset: 02:00:00
+DaylightName: ロシア時間 1 夏時間
+DisplayName: (UTC+02:00) カリーニングラード
+HasIanaId: False
+Id: Kaliningrad Standard Time
+StandardName: ロシア時間 1 標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+
+BaseUtcOffset: 02:00:00
+DaylightName: リビア夏時間
+DisplayName: (UTC+02:00) トリポリ
+HasIanaId: False
+Id: Libya Standard Time
+StandardName: リビア標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the second Saturday of November
+        DaylightTransitionStart: 0:00 on the first Sunday of January
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Tuesday of January
+        DaylightTransitionStart: 1:00 on the last Friday of March
+
+BaseUtcOffset: 02:00:00
+DaylightName: 中東夏時間
+DisplayName: (UTC+02:00) ベイルート
+HasIanaId: False
+Id: Middle East Standard Time
+StandardName: 中東標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of October
+        DaylightTransitionStart: 23:59 on the last Saturday of March
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of October
+        DaylightTransitionStart: 23:59 on the last Saturday of March
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of October
+        DaylightTransitionStart: 23:59 on the fourth Saturday of March
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of October
+        DaylightTransitionStart: 23:59 on the last Saturday of March
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of October
+        DaylightTransitionStart: 23:59 on the last Saturday of March
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the fourth Saturday of October
+        DaylightTransitionStart: 23:59 on the last Saturday of March
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of October
+        DaylightTransitionStart: 23:59 on the last Saturday of March
+    [8]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of October
+        DaylightTransitionStart: 23:59 on the last Saturday of March
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of October
+        DaylightTransitionStart: 23:59 on the fourth Saturday of March
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of October
+        DaylightTransitionStart: 23:59 on the last Saturday of March
+    [11]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2020/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the fourth Saturday of October
+        DaylightTransitionStart: 23:59 on the last Saturday of March
+    [12]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2021/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of October
+        DaylightTransitionStart: 23:59 on the last Saturday of March
+
+BaseUtcOffset: 02:00:00
+DaylightName: ナミビア夏時間
+DisplayName: (UTC+02:00) ウィントフック
+HasIanaId: False
+Id: Namibia Standard Time
+StandardName: ナミビア標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2017/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of April
+        DaylightTransitionStart: 2:00 on the first Sunday of September
+
+BaseUtcOffset: 02:00:00
+DaylightName: 南アフリカ夏時間
+DisplayName: (UTC+02:00) ハラーレ、プレトリア
+HasIanaId: False
+Id: South Africa Standard Time
+StandardName: 南アフリカ標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 02:00:00
+DaylightName: 南スーダン夏時間
+DisplayName: (UTC+02:00) ジュバ
+HasIanaId: False
+Id: South Sudan Standard Time
+StandardName: 南スーダン標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2020/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2021/12/31
+        DateStart: 2021/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Sunday of January
+        DaylightTransitionStart: 0:00 on the first Friday of January
+
+BaseUtcOffset: 02:00:00
+DaylightName: スーダン夏時間
+DisplayName: (UTC+02:00) ハルツーム
+HasIanaId: False
+Id: Sudan Standard Time
+StandardName: スーダン標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2016/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Tuesday of October
+        DaylightTransitionStart: 0:00 on the first Sunday of January
+
+BaseUtcOffset: 02:00:00
+DaylightName: シリア夏時間
+DisplayName: (UTC+02:00) ダマスカス
+HasIanaId: False
+Id: Syria Standard Time
+StandardName: シリア標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2004/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of September
+        DaylightTransitionStart: 0:00 on the first Thursday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2005/12/31
+        DateStart: 2005/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Friday of September
+        DaylightTransitionStart: 0:00 on the first Friday of April
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 2006/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Thursday of September
+        DaylightTransitionStart: 0:00 on the first Saturday of April
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the first Thursday of November
+        DaylightTransitionStart: 0:00 on the last Friday of March
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Friday of October
+        DaylightTransitionStart: 0:00 on the first Friday of April
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of October
+        DaylightTransitionStart: 0:00 on the last Friday of March
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of October
+        DaylightTransitionStart: 0:00 on the first Friday of April
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of October
+        DaylightTransitionStart: 0:00 on the first Friday of April
+    [8]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of October
+        DaylightTransitionStart: 0:00 on the last Friday of March
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the fourth Thursday of October
+        DaylightTransitionStart: 0:00 on the last Friday of March
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of October
+        DaylightTransitionStart: 0:00 on the last Friday of March
+    [11]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of October
+        DaylightTransitionStart: 0:00 on the last Friday of March
+    [12]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of October
+        DaylightTransitionStart: 0:00 on the last Friday of March
+    [13]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of October
+        DaylightTransitionStart: 0:00 on the last Friday of March
+    [14]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of October
+        DaylightTransitionStart: 0:00 on the last Friday of March
+    [15]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the fourth Thursday of October
+        DaylightTransitionStart: 0:00 on the last Friday of March
+    [16]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of October
+        DaylightTransitionStart: 0:00 on the last Friday of March
+
+BaseUtcOffset: 02:00:00
+DaylightName: 西岸・ガザ夏時間
+DisplayName: (UTC+02:00) ガザ、ヘブロン
+HasIanaId: False
+Id: West Bank Standard Time
+StandardName: 西岸・ガザ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the third Friday of September
+        DaylightTransitionStart: 23:59 on the last Thursday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of September
+        DaylightTransitionStart: 23:59 on the last Thursday of March
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the fourth Thursday of October
+        DaylightTransitionStart: 23:59 on the last Thursday of March
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the fourth Friday of October
+        DaylightTransitionStart: 0:00 on the last Saturday of March
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Saturday of October
+        DaylightTransitionStart: 1:00 on the last Saturday of March
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Saturday of October
+        DaylightTransitionStart: 1:00 on the last Saturday of March
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Saturday of October
+        DaylightTransitionStart: 1:00 on the fourth Saturday of March
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the fourth Saturday of October
+        DaylightTransitionStart: 0:00 on the last Friday of March
+    [8]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2020/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the fourth Saturday of October
+        DaylightTransitionStart: 0:00 on the fourth Saturday of March
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2021/12/31
+        DateStart: 2021/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Saturday of October
+        DaylightTransitionStart: 0:00 on the last Saturday of March
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2022/12/31
+        DateStart: 2022/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Saturday of October
+        DaylightTransitionStart: 0:00 on the last Saturday of March
+    [11]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2023/12/31
+        DateStart: 2023/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Saturday of October
+        DaylightTransitionStart: 0:00 on the last Saturday of March
+    [12]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2024/12/31
+        DateStart: 2024/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Saturday of October
+        DaylightTransitionStart: 0:00 on the last Saturday of March
+    [13]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2025/12/31
+        DateStart: 2025/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Saturday of October
+        DaylightTransitionStart: 0:00 on the last Saturday of March
+    [14]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2026/12/31
+        DateStart: 2026/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the fourth Saturday of October
+        DaylightTransitionStart: 0:00 on the last Saturday of March
+    [15]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2027/12/31
+        DateStart: 2027/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Saturday of October
+        DaylightTransitionStart: 0:00 on the last Saturday of March
+    [16]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2028/12/31
+        DateStart: 2028/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Saturday of October
+        DaylightTransitionStart: 0:00 on the last Saturday of March
+    [17]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2029/12/31
+        DateStart: 2029/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Saturday of October
+        DaylightTransitionStart: 0:00 on the fourth Saturday of March
+    [18]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2030/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 1:00 on the last Saturday of October
+        DaylightTransitionStart: 0:00 on the last Saturday of March
+
+BaseUtcOffset: 03:00:00
+DaylightName: アラブ夏時間
+DisplayName: (UTC+03:00) クウェート、リヤド
+HasIanaId: False
+Id: Arab Standard Time
+StandardName: アラブ標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 03:00:00
+DaylightName: アラビック夏時間
+DisplayName: (UTC+03:00) バグダッド
+HasIanaId: False
+Id: Arabic Standard Time
+StandardName: アラビック標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2004/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 4:00 on the first Friday of October
+        DaylightTransitionStart: 3:00 on the first Thursday of April
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2005/12/31
+        DateStart: 2005/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 4:00 on the first Saturday of October
+        DaylightTransitionStart: 3:00 on the first Friday of April
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 2006/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 4:00 on the first Sunday of October
+        DaylightTransitionStart: 3:00 on the first Saturday of April
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 4:00 on the first Monday of October
+        DaylightTransitionStart: 3:00 on the first Sunday of April
+
+BaseUtcOffset: 03:00:00
+DaylightName: ベラルーシ夏時間
+DisplayName: (UTC+03:00) ミンスク
+HasIanaId: False
+Id: Belarus Standard Time
+StandardName: ベラルーシ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+
+BaseUtcOffset: 03:00:00
+DaylightName: 東アフリカ夏時間
+DisplayName: (UTC+03:00) ナイロビ
+HasIanaId: False
+Id: E. Africa Standard Time
+StandardName: 東アフリカ標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 03:00:00
+DaylightName: ロシア時間 2 夏時間
+DisplayName: (UTC+03:00) モスクワ、サンクトペテルブルク
+HasIanaId: False
+Id: Russian Standard Time
+StandardName: ロシア時間 2 標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+
+BaseUtcOffset: 03:00:00
+DaylightName: トルコ夏時間
+DisplayName: (UTC+03:00) イスタンブール
+HasIanaId: False
+Id: Turkey Standard Time
+StandardName: トルコ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 4:00 on the last Sunday of October
+        DaylightTransitionStart: 3:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 4:00 on the last Sunday of October
+        DaylightTransitionStart: 3:00 on the last Monday of March
+    [2]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 4:00 on the last Sunday of October
+        DaylightTransitionStart: 3:00 on the last Sunday of March
+    [3]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 4:00 on the last Sunday of October
+        DaylightTransitionStart: 3:00 on the last Sunday of March
+    [4]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 4:00 on the last Sunday of October
+        DaylightTransitionStart: 3:00 on the last Monday of March
+    [5]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 4:00 on the second Sunday of November
+        DaylightTransitionStart: 3:00 on the last Sunday of March
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: -01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of March
+        DaylightTransitionStart: 0:00 on the first Friday of January
+
+BaseUtcOffset: 03:00:00
+DaylightName: ボルゴグラード夏時間
+DisplayName: (UTC+03:00) ヴォルゴグラード
+HasIanaId: False
+Id: Volgograd Standard Time
+StandardName: ボルゴグラード標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+    [5]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: -01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Monday of January
+    [6]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [7]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2020/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of December
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+
+BaseUtcOffset: 03:30:00
+DaylightName: イラン夏時間
+DisplayName: (UTC+03:30) テヘラン
+HasIanaId: False
+Id: Iran Standard Time
+StandardName: イラン標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2004/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Monday of September
+        DaylightTransitionStart: 0:00 on the third Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2005/12/31
+        DateStart: 2005/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Wednesday of September
+        DaylightTransitionStart: 0:00 on the fourth Tuesday of March
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of September
+        DaylightTransitionStart: 0:00 on the third Friday of March
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Monday of September
+        DaylightTransitionStart: 0:00 on the fourth Sunday of March
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Tuesday of September
+        DaylightTransitionStart: 0:00 on the fourth Monday of March
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Wednesday of September
+        DaylightTransitionStart: 0:00 on the fourth Tuesday of March
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Thursday of September
+        DaylightTransitionStart: 0:00 on the third Wednesday of March
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of September
+        DaylightTransitionStart: 0:00 on the fourth Friday of March
+    [8]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Sunday of September
+        DaylightTransitionStart: 0:00 on the fourth Saturday of March
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Monday of September
+        DaylightTransitionStart: 0:00 on the fourth Sunday of March
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Tuesday of September
+        DaylightTransitionStart: 0:00 on the third Monday of March
+    [11]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Thursday of September
+        DaylightTransitionStart: 0:00 on the fourth Wednesday of March
+    [12]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Friday of September
+        DaylightTransitionStart: 0:00 on the fourth Thursday of March
+    [13]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Saturday of September
+        DaylightTransitionStart: 0:00 on the fourth Friday of March
+    [14]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2020/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Sunday of September
+        DaylightTransitionStart: 0:00 on the third Saturday of March
+    [15]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2021/12/31
+        DateStart: 2021/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Tuesday of September
+        DaylightTransitionStart: 0:00 on the fourth Monday of March
+    [16]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2022/12/31
+        DateStart: 2022/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Wednesday of September
+        DaylightTransitionStart: 0:00 on the fourth Tuesday of March
+    [17]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2023/12/31
+        DateStart: 2023/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Thursday of September
+        DaylightTransitionStart: 0:00 on the fourth Wednesday of March
+    [18]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2024/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the third Friday of September
+        DaylightTransitionStart: 0:00 on the third Thursday of March
+
+BaseUtcOffset: 04:00:00
+DaylightName: アラビア夏時間
+DisplayName: (UTC+04:00) アブダビ、マスカット
+HasIanaId: False
+Id: Arabian Standard Time
+StandardName: アラビア標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 04:00:00
+DaylightName: アストラハン夏時間
+DisplayName: (UTC+04:00) アストラハン、ウリヤノフスク
+HasIanaId: False
+Id: Astrakhan Standard Time
+StandardName: アストラハン標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+    [3]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: -01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of March
+        DaylightTransitionStart: 0:00 on the first Friday of January
+
+BaseUtcOffset: 04:00:00
+DaylightName: アゼルバイジャン夏時間
+DisplayName: (UTC+04:00) バク
+HasIanaId: False
+Id: Azerbaijan Standard Time
+StandardName: アゼルバイジャン標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 5:00 on the last Sunday of October
+        DaylightTransitionStart: 4:00 on the last Sunday of March
+
+BaseUtcOffset: 04:00:00
+DaylightName: コーカサス夏時間
+DisplayName: (UTC+04:00) エレバン
+HasIanaId: False
+Id: Caucasus Standard Time
+StandardName: コーカサス標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+
+BaseUtcOffset: 04:00:00
+DaylightName: ジョージア夏時間 
+DisplayName: (UTC+04:00) トビリシ
+HasIanaId: False
+Id: Georgian Standard Time
+StandardName: ジョージア標準時 
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 04:00:00
+DaylightName: モーリシャス夏時間
+DisplayName: (UTC+04:00) ポート ルイス
+HasIanaId: False
+Id: Mauritius Standard Time
+StandardName: モーリシャス標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Tuesday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of October
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of March
+        DaylightTransitionStart: 0:00 on the first Thursday of January
+
+BaseUtcOffset: 04:00:00
+DaylightName: ロシア時間 3 夏時間
+DisplayName: (UTC+04:00) イジェフスク、サマーラ
+HasIanaId: False
+Id: Russia Time Zone 3
+StandardName: ロシア時間 3 標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Friday of January
+    [2]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+
+BaseUtcOffset: 04:00:00
+DaylightName: サラトフ夏時間
+DisplayName: (UTC+04:00) サラトフ
+HasIanaId: False
+Id: Saratov Standard Time
+StandardName: サラトフ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+    [3]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: -01:00:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of December
+        DaylightTransitionStart: 0:00 on the first Friday of January
+
+BaseUtcOffset: 04:30:00
+DaylightName: アフガニスタン夏時間
+DisplayName: (UTC+04:30) カブール
+HasIanaId: False
+Id: Afghanistan Standard Time
+StandardName: アフガニスタン標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 05:00:00
+DaylightName: ロシア時間 4 夏時間
+DisplayName: (UTC+05:00) エカテリンブルク
+HasIanaId: False
+Id: Ekaterinburg Standard Time
+StandardName: ロシア時間 4 標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+
+BaseUtcOffset: 05:00:00
+DaylightName: パキスタン夏時間
+DisplayName: (UTC+05:00) イスラマバード、カラチ
+HasIanaId: False
+Id: Pakistan Standard Time
+StandardName: パキスタン標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Friday of October
+        DaylightTransitionStart: 23:59 on the last Saturday of May
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Saturday of October
+        DaylightTransitionStart: 23:59 on the second Tuesday of April
+
+BaseUtcOffset: 05:00:00
+DaylightName: クズロルダ夏時間
+DisplayName: (UTC+05:00) クズロルダ
+HasIanaId: False
+Id: Qyzylorda Standard Time
+StandardName: クズロルダ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2017/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the third Friday of December
+        DaylightTransitionStart: 0:00 on the first Monday of January
+
+BaseUtcOffset: 05:00:00
+DaylightName: 西アジア夏時間
+DisplayName: (UTC+05:00) アシハバード、タシケント
+HasIanaId: False
+Id: West Asia Standard Time
+StandardName: 西アジア標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 05:30:00
+DaylightName: インド夏時間
+DisplayName: (UTC+05:30) チェンナイ、コルカタ、ムンバイ、ニューデリー
+HasIanaId: False
+Id: India Standard Time
+StandardName: インド標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 05:30:00
+DaylightName: スリランカ夏時間
+DisplayName: (UTC+05:30) スリジャヤワルダナプラコッテ
+HasIanaId: False
+Id: Sri Lanka Standard Time
+StandardName: スリランカ標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 05:45:00
+DaylightName: ネパール夏時間
+DisplayName: (UTC+05:45) カトマンズ
+HasIanaId: False
+Id: Nepal Standard Time
+StandardName: ネパール標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 06:00:00
+DaylightName: バングラデシュ夏時間
+DisplayName: (UTC+06:00) ダッカ
+HasIanaId: False
+Id: Bangladesh Standard Time
+StandardName: バングラデシュ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Thursday of December
+        DaylightTransitionStart: 23:00 on the third Friday of June
+
+BaseUtcOffset: 06:00:00
+DaylightName: 中央アジア夏時間
+DisplayName: (UTC+06:00) アスタナ
+HasIanaId: False
+Id: Central Asia Standard Time
+StandardName: 中央アジア標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 06:00:00
+DaylightName: オムスク夏時間
+DisplayName: (UTC+06:00) オムスク
+HasIanaId: False
+Id: Omsk Standard Time
+StandardName: オムスク標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+
+BaseUtcOffset: 06:30:00
+DaylightName: ミャンマー夏時間
+DisplayName: (UTC+06:30) ヤンゴン (ラングーン)
+HasIanaId: False
+Id: Myanmar Standard Time
+StandardName: ミャンマー標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 07:00:00
+DaylightName: アルタイ夏時間
+DisplayName: (UTC+07:00) バルナウル、ゴルノ・アルタイスク
+HasIanaId: False
+Id: Altai Standard Time
+StandardName: アルタイ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+    [3]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: -01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of March
+        DaylightTransitionStart: 0:00 on the first Friday of January
+
+BaseUtcOffset: 07:00:00
+DaylightName: ノボシビルスク夏時間
+DisplayName: (UTC+07:00) ノボシビルスク
+HasIanaId: False
+Id: N. Central Asia Standard Time
+StandardName: ノボシビルスク標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+    [3]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: -01:00:00
+        DaylightTransitionEnd: 2:00 on the fourth Sunday of July
+        DaylightTransitionStart: 0:00 on the first Friday of January
+
+BaseUtcOffset: 07:00:00
+DaylightName: ロシア時間 6 夏時間
+DisplayName: (UTC+07:00) クラスノヤルスク
+HasIanaId: False
+Id: North Asia Standard Time
+StandardName: ロシア時間 6 標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+
+BaseUtcOffset: 07:00:00
+DaylightName: 東南アジア夏時間
+DisplayName: (UTC+07:00) バンコク、ハノイ、ジャカルタ
+HasIanaId: False
+Id: SE Asia Standard Time
+StandardName: 東南アジア標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 07:00:00
+DaylightName: トムスク夏時間
+DisplayName: (UTC+07:00) トムスク
+HasIanaId: False
+Id: Tomsk Standard Time
+StandardName: トムスク標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+    [3]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: -01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of May
+        DaylightTransitionStart: 0:00 on the first Friday of January
+
+BaseUtcOffset: 07:00:00
+DaylightName: 西モンゴル夏時間
+DisplayName: (UTC+07:00) ホブド
+HasIanaId: False
+Id: W. Mongolia Standard Time
+StandardName: 西モンゴル標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Saturday of September
+        DaylightTransitionStart: 2:00 on the last Saturday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Friday of September
+        DaylightTransitionStart: 2:00 on the last Saturday of March
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the fourth Friday of September
+        DaylightTransitionStart: 2:00 on the last Saturday of March
+
+BaseUtcOffset: 08:00:00
+DaylightName: 中国 (夏時間)
+DisplayName: (UTC+08:00) 北京、重慶、香港特別行政区、ウルムチ
+HasIanaId: False
+Id: China Standard Time
+StandardName: 中国 (標準時)
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 08:00:00
+DaylightName: ロシア時間 7 夏時間
+DisplayName: (UTC+08:00) イルクーツク
+HasIanaId: False
+Id: North Asia East Standard Time
+StandardName: ロシア時間 7 標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+
+BaseUtcOffset: 08:00:00
+DaylightName: マレー半島夏時間
+DisplayName: (UTC+08:00) クアラルンプール、シンガポール
+HasIanaId: False
+Id: Singapore Standard Time
+StandardName: マレー半島標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 08:00:00
+DaylightName: 台北 (夏時間)
+DisplayName: (UTC+08:00) 台北
+HasIanaId: False
+Id: Taipei Standard Time
+StandardName: 台北 (標準時)
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 08:00:00
+DaylightName: ウランバートル夏時間
+DisplayName: (UTC+08:00) ウランバートル
+HasIanaId: False
+Id: Ulaanbaatar Standard Time
+StandardName: ウランバートル標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the last Friday of September
+        DaylightTransitionStart: 2:00 on the last Saturday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 23:59 on the fourth Friday of September
+        DaylightTransitionStart: 2:00 on the last Saturday of March
+
+BaseUtcOffset: 08:00:00
+DaylightName: 西オーストラリア夏時間
+DisplayName: (UTC+08:00) パース
+HasIanaId: False
+Id: W. Australia Standard Time
+StandardName: 西オーストラリア標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 2006/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Sunday of January
+        DaylightTransitionStart: 2:00 on the first Sunday of December
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of March
+        DaylightTransitionStart: 2:00 on the last Sunday of October
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2008/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of March
+        DaylightTransitionStart: 2:00 on the last Sunday of October
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of March
+        DaylightTransitionStart: 0:00 on the first Thursday of January
+
+BaseUtcOffset: 08:45:00
+DaylightName: オーストラリア中西部夏時間
+DisplayName: (UTC+08:45) ユークラ
+HasIanaId: False
+Id: Aus Central W. Standard Time
+StandardName: オーストラリア中西部標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 09:00:00
+DaylightName: 韓国 (夏時間)
+DisplayName: (UTC+09:00) ソウル
+HasIanaId: False
+Id: Korea Standard Time
+StandardName: 韓国 (標準時)
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 09:00:00
+DaylightName: 北朝鮮夏時間
+DisplayName: (UTC+09:00) 平壌
+HasIanaId: False
+Id: North Korea Standard Time
+StandardName: 北朝鮮標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -00:30:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 00:30:00
+        DaylightTransitionEnd: 23:59 on the second Friday of August
+        DaylightTransitionStart: 0:00 on the first Thursday of January
+    [1]
+        BaseUtcOffsetDelta: -00:30:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [2]
+        BaseUtcOffsetDelta: -00:30:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: -00:30:00
+        DaylightTransitionEnd: 23:30 on the first Friday of May
+        DaylightTransitionStart: 0:00 on the first Monday of January
+
+BaseUtcOffset: 09:00:00
+DaylightName: 東京 (夏時間)
+DisplayName: (UTC+09:00) 大阪、札幌、東京
+HasIanaId: False
+Id: Tokyo Standard Time
+StandardName: 東京 (標準時)
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 09:00:00
+DaylightName: ザバイカル夏時間
+DisplayName: (UTC+09:00) チタ
+HasIanaId: False
+Id: Transbaikal Standard Time
+StandardName: ザバイカル標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 02:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+    [5]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: -01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of March
+        DaylightTransitionStart: 0:00 on the first Friday of January
+
+BaseUtcOffset: 09:00:00
+DaylightName: ロシア時間 8 夏時間
+DisplayName: (UTC+09:00) ヤクーツク
+HasIanaId: False
+Id: Yakutsk Standard Time
+StandardName: ロシア時間 8 標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+
+BaseUtcOffset: 09:30:00
+DaylightName: AUS 中央夏時間
+DisplayName: (UTC+09:30) ダーウィン
+HasIanaId: False
+Id: AUS Central Standard Time
+StandardName: AUS 中央標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 09:30:00
+DaylightName: 中央オーストラリア夏時間
+DisplayName: (UTC+09:30) アデレード
+HasIanaId: False
+Id: Cen. Australia Standard Time
+StandardName: 中央オーストラリア標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of March
+        DaylightTransitionStart: 2:00 on the last Sunday of October
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the first Sunday of April
+        DaylightTransitionStart: 2:00 on the first Sunday of October
+
+BaseUtcOffset: 10:00:00
+DaylightName: AUS 東部夏時間
+DisplayName: (UTC+10:00) キャンベラ、メルボルン、シドニー
+HasIanaId: False
+Id: AUS Eastern Standard Time
+StandardName: AUS 東部標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of March
+        DaylightTransitionStart: 2:00 on the last Sunday of October
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the first Sunday of April
+        DaylightTransitionStart: 2:00 on the first Sunday of October
+
+BaseUtcOffset: 10:00:00
+DaylightName: 東オーストラリア夏時間
+DisplayName: (UTC+10:00) ブリズベン
+HasIanaId: False
+Id: E. Australia Standard Time
+StandardName: 東オーストラリア標準時
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 10:00:00
+DaylightName: タスマニア夏時間
+DisplayName: (UTC+10:00) ホバート
+HasIanaId: False
+Id: Tasmania Standard Time
+StandardName: タスマニア標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of March
+        DaylightTransitionStart: 2:00 on the first Sunday of October
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the first Sunday of April
+        DaylightTransitionStart: 2:00 on the first Sunday of October
+
+BaseUtcOffset: 10:00:00
+DaylightName: ロシア時間 9 夏時間
+DisplayName: (UTC+10:00) ウラジオストク
+HasIanaId: False
+Id: Vladivostok Standard Time
+StandardName: ロシア時間 9 標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+
+BaseUtcOffset: 10:00:00
+DaylightName: 西太平洋 (夏時間)
+DisplayName: (UTC+10:00) グアム、ポートモレスビー
+HasIanaId: False
+Id: West Pacific Standard Time
+StandardName: 西太平洋 (標準時)
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 10:30:00
+DaylightName: ロードハウ夏時間
+DisplayName: (UTC+10:30) ロードハウ島
+HasIanaId: False
+Id: Lord Howe Standard Time
+StandardName: ロードハウ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2005/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 00:30:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of March
+        DaylightTransitionStart: 2:00 on the last Sunday of October
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 2006/1/1
+        DaylightDelta: 00:30:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of April
+        DaylightTransitionStart: 2:00 on the last Sunday of October
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 00:30:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of March
+        DaylightTransitionStart: 2:00 on the last Sunday of October
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 00:30:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of April
+        DaylightTransitionStart: 2:00 on the first Sunday of October
+
+BaseUtcOffset: 11:00:00
+DaylightName: ブーゲンビル夏時間
+DisplayName: (UTC+11:00) ブーゲンビル島
+HasIanaId: False
+Id: Bougainville Standard Time
+StandardName: ブーゲンビル標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Wednesday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of December
+
+BaseUtcOffset: 11:00:00
+DaylightName: 中央太平洋 (夏時間)
+DisplayName: (UTC+11:00) ソロモン諸島、ニューカレドニア
+HasIanaId: False
+Id: Central Pacific Standard Time
+StandardName: 中央太平洋 (標準時)
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 11:00:00
+DaylightName: マガダン夏時間
+DisplayName: (UTC+11:00) マガダン
+HasIanaId: False
+Id: Magadan Standard Time
+StandardName: マガダン標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 02:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+    [5]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: -01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of April
+        DaylightTransitionStart: 0:00 on the first Friday of January
+
+BaseUtcOffset: 11:00:00
+DaylightName: ノーフォーク夏時間
+DisplayName: (UTC+11:00) ノーフォーク島
+HasIanaId: False
+Id: Norfolk Standard Time
+StandardName: ノーフォーク標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:30:00
+        DateEnd: 2014/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 00:30:00
+        DaylightTransitionEnd: 2:00 on the first Sunday of October
+        DaylightTransitionStart: 0:00 on the first Thursday of January
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Tuesday of January
+        DaylightTransitionStart: 2:00 on the first Sunday of October
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the first Sunday of April
+        DaylightTransitionStart: 2:00 on the first Sunday of October
+
+BaseUtcOffset: 11:00:00
+DaylightName: ロシア時間 10 夏時間
+DisplayName: (UTC+11:00) チョクルダフ
+HasIanaId: False
+Id: Russia Time Zone 10
+StandardName: ロシア時間 10 標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [3]
+        BaseUtcOffsetDelta: 01:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+
+BaseUtcOffset: 11:00:00
+DaylightName: サハリン夏時間
+DisplayName: (UTC+11:00) サハリン
+HasIanaId: False
+Id: Sakhalin Standard Time
+StandardName: サハリン標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2010/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [2]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Wednesday of January
+    [3]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: -01:00:00
+        DaylightTransitionEnd: 2:00 on the last Sunday of March
+        DaylightTransitionStart: 0:00 on the first Friday of January
+
+BaseUtcOffset: 12:00:00
+DaylightName: フィジー夏時間
+DisplayName: (UTC+12:00) フィジー
+HasIanaId: False
+Id: Fiji Standard Time
+StandardName: フィジー標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 2009/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Thursday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of November
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of March
+        DaylightTransitionStart: 2:00 on the fourth Sunday of October
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the first Sunday of March
+        DaylightTransitionStart: 2:00 on the fourth Sunday of October
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2012/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the fourth Sunday of January
+        DaylightTransitionStart: 2:00 on the third Sunday of October
+    [4]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2013/12/31
+        DateStart: 2013/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the third Sunday of January
+        DaylightTransitionStart: 2:00 on the fourth Sunday of October
+    [5]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2014/12/31
+        DateStart: 2014/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 2:00 on the third Sunday of January
+        DaylightTransitionStart: 2:00 on the first Sunday of November
+    [6]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2015/12/31
+        DateStart: 2015/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the third Sunday of January
+        DaylightTransitionStart: 2:00 on the first Sunday of November
+    [7]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the third Sunday of January
+        DaylightTransitionStart: 2:00 on the first Sunday of November
+    [8]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the third Sunday of January
+        DaylightTransitionStart: 2:00 on the first Sunday of November
+    [9]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2018/12/31
+        DateStart: 2018/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the second Sunday of January
+        DaylightTransitionStart: 2:00 on the first Sunday of November
+    [10]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2019/12/31
+        DateStart: 2019/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the second Sunday of January
+        DaylightTransitionStart: 2:00 on the second Sunday of November
+    [11]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2020/12/31
+        DateStart: 2020/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the second Sunday of January
+        DaylightTransitionStart: 2:00 on the third Sunday of December
+    [12]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2021/12/31
+        DateStart: 2021/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the third Sunday of January
+        DaylightTransitionStart: 0:00 on the first Friday of January
+
+BaseUtcOffset: 12:00:00
+DaylightName: カムチャツカ夏時間
+DisplayName: (UTC+12:00) ペトロパブロフスク-カムチャツキー - 廃止
+HasIanaId: False
+Id: Kamchatka Standard Time
+StandardName: カムチャツカ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+
+BaseUtcOffset: 12:00:00
+DaylightName: ニュージーランド夏時間
+DisplayName: (UTC+12:00) オークランド、ウェリントン
+HasIanaId: False
+Id: New Zealand Standard Time
+StandardName: ニュージーランド標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the third Sunday of March
+        DaylightTransitionStart: 2:00 on the first Sunday of October
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the third Sunday of March
+        DaylightTransitionStart: 2:00 on the last Sunday of September
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the first Sunday of April
+        DaylightTransitionStart: 2:00 on the last Sunday of September
+
+BaseUtcOffset: 12:00:00
+DaylightName: ロシア時間 11 夏時間
+DisplayName: (UTC+12:00) アナディリ、ペトロパブロフスク・カムチャツキー
+HasIanaId: False
+Id: Russia Time Zone 11
+StandardName: ロシア時間 11 標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+    [1]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the last Sunday of October
+        DaylightTransitionStart: 0:00 on the first Friday of January
+    [2]
+        BaseUtcOffsetDelta: -01:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Saturday of January
+        DaylightTransitionStart: 2:00 on the last Sunday of March
+
+BaseUtcOffset: 12:00:00
+DaylightName: UTC+12
+DisplayName: (UTC+12:00) 協定世界時+12
+HasIanaId: False
+Id: UTC+12
+StandardName: UTC+12
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 12:45:00
+DaylightName: チャタム諸島夏時間
+DisplayName: (UTC+12:45) チャタム諸島
+HasIanaId: False
+Id: Chatham Islands Standard Time
+StandardName: チャタム諸島標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2006/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:45 on the third Sunday of March
+        DaylightTransitionStart: 2:45 on the first Sunday of October
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2007/12/31
+        DateStart: 2007/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:45 on the third Sunday of March
+        DaylightTransitionStart: 2:45 on the last Sunday of September
+    [2]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2008/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:45 on the first Sunday of April
+        DaylightTransitionStart: 2:45 on the last Sunday of September
+
+BaseUtcOffset: 13:00:00
+DaylightName: サモア夏時間
+DisplayName: (UTC+13:00) サモア
+HasIanaId: False
+Id: Samoa Standard Time
+StandardName: サモア標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: -1.00:00:00
+        DateEnd: 2009/12/31
+        DateStart: 0001/1/1
+        DaylightDelta: 00:00:00
+        DaylightTransitionEnd: 0:00 on January 1
+        DaylightTransitionStart: 0:00 on January 1
+    [1]
+        BaseUtcOffsetDelta: -1.00:00:00
+        DateEnd: 2010/12/31
+        DateStart: 2010/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Friday of January
+        DaylightTransitionStart: 0:00 on the last Sunday of September
+    [2]
+        BaseUtcOffsetDelta: -1.00:00:00
+        DateEnd: 2011/12/31
+        DateStart: 2011/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 4:00 on the first Saturday of April
+        DaylightTransitionStart: 3:00 on the fourth Saturday of September
+    [3]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 9999/12/31
+        DateStart: 2012/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 4:00 on the first Sunday of April
+        DaylightTransitionStart: 3:00 on the last Sunday of September
+
+BaseUtcOffset: 13:00:00
+DaylightName: トンガ夏時間
+DisplayName: (UTC+13:00) ヌクアロファ
+HasIanaId: False
+Id: Tonga Standard Time
+StandardName: トンガ標準時
+SupportsDaylightSavingTime: True
+AdjustmentRules:
+    [0]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2016/12/31
+        DateStart: 2016/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 0:00 on the first Friday of January
+        DaylightTransitionStart: 2:00 on the first Sunday of November
+    [1]
+        BaseUtcOffsetDelta: 00:00:00
+        DateEnd: 2017/12/31
+        DateStart: 2017/1/1
+        DaylightDelta: 01:00:00
+        DaylightTransitionEnd: 3:00 on the third Sunday of January
+        DaylightTransitionStart: 0:00 on the first Sunday of January
+
+BaseUtcOffset: 13:00:00
+DaylightName: UTC+13
+DisplayName: (UTC+13:00) 協定世界時+13
+HasIanaId: False
+Id: UTC+13
+StandardName: UTC+13
+SupportsDaylightSavingTime: False
+
+BaseUtcOffset: 14:00:00
+DaylightName: ライン諸島夏時間
+DisplayName: (UTC+14:00) クリスマス島
+HasIanaId: False
+Id: Line Islands Standard Time
+StandardName: ライン諸島標準時
+SupportsDaylightSavingTime: False

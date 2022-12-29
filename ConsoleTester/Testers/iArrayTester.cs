@@ -337,5 +337,70 @@ namespace ConsoleTester
             Console.WriteLine ();
             Console.WriteLine (iTester.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
         }
+
+        // 数年前のノートである SV7 での実行結果
+
+        // char []: 2728.524ms
+        // string: 2715.3498ms
+
+        // 全く差がないので、そのときのコードの書きやすさで選ぶ
+        // たとえば改行入りで16×16にするなら char [] の方が良いか
+
+        public static void CompareByIndexAccessingSpeeds ()
+        {
+            const int xElementCount = 10_000,
+                xTestCount = 10,
+                xAccessingCount = 1_000_000;
+
+            char [] xValues = new char [xElementCount];
+            Array.Fill (xValues, '\x20');
+
+            string xString = new string ('\x20', xElementCount);
+
+            Stopwatch xStopwatch = new Stopwatch ();
+
+            string [] xLabels = { "char []", "string" };
+            nMultiArray <TimeSpan> xElapsed = new nMultiArray <TimeSpan> ();
+
+            char xValue;
+
+            for (int temp = 0; temp < xTestCount; temp ++)
+            {
+                int xLabelIndex = 0;
+
+                // =============================================================================
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xAccessingCount; tempAlt ++)
+                {
+                    for (int tempAlt1 = 0; tempAlt1 < xElementCount; tempAlt1 ++)
+                        xValue = xValues [tempAlt1];
+                }
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xAccessingCount; tempAlt ++)
+                {
+                    for (int tempAlt1 = 0; tempAlt1 < xElementCount; tempAlt1 ++)
+                        xValue = xString [tempAlt1];
+                }
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                nConsole.WriteProcessingMessage ("計測中");
+            }
+
+            Console.WriteLine ();
+            Console.WriteLine (iTester.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
+        }
     }
 }

@@ -8,6 +8,12 @@ namespace ConsoleTester
 {
     // int など、ValueType を継承する構造体のテストに関するメソッドを集めていく
 
+    // nValue を追加したので iValueTester への改名を考えたが、やめておく
+    // 後ろに Tester が続く場合、前が ValueType だと「型」に起因することのテストとのニュアンスになり、
+    //     Value だけだと「値」をテストすると
+    // nValue の方は、扱うものが「値」なのだから、nValueType は適さない
+    // どちらも最善の名前になっていて、何となく整合させることはない
+
     internal static class iValueTypeTester
     {
         // Mac での動作を確認した

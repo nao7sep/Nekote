@@ -153,5 +153,31 @@ namespace Nekote
 
             return nStringOptimizer.Default.Optimize (value, options, newLine).Value;
         }
+
+        /// <summary>
+        /// 半角と全角の両方の数字に対応。
+        /// </summary>
+        public static int CompareNumericStrings (ReadOnlySpan <char> value1, ReadOnlySpan <char> value2)
+        {
+            // 短い方の左端に0詰めするなどを避けたく、負のインデックスに
+            // 負なら '0' を使う
+
+            int xMaxLength = Math.Max (value1.Length, value2.Length),
+                xIndex1 = value1.Length - xMaxLength,
+                xIndex2 = value2.Length - xMaxLength;
+
+            while (xIndex1 < value1.Length)
+            {
+                int xResult = nChar.CompareSupportedDigits (xIndex1 >= 0 ? value1 [xIndex1] : '0', xIndex2 >= 0 ? value2 [xIndex2] : '0');
+
+                if (xResult != 0)
+                    return xResult;
+
+                xIndex1 ++;
+                xIndex2 ++;
+            }
+
+            return 0;
+        }
     }
 }

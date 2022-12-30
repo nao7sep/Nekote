@@ -1068,5 +1068,150 @@ namespace ConsoleTester
 
             Console.WriteLine (xBuilder.ToString ());
         }
+
+        public static void TestNumericStringComparison ()
+        {
+            Console.WriteLine (nString.CompareNumericStrings ("2", "10")); // → -1
+            Console.WriteLine (nString.CompareNumericStrings ("1", "02")); // → -1
+            Console.WriteLine (nString.CompareNumericStrings ("0123456789", "０１２３４５６７８９")); // → 0
+        }
+
+        // 左は nAlphanumericComparer.OrdinalIgnoreCase、右は StringComparer.OrdinalIgnoreCase によるソート
+
+        // ASCII では、小さいものから、数字 → 大文字 → 小文字
+        // その点が共通なので、ソート結果は、パッと見、あまり異ならない
+        // 左では、二つの文字列が数字以外として一致してきた状況で双方に数字が見付かると、数値としての比較に切り替わる
+        // 0詰めや半角・全角も考慮されるため、たとえば「01月01日」と（全角の）「１月１日」が一致する
+
+        // 0aa4 03Y1
+        // 0D6M 0626
+        // 1FJ4 07P5
+        // 1y76 09B3
+        // 2A4r 0aa4
+        // 2s94 0D6M
+        // 2V30 14Jc
+        // 3B4s 19U3
+        // 3B68 1FJ4
+        // 3N6o 1y76
+        // 3n17 25b9
+        // 03Y1 25gS
+        // 4E20 263m
+        // 4Z54 2A4r
+        // 5t3v 2s94
+        // 6e73 2V30
+        // 6t06 3290
+        // 6u97 361T
+        // 6WL0 39V1
+        // 7c19 3B4s
+        // 07P5 3B68
+        // 8a87 3n17
+        // 8e29 3N6o
+        // 09B3 40B2
+        // 9E0g 431v
+        // 9E60 46X5
+        // 9k8p 48i0
+        // 9Z2u 49B2
+        // 14Jc 4E20
+        // 19U3 4Z54
+        // 25b9 50o2
+        // 25gS 5213
+        // 39V1 554i
+        // 40B2 573z
+        // 46X5 5t3v
+        // 48i0 60L0
+        // 49B2 64oi
+        // 50o2 6526
+        // 60L0 660w
+        // 64oi 66Hs
+        // 66Hs 680l
+        // 73fo 6e73
+        // 75K6 6t06
+        // 91S7 6u97
+        // 99cf 6WL0
+        // 263m 73fo
+        // 361T 753T
+        // 431v 75K6
+        // 554i 795K
+        // 573z 7c19
+        // 0626 808C
+        // 660w 8a87
+        // 680l 8e29
+        // 753T 913I
+        // 795K 918T
+        // 808C 91S7
+        // 913I 978v
+        // 918T 99cf
+        // 978v 9E0g
+        // 3290 9E60
+        // 5213 9k8p
+        // 6526 9Z2u
+        // A2u5 A2u5
+        // ao21 ao21
+        // aw63 aw63
+        // b20a b20a
+        // C2C0 C2C0
+        // DB32 DB32
+        // EP15 EP15
+        // G0q5 G0q5
+        // g6d7 G687
+        // g8j9 g6d7
+        // G687 g8j9
+        // Gr36 Gr36
+        // H1t8 H1t8
+        // H395 H395
+        // I7t4 I7t4
+        // j640 j640
+        // l236 l236
+        // l634 l634
+        // mp52 mp52
+        // N808 N808
+        // O97p O793
+        // O793 O97p
+        // Ov76 Ov76
+        // P8k4 p24h
+        // p24h P8k4
+        // R01J R01J
+        // R6n5 R6n5
+        // Sc29 Sc29
+        // t3X9 t3X9
+        // u7A4 u45P
+        // u45P u7A4
+        // UO38 UO38
+        // W701 W701
+        // Wa80 Wa80
+        // Y1H3 Y1H3
+        // y8T2 Y60A
+        // Y60A y8T2
+        // z8A4 z8A4
+
+        public static void TestAlphanumericStringComparison ()
+        {
+            const int xCount = 100;
+
+            var xStrings = Enumerable.Range (0, xCount).Select (x => nRandom.GenerateAsciiPassword
+            (
+                length: 4,
+                minDigitCount: 2,
+                minUpperCount: 0,
+                minLowerCount: 0,
+                minNonAlphanumericCount: 0,
+                maxNonAlphanumericCount: 0
+            ))
+            .ToArray ();
+
+            // 次の2行に ToArray を付けなかったことで、ElementAt 時の遅延実行がうまくいかず、双方で、中途半端にソートされたリストが出力された
+            // ほどほどにソートされていたが、完璧でなかった
+            // 2行に ToArray を付けたところ、ソートはうまくいった
+
+            // しかし、よく見ると、左右で全く異なるリストのソートになっていた
+            // 当たり前だが、もっと前半の Select も遅延実行なので、
+            //     二つの ToArray 時にそれぞれでやっと nRandom.GenerateAsciiPassword が呼ばれていたようだ
+
+            var xAlphanumericallySorted = xStrings.OrderBy (x => x, nAlphanumericComparer.OrdinalIgnoreCase);
+            var xNormallySorted = xStrings.OrderBy (x => x, StringComparer.OrdinalIgnoreCase);
+
+            Console.WriteLine (string.Join (Environment.NewLine, Enumerable.Range (0, xCount)
+                .Select (x => $"{xAlphanumericallySorted.ElementAt (x)} {xNormallySorted.ElementAt (x)}")));
+        }
     }
 }

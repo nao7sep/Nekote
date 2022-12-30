@@ -11,6 +11,9 @@ namespace Nekote
         // 処理が Version.ToString と似ているため、名前を異ならせずに Ex を付けた
         // 今後、「何を生成するか」が特徴的なら、To*String という命名を検討
 
+        /// <summary>
+        /// maxFieldCount は inclusive。
+        /// </summary>
         public static string? ToStringEx (this Version version, int maxFieldCount)
         {
             // 負だと Math.Min も負になるので一応

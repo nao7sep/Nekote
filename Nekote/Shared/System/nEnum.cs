@@ -106,10 +106,18 @@ namespace Nekote
                 int xValues = (int) Convert.ChangeType (values, typeof (int));
 
                 foreach (EnumType xValue in Enum.GetValues <EnumType> ())
+                {
                     xValues &= ~((int) Convert.ChangeType (xValue, typeof (int)));
 
-                if (xValues == 0)
-                    return true;
+                    // 最初は foreach を抜けてからのチェックだったが、「ループ内では抜けようと努力し続ける」が自分の作法なので、そうするように
+                    // enum は、項目が少ないならループを最後までパッと回してからのチェックでも一瞬で終わる
+                    // 項目が多いなら、values 側の OR 前の値が広く散らばっていることもあり、ループの前半から何度も「抜けられるか」をチェックしても仕方ない
+                    // 一方、値型の値が0か調べるのは、特に低コストな処理の一つ
+                    // さほどデメリットもないため、ここでは作法を優先
+
+                    if (xValues == 0)
+                        return true;
+                }
             }
 
             else if (xUnderlyingType == typeof (uint))
@@ -117,10 +125,12 @@ namespace Nekote
                 uint xValues = (uint) Convert.ChangeType (values, typeof (uint));
 
                 foreach (EnumType xValue in Enum.GetValues <EnumType> ())
+                {
                     xValues &= ~((uint) Convert.ChangeType (xValue, typeof (uint)));
 
-                if (xValues == 0)
-                    return true;
+                    if (xValues == 0)
+                        return true;
+                }
             }
 
             else if (xUnderlyingType == typeof (long))
@@ -128,10 +138,12 @@ namespace Nekote
                 long xValues = (long) Convert.ChangeType (values, typeof (long));
 
                 foreach (EnumType xValue in Enum.GetValues <EnumType> ())
+                {
                     xValues &= ~((long) Convert.ChangeType (xValue, typeof (long)));
 
-                if (xValues == 0)
-                    return true;
+                    if (xValues == 0)
+                        return true;
+                }
             }
 
             else if (xUnderlyingType == typeof (ulong))
@@ -139,10 +151,12 @@ namespace Nekote
                 ulong xValues = (ulong) Convert.ChangeType (values, typeof (ulong));
 
                 foreach (EnumType xValue in Enum.GetValues <EnumType> ())
+                {
                     xValues &= ~((ulong) Convert.ChangeType (xValue, typeof (ulong)));
 
-                if (xValues == 0)
-                    return true;
+                    if (xValues == 0)
+                        return true;
+                }
             }
 
             else throw new nNotSupportedException ();

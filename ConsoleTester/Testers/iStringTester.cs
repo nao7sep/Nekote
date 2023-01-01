@@ -1213,5 +1213,31 @@ namespace ConsoleTester
             Console.WriteLine (string.Join (Environment.NewLine, Enumerable.Range (0, xCount)
                 .Select (x => $"{xAlphanumericallySorted.ElementAt (x)} {xNormallySorted.ElementAt (x)}")));
         }
+
+        // 互いにチームが異なり、よっておそらくファイルの命名ガイドラインなども異なり、それぞれが大きいプロジェクトとして、次の三つのソースをダウンロード
+        // それらに含まれるファイル（のみ）のパスを alphanumerically にソートして保存したテキストファイルを Docs/Resources に入れておく
+        // いずれもザッと見たが、桁の上がっていく連番がうまく処理されていて、気になるところも特になかった
+
+        // dotnet/runtime: .NET is a cross-platform runtime for cloud, mobile, desktop, and IoT apps.
+        // https://github.com/dotnet/runtime
+        // runtime-main.zip
+
+        // Python Source Releases | Python.org
+        // https://www.python.org/downloads/source/
+        // Python-3.11.1.tgz
+
+        // openjdk/jdk: JDK main-line development https://openjdk.org/projects/jdk
+        // https://github.com/openjdk/jdk
+        // jdk-master.zip
+
+        public static void SortFilePathsAlphanumerically (string directoryPath)
+        {
+            string [] xFilePaths = Directory.GetFiles (directoryPath, "*.*", SearchOption.AllDirectories);
+            nArray.Shuffle (xFilePaths, 0, xFilePaths.Length); // どうせなので、いったんシャッフル
+            string xFileContents = string.Join (Environment.NewLine, xFilePaths.OrderBy (x => x, nAlphanumericComparer.InvariantCultureIgnoreCase)); // Ordinal にしない理由は taskKiller.txt に
+
+            string xFilePath = nPath.Map (Environment.GetFolderPath (Environment.SpecialFolder.DesktopDirectory), $"FilePaths-{Path.GetFileName (directoryPath)}.txt");
+            nFile.WriteAllText (xFilePath, xFileContents);
+        }
     }
 }

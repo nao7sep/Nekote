@@ -131,6 +131,35 @@ namespace Nekote
             }
         }
 
+        // nAlphanumericComparer クラスの、カルチャー関係なしのインスタンスはプログラムの起動と同時に初期化されるが、こちらのものは JIT 的に
+        // StringComparer.Create のコストが気になるし、特定のカルチャーの alphanumeric comparer は、よく使われるわけでもない
+
+        private static nAlphanumericComparer? mComparerAlphanumeric;
+
+        public static nAlphanumericComparer ComparerAlphanumeric
+        {
+            get
+            {
+                if (mComparerAlphanumeric == null)
+                    mComparerAlphanumeric = new nAlphanumericComparer (Comparer);
+
+                return mComparerAlphanumeric;
+            }
+        }
+
+        private static nAlphanumericComparer? mComparerAlphanumericIgnoreCase;
+
+        public static nAlphanumericComparer ComparerAlphanumericIgnoreCase
+        {
+            get
+            {
+                if (mComparerAlphanumericIgnoreCase == null)
+                    mComparerAlphanumericIgnoreCase = new nAlphanumericComparer (ComparerIgnoreCase);
+
+                return mComparerAlphanumericIgnoreCase;
+            }
+        }
+
         // Jōyō kanji - Wikipedia
         // https://en.wikipedia.org/wiki/J%C5%8Dy%C5%8D_kanji
 

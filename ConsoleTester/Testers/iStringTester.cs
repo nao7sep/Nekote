@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -1238,6 +1239,352 @@ namespace ConsoleTester
 
             string xFilePath = nPath.Map (Environment.GetFolderPath (Environment.SpecialFolder.DesktopDirectory), $"FilePaths-{Path.GetFileName (directoryPath)}.txt");
             nFile.WriteAllText (xFilePath, xFileContents);
+        }
+
+        // nAlphanumericComparer.Compare の速度を調べた
+        // 数年前のノートである SV7 での実行結果:
+
+        // string.CompareOrdinal: 11.0822ms
+        // nAlphanumericComparer.Ordinal.Compare: 1570.4998ms
+        // nAlphanumericComparer.Ordinal.Compare + 数字1個: 1564.4492ms
+        // nAlphanumericComparer.Ordinal.Compare + 数字10個: 1562.9599ms
+        // nAlphanumericComparer.Ordinal.Compare + 数字100個: 1572.2204ms
+        // nAlphanumericComparer.Ordinal.Compare + 数字1,000個: 1708.4288ms
+
+        // もっとも、この結果は、xLabels を最初の2項目だけにして、消した分のコードを for ループ内からも消すことで、次のように変化する
+
+        // string.CompareOrdinal: 11.5687ms
+        // nAlphanumericComparer.Ordinal.Compare: 179.938ms
+
+        // 周囲のコードの増減により、全く同じコードの処理速度まで変わるのは極めて不可解
+        // nMultiArray のバグを疑い、1) Stopwatch の Reset/Restart の代わりに毎回 new、2) xElapsed に追加したばかりの xStopwatch.Elapsed をコンソールに表示、
+        //     ということを行っても、テスト項目が六つなら1.5秒、二つに減らせば200ミリ秒に満たないというのが xStopwatch.Elapsed からも出て、さすがにわけワカメ
+
+        // こういう、テスト項目の増減や周囲のコードの増減により、全く同じコードの処理速度まで変わるということは、以前から各所で確認されている
+        // 毎回 new した Stopwatch から nMultiArray を介さずに計測結果を出しても変化しているので、これ以上できることがない（それ以前は nMultiArray がなかったわけだし）
+        // .NET 側に、たとえば for ループ内のコードの大きさがこのくらいなら CPU やメモリーのこの機能で処理し、それより大きければ～のようなことがあるとしか考えられない
+
+        // ILSpy 8.0 Preview 3 をダウンロードし、このメソッドのコードを展開してみた
+        // for ループが、バグにより、それぞれ1万回でなく5～6万回になっていれば、それなりに近い計測結果になるため
+        // しかし、展開されたコードでは、tempAlt にさらに連番が付いていて、処理の回数にも問題がなかった
+        // どこかに問題があるとすれば、やはり IL というより、それを実行する環境の方
+
+        // これ以上のことは分からないため、nAlphanumericComparer.Compare の速度については、1) 許容範囲内の遅さ、
+        //     2) 含まれる数字が増えても大きく変化しない、というのを暫定的な結論とする
+
+        // =============================================================================
+
+        // 実装中、テスト項目のうち最初の二つだけがあり、それぞれの結果は 11.172ms, 493.8884ms だった
+        // nAlphanumericComparer.Compare 内の iFindNumericPart は、nChar.IsSupportedDigit を使っていた
+        // それを string.IndexOfAny に切り換えたところ、185.4825ms になった
+        // MemoryExtensions.IndexOfAny では 1474.8422ms まで落ちた
+        // MemoryExtensions.SequenceEqual は最速クラスだが、複数の値のうち一つを探す処理では大幅に落ちるようだ
+        // iFindNumericPart だけが重いのか、中身を return (-1, default) だけにして調べたところ、13.4319ms になった
+        // iFindNumericPart だけのようだった
+        // いったん nChar.IsSupportedDigit を使う実装に戻し、そちらを、今の、最初に value >= '0' だけを見る実装にすれば、395.9908ms になった
+        // いくつかのことを試したが、現時点では string.IndexOfAny を使うのが最善
+
+        // iFindNumericPart だけが重いのを string.IndexOfAny により高速化しても、一つと一つの比較を繰り返せばよい string.CompareOrdinal には遠く及ばない
+        // iFindNumericPart は、現時点で20の数字のうち一つを探す必要がある
+        // string.IndexOfAny → MemoryExtensions.IndexOfAny → ProbabilisticMap.IndexOfAny というのを展開するのは難しい
+        // 時間を掛けてやったとしても、「20の値のうちのいずれか」および「0～9または０～９」という、判別するものの違いがどのくらい処理コストに響いてくるか分からない
+        // 実用にならないほど遅いものを確実に速くできるなら取り組むが、許容範囲内の遅さのものがどのくらい速くなるか分からないため、これ以上は深入りしない
+
+        // String.Searching.cs
+        // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/String.Searching.cs
+
+        // MemoryExtensions.cs
+        // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.cs
+
+        // ProbabilisticMap.cs
+        // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/IndexOfAnyValues/ProbabilisticMap.cs
+
+        // =============================================================================
+
+        // M1 の MacBook Pro での実行結果
+        // 一応
+
+        // string.CompareOrdinal: 7.3485ms
+        // nAlphanumericComparer.Ordinal.Compare: 1204.4174ms
+        // nAlphanumericComparer.Ordinal.Compare + 数字1個: 1198.1728ms
+        // nAlphanumericComparer.Ordinal.Compare + 数字10個: 1199.0173ms
+        // nAlphanumericComparer.Ordinal.Compare + 数字100個: 1208.2175ms
+        // nAlphanumericComparer.Ordinal.Compare + 数字1,000個: 1312.0542ms
+
+        public static void CompareStringComparisonSpeeds ()
+        {
+            const int xElementCount = 10_000,
+                xTestCount = 10,
+                xComparisonCount = 10_000;
+
+            char [] xChars = new char [xElementCount];
+            Array.Fill (xChars, '\x20');
+
+            string xString1 = new string (xChars),
+                xString2 = new string (xChars);
+
+            Stopwatch xStopwatch = new Stopwatch ();
+
+            string [] xLabels = { "string.CompareOrdinal", "nAlphanumericComparer.Ordinal.Compare", "nAlphanumericComparer.Ordinal.Compare + 数字1個", "nAlphanumericComparer.Ordinal.Compare + 数字10個", "nAlphanumericComparer.Ordinal.Compare + 数字100個", "nAlphanumericComparer.Ordinal.Compare + 数字1,000個" };
+            nMultiArray <TimeSpan> xElapsed = new nMultiArray <TimeSpan> ();
+
+            for (int temp = 0; temp < xTestCount; temp ++)
+            {
+                int xLabelIndex = 0;
+
+                // =============================================================================
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xComparisonCount; tempAlt ++)
+                    string.CompareOrdinal (xString1, xString2);
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xComparisonCount; tempAlt ++)
+                    nAlphanumericComparer.Ordinal.Compare (xString1, xString2);
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                // count を増やしていっても、できるだけ、これまでと同じところに数字が入るように
+                // 一つ入れるなら、二つに割って真ん中に
+                // 三つ入れるなら、四つに割って区切り（？）のところに
+                // 四つ入れるなら、八つに割って、七つある区切り（？）のうち最初の四つに
+
+                void iAddDigits (int count)
+                {
+                    int xPower = 0;
+
+                    while (Math.Pow (2, xPower) - 1 < count) // 作れる区切り（？）の数が count に満たない間
+                        xPower ++;
+
+                    double xResult = Math.Pow (2, xPower);
+
+                    for (int temp = 0; temp < count; temp ++)
+                    {
+                        int xIndex = (int) Math.Round (xElementCount * (temp + 1) / xResult);
+                        xChars [xIndex] = '0';
+                    }
+
+                    xString1 = new string (xChars);
+                    xString2 = new string (xChars);
+                }
+
+                iAddDigits (1);
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xComparisonCount; tempAlt ++)
+                    nAlphanumericComparer.Ordinal.Compare (xString1, xString2);
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                iAddDigits (10);
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xComparisonCount; tempAlt ++)
+                    nAlphanumericComparer.Ordinal.Compare (xString1, xString2);
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                iAddDigits (100);
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xComparisonCount; tempAlt ++)
+                    nAlphanumericComparer.Ordinal.Compare (xString1, xString2);
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                iAddDigits (1000);
+
+                xStopwatch.Reset ();
+                xStopwatch.Restart ();
+
+                for (int tempAlt = 0; tempAlt < xComparisonCount; tempAlt ++)
+                    nAlphanumericComparer.Ordinal.Compare (xString1, xString2);
+
+                xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
+
+                // =============================================================================
+
+                nConsole.WriteProcessingMessage ("計測中");
+            }
+
+            Console.WriteLine ();
+            Console.WriteLine (iTester.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
+        }
+
+        // nAlphanumericComparer.Compare 内の iFindNumericPart の実装を変更したため、テストを増やした
+        // このくらいしっかりと日付のソートができれば、さまざまなシステムで役に立つ
+
+        // １月1日
+        // ０１月4日
+        // ０１月8日
+        // 1月19日
+        // ０１月27日
+        // 02月1日
+        // 02月０３日
+        // 02月０３日
+        // ２月４日
+        // ０２月８日
+        // 02月９日
+        // ２月０９日
+        // 2月１４日
+        // 02月18日
+        // 02月21日
+        // 2月２１日
+        // ２月27日
+        // ０３月3日
+        // 3月08日
+        // ３月10日
+        // 03月１０日
+        // ３月12日
+        // ３月１２日
+        // ３月１６日
+        // 04月１７日
+        // ０４月17日
+        // 04月２１日
+        // 4月２２日
+        // 04月25日
+        // ４月27日
+        // 5月７日
+        // 05月14日
+        // 05月１４日
+        // ０５月20日
+        // ０５月22日
+        // 05月22日
+        // 05月23日
+        // ５月２７日
+        // 5月28日
+        // ５月31日
+        // 06月４日
+        // ０６月05日
+        // ０６月10日
+        // 06月１４日
+        // 6月15日
+        // ６月27日
+        // ０６月28日
+        // ７月7日
+        // 07月０８日
+        // 07月11日
+        // ０７月12日
+        // ７月１５日
+        // ７月16日
+        // ０７月１７日
+        // 07月25日
+        // 8月０５日
+        // 08月07日
+        // ８月０９日
+        // 08月１０日
+        // 08月14日
+        // 08月２２日
+        // 8月２３日
+        // 9月03日
+        // ０９月4日
+        // 9月07日
+        // 9月１０日
+        // 09月１４日
+        // 09月16日
+        // 09月16日
+        // ９月20日
+        // 10月０５日
+        // １０月7日
+        // 10月０７日
+        // 10月１５日
+        // １０月２１日
+        // 10月23日
+        // １０月２６日
+        // １０月２７日
+        // 10月２７日
+        // １０月３１日
+        // 11月7日
+        // 11月10日
+        // 11月11日
+        // 11月20日
+        // １１月22日
+        // 11月２５日
+        // 11月２９日
+        // 12月０４日
+        // １２月０６日
+        // 12月07日
+        // １２月08日
+        // １２月10日
+        // １２月１９日
+        // 12月20日
+        // 12月２５日
+        // 12月２５日
+        // 12月２７日
+        // 12月２８日
+        // １２月３１日
+        // 12月３１日
+
+        public static void SortAlphanumericDateTimeStrings ()
+        {
+            List <string> xStrings = new List <string> ();
+
+            while (xStrings.Count < 100)
+            {
+                int xYear = 2023, // 最初は幅を持たせたが、日付が離れるのでやめた
+                    xMonth = Random.Shared.Next (1, 12 + 1),
+                    xDay = Random.Shared.Next (1, 31 + 1);
+
+                try
+                {
+                    // 2月31日などでは落とす
+                    new DateTime (xYear, xMonth, xDay);
+
+                    string iToString (int value)
+                    {
+                        string xString;
+
+                        // 「年」を出力しなくなったが、そのまま
+
+                        if (value < 10 && Random.Shared.Next (2) == 0)
+                            xString = value.ToString ("D2", CultureInfo.InvariantCulture);
+
+                        else xString = value.ToString (CultureInfo.InvariantCulture);
+
+                        if (Random.Shared.Next (2) == 0)
+                            return string.Concat (xString.ToCharArray ().Select (x => (char) (x - '0' + '０')));
+
+                        else return xString;
+                    }
+
+                    xStrings.Add ($"{iToString (xMonth)}月{iToString (xDay)}日");
+                }
+
+                catch
+                {
+                }
+            }
+
+            // コンソールの表示が乱れた
+            // 最後のメッセージが途中で途切れたり、上にスクロールしても前半のデータが飛んでいたり
+            // string.Join してからの Console.WriteLine なので問題ないはずだが、何度やっても表示の乱れが再現した
+            // いったん変数に取れば一度も起こらなくなった
+            // ということは、ここでも LINQ の遅延実行が関係している可能性があるが、詳細は不明
+
+            string xContents = string.Join (Environment.NewLine, xStrings.OrderBy (x => x, nAlphanumericComparer.InvariantCultureIgnoreCase));
+            Console.WriteLine (xContents);
         }
     }
 }

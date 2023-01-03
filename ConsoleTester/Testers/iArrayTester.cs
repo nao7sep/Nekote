@@ -346,6 +346,12 @@ namespace ConsoleTester
         // 全く差がないので、そのときのコードの書きやすさで選ぶ
         // たとえば改行入りで16×16にするなら char [] の方が良いか
 
+        // M1 の MacBook Pro での実行結果
+        // 一応
+
+        // char []: 3149.0954ms
+        // string: 3154.8442ms
+
         public static void CompareByIndexAccessingSpeeds ()
         {
             const int xElementCount = 10_000,

@@ -87,9 +87,15 @@ namespace Nekote
 
                     (int FirstIndex, int Length) iFindNumericPart (string value, int currentIndex)
                     {
-                        for (int temp = currentIndex; temp < value.Length; temp ++)
+                        // 予想以上に遅かったので、string.IndexOfAny を使うように
+                        // 詳細は、iStringTester.CompareStringComparisonSpeeds のところに
+
+                        // for (int temp = currentIndex; temp < value.Length; temp ++)
                         {
-                            if (nChar.IsSupportedDigit (value [temp]))
+                            int temp = value.IndexOfAny (nChar.SupportedDigits, currentIndex);
+
+                            // if (nChar.IsSupportedDigit (value [temp]))
+                            if (temp >= 0)
                             {
                                 for (int tempAlt = temp + 1; tempAlt < value.Length; tempAlt ++)
                                 {
@@ -127,6 +133,12 @@ namespace Nekote
                             ((xNumericPart1.FirstIndex - xCurrentIndex1) != (xNumericPart2.FirstIndex - xCurrentIndex2)))
                         {
                             // Substring を避けたいが、StringComparer.Compare が現時点では Span 系の引数を取らないので仕方ない
+
+                            // xCurrentIndex* == 0 だと切り抜きが行われずに this が返されるのを確認した
+
+                            // String.Manipulation.cs
+                            // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/String.Manipulation.cs
+
                             return StringComparer.Compare (value1.Substring (xCurrentIndex1), value2.Substring (xCurrentIndex2));
                         }
 

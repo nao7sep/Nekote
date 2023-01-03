@@ -8,6 +8,9 @@ namespace Nekote
 {
     public static class nChar
     {
+        // string.IndexOfAny に必要
+        public static readonly char [] SupportedDigits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '０', '１', '２', '３', '４', '５', '６', '７', '８', '９' };
+
         public static bool IsSupportedDigit (char value)
         {
             // Unicode の BMP 面では、半角と全角の20文字に対応すれば十分
@@ -20,12 +23,19 @@ namespace Nekote
             // Numerals in Unicode - Wikipedia
             // https://en.wikipedia.org/wiki/Numerals_in_Unicode
 
-            return (value >= '0' && value <= '9') || (value >= '０' && value <= '９');
+            // 少し高速化した
+            // 半角空白の0より小さいなら絶対に false
+
+            // return (value >= '0' && value <= '9') || (value >= '０' && value <= '９');
+            return value >= '0' && (value <= '9' || (value >= '０' && value <= '９'));
         }
 
         public static int CompareSupportedDigits (char value1, char value2)
         {
             // ループで何度も行われる処理なので、ベタ書きにより少しでも速く
+
+            // IsSupportedDigit の方を少し高速化したが、こちらは、ややこしくなるのでそのまま
+            // そもそも、両方が数字だと分かっていて呼ばれることが多い
 
             if (value1 >= '0' && value1 <= '9')
             {

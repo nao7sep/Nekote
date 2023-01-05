@@ -1970,3 +1970,48 @@
     nStringDictionary を追加した。
 
     キーのチェックは、やめておく。デバッグ時に簡単に直せる問題。
+
+[完了] INI-like なファイルの拡張子を考える
+
+    Nekote INI で .nini でよい。若干アホっぽいが、そのうち慣れる。よく使われる拡張子ではないようだ。ini が入っているので、だいたいどういうファイルなのかは開かなくても分かる。
+
+    .nin なども考えたが、*.config などが問題でない時代に4文字から3文字にすることで、1) 既存の拡張子との衝突の可能性が高まる、2) 内容が分からなくなる、の二つのデメリットがある。
+
+[却下] INI 的な KVP のファイルフォーマットを探す
+
+    JSON, INI の他には ValTree というものがあった。
+
+    JSON - Wikipedia
+    https://en.wikipedia.org/wiki/JSON
+
+    INI file - Wikipedia
+    https://en.wikipedia.org/wiki/INI_file
+
+    NatWeiss/ValTree: A minimal text file format for storing key value pairs in a hierarchy and a C++ class to read, write and use the data.
+    https://github.com/NatWeiss/ValTree
+
+    改行文字がエスケープされず、差分を取りやすいフォーマットが別に欲しい。
+
+    --------------------------------------------------------------------------------
+
+    INI 的なものとしては、INI-like と雑に呼称する仕様がまとまり、実装も終わった。改行がエスケープされず、差分を取りやすいものについては、別のタスクで扱う。
+
+[完了] https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptostream をチェック
+
+    しばらくは必要でなさそう。必要になれば、どこかのサンプルコードでまた遭遇する。
+
+[完了] nStopwatch のテストコードを書く
+
+    nStopwatch.CurrentEntryElapsedTime と nStopwatchEntry.ElapsedTime を統合できないのは、つまり、nStopwatch.CurrentEntry.ElapsedTime とできないのは、名前が似ていても中身が大きく異なるため。
+
+    nStopwatch を見るたびに、まとめるべきフィールドが散らばっているかのように感じるが、具体的にどこか直そうとすると、現行のコードに特に問題がないことに気付かされる。
+
+    では、なぜ何となくモヤモヤしているのかと言えば、テストコードがないからか。
+
+    timeLog に必要だったクラスを、timeLog 以外でも使えそうだと思っては、何となく Nekote に入れた。実際、他のアプリでも絶対に役に立つクラス。
+
+    しかし、「timeLog が動いた」ということ以上のテストがまだなので、そこだけちゃんとしておく。
+
+    --------------------------------------------------------------------------------
+
+    テストコードを書いた。ついでに nStopwatch のコードとコメントを全体的にチェックした。何となく、すごく質の低い実装のイメージがあったが、ちゃんと読んでみれば良く書けていた。

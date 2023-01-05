@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Nekote;
 
@@ -1585,6 +1586,202 @@ namespace ConsoleTester
 
             string xContents = string.Join (Environment.NewLine, xStrings.OrderBy (x => x, nAlphanumericComparer.InvariantCultureIgnoreCase));
             Console.WriteLine (xContents);
+        }
+
+        public static void TestStringDictionary ()
+        {
+            nStringDictionary xDictionary = new nStringDictionary ();
+
+            // Console.WriteLine (xDictionary.ToFriendlyString ()); // → (Empty)
+
+            xDictionary.SetString ("", null);
+            xDictionary.SetString ("Key-3", string.Empty);
+            xDictionary.SetString ("Key-2", "hoge");
+            xDictionary.SetString ("Key-1", $"hoge{Environment.NewLine}moge");
+
+            // キーにより並び替えられる
+            // null や "" が可読性のある文字列にされる
+
+            // (Empty): (Null)
+            // Key-1:
+            //     hoge
+            //     moge
+            // Key-2: hoge
+            // Key-3: (Null)
+
+            Console.WriteLine (xDictionary.ToFriendlyString ());
+            Console.WriteLine ();
+
+            // null がエスケープされ、アンエスケープの必要性を示す = により "" キーと関連付けられる
+            // キーは並び替えられない
+            // "" と hoge はアンエスケープが不要なので : で出力される
+            // 改行を含む値はエスケープされ、= で
+
+            // =\0
+            // Key-3:
+            // Key-2:hoge
+            // Key-1=hoge\r\nmoge
+
+            string xString = xDictionary.ToIniLikeString ();
+            Console.WriteLine (xString);
+            Console.WriteLine ();
+
+            Console.WriteLine (nStringDictionary.ParseIniLikeString (xString).ToIniLikeString ().Equals (xString, StringComparison.Ordinal)); // → True
+            Console.WriteLine ();
+
+            // =============================================================================
+
+            // ザッと処理速度をチェック
+            // データ量により結果が大きく左右される
+            // 今回は、わずかなデータでラウンドトリップの各所のオーバーヘッドを見る程度なので簡単に
+
+            int xRoundtripCount = 10_000_000;
+
+            Stopwatch xStopwatch = new Stopwatch ();
+
+            xStopwatch.Start ();
+
+            for (int temp = 0; temp < xRoundtripCount; temp ++)
+                nStringDictionary.ParseIniLikeString (xDictionary.ToIniLikeString ());
+
+            TimeSpan xElapsed = xStopwatch.Elapsed;
+
+            // 10000000 times in 7702.0903ms (1298 times per 1ms)
+
+            Console.WriteLine (FormattableString.Invariant (
+                $"{xRoundtripCount} times in {xElapsed.TotalMilliseconds}ms ({(int) (xRoundtripCount / xElapsed.TotalMilliseconds)} times per 1ms)"));
+
+            Console.WriteLine ();
+
+            // =============================================================================
+
+            // 0x00 から 0x7F までの 0x80 文字を単一の文字列に詰め、一応、.NET が勝手に安全な値に変換するなどがないのを確認し、
+            //     nStringDictionary に入れてラウンドトリップし、元の文字列と一致するのを確認した
+
+            string xAsciiString = string.Concat (Enumerable.Range (0, 0x7F + 1).Select (x => (char) x));
+
+            for (int temp = 0; temp <= 0x7F; temp ++)
+            {
+                if (xAsciiString [temp] != temp)
+                    throw new nDataException ();
+            }
+
+            xDictionary.SetString ("Ascii", xAsciiString);
+
+            Console.WriteLine (nStringDictionary.ParseIniLikeString (xDictionary.ToIniLikeString ()).GetString ("Ascii")!.Equals (xAsciiString, StringComparison.Ordinal)); // → True
+            Console.WriteLine ();
+
+            // =============================================================================
+
+            // あとで JSON と速度を比べる
+            // その前に、扱いにくい xAsciiString を含めての JSON によるラウンドトリップをテスト
+            // JsonSerializerOptions.WriteIndented がデフォルトでは false なので、両方の結果を出力
+
+            // How to serialize and deserialize JSON using C# - .NET | Microsoft Learn
+            // https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/how-to
+
+            // {"":null,"Key-3":"","Key-2":"hoge","Key-1":"hoge\r\nmoge","Ascii":"\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000B\f\r\u000E\u000F\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001A\u001B\u001C\u001D\u001E\u001F !\u0022#$%\u0026\u0027()*\u002B,-./0123456789:;\u003C=\u003E?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\u0060abcdefghijklmnopqrstuvwxyz{|}~\u007F"}
+
+            // {
+            //   "": null,
+            //   "Key-3": "",
+            //   "Key-2": "hoge",
+            //   "Key-1": "hoge\r\nmoge",
+            //   "Ascii": "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000B\f\r\u000E\u000F\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001A\u001B\u001C\u001D\u001E\u001F !\u0022#$%\u0026\u0027()*\u002B,-./0123456789:;\u003C=\u003E?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\u0060abcdefghijklmnopqrstuvwxyz{|}~\u007F"
+            // }
+
+            string xJsonString = JsonSerializer.Serialize (xDictionary, new JsonSerializerOptions { WriteIndented = true });
+            Console.WriteLine (xJsonString);
+
+            Console.WriteLine (JsonSerializer.Deserialize <nStringDictionary> (xJsonString)!.ToIniLikeString ().Equals (xDictionary.ToIniLikeString (), StringComparison.Ordinal)); // → True
+
+            Console.WriteLine ();
+
+            // =============================================================================
+
+            // 項目を増やしてのラウンドトリップのテスト
+            // ToFriendlyString でも、それっぽいものが表示された
+
+            for (int temp = 0; temp < 1_000; temp ++)
+                xDictionary.SetString (Guid.NewGuid ().ToString ("D"), nRandom.GenerateAsciiPassword (length: 1_000));
+
+            // Console.WriteLine (xDictionary.ToFriendlyString ());
+
+            xString = xDictionary.ToIniLikeString ();
+            Console.WriteLine (nStringDictionary.ParseIniLikeString (xString).ToIniLikeString ().Equals (xString, StringComparison.Ordinal)); // → True
+
+            // =============================================================================
+
+            // GUID と長さ1000の値の組が1000入っている、かなり重たいデータで速度を再テスト
+            // 1件あたり9ミリ秒ほど掛かったが、データがかなり重たいことを考えると良好なパフォーマンス
+
+            // たとえばメールの場合、From、複数の To/Cc/Bcc, Subject がそれぞれ数十文字、Body が数百から数千文字でも、項目はたいてい10以下で、トータル数千文字
+            // その100倍以上の項目があり、トータルの文字数も数百倍のものを9ミリ秒で処理できる
+            // 仮に300件を10ミリ秒と見なすなら、1ミリ秒あたり30件で、千件のメールの処理に33ミリ秒くらい
+            // という考え方においても、やはり十分に実用的な速度
+
+            xRoundtripCount = 1_000;
+
+            xStopwatch = new Stopwatch ();
+
+            xStopwatch.Start ();
+
+            for (int temp = 0; temp < xRoundtripCount; temp ++)
+                nStringDictionary.ParseIniLikeString (xDictionary.ToIniLikeString ());
+
+            xElapsed = xStopwatch.Elapsed;
+
+            // INI-like: 1000 times in 8941.6215ms
+
+            Console.WriteLine (FormattableString.Invariant ($"INI-like: {xRoundtripCount} times in {xElapsed.TotalMilliseconds}ms"));
+            Console.WriteLine ();
+
+            // =============================================================================
+
+            // JSON でのラウンドトリップの速度もテスト
+            // 安全なコードをベタ書きの INI-like なラウンドトリップより速いと予想したが、そうでもなかった
+            // それでも十分に速いし、JSON の方がフォーマットもエスケープシーケンスも複雑なので、さすがに良くできている
+
+            // JsonSerializer.Serialize からのコードを軽く追ってみた
+            // JSON が .NET に深く組み入れられていること、Microsoft が JSON のサポートに本気であることが分かるコードだった
+            // Nekote でも、自分には今は不要でも、各所において JSON への対応を考えなければならないようだ
+
+            // JsonSerializer.Write.String.cs
+            // https://source.dot.net/#System.Text.Json/System/Text/Json/Serialization/JsonSerializer.Write.String.cs
+
+            xStopwatch = new Stopwatch ();
+
+            xStopwatch.Start ();
+
+            for (int temp = 0; temp < xRoundtripCount; temp ++)
+                JsonSerializer.Deserialize <nStringDictionary> (JsonSerializer.Serialize (xDictionary));
+
+            xElapsed = xStopwatch.Elapsed;
+
+            // JSON: 1000 times in 12450.5753ms
+
+            Console.WriteLine (FormattableString.Invariant ($"JSON: {xRoundtripCount} times in {xElapsed.TotalMilliseconds}ms"));
+
+            // =============================================================================
+
+            // JSON の文字列にインデント付けを行っても、ラウンドトリップのコストは変化しない
+            // たまたま少し遅くなったが、何度か試せば、インデント付けを行わない方が遅いときもあった
+            // Windows の他のプロセスにより結果が左右される程度の微々たる差
+
+            JsonSerializerOptions xOptions = new JsonSerializerOptions { WriteIndented = true };
+
+            xStopwatch = new Stopwatch ();
+
+            xStopwatch.Start ();
+
+            for (int temp = 0; temp < xRoundtripCount; temp ++)
+                JsonSerializer.Deserialize <nStringDictionary> (JsonSerializer.Serialize (xDictionary, xOptions));
+
+            xElapsed = xStopwatch.Elapsed;
+
+            // JSON (WriteIndented: true): 1000 times in 12728.7687ms
+
+            Console.WriteLine (FormattableString.Invariant ($"JSON (WriteIndented: true): {xRoundtripCount} times in {xElapsed.TotalMilliseconds}ms"));
         }
     }
 }

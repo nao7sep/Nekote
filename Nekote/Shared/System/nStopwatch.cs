@@ -196,7 +196,9 @@ namespace Nekote
             {
                 try
                 {
-                    Interlocked.Increment (ref mThreadCount);
+                    // 理由は不詳だが、nStopwatch. を省くと正しく動かない
+
+                    Interlocked.Increment (ref nStopwatch.mThreadCount);
                     Interlocked.Increment (ref nLibrary.iThreadCount);
 
                     while (true)
@@ -220,7 +222,7 @@ namespace Nekote
 
                 finally
                 {
-                    Interlocked.Decrement (ref mThreadCount);
+                    Interlocked.Decrement (ref nStopwatch.mThreadCount);
                     Interlocked.Decrement (ref nLibrary.iThreadCount);
                 }
             });
@@ -242,6 +244,9 @@ namespace Nekote
 
             else
             {
+                // 古いデータがないなら、「再開」より「開始」が適する
+                // ここでの「再開」は、何らかのミスの可能性がある
+
                 if (IsRunning || PreviousEntries.Count == 0)
                     throw new nOperationException ();
             }

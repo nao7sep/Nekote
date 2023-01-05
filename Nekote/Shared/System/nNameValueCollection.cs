@@ -294,7 +294,7 @@ namespace Nekote
             if (Keys.Count == 0)
                 return nStringLiterals.EmptyLabel;
 
-            string? xNewLine = newLine ?? Environment.NewLine;
+            string xNewLine = newLine ?? Environment.NewLine;
 
             StringBuilder xBuilder = new StringBuilder (/* 不詳 */);
 

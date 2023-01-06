@@ -91,7 +91,7 @@ namespace Nekote
 
         private static bool iIsValidYouTubeLikeKey (string key)
         {
-            return key.Length == 11 && key.Any (x => iYouTubeLikeKeyChars.Contains (x, StringComparison.Ordinal) == false) == false;
+            return key != null && key.Length == 11 && key.Any (x => iYouTubeLikeKeyChars.Contains (x, StringComparison.Ordinal) == false) == false;
         }
 
         private static long iParseYouTubeLikeKey (string key)
@@ -128,14 +128,23 @@ namespace Nekote
 
         public static bool TryParseYouTubeLikeKey (string key, out long result)
         {
-            if (iIsValidYouTubeLikeKey (key) == false)
+            // なくてよい try/catch だが、作法として
+
+            try
             {
-                result = default;
-                return false;
+                if (iIsValidYouTubeLikeKey (key))
+                {
+                    result = iParseYouTubeLikeKey (key);
+                    return true;
+                }
             }
 
-            result = iParseYouTubeLikeKey (key);
-            return true;
+            catch
+            {
+            }
+
+            result = default;
+            return false;
         }
     }
 }

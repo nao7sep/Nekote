@@ -27,7 +27,7 @@ namespace Nekote
 
         public override string KeyToFilePath (long key)
         {
-            return nPath.Join (DirectoryPath, $"{key.ToString (CultureInfo.InvariantCulture)}Z.nini");
+            return nPath.Join (DirectoryPath, $"{key.ToString (CultureInfo.InvariantCulture)}Z{nStringLiterals.IniLikeFileExtension}");
         }
 
         public override void SetKeyToEntry (nStringDictionary entry, long key)
@@ -62,8 +62,8 @@ namespace Nekote
             try
             {
                 if (name != null &&
-                        name.EndsWith ("Z.nini", StringComparison.OrdinalIgnoreCase) &&
-                        long.TryParse (name.AsSpan (0, name.Length - "Z.nini".Length), NumberStyles.None, CultureInfo.InvariantCulture, out key))
+                        name.EndsWith ($"Z{nStringLiterals.IniLikeFileExtension}", StringComparison.OrdinalIgnoreCase) &&
+                        long.TryParse (name.AsSpan (0, name.Length - $"Z{nStringLiterals.IniLikeFileExtension}".Length), NumberStyles.None, CultureInfo.InvariantCulture, out key))
                     return true;
             }
 

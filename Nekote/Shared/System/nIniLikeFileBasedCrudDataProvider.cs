@@ -36,7 +36,11 @@ namespace Nekote
         public abstract bool TryGetKeyFromEntry (nStringDictionary entry, out KeyType key);
 
         public abstract bool TryParseFileName (string name, out KeyType key);
-
+#if DEBUG
+        // 辞書への Add など、まず落ちないところで落とすためのもの
+        // iCrudTester.TestIniLikeFileBasedDataProviders で使われる
+        public bool Throws;
+#endif
         public override KeyType CreateEntry (nStringDictionary entry)
         {
             while (true)
@@ -57,9 +61,19 @@ namespace Nekote
                         // TryCreateEntry のコメントを参照
                         // Try* でない方でも、できるだけデータの整合性を保つように
 
+                        // コースのチェック
+                        // while (true) において、辞書にもファイルシステムにもないエントリーなら、追加の処理に入る
+                        // そこからは try と catch の2コースのみなので、それぞれでループを抜ける
+
                         try
                         {
+#if DEBUG
+                            if (Throws)
+                                throw new nDebugException ();
+#endif
                             Add (xKey, entry);
+
+                            return xKey;
                         }
 
                         catch
@@ -68,8 +82,6 @@ namespace Nekote
 
                             throw;
                         }
-
-                        return xKey;
                     }
                 }
             }
@@ -102,18 +114,25 @@ namespace Nekote
                             string xFileContents = entry.ToIniLikeString ();
                             nFile.WriteAllText (xFilePath, xFileContents);
 
+                            // コースのチェック
+                            // CreateEntry と同様、最後は try と catch の2コースのみ
+                            // catch の throw は、上位の catch で受け止められ、false が返る
+
                             try
                             {
                                 Add (xKey, entry);
+
+                                key = xKey;
+                                return true;
                             }
 
                             catch
                             {
                                 nFile.Delete (xFilePath);
-                            }
 
-                            key = xKey;
-                            return true;
+                                // while ループから抜ける
+                                throw;
+                            }
                         }
                     }
                 }
@@ -121,12 +140,13 @@ namespace Nekote
 
             catch
             {
-                // Nullable でないものに null を入れてしまうが、
-                //     結果が bool なら key を見ないため問題でない
-
-                key = default!;
-                return false;
             }
+
+            // Nullable でないものに null を入れてしまうが、
+            //     結果が bool なら key を見ないため問題でない
+
+            key = default!;
+            return false;
         }
 
         public override nStringDictionary ReadEntry (KeyType key)
@@ -151,6 +171,11 @@ namespace Nekote
                 // 最初はここまでしていなかったが、TryLoadAllEntries の方で厳密化したので、こちらでも
                 // キーからファイル名を生成しているので、ファイル名には間違いがない
                 // ファイルのすり替えを警戒し、ファイルの内容がキーと整合する場合のみ処理を続行
+
+                // コースのチェック
+                // 辞書にエントリーがあれば、すぐに抜ける
+                // 辞書になく、ファイルがあれば、その内容をチェックし、辞書に追加し、抜ける
+                // いずれでもなければ、最後の throw に流れ着く
 
                 if (TryGetKeyFromEntry (xEntry, out KeyType xResultAlt) &&
                     Comparer.Equals (xResultAlt, key))
@@ -185,6 +210,10 @@ namespace Nekote
                 {
                     string xFileContents = nFile.ReadAllText (xFilePath);
                     nStringDictionary xEntry = nStringDictionary.ParseIniLikeString (xFileContents);
+
+                    // コースのチェック
+                    // ReadEntry と同様、辞書にあればすぐに抜け、なくてもファイルにあれば、チェックし、辞書に追加し、抜ける
+                    // ファイルがないか、内容に問題があるときは、try/catch を抜けて最後のところに流れ着き、false が返る
 
                     if (TryGetKeyFromEntry (xEntry, out KeyType xResultAlt) &&
                         Comparer.Equals (xResultAlt, key))
@@ -226,6 +255,14 @@ namespace Nekote
             // 戻すために、まずは移動のみ行うとか、現行の内容を読み込むとかは、
             //     base [key] = entry がほぼ確実に成功することを考えるとコストが大きい
 
+            // コースのチェック
+            // 辞書にあれば、辞書のエントリーを更新し、続いてファイルの更新を試み、成功すれば明示的にすぐに抜け、失敗すれば元に戻して投げる
+            // try と catch の2コースのみなので、それぞれで明示的に完結させる
+            // 辞書にない場合、ファイルがあれば、既に手元にキーがあることによりファイルの内容を見ずに上書きを試み、成功すれば明示的にすぐに抜け、失敗すればエントリーを消して投げる
+            // 辞書になく、ファイルはある場合も、try と catch の2コースのみで、いずれもそこで完結
+            // 辞書になく、ファイルもない場合、キーに問題があるので投げる
+            // else → else に全てが流れ着くため、他のコースはない
+
             if (TryGetValue (key, out nStringDictionary? xResultAlt))
             {
                 base [key] = entry;
@@ -234,8 +271,14 @@ namespace Nekote
                 {
                     string xFilePath = KeyToFilePath (key),
                         xFileContents = entry.ToIniLikeString ();
-
+#if DEBUG
+                    if (Throws)
+                        throw new nDebugException ();
+#endif
                     nFile.WriteAllText (xFilePath, xFileContents);
+
+                    // 処理は終わりなので、明示的に抜ける
+                    return;
                 }
 
                 catch
@@ -277,8 +320,15 @@ namespace Nekote
 
                     try
                     {
+#if DEBUG
+                        if (Throws)
+                            throw new nDebugException ();
+#endif
                         string xFileContents = entry.ToIniLikeString ();
                         nFile.WriteAllText (xFilePath, xFileContents);
+
+                        // 明示的に
+                        return;
                     }
 
                     catch
@@ -303,6 +353,10 @@ namespace Nekote
                         Comparer.Equals (xResult, key) == false)
                     return false;
 
+                // コースのチェック
+                // UpdateEntry と同様、if 側は、try と catch の2コースのみで、catch なら最後に流れ着く
+                // else 側は、if → try のコースのみ明示的にすぐに抜け、if → catch と else では最後に流れ着く
+
                 if (TryGetValue (key, out nStringDictionary? xResultAlt))
                 {
                     base [key] = entry;
@@ -314,12 +368,16 @@ namespace Nekote
 
                         nFile.WriteAllText (xFilePath, xFileContents);
 
+                        // 最後に流れ着かないため、すぐに抜ける
                         return true;
                     }
 
                     catch
                     {
                         base [key] = xResultAlt;
+
+                        // TryCreateEntry のようにループから抜けなければならないわけでないため、throw は不要
+                        // 上位の try/catch の外に流れ着き、false が返る
                     }
                 }
 
@@ -336,13 +394,22 @@ namespace Nekote
                             string xFileContents = entry.ToIniLikeString ();
                             nFile.WriteAllText (xFilePath, xFileContents);
 
+                            // 最後に流れ着かないため、すぐに抜ける
                             return true;
                         }
 
                         catch
                         {
                             Remove (key);
+
+                            // 最後に流れ着くに任せる
                         }
+                    }
+
+                    else
+                    {
+                        // UpdateEntry と構造を同じにしておく
+                        // ここも、上位の try/catch の外に流れ着く
                     }
                 }
             }
@@ -361,12 +428,22 @@ namespace Nekote
             if (xResult)
                 Remove (key);
 
+            // コースのチェック
+            // 辞書にエントリーがあれば消す
+            // ファイルの削除は try と catch の2コースのみで、いずれも明示的に完結
+
             try
             {
                 string xFilePath = KeyToFilePath (key);
-
+#if DEBUG
+                if (Throws)
+                    throw new nDebugException ();
+#endif
                 if (File.Exists (xFilePath))
                     nFile.Delete (xFilePath);
+
+                // 明示的に
+                return;
             }
 
             catch
@@ -386,6 +463,9 @@ namespace Nekote
 
                 if (xResult)
                     Remove (key);
+
+                // コースのチェック
+                // ファイルの削除における catch は、そのまま最後に流れ着く
 
                 try
                 {
@@ -418,6 +498,9 @@ namespace Nekote
 
         public bool TryLoadAllEntries (out List <string> goodFilePaths, out List <string> badFilePaths, bool reloadsLoadedOnes = false)
         {
+            // Try* にしてはイレギュラーな、try/catch 外での処理だが、低コストな処理なので、まず落ちない
+            // ここで落ちるなら、.NET またはパソコンが深刻な状態であり、他のコードもまともに走らない
+
             goodFilePaths = new List <string> ();
             badFilePaths = new List <string> ();
 
@@ -433,6 +516,15 @@ namespace Nekote
                 // 通常の CRUD ではサブディレクトリーのファイルが扱われないため、ここでも無視
                 // オプション一つで読んでしまえるが、生半可なコードで扱ってはセキュリティーリスクにつながる
                 // 読み込まれる順序は不定
+
+                // コースのチェック
+                // ファイルごとに try/catch を通し、処理が途中で終わらないように
+                // Directory.GetFiles で得られたパスが nFile.ReadAllText までになくなっているのは、catch に受け止められてパスが badFilePaths に入る
+                // ファイル名に含まれるキーが辞書にあれば、その内容をチェックせず、明示的にすぐに抜ける
+                // 辞書になければ、ファイルを読み込み、内容をチェックし、問題がない場合のみ、辞書に入れて明示的にすぐに抜ける
+                // ファイル名からキーを抽出できない場合や、ファイルの内容に問題がある場合、ループのその回のコードの末尾に流れ着いてパスが badFilePaths に入る
+                // まずないだろうが、Directory.GetFiles など、ループ外で落ちれば、上位の catch に受け止められる
+                // ループの途中でメソッドを抜けるコースはなく、必ず最後に流れ着く
 
                 foreach (string xFilePath in Directory.GetFiles (DirectoryPath, "*.*", SearchOption.TopDirectoryOnly))
                 {

@@ -34,7 +34,7 @@ namespace Nekote
         // 文字列の処理のメソッドを集めていく
 
         // できるだけ拡張メソッドにする
-        // インスタンスがあってのメソッドのように呼ばれるため、引数が null なら基本的には落ちるに任せる
+        // インスタンスがあってのメソッドのように呼ばれるため、引数が null なら基本的には落ちるに任せる → MemoryExtensions.AsSpan は、引数が null でも落ちないようだ
 
         // .NET に同じ名前のメソッドがあるなら、名前を異ならせ、可能なら戻り値の型でも区別が付くようにする
         // 区別を付けるにおいては、引数の違いに頼ることを避ける
@@ -47,6 +47,21 @@ namespace Nekote
 
         // MemoryExtensions.AsSpan Method (System) | Microsoft Learn
         // https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.asspan
+
+        // ドキュメントに書かれていたのを見落としていたが、MemoryExtensions.AsSpan は、引数が null のときに default を返す
+        // これは、ReadOnlySpan <T>.Empty と同じもの
+        // コードの方に、public static ReadOnlySpan <T> Empty => default というのがある
+        // default の実装については、ドキュメントにも情報が見当たらなくて不詳だが
+        //     おそらく、_reference が不定または null 的なもので、_length が0の、「空」を示すもの
+
+        // MemoryExtensions.cs
+        // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.cs
+
+        // ReadOnlySpan<T>.Empty Property (System) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/system.readonlyspan-1.empty
+
+        // ReadOnlySpan.cs
+        // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/ReadOnlySpan.cs
 
         public static ReadOnlySpan <char> TrimAsSpan (this string value, char trimChar)
         {

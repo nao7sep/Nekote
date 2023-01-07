@@ -89,12 +89,24 @@ namespace Nekote
 
         private static readonly int [] iYouTubeLikeKeyValues = { '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x3E', '\x00', '\x00', '\x00', '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07', '\x08', '\x09', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x0A', '\x0B', '\x0C', '\x0D', '\x0E', '\x0F', '\x10', '\x11', '\x12', '\x13', '\x14', '\x15', '\x16', '\x17', '\x18', '\x19', '\x1A', '\x1B', '\x1C', '\x1D', '\x1E', '\x1F', '\x20', '\x21', '\x22', '\x23', '\x00', '\x00', '\x00', '\x00', '\x3F', '\x00', '\x24', '\x25', '\x26', '\x27', '\x28', '\x29', '\x2A', '\x2B', '\x2C', '\x2D', '\x2E', '\x2F', '\x30', '\x31', '\x32', '\x33', '\x34', '\x35', '\x36', '\x37', '\x38', '\x39', '\x3A', '\x3B', '\x3C', '\x3D', '\x00', '\x00', '\x00', '\x00' };
 
-        private static bool iIsValidYouTubeLikeKey (string key)
+        // ちゃんとしたものか調べてから *Parse* を呼ぶより、いきなり TryParse* の方が効率的
+        // ミスリーディングになりうるため、このメソッドを public にしない
+
+        private static bool iIsValidYouTubeLikeKey (ReadOnlySpan <char> key)
         {
-            return key != null && key.Length == 11 && key.Any (x => iYouTubeLikeKeyChars.Contains (x, StringComparison.Ordinal) == false) == false;
+            if (key == null || key.Length != 11)
+                return false;
+
+            for (int temp = 0; temp < key.Length; temp ++)
+            {
+                if (iYouTubeLikeKeyChars.Contains (key [temp]) == false)
+                    return false;
+            }
+
+            return true;
         }
 
-        private static long iParseYouTubeLikeKey (string key)
+        private static long iParseYouTubeLikeKey (ReadOnlySpan <char> key)
         {
             // iYouTubeLikeKeyValues が int [] なので、0～30ビットの部分は、int で OR を取り、最後に long にキャスト
             // 30～36ビットの部分は、int の切れ目にまたがるため、最初に long にキャストしてからビットシフト
@@ -118,7 +130,7 @@ namespace Nekote
                     iYouTubeLikeKeyValues [key [0]] << 28) << 32;
         }
 
-        public static long ParseYouTubeLikeKey (string key)
+        public static long ParseYouTubeLikeKey (ReadOnlySpan <char> key)
         {
             if (iIsValidYouTubeLikeKey (key) == false)
                 throw new nFormatException ();
@@ -126,7 +138,7 @@ namespace Nekote
             return iParseYouTubeLikeKey (key);
         }
 
-        public static bool TryParseYouTubeLikeKey (string key, out long result)
+        public static bool TryParseYouTubeLikeKey (ReadOnlySpan <char> key, out long result)
         {
             // なくてよい try/catch だが、作法として
 

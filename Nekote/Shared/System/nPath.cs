@@ -25,9 +25,33 @@ namespace Nekote
         // Path.cs
         // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/IO/Path.cs
 
-        // nPath.Join では、それぞれのパスに null が通らないようになっている
+        // nPath.Join では、それぞれのパスに null が通らないようになっている → 通らないように作ったつもりだが、通ることが判明
         // 過去、Path.Combine や Path.Join を使っていて、null かもしれないものをつなげたことがない
         // 各部が null かどうかは呼び出し側で把握し、きちんと条件分岐して安全なパスを作るべき
+
+        // 追記: 詳しくは nString.TrimAsSpan のところに書いたが、MemoryExtensions.AsSpan は、引数が null なら default を返し、落ちることはない
+        // Join や Map は、意図しなかったことだが、（Map の一つ目を除き）各部に null を渡しても落ちないようになっている
+
+        // ReadOnlySpan <char> と string interpolation の関係について詳細を知らなかったので調べた
+        // .NET 6 == C# 10 のようで、C# 10 からは、string interpolation に DefaultInterpolatedStringHandler が使われ、パフォーマンスが向上しているとのこと
+        // この構造体には AppendLiteral (String) や AppendFormatted (ReadOnlySpan <Char>) があるため、StringBuilder のように動作するのだろう
+        // ソースを見ると、DefaultInterpolatedStringHandler は、GrowThenCopyString を呼びながら Span <char> に文字列をコピーする、興味深い実装になっていた
+        // string.Format 的な（重たい）動作を何となくイメージしていたが、AppendFormatted (ReadOnlySpan <Char>) によりネイティブ（？）に処理されるようなので問題なし
+
+        // Formatting byte[] or ReadOnlySpan<byte> to string using C# 10 and .NET 6 string interpolation, compiler handler lowering pattern - Stack Overflow
+        // https://stackoverflow.com/questions/71729980/formatting-byte-or-readonlyspanbyte-to-string-using-c-sharp-10-and-net-6-st
+
+        // DefaultInterpolatedStringHandler Struct (System.Runtime.CompilerServices) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.defaultinterpolatedstringhandler
+
+        // DefaultInterpolatedStringHandler.cs
+        // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Runtime/CompilerServices/DefaultInterpolatedStringHandler.cs
+
+        // $ - string interpolation - format string output | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated
+
+        // Improved interpolated strings - C# 10.0 draft specifications | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/improved-interpolated-strings#the-handler-pattern
 
         private static string iJoin (string path1, char directorySeparator, string path2)
         {

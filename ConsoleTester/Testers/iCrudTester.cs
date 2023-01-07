@@ -78,7 +78,6 @@ namespace ConsoleTester
 
                 xKey = xDataProvider.CreateEntry (iGenerateEntry ());
                 Console.WriteLine ($"{iKeyToString (xKey)} が削除されます。");
-
                 xDataProvider.DeleteEntry (xKey);
             }
 
@@ -160,6 +159,174 @@ namespace ConsoleTester
 
                 Console.WriteLine ($"[{temp}] {xElapsed.TotalMilliseconds}ms, {xElapsedAlt.TotalMilliseconds}ms");
             }
+
+            // =============================================================================
+
+            // *CrudDataProvider クラスは、いずれもデータを扱う
+            // まず落ちないところで落としてのテストも行っておく
+
+            // Try* は、例外を投げる方と本質的に同じで、テストコードの重複になりがちだったので省略
+            // TryLoadAllEntries も、問題があれば読み捨てるだけで、復旧的な処理がないのでテストを省く
+
+            // デバッグモードでないと動かないコード
+#if DEBUG
+            if (Directory.Exists (xDataDirectoryPath))
+                nDirectory.Delete (xDataDirectoryPath, isRecursive: true);
+
+            for (int temp = 0; temp < 3; temp ++)
+            {
+                dynamic xDataProvider = xDataProviders [temp];
+
+                xDataProvider.Clear ();
+
+                // =============================================================================
+
+                // CreateEntry で辞書への Add に失敗すれば、ファイルが消される
+
+                // 3周するので、各部の雑な出力が分かりやすいように
+                Console.WriteLine ("CreateEntry");
+
+                try
+                {
+                    xDataProvider.Throws = true;
+                    xDataProvider.CreateEntry (iGenerateEntry ());
+                }
+
+                catch
+                {
+                    // Add に失敗
+                    Console.WriteLine (xDataProvider.Count); // → 0
+
+                    // 作られたファイルが消された
+
+                    xDataProvider.Throws = false;
+                    xDataProvider.TryLoadAllEntries (out List <string> _, out List <string> _);
+                    Console.WriteLine (xDataProvider.Count); // → 0
+                }
+
+                // =============================================================================
+
+                // ReadEntry では、ファイルしかない場合において、その内容が大丈夫なときとそうでないときをテスト
+
+                Console.WriteLine ("ReadEntry");
+
+                xDataProvider.Throws = false;
+                dynamic xKey = xDataProvider.CreateEntry (iGenerateEntry ());
+
+                // Dictionary のメソッドにより、辞書内のデータのみ消す
+                xDataProvider.Remove (xKey);
+
+                // xDataProvider.Throws ...
+                Console.WriteLine (xDataProvider.ReadEntry (xKey).GetString ("Name")); // OK
+
+                // ReadEntry により戻ったエントリーを再度消す
+                // これを忘れるとキーが不一致にならないのも確認した
+                xDataProvider.Remove (xKey);
+
+                string xFilePath = xDataProvider.KeyToFilePath (xKey),
+                    xFileContents = iGenerateEntry ().ToIniLikeString ();
+
+                nFile.WriteAllText (xFilePath, xFileContents);
+
+                try
+                {
+                    // xDataProvider.Throws ...
+                    xDataProvider.ReadEntry (xKey).GetString ("Name");
+                }
+
+                catch
+                {
+                    Console.WriteLine ("キーが不一致。"); // OK
+                }
+
+                // =============================================================================
+
+                // UpdateEntry では、辞書内にキーがある場合とない場合の両方をテスト
+                // いずれにおいても、ファイルへの書き込みに失敗した場合に辞書側のデータが元に戻るのを確認
+
+                Console.WriteLine ("UpdateEntry");
+
+                try
+                {
+                    // 前半で例外が飛ぶので、Throws の値は評価されない
+                    // xDataProvider.Throws ...
+                    xDataProvider.UpdateEntry (xKey, iGenerateEntry ());
+                }
+
+                catch
+                {
+                    Console.WriteLine ("キーの異なるエントリーへのすり替えが防がれた。");
+                }
+
+                // ReadEntry のところで xKey に対応するファイルの内容が変更されているので、
+                //     問題のないエントリーを作り直し
+
+                xDataProvider.Throws = false;
+                xKey = xDataProvider.CreateEntry (iGenerateEntry ());
+
+                // xDataProvider.Throws ...
+                string xName = xDataProvider.ReadEntry (xKey).GetString ("Name");
+
+                try
+                {
+                    nStringDictionary xNewEntry = iGenerateEntry ();
+                    xDataProvider.SetKeyToEntry (xNewEntry, xKey);
+
+                    xDataProvider.Throws = true;
+                    xDataProvider.UpdateEntry (xKey, xNewEntry);
+                }
+
+                catch
+                {
+                    // xDataProvider.Throws ...
+
+                    if (xDataProvider.ReadEntry (xKey).GetString ("Name").Equals (xName, StringComparison.Ordinal))
+                        Console.WriteLine ("辞書内にデータがあり、それが更新され、ファイルへの書き込みに失敗し、辞書内のデータが元に戻された。");
+                }
+
+                xDataProvider.Remove (xKey);
+
+                try
+                {
+                    nStringDictionary xNewEntry = iGenerateEntry ();
+                    xDataProvider.SetKeyToEntry (xNewEntry, xKey);
+
+                    xDataProvider.Throws = true;
+                    xDataProvider.UpdateEntry (xKey, xNewEntry);
+                }
+
+                catch
+                {
+                    // Remove されたエントリーが消えたまま
+                    // UpdateEntry 内で一時的に追加されるのも確認した
+
+                    Console.WriteLine (xDataProvider.ContainsKey (xKey)); // → False
+
+                    // xDataProvider.Throws ...
+
+                    if (xDataProvider.ReadEntry (xKey).GetString ("Name").Equals (xName, StringComparison.Ordinal))
+                        Console.WriteLine ("辞書内にデータがなく、追加され、ファイルへの書き込みに失敗し、追加されたデータが消された。");
+                }
+
+                // =============================================================================
+
+                // ファイルの削除に失敗すれば、辞書にもデータが戻る
+                // DeleteEntry 内で一時的に消えたのも確認した
+
+                Console.WriteLine ("DeleteEntry");
+
+                try
+                {
+                    xDataProvider.Throws = true;
+                    xDataProvider.DeleteEntry (xKey);
+                }
+
+                catch
+                {
+                    Console.WriteLine (xDataProvider.ContainsKey (xKey)); // → True
+                }
+            }
+#endif
         }
     }
 }

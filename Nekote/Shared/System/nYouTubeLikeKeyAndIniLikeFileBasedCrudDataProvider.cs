@@ -46,7 +46,7 @@ namespace Nekote
             if (nValue.TryParseYouTubeLikeKey (key, out _) == false)
                 throw new nArgumentException ();
 
-            return nPath.Join (DirectoryPath, $"{key}.nini");
+            return nPath.Join (DirectoryPath, $"{key}{nStringLiterals.IniLikeFileExtension}");
         }
 
         public override void SetKeyToEntry (nStringDictionary entry, string key)
@@ -83,8 +83,8 @@ namespace Nekote
             try
             {
                 if (name != null &&
-                    name.EndsWith (".nini", StringComparison.OrdinalIgnoreCase) &&
-                    nValue.TryParseYouTubeLikeKey (name.Substring (0, name.Length - ".nini".Length), out long xResult))
+                    name.EndsWith (nStringLiterals.IniLikeFileExtension, StringComparison.OrdinalIgnoreCase) &&
+                    nValue.TryParseYouTubeLikeKey (name.AsSpan (0, name.Length - nStringLiterals.IniLikeFileExtension.Length), out long xResult))
                 {
                     key = xResult.ToYouTubeLikeKey ();
                     return true;

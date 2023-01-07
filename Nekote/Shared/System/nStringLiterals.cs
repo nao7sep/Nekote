@@ -14,5 +14,7 @@ namespace Nekote
         public static readonly string NullLabel = "(Null)";
 
         public static readonly string EmptyLabel = "(Empty)";
+
+        public static readonly string IniLikeFileExtension = ".nini";
     }
 }

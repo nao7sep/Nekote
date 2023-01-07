@@ -32,7 +32,7 @@ namespace Nekote
             // GUID は、16進数をベースとするものだが、人間が読むものでないし、ToString ("D") で小文字で出てくるため、小文字のまま
             // いずれ最速のラウンドトリップを考えるにおいても「小文字のまま」という結論が出るため、今からそれに整合させておく
 
-            return nPath.Join (DirectoryPath, $"{key.ToString ("D")}.nini");
+            return nPath.Join (DirectoryPath, $"{key.ToString ("D")}{nStringLiterals.IniLikeFileExtension}");
         }
 
         public override void SetKeyToEntry (nStringDictionary entry, Guid key)
@@ -66,8 +66,8 @@ namespace Nekote
             try
             {
                 if (name != null &&
-                        name.EndsWith (".nini", StringComparison.OrdinalIgnoreCase) &&
-                        Guid.TryParseExact (name.AsSpan (0, name.Length - ".nini".Length), "D", out key))
+                        name.EndsWith (nStringLiterals.IniLikeFileExtension, StringComparison.OrdinalIgnoreCase) &&
+                        Guid.TryParseExact (name.AsSpan (0, name.Length - nStringLiterals.IniLikeFileExtension.Length), "D", out key))
                     return true;
             }
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace ConsoleTester
@@ -249,10 +251,188 @@ namespace ConsoleTester
         // 17 minutes to read と書かれているが、アホなので2時間半も掛かった
         // 次回以降、今回の部分に含めたページをチェックしていく
 
+        // =============================================================================
+
+        // 2023年1月8日（1日目、2回目）
+
+        // AddConsole を呼べない
+        // Microsoft.Extensions.Logging.Console パッケージが必要のようだ
+
+        // ConsoleLoggerExtensions.AddConsole Method (Microsoft.Extensions.Logging) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.consoleloggerextensions.addconsole
+
+        // NuGet Gallery | Microsoft.Extensions.Logging.Console 7.0.0
+        // https://www.nuget.org/packages/Microsoft.Extensions.Logging.Console/
+
+        // Host などを使うには、Microsoft.Extensions.Hosting パッケージも必要
+
+        // NuGet Gallery | Microsoft.Extensions.Hosting 7.0.0
+        // https://www.nuget.org/packages/Microsoft.Extensions.Hosting
+
+        // LoggerFactory.Create と Host.CreateDefaultBuilder の二つのコースで Log* を呼べた
+        // 色付きでコンソールに表示された
+        // その書式を変更する方法や、渡したデータがどこに保存されたか、といったことは今のところ不詳
+
+        // 「イベントビューアー > Windows ログ > Application」に、「ソース」を .NET Runtime として「警告」が入っていた
+        // LogLevel.Information としたログは、AddFilter で除外したわけでないが、そこには見当たらなかった
+        // どういう条件でそこに入るのかや、Mac ではどうなるのか、といったことを学ぶ必要がある
+
+        // ASP.NET Core について学ぶのは今回が初めてで、何も知らない
+        // 何をググっても、内容のほとんどを知らないページが現れる
+        // 一度、次のページ以下の全てのページをきちんと読む必要がありそう
+
+        // ASP.NET Core fundamentals overview | Microsoft Learn
+        // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/
+
+        // Configuration in ASP.NET Core | Microsoft Learn を読み始めた
+        // 以下、しばらくは、このページに関するメモが続く
+
+        // 読まなければならないページについては、もう、なぜ読むかを書かない
+        // ASP.NET 4 の頃とは全く異なる体系になっている
+        // 自分は、ASP.NET Web Forms しか使ったことがないため、知識がとても古い
+        // 差分だけ読めば足りるのでなく、とりあえず全て読まなければならない
+
+        // Configuration - .NET | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration
+
+        // ASP.NET Core において Host が中核的なものなのは分かった
+        // その機能がコンソールアプリなどでどのくらい有効かについては、あとで調べる
+
+        // WebApplicationBuilder Class (Microsoft.AspNetCore.Builder) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.webapplicationbuilder
+
+        // WebApplication.CreateBuilder Method (Microsoft.AspNetCore.Builder) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.webapplication.createbuilder
+
+        // Safe storage of app secrets in development in ASP.NET Core | Microsoft Learn
+        // https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets
+
+        // when the app runs in the Development environment という表現がある
+        // 少なくとも appsettings.Production.json と appsettings.Development.json の二つがあるようだ
+        // これらの指定方法や、具体的にどういったところが影響を受けるのかを調べる
+
+        // EnvironmentVariablesConfigurationProvider Class (Microsoft.Extensions.Configuration.EnvironmentVariables) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.configuration.environmentvariables.environmentvariablesconfigurationprovider
+
+        // .NET Generic Host in ASP.NET Core | Microsoft Learn
+        // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host
+
+        // ASP.NET Core Web Host | Microsoft Learn
+        // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/web-host
+
+        // Minimal APIs quick reference | Microsoft Learn
+        // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis#change-the-content-root-application-name-and-environment
+
+        // Use multiple environments in ASP.NET Core | Microsoft Learn
+        // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments
+
+        // Use hosting startup assemblies in ASP.NET Core | Microsoft Learn
+        // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/platform-specific-configuration
+
+        // HostBuilderContext.Configuration Property (Microsoft.Extensions.Hosting) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.hostbuildercontext.configuration#microsoft-extensions-hosting-hostbuildercontext-configuration
+
+        // IHostBuilder.ConfigureAppConfiguration Method (Microsoft.Extensions.Hosting) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.ihostbuilder.configureappconfiguration
+
+        // Code samples migrated to the new minimal hosting model in 6.0 | Microsoft Learn
+        // https://learn.microsoft.com/en-us/aspnet/core/migration/50-to-60-samples
+
+        // JsonConfigurationProvider Class (Microsoft.Extensions.Configuration.Json) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.configuration.json.jsonconfigurationprovider
+
+        // Configuration ["Logging:LogLevel:Default"] のような使い方ができるようだ
+
+        // IConfiguration Interface (Microsoft.Extensions.Configuration) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.configuration.iconfiguration
+
+        // appsettings.Production.json と appsettings.Development.json の区別などは、このあたりか
+
+        // IHostingEnvironment.EnvironmentName Property (Microsoft.Extensions.Hosting) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.ihostingenvironment.environmentname
+
+        // ConfigurationBinder.GetValue Method (Microsoft.Extensions.Configuration) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.configuration.configurationbinder.getvalue
+
+        // 次のページのコードには、reloadOnChange: true というのが含まれる
+        // デフォルトで、アプリ実行中の JSON ファイルへの変更がリロードされるようだ
+        // https://source.dot.net/ の最新のソースには見当たらないため、あとで現状を調べる
+
+        // extensions/Host.cs at release/3.1 · dotnet/extensions
+        // https://github.com/dotnet/extensions/blob/release/3.1/src/Hosting/Hosting/src/Host.cs
+
+        // Options pattern in ASP.NET Core | Microsoft Learn
+        // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options
+
+        // 次のメソッドは、ORM 的なことを行うか
+        // ルール通りに作られたクラスへの設定データの流し込み
+
+        // ConfigurationBinder.Bind Method (Microsoft.Extensions.Configuration) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.configuration.configurationbinder.bind
+
+        // 名前から分かりにくいが、こちらも同様のことを行うようだ
+
+        // ConfigurationBinder.Get Method (Microsoft.Extensions.Configuration) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.configuration.configurationbinder.get
+
+        // OptionsConfigurationServiceCollectionExtensions.Configure Method (Microsoft.Extensions.DependencyInjection) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.optionsconfigurationservicecollectionextensions.configure
+
+        // MvcServiceCollectionExtensions.AddRazorPages Method (Microsoft.Extensions.DependencyInjection) | Microsoft Learn
+        // https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.mvcservicecollectionextensions.addrazorpages
+
+        // Configuration in ASP.NET Core | Microsoft Learn の Combining service collection の直前まで読んだ
+        // 77 minutes to read とのことだが、1時間40分を掛けて1/6ほど
+
+        // ページの左下に Download PDF というリンクがあったので開いたところ、9681ページあってビビった
+        // 思っていた以上に体系が大きいため、学習コストについて考える必要がある
+
+        // ドキュメントの質が高く、読んでいて詰まることはない
+        // 情報が足りないところも、ググれば、同じく公式のドキュメントの別のページがすぐに出てきて、よく分かる
+
+        // 量がエラいことになっているのは、1) 各ページが単体でもそれなりに理解できるように構成されていて、情報の重複がかなり多い、
+        //     2) 抽象的な骨格に、あれもこれもプラグイン的に付く仕様になっていて、各部の情報量が掛け算になっている、の二つの理由による
+
+        // そういった性質を勘案するなら、IDE にサンプルコードを吐かせ、分からないところを全てググるのも選択肢
+        // とりあえず動くものを作れるようになるまでの学習コストは、間違いなくそれが最小
+
+        // ただ、ASP.NET Web Forms の頃、それをやって逆に遠回りになったことがある
+        // SQL/HTML/CSS の生成、データアクセス、多言語化、キャッシング、ロギング、その他、何から何まで自分で実装した
+        // 自動生成されたコードのうち分からない部分のみググるアプローチだと、車輪を再開発しまくることになりうる
+
+        // とりあえず、1週間を目安に、毎日3～6時間ほどドキュメントを読み、30時間ほどで、どのくらい理解できるか調べる
+        // 今日は2回でトータル4時間だが、ドキュメントが素晴らしいので、既に何となく雰囲気はつかめてきている
+        // あと30時間も読めば、どういう車輪があるか程度は全体的に理解できる可能性が高い
+
         #endregion
 
         public static void TestDotNetLoggingFeatures ()
         {
+            using ILoggerFactory xFactory = LoggerFactory.Create (builder =>
+            {
+                builder.SetMinimumLevel (LogLevel.Information)
+                    .AddFilter ("ConsoleTester.Program", LogLevel.Warning)
+                    .AddConsole ();
+            });
+
+            ILogger xLogger = xFactory.CreateLogger <Program> ();
+            xLogger.LogInformation ("information");
+            xLogger.LogWarning ("warning");
+            xLogger.LogError ("error");
+
+            // =============================================================================
+
+            IHost xHost = Host.CreateDefaultBuilder ().ConfigureLogging (logging =>
+            {
+                logging.SetMinimumLevel (LogLevel.Information)
+                    .AddFilter ("ConsoleTester.Program", LogLevel.Warning);
+            })
+            .Build ();
+
+            ILogger xLoggerAlt = xHost.Services.GetRequiredService <ILogger <Program>> ();
+            xLoggerAlt.LogInformation ("information");
+            xLoggerAlt.LogWarning ("warning");
+            xLoggerAlt.LogError ("error");
         }
     }
 }

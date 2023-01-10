@@ -98,15 +98,12 @@ Log level can be set by any of the configuration providers
 
 次のページもあとで読む
 
-todo
 Configuration providers - .NET | Microsoft Learn
 https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration-providers
 
-todo
 ILoggerFactory Interface (Microsoft.Extensions.Logging) | Microsoft Learn
 https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.iloggerfactory
 
-todo
 LoggingBuilderExtensions.SetMinimumLevel(ILoggingBuilder, LogLevel) Method (Microsoft.Extensions.Logging) | Microsoft Learn
 https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.loggingbuilderextensions.setminimumlevel
 
@@ -122,33 +119,26 @@ LoggerExtensions.LogInformation などには、
     public static void LogInformation (this ILogger logger, EventId eventId, Exception? exception, string? message, params object? [] args) など、
     EventId という構造体や Exception を取るものがある
 
-todo
 EventId について、あとで学ぶ
 Exception をシリアライズするコードがあるかもしれないので、あとで探す
 
-todo
 LoggerExtensions.LogInformation Method (Microsoft.Extensions.Logging) | Microsoft Learn
 https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.loggerextensions.loginformation
 
-todo
 EventId Struct (Microsoft.Extensions.Logging) | Microsoft Learn
 https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.eventid
 
-todo
 EventId.Implicit(Int32 to EventId) Operator (Microsoft.Extensions.Logging) | Microsoft Learn
 https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.eventid.op_implicit
 
-todo
 Microsoft.Extensions.Logging 名前空間の内容について、あとでザッと学ぶ
 
-todo
 Microsoft.Extensions.Logging Namespace | Microsoft Learn
 https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging
 
 _logger.LogInformation ("Getting item {Id} at {RunTime}", id, DateTime.Now) のような書き方により、
     最終の文字列だけでなく、それぞれの引数の値をログのフィールドとして保存できるようだ
 
-todo
 How to use structured logging · NLog/NLog Wiki
 https://github.com/NLog/NLog/wiki/How-to-use-structured-logging
 

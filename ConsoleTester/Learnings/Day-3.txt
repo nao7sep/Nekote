@@ -1,0 +1,203 @@
+﻿2023年1月10日（3日目）
+
+1日目の Configuration providers - .NET | Microsoft Learn から再開
+
+学習メモの書き方について考えている
+以前の日のメモに含まれるページから再開するとき、その下に新しいメモを追記する選択肢がある
+しかし、それをすると、まだ何も知らなかった日々のメモが際限なく肥大化し、
+    1) いつ何を学んだか、よく分からなくなる
+    2) 肥大化したメモ内での情報の前後関係を考えるコストが大きくなる、の二つの問題が懸念される
+全ての段落に内部的に GUID を割り振り、
+    右クリックにより、それぞれに関連付ける形で今日のファイルに新しいメモを書けるのが一つの理想
+今そこまで作り込む余裕はないため、しばらくは、現行の「常に書き進める」の方式で妥協
+
+done
+Breaking change: Repeated XML elements include index - .NET | Microsoft Learn
+https://learn.microsoft.com/en-us/dotnet/core/compatibility/extensions/6.0/repeated-xml-elements
+
+あとで読むページには to-do をハイフンなしで書いたものを付けてきたが（あとで検索で出ないよう、ここではハイフンありで）、
+    やはり知識が増えてきていて、一つ前のページのような簡単なものなら、もう、すぐに読めてすぐに分かる
+読んだページには to-do を付け「ない」という消極的対応では付け忘れを疑う可能性があるため、読んだなら done を付ける
+しかし、to-do を付けたページを読んだなら、to-do を消すだけとし、新たに done を付けない
+「読んだなら done を付ける」というルールを作ると、読んだのに付け忘れているものを探すコストが発生するため
+こういう、しょーもないことに時間を取られないよう、学習メモのアプリを書きたくてたまらないが、今は我慢
+
+INI のサンプルで、
+    Enabled=True
+    AutoRetryDelay="00:00:07"
+    Default=Information というのを見た
+bool や enum なら引用符が不要で、それ以外の文字列なら、TimeSpan 的に構文解析されるものであっても引用符が必要ということか
+Wikipedia で INI ファイルについてザッと読んだが、そういうルールについては言及がなかった
+
+done
+INI file - Wikipedia
+https://en.wikipedia.org/wiki/INI_file
+
+done
+What are Bash Environment Variables
+https://linuxhint.com/bash-environment-variables/
+
+Configuration providers - .NET | Microsoft Learn は、他の三つのページも含めて30分ほどで読み終わった
+
+次の NullLogger が一例だが、以前の日のメモの to-do 付きのページを読み進めるにおいてリンクをたどると出てきたページについては、なぜ読んだかなどを省略してもよいだろう
+あとで自分が学習メモを読み返すときに疑問を抱かないよう、一言書いておくことも考えたが、労力がメリットに見合いそうにない
+「なぜこれを読んだのか」と不思議がることが想定されるが、その疑問に答えを付けておくことに具体的な利益がない
+
+done
+NullLogger Class (Microsoft.Extensions.Logging.Abstractions) | Microsoft Learn
+https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.abstractions.nulllogger
+
+こうして URL をまとめておけば、そのうちウェブ関連のプログラミングに手を出すときに、全ページをローカルにキャッシュし、爆速で全文検索することが可能
+「以前そういうのを読んだことがある」というおぼろげな記憶に頼って当時のページを探し、特定する方が、コンテキスト情報も戻りやすくて記憶の再構築が早いのか、
+    全く新たなページをググって見付けて読んだ方が情報の入り方が多角化して理解が深まるのかについては、平均的にどちらが良好なのかの経験則がない
+コンソールアプリでよいなら数時間で完成するものなので、一応、そういうアイデアもあるということを書いておく
+
+EventId についてググった
+適当に決めてよさそう
+とても多くの状況・状態を Microsoft またはオープンソースのコミュニティーが想定しての長大なリストがあるなどではなさそう
+
+todo
+default console logger format が変更されたとの情報があるが、自分が試したときには .NET 5 Output (simple format) の方の表示だった
+具体的にどこが変わったのか調べる
+
+todo
+Breaking Change: Default console logger format set to JSON · Issue #3274 · dotnet/dotnet-docker
+https://github.com/dotnet/dotnet-docker/issues/3274
+
+todo
+古いメモに書き忘れたかもしれないので、ここに改めて
+それぞれのプロバイダーが何をどこにどのようなフォーマットで出力するのかを確認する
+
+Exception をシリアライズするコードを10分ほど探したが、見付からなかった
+Func <TState, Exception?, string> formatter という引数になっている
+ILogger.Log の21の実装が表示されようと、それらが呼ばれるコードが容易には出てこないのでは引数の内容が分からない
+引数の型がインターフェースになっていないのが一番の問題
+Func <TState, Exception?, string> という、lambda 感の強い型であり、それっぽい型名で検索してもヒットしない
+ILogger と親和性の高いオープンソースのライブラリーが複数あるため、そちらで探した方が早いか
+
+todo
+ILogger と親和性の高いオープンソースのライブラリーにおける、Exception の文字列化のコードを探す
+特に InnerException や Data がどのように扱われているか
+
+todo
+Console log formatting - .NET | Microsoft Learn
+https://learn.microsoft.com/en-us/dotnet/core/extensions/console-log-formatter
+
+todo
+AddSimpleConsole はだいたい分かるが、AddJsonConsole と AddSystemdConsole は分からない
+特に二つ目については、コンソール画面に JSON をダラダラと表示するのか疑問
+いずれも実際にやってみた方が早そうなので、あとで
+
+todo
+ConsoleLoggerExtensions.AddJsonConsole Method (Microsoft.Extensions.Logging) | Microsoft Learn
+https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.consoleloggerextensions.addjsonconsole
+
+todo
+ConsoleLoggerExtensions.AddSimpleConsole Method (Microsoft.Extensions.Logging) | Microsoft Learn
+https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.consoleloggerextensions.addsimpleconsole
+
+todo
+ConsoleLoggerExtensions.AddSystemdConsole Method (Microsoft.Extensions.Logging) | Microsoft Learn
+https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.consoleloggerextensions.addsystemdconsole
+
+1日目の IHost Interface (Microsoft.Extensions.Hosting) | Microsoft Learn の直前まで読み終えた
+「常在的な決め打ちのもの」を作らないという哲学がよく伝わってきた
+もちろん実装においては決め打ちの仕様も不可欠だが、そういうものは全て、他と交換可能なプラグインのように作る
+Nekote においては、まずはステートレスの静的メソッドを中心的に実装してきたつもり
+今のところ100％、決め打ちの仕様は他と交換可能な位置付けになっているか、いったん調べる
+
+というのは、すぐに調べた
+
+nExceptionLogger を完全に作り直す必要がある
+.NET の仕組みにより、さまざまな出力先を Add* できるようにする
+あるいは、Nekote の Log を呼んだときに内部的に呼ばれる Func のリストを操作できるようにする
+今のところ、後者に少しだけ傾いている
+ログをリモートにも出力したく、いつ、どの方式で、どの URL に POST したかなども管理したく、
+    その場合、そういう処理に適した形式での出力はデフォルトで行われるべきだから
+ILogger やサードパーティーのロギングライブラリーについてさらに学んでから結論を出す
+他のライブラリーでも、ウェブサーバー、LAN/VPN 内のログ収集サーバー、ネットワークドライブなどへの出力を行えるに違いない
+
+todo
+nExceptionLogger を作り直す
+
+Nekote の他のところは大丈夫
+「こういう機能は、決め打ちでこのように実装されている」のようなところは他に一切なかった
+決め打ちの仕様のメソッドは多々あるが、いずれも「使いたければ使ってよい」の位置付けで、強制はされない
+いずれも他と置き換えることが可能
+今後の開発においては、nStringOptimizer などが、「それを使うか使わないか」の二択にならないように注意が必要
+
+もっとも、たとえば string.Split においても、StringSplitOptions.TrimEntries が指定されれば string.Trim が使われるなど、決め打ちの仕様はゼロでない
+ここで、「トリミング時には、どういう文字を削るか」を配列で指定できたり、全く別のメソッドを Func で渡せたりは、過度な作り込みになる
+といったことも勘案しながら、「ここは、この仕様以外で動いてくれたらなぁ」という不満感を抱きにくいライブラリーを目指す
+
+done
+String.Manipulation.cs
+https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/String.Manipulation.cs
+
+そういえば、10年くらい前、同じく Nekote という名前でクラスライブラリーを作ったときには、
+    App/Web.config の App.Config キーに Config\Default.cfg を入れては、nConfig.GetInt などで読み、
+    同じく App.Language キーに Languages\Invariant.lng|Languages\Japanese.lng を入れては、nLanguage.FormatMessage で "{0} is invalid" 的なことをやっていた記憶がある
+後者では二つの *.lng ファイルをこの順序でロードし、まだ日本語に翻訳されていないキーなら暫定的に英語で出力されるようにした
+そういった設計により可能だったのはファイル名の変更くらいで、ASP.NET Core の configuration のように、さまざまな形式のものから読み込めるのとは違った
+当時はそれで満足だったが、こうして ILogger について学ぶと、ライブラリーとしてはそれではダメだったとよく分かる
+
+もう夜中1時を過ぎているし、ちょうど IHost 直前まで学んで区切りが良いため、今日はここまで
+
+明日以降、すぐに IHost に取り掛かり、ASP.NET Core の他のところを広く学ぶのか、まずはロギング関連のページを読むのかは、明日に再考
+普通は後者だろうが、内容に重複の多い膨大な英文で同じようなことを読み続けると飽きてくる
+あえて四方八方に向かった方が頭が回って理解が早いかもしれない
+
+覚えているうちに書いておくと、Nekote の差分を毎日公開している Twitter で少し前に外国人からコメントを英語で書いてくれと言われた
+また、今日、プログラミングをやっているっぽい3名から連続してフォローされた
+いずれも確たるプロダクトの宣伝がなく、他者をフォローしてプロフィールを見られるのを目的としているようでなかった
+
+自分は、今日は園の餅つきのボランティアで数百の子どもの前でポジティブに振る舞い、
+    面識のある数十の子どもたちと大騒ぎしてきたなど、コミュニケーションが好きだし、心の底から楽しい
+自分のことを「アホなオッサン」と思っていない子どもはいないだろうし、それは光栄なことだ
+しかし、Twitter については、打ち解けたからお互いの国や地域に遊びに行って親睦を深めるような場とは思えず、
+    99.9％の人とは一度も会うことがないだろうし、お互いがいつの間にか Twitter をやめても気付かないくらいの希薄な関係が続くとの想定がある
+だからなおさら、自分は、Twitter では、自分に有用な情報を載せることの多い人にしか関心がない
+相手が何らかの理由により自分をフォローしてくれても、自分がその人を興味深いと認識しなければ「フォローバック」を考えることはない
+自分から見て興味深い人も、自分と関わってくれる必要などない
+その人が興味深いことを発信し続ける限りフォローさせてもらいたく、そうでなくなるとミュートまたはフォロー解除をするだけだ
+
+という考えを大きく改めてもよいかもしれないと、今日、ふと思った
+フォローしたまま、特定の人のツイートの表示を相対的に減らす機能が Twitter にはある
+とりあえずフォローバックしてみて、刺さらないツイートが多いなら表示を減らせばよい
+おそらく、フォロワーが1,000名を超えれば、あとは #100DaysOfCode を続け、
+    よりフロントエンド寄りの情報を画像や動画付きで載せ続けるだけで雪だるま式になる
+そこに至るには、あくまで質を保ちながらも、初期的には数も必要だろう
+
+となると、メモやコメントの英語化を考えるわけだが、これは Google Translate や DeepL の API に頼ろうと思う
+自分は、仕事も普段の生活も100％近く英語なので英語での読み書きにほとんど困らないが、
+    コードのコメントを書くにおいて「ここに the は必要か」だとか、「これは複数形の方がいいのでないか」だとかの、
+    ネイティブでも「口に出してみて口に判断してもらう」的なことを非ネイティブの自分が理屈で1秒も考えたくないので全てを日本語で書いている
+行コメントも多いため句点を省く独特の書き方だが、文が複数行になるなら2行目以降にインデントを付けていて、句点を付けるのは自動化できる
+ということは、段落コメントや行コメントをプログラムで検出し、それぞれを API で訳したものとセットでデータベースに入れることで、
+    NekoteTranslated レポジトリーに、メモもコメントも英語に翻訳されたクローンを用意することは、許容範囲内のコストで可能だろう
+
+実際には、検出されたメモやコメントを段落・行ごとに上に表示し、下に訳文を表示し、訳文が壊れていれば上を修正して再翻訳するようなワークフローになる
+複数行のコメントには必ず // を使い、行中コメントのみに /* ... */ を使っているので、アプリで修正した原文を元のファイルに戻すことは100％に近い精度で可能
+原文にネタを入れているなどで翻訳できないなら、訳文の方を自分で書けばよい
+TextBox の内容が変更されれば自動的に Edited フラグが立ち、
+    そのことは NekoteTranslated 側には出力されないが、アプリ内では区別されるように
+コードは共通で、日本語版で施された更新は必ず英語版に反映される
+他者によるコミットを認める考えは今のところなく、英語版の方が勝手に進むことはない
+それで Twitter には英語版の差分の URL を貼れ、エンゲージメントに期待できる
+コスト評価がまだだが、ワークフローとしては問題がなさそう
+
+todo
+機械翻訳による英語版クローンの作成について考える
+
+といったことは、今まさに学んでいる ASP.NET Core と直接的に関係のあることでなく、雑談に他ならない
+一方、Twitter を始めてからは、時代遅れになってはいけないという考えや、学びもコミュニケーションベースであるべきという考えが日増しに強まっている
+なぜ10年前にプログラミングに飽きたのかを考えるのは自分との対話だし、英語版の Nekote を作ることは他者との対話につながる
+そういうことは学びと無関係で、よって Learnings ディレクトリーには入れず、そもそも文字にもせずに忘れ去ってコーディングだけするべきかと自問すると、それも違うと思う
+オープンソースをやっているのに、世界では1.5％くらいしか話者のいない日本語でメモやコメントを書くのでは何もオープンになっていないとの認識が重圧になってきている
+良い意味で過渡期なのだろう
+スッキリしないままコーディングを続けている
+ASP.NET Core 関連の学習が終わり、いよいよ Razor Pages に手を出すときには、残り98.5％からのエンゲージメントに軸足を置く
+もちろん自分は日本人なので、1.5％しかいない日本語話者も大切にしたいが、学びは、億単位の若者が英語で学び合うコミュニティーから得るべき
+
+todo
+残り98.5％とのコミュニケーションを学びの中核とする仕組みを確立

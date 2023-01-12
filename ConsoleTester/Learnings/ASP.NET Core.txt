@@ -1,0 +1,369 @@
+﻿================================================================================
+    ASP.NET Core について学ぶ
+================================================================================
+
+[完了] 学習メモ用のタスクリストを作る
+
+    Learnings\Day-1.txt からの連番で学習メモを保存してきたが、日ごとのファイルでは情報の行き来が激しい。タスクの管理もめんどくさい。
+
+    単一ファイルでは余計にゴチャゴチャになりそう。
+
+    かといって、テーマごとにファイルを作るとか、Markdown で構造的なドキュメントにするとかは、管理コストが大きくなりそうなだけでなく、そもそも構造を考えられるほど全体像が見えていない現時点においては難しい。
+
+    --------------------------------------------------------------------------------
+
+    毎度おなじみ taskKiller でやる。タスクベースで学びを管理。とにかくこなしていく。まだのことを減らしていく。知識的に弱いところがあれば、強化のためのタスクを入れてこなしていく。スピード感のある学びを。
+
+[完了] 学習メモを Docs レポジトリーに入れることについて再考
+
+    まだふつふつと思うこと。
+
+    Nekote のソリューションに入れるメリットは、ほぼ放置プレイだった Docs レポジトリーと、ほぼ毎日コミットしていた Nekote レポジトリーの二つに関心の対象が分散したり、コミットもそれぞれに分離したりが起こらず、「今日はこれをやりました」の単一のコミットに学習メモも、それと関連するコードも入ること。このシンプルさは捨てがたい。
+
+    ただ、他者が何年も GitHub で開発していて数千の星を獲得しているようなプロジェクトを見るにおいて、学んだことをメインのソリューションにガバッと入れているアホが一人もいない。そんなことをしようと思っているのは自分しかいないと感じる。
+
+    自分のワークフローとの親和性が高く、自分が楽な構成であっても、他者が非常識だとか慣例に反するとか感じることは、結局、長くは続かないものだ。
+
+    まあ、単一ファイルなので移動は2秒でできる。Nekote なんて誰も知らないので、しばらくは、やりたい放題で。予定通り Learnings ディレクトリーに ASP.NET Core.txt として入れ、しょーもないことを忘れて、とにかく学ぶ。それで Razor Pages などをバリバリ書けるようになってから、メモをどうするかなんて考えればよい。
+
+[完了] PDF だと1万ページくらいある情報量への対処法を考える
+
+    ここがドキュメントのルートのようで、情報量がエラいことになっている。
+
+    ASP.NET documentation | Microsoft Learn
+    https://learn.microsoft.com/en-us/aspnet/core/
+
+    PDF ファイルをダウンロードするボタンを押すと、1万ページに近いものが得られる。個人がツールで作った ebook のように大きい文字が HTML 感あふれる配色でベタッと流し込まれているのと異なり、そのまま印刷すれば本になるくらい、表も図も説明文も適度な文字の大きさでビッチリと詰め込まれている。
+
+    ドキュメントを上から下まで全て読むことはできない。流し読みでなく、ちゃんと読めば、死にものぐるいで英文を1日100ページ読んだとしても、（仕事や育児もあるので）月20日に少し足りないくらいで想定すれば、軽く半年は掛かる。
+
+    「おまじない」の多い体系なのは、もう分かっている。感覚的には、全体の2割を知っていれば8割のケースに対応できそう。残り8割をきちんと学んでも、対応力は2割しか高まらない。そういう、念のために作り込まれた optional なところまで突き詰める必要はない。
+
+    これまで同様、何かについて適当に読み始め、それについて理解するにおいて必要となった他のことを次に学ぶというスタック方式の学習を続ける。つながりベースなので興味も続くし、何が何とどう関連しているか認識しやすいので理解も早そう。
+
+    その流れでとにかくタスクを減らしていき、一通りつながりベースの学びが終われば、残りのページのうちすぐに読んだ方が良さそうなところをザッと探すにとどめ、同時期にコーディングを再開する。
+
+    手を動かした方が早いこともあるので早速 Razor Pages のテンプレを IDE に吐かせ、理解・調整できたところからコミットしていくことも考えたが、まだ知識が浅い。よく分かっていない文を何となくコミットする妥協が繰り返されるだろう。
+
+    英語で言えば、まだアルファベットを覚えた程度。今すぐに海外に出て行っても、気合いと根性では行き詰まる。中2レベルくらいまでは話せた方がいい。最初が遠回りに思えるが、基礎的な知識があってからの着手の方が、着手してからの生産性が高そう。
+
+[完了] Nekote のタスクリストから、こちらに入れるべきタスクを移動
+
+    移動し、メモを追記した。
+
+[完了] 既に読んだページの URL を整理
+
+    Logging - .NET | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/core/extensions/logging
+
+    --------------------------------------------------------------------------------
+
+    ILogger<TCategoryName> Interface (Microsoft.Extensions.Logging) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.ilogger-1
+
+    --------------------------------------------------------------------------------
+
+    NuGet Gallery | Microsoft.Extensions.Logging 7.0.0
+    https://www.nuget.org/packages/Microsoft.Extensions.Logging/
+
+    --------------------------------------------------------------------------------
+
+    なぜ何をどういう順序で読んだかという情報をわざわざ残さないのでエントリーを区切ったが、そうすることで参照性が高まるわけでもない。とりあえず、読んだページをゴソッといく。
+
+    ILogger Interface (Microsoft.Extensions.Logging) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.ilogger
+
+    Configuration in ASP.NET Core | Microsoft Learn
+    https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/
+
+    LogLevel Enum (Microsoft.Extensions.Logging) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.loglevel
+
+    Enum Design - Framework Design Guidelines | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/enum
+
+    Configuration providers - .NET | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration-providers
+
+    ILoggerFactory Interface (Microsoft.Extensions.Logging) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.iloggerfactory
+
+    LoggingBuilderExtensions.SetMinimumLevel(ILoggingBuilder, LogLevel) Method (Microsoft.Extensions.Logging) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.loggingbuilderextensions.setminimumlevel
+
+    LoggerExtensions.LogInformation Method (Microsoft.Extensions.Logging) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.loggerextensions.loginformation
+
+    EventId Struct (Microsoft.Extensions.Logging) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.eventid
+
+    EventId.Implicit(Int32 to EventId) Operator (Microsoft.Extensions.Logging) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.eventid.op_implicit
+
+    Microsoft.Extensions.Logging Namespace | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging
+
+    How to use structured logging · NLog/NLog Wiki
+    https://github.com/NLog/NLog/wiki/How-to-use-structured-logging
+
+    IHost Interface (Microsoft.Extensions.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.ihost
+
+    Host.CreateDefaultBuilder Method (Microsoft.Extensions.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.host.createdefaultbuilder
+
+    WebHostBuilderExtensions.ConfigureLogging Method (Microsoft.AspNetCore.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting.webhostbuilderextensions.configurelogging
+
+    IWebHostBuilder.Build Method (Microsoft.AspNetCore.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting.iwebhostbuilder.build
+
+    HostingAbstractionsHostExtensions.RunAsync(IHost, CancellationToken) Method (Microsoft.Extensions.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.hostingabstractionshostextensions.runasync
+
+    .NET Generic Host in ASP.NET Core | Microsoft Learn
+    https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host
+
+    .NET Generic Host - .NET | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host
+
+    FilterLoggingBuilderExtensions.AddFilter Method (Microsoft.Extensions.Logging) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.filterloggingbuilderextensions.addfilter
+
+    NuGet Gallery | Microsoft.Extensions.Logging.Console 7.0.0
+    https://www.nuget.org/packages/Microsoft.Extensions.Logging.Console/
+
+    NuGet Gallery | Microsoft.Extensions.Hosting 7.0.0
+    https://www.nuget.org/packages/Microsoft.Extensions.Hosting
+
+    Breaking change: Repeated XML elements include index - .NET | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/core/compatibility/extensions/6.0/repeated-xml-elements
+
+    INI file - Wikipedia
+    https://en.wikipedia.org/wiki/INI_file
+
+    What are Bash Environment Variables
+    https://linuxhint.com/bash-environment-variables/
+
+    NullLogger Class (Microsoft.Extensions.Logging.Abstractions) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.abstractions.nulllogger
+
+    String.Manipulation.cs
+    https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/String.Manipulation.cs
+
+    Understanding .NET Generic Host Model - Sahan Serasinghe - Tech Blog
+    https://sahansera.dev/dotnet-core-generic-host/
+
+    Boilerplate code - Wikipedia
+    https://en.wikipedia.org/wiki/Boilerplate_code
+
+    Shebang (Unix) - Wikipedia
+    https://en.wikipedia.org/wiki/Shebang_(Unix)
+
+    Data transfer object - Wikipedia
+    https://en.wikipedia.org/wiki/Data_transfer_object
+
+    Records - C# reference | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record
+
+    Init only setters - C# 9.0 draft specifications | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/init
+
+    with expression - create new objects that are modified copies of existing objects | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/with-expression
+
+    WebHostBuilderExtensions.UseStartup Method (Microsoft.AspNetCore.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting.webhostbuilderextensions.usestartup
+
+    WebHostBuilderIISExtensions.UseIIS(IWebHostBuilder) Method (Microsoft.AspNetCore.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting.webhostbuilderiisextensions.useiis
+
+    WebHostBuilderIISExtensions.UseIISIntegration(IWebHostBuilder) Method (Microsoft.AspNetCore.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting.webhostbuilderiisextensions.useiisintegration
+
+    BackgroundService Class (Microsoft.Extensions.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.backgroundservice
+
+    BackgroundService in .NET Core for long running tasks | by Daniel Sagita | Medium
+    https://medium.com/@daniel.sagita/backgroundservice-for-a-long-running-work-3debe8f8d25b
+
+    Background tasks with hosted services in ASP.NET Core | Microsoft Learn
+    https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services
+
+    HostingEnvironment.QueueBackgroundWorkItem Method (System.Web.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/system.web.hosting.hostingenvironment.queuebackgroundworkitem
+
+    IHostedService Interface (Microsoft.Extensions.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.ihostedservice
+
+    IHostEnvironment.ApplicationName Property (Microsoft.Extensions.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.ihostenvironment.applicationname
+
+    IHostEnvironment.ContentRootPath Property (Microsoft.Extensions.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.ihostenvironment.contentrootpath
+
+    IHostEnvironment.EnvironmentName Property (Microsoft.Extensions.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.ihostenvironment.environmentname
+
+    HostOptions.ShutdownTimeout Property (Microsoft.Extensions.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.hostoptions.shutdowntimeout
+
+    ActionFilterAttribute Class (Microsoft.AspNetCore.Mvc.Filters) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.filters.actionfilterattribute
+
+    ExceptionFilterAttribute Class (Microsoft.AspNetCore.Mvc.Filters) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.filters.exceptionfilterattribute
+
+    ResultFilterAttribute Class (Microsoft.AspNetCore.Mvc.Filters) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.filters.resultfilterattribute
+
+    FormatFilterAttribute Class (Microsoft.AspNetCore.Mvc) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.formatfilterattribute
+
+    ServiceFilterAttribute Class (Microsoft.AspNetCore.Mvc) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.servicefilterattribute
+
+    TypeFilterAttribute Class (Microsoft.AspNetCore.Mvc) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.typefilterattribute
+
+    Controller.OnActionExecuting(ActionExecutingContext) Method (Microsoft.AspNetCore.Mvc) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.controller.onactionexecuting
+
+    IOrderedFilter Interface (Microsoft.AspNetCore.Mvc.Filters) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.filters.iorderedfilter
+
+[完了] LogLevel.None について書く
+
+    通常、None == 0 とするが、LogLevel.None == 6 になっている。
+
+    これは MS による enum のガイドラインに反するし、default で得られる (LogLevel) 0 が Trace なのは違和感がある。
+
+    しかし、「○○以上をログ」というふるい分けなので、実装としては理由がある。「None 以上をログ」で6になると、Critical の5でも (5 >= 6) == false になって出力されない。
+
+[完了] 全部入りらしい appsettings.json の例をコピペ
+
+    自分で作るときに役立つ。
+
+    {
+        "Logging": {
+            "LogLevel": {
+                "Default": "Error",
+                "Microsoft": "Warning",
+                "Microsoft.Hosting.Lifetime": "Warning"
+            },
+            "Debug": {
+                "LogLevel": {
+                    "Default": "Information"
+                }
+            },
+            "Console": {
+                "IncludeScopes": true,
+                "LogLevel": {
+                    "Microsoft.Extensions.Hosting": "Warning",
+                    "Default": "Information"
+                }
+            },
+            "EventSource": {
+                "LogLevel": {
+                    "Microsoft": "Information"
+                }
+            },
+            "EventLog": {
+                "LogLevel": {
+                    "Microsoft": "Information"
+                }
+            },
+            "AzureAppServicesFile": {
+                "IncludeScopes": true,
+                "LogLevel": {
+                    "Default": "Warning"
+                }
+            },
+            "AzureAppServicesBlob": {
+                "IncludeScopes": true,
+                "LogLevel": {
+                    "Microsoft": "Information"
+                }
+            },
+            "ApplicationInsights": {
+                "LogLevel": {
+                    "Default": "Information"
+                }
+            }
+        }
+    }
+
+    Logging - .NET | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/core/extensions/logging
+
+[完了] Default builder settings をコピペ
+
+    The CreateDefaultBuilder method:
+        Sets the content root to the path returned by GetCurrentDirectory.
+        Loads host configuration from:
+            Environment variables prefixed with DOTNET_.
+            Command-line arguments.
+        Loads app configuration from:
+            appsettings.json.
+            appsettings.{Environment}.json.
+            User secrets when the app runs in the Development environment.
+            Environment variables.
+            Command-line arguments.
+        Adds the following logging providers:
+            Console
+            Debug
+            EventSource
+            EventLog (only when running on Windows)
+        Enables scope validation and dependency validation when the environment is Development.
+    The ConfigureWebHostDefaults method:
+        Loads host configuration from environment variables prefixed with ASPNETCORE_.
+        Sets Kestrel server as the web server and configures it using the app's hosting configuration providers.
+            For the Kestrel server's default options, see Configure options for the ASP.NET Core Kestrel web server.
+        Adds Host Filtering middleware.
+        Adds Forwarded Headers middleware if ASPNETCORE_FORWARDEDHEADERS_ENABLED equals true.
+        Enables IIS integration.
+            For the IIS default options, see Host ASP.NET Core on Windows with IIS.
+
+    .NET Generic Host in ASP.NET Core | Microsoft Learn
+    https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host
+
+[完了] 既に読んだページに関するメモの一部を引き継ぐ
+
+    最初の4日分のメモから URL のみゴソッと移した。直上のメモをコピーしなかったので、それぞれのページで何を知ったかの情報は失われた。そちらでは、それでよい。
+
+    改めてページを全て開き、ザッとスクロールし、「知識として得たが、あと数日で忘れそうなこと」のみメモを書き直す。
+
+[完了] 1日目から4日目までの古いメモを整理
+
+    工夫が必要なのは、未読ページの扱い。適当でよいので、カテゴリー分けし、たとえば「フィルターについて読む」のような分かりやすい表現のタスクに落とし込む。それぞれ、ヘビーになりすぎないように。どのタスクも、長くても数時間で Done にできるように。
+
+    --------------------------------------------------------------------------------
+
+    Nekote のタスクリストの方に入れていた、単発の URL をタスクとするものが今も10以上ある。それらを他のカテゴリー的なタスクのメモに移すことを考えたが、めんどくさいのでやめておく。こなしていくだけのこと。
+
+[完了] 学習メモをスタック方式と表現したことについて書く
+
+    コミット前のメモのチェック時に、学習メモがスタック方式だという内容があった。
+
+    もしかしてキュー方式でないかと思ったが、これは意外と興味深い問いだ。
+
+    スタックなら、たとえばページを読んでいて、途中で分からないことがあったり、他のページへのリンクがあったりすれば、まずそちらを処理する。それが終わってから、途中まで読んだページに戻る。際限なく「先にこれを」へ移動するため、A → B → C → D → E くらいまで「先にこれを」が続いて、やっと終わって A まで戻ったとき、頭の中が浦島太郎ということがある。
+
+    キューなら、途中で分からないことや他のページがあれば、タスクリストに入れて忘れる。浦島太郎にはならない。しかし、A の理解に B や C が有用でも A を進めることは、学びの質が高いとは言いがたい。
+
+    もちろん現実的なのは両者の良いとこ取りで、「これはすぐに読んだ方が」というものもあるし、「これはあとでも」というものもあるので、個別に判断していくことになる。
+
+    しかし、仮にどちらか一つの方式を徹底する場合、統計的にはどちらが学びの費用対効果に優れるのだろうか。
+
+    たぶんスタック方式だろうと最初は思ったが、やっているとキュー方式も捨てがたい。
+
+    というのも、ドキュメントは、たいていページ内にも内容の重複や説明の冗長性があり、A の前半ですぐに分からず、その時点では B や C を知る必要のあることでも、読み進めれば A の後半で何となく分かることもあるため。その場合、B や C を読むときに多くを飛ばせ、すぐに読み終わる。
+
+    かたや、B や C は、A の理解の補助のみを目的に構成されているわけでなく、A に不要な情報も伴う。それが学びの多角化につながって、より知識が深まるのか、A を学んでいるコンテキストが頭の中で弱まることで A の理解度は少し下がるのか。
+
+    ということを考えると、方式については、きちんと考えないわけにはいかない。そのため、このメモを書いている。
+
+    暫定的な結論は、次のようになる。
+
+    * A の学びのコンテキストが弱まる前に読み終わる程度の規模の B なら、まず B に移る（スタック方式）
+    * 弱まりそうなら、B をタスク化して A を続行（キュー方式）

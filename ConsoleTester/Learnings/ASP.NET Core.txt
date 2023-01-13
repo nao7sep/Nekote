@@ -367,3 +367,152 @@
 
     * A の学びのコンテキストが弱まる前に読み終わる程度の規模の B なら、まず B に移る（スタック方式）
     * 弱まりそうなら、B をタスク化して A を続行（キュー方式）
+
+[完了] https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/ を読む
+
+    以下のページに目を通した。一部はチョロッとだけ。もちろん学習は重要だが、深入りするとコーディングが長期にわたって止まり、開発のテンションも下がってくる。ほどほどに。
+
+    MvcServiceCollectionExtensions.AddRazorPages Method (Microsoft.Extensions.DependencyInjection) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.mvcservicecollectionextensions.addrazorpages
+
+    HostingEnvironmentExtensions.IsDevelopment(IHostingEnvironment) Method (Microsoft.AspNetCore.Hosting) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting.hostingenvironmentextensions.isdevelopment
+
+    HstsBuilderExtensions.UseHsts(IApplicationBuilder) Method (Microsoft.AspNetCore.Builder) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.hstsbuilderextensions.usehsts
+
+    HTTP Strict Transport Security - Wikipedia
+    https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
+
+    Man-in-the-middle attack - Wikipedia
+    https://en.wikipedia.org/wiki/Man-in-the-middle_attack
+
+    Network eavesdropping - Wikipedia
+    https://en.wikipedia.org/wiki/Network_eavesdropping
+
+    AuthorizationAppBuilderExtensions.UseAuthorization Method (Microsoft.AspNetCore.Builder) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.authorizationappbuilderextensions.useauthorization
+
+    Authentication & Authorization in ASP .NET Core 3.1 | Wake Up And Code!
+    https://wakeupandcode.com/authentication-authorization-in-asp-net-core-3-1/
+
+    Razor Pages authorization conventions in ASP.NET Core | Microsoft Learn
+    https://learn.microsoft.com/en-us/aspnet/core/security/authorization/razor-pages-authorization
+
+    PageConventionCollection Class (Microsoft.AspNetCore.Mvc.ApplicationModels) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.applicationmodels.pageconventioncollection
+
+    RazorPagesEndpointRouteBuilderExtensions.MapRazorPages Method (Microsoft.AspNetCore.Builder) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.razorpagesendpointroutebuilderextensions.maprazorpages
+
+    EndpointRouteBuilderExtensions.MapGet Method (Microsoft.AspNetCore.Builder) | Microsoft Learn
+    https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.endpointroutebuilderextensions.mapget
+
+    ASP.NET Core and EF Core categories のコピペ
+
+    Microsoft.AspNetCore
+        General ASP.NET Core diagnostics.
+    Microsoft.AspNetCore.DataProtection
+        Which keys were considered, found, and used.
+    Microsoft.AspNetCore.HostFiltering
+        Hosts allowed.
+    Microsoft.AspNetCore.Hosting
+        How long HTTP requests took to complete and what time they started. Which hosting startup assemblies were loaded.
+    Microsoft.AspNetCore.Mvc
+        MVC and Razor diagnostics. Model binding, filter execution, view compilation, action selection.
+    Microsoft.AspNetCore.Routing
+        Route matching information.
+    Microsoft.AspNetCore.Server
+        Connection start, stop, and keep alive responses. HTTPS certificate information.
+    Microsoft.AspNetCore.StaticFiles
+        Files served.
+    Microsoft.EntityFrameworkCore
+        General Entity Framework Core diagnostics. Database activity and configuration, change detection, migrations.
+
+    これで全てではないそうで、To view more categories in the console window, set appsettings.Development.json to the following とのこと
+
+    {
+        "Logging": {
+            "LogLevel": {
+                "Default": "Information",
+                "Microsoft": "Trace",
+                "Microsoft.Hosting.Lifetime": "Information"
+            }
+        }
+    }
+
+    Third-party logging providers のコピペ
+    そのうち、それぞれをチョロッとだけでもチェックする必要がある
+
+    elmah.io
+    Gelf
+    JSNLog
+    KissLog.net
+    Log4Net
+    NLog
+    PLogger
+    Sentry
+    Serilog
+    Stackdriver
+
+[完了] メモの句点や改行について書く
+
+    自分は、1) 句点を入れず、適度な長さで改行し、それで文が分割されるならインデントを入れて一つ前の行との関係を明示、
+    	2) 句点を入れ、段落の終わりまで改行せず、画面右端や用紙右端での折り返しに任せる、を使い分けている
+
+    という書き方が1だ。こちらは2だ。こちらでは、文章が長くなろうと、段落が終わらない限り、改行が入らない。
+
+    1は、一行コメントから始まった。
+
+    // ○○のための変数
+
+    というコメントに句点を付ける必要はない。
+
+    // ○○のための変数
+    // △△ == true なら無効
+
+    と複数行になる場合も、自分は句点は不要と思う
+    自分の感覚としては、最小の意味単位の文を ul > li で並べるようなことであるため
+
+    それで特定の行が長くなるなら、
+    	このようにインデントありで改行を入れる
+
+    という1の利点は、1) 一行コメントとの整合性、2) 差分の取りやすさ、つまり、ほんの一部の変更により段落全体がマークされることを回避できることだ。
+
+    あるところでは一行コメントに句点が付かず、その直後の複数の「文」のコメントに、ただ複数行にしたくないというだけで句点を使うと、句点を使うかどうかが文の数で決まることになる。「○○」が二つの文になれば「○○。△△。」となり、あるいは「○○。△△」とさらに変則的になり、後半が不要と思えば句点を消して「○○」に戻すようなことは、情報を記録するという作業において本質的に重要でない。そういうグダグダを1はスマートに回避する。
+
+    一方、2の利点は、1) どこで折り返すかを考えなくてよいこと、
+    	2) きちんとした説明をするなどで長文になるのが不可避な場合に行数を最少化できることだ
+
+    2は、「今回で内容が確定し、今後の変更の可能性の低いもの」と判断できる文章に適する。
+
+    そうでなく、コードと連動して内容が抜き差しされたり、識別子の変更によりコメントも変わったりするなら、
+    	差分を取るときに段落全体がマークされる2より、局所的なマークになる1の方が生産性が高い
+
+    ということを、自分は、コードのコメントでも、ただのメモ書きでも、タスクリストのメモでも、普段から意識している。
+
+    しかし、学習メモにおいては、これまで2に統一してきたところに、前回、1が混入した。
+
+    Third-party logging providers のコピペ
+    そのうち、それぞれをチョロッとだけでもチェックする必要がある
+
+    という部分なのだが、これを1行で句点ありで書くことには違和感が大きい。その理由は、これら2行のうち1行目が実質的にキャプションだからだろう。そこに2行目が情報を補っている。主題と副題のような関係でもあって、これら二つを改行なしの1行にまとめたところで、構造的に「段落」は構成されない。だから、これは1の方式でないといけない。少なくとも自分の感覚ではそうだ。
+
+    学習メモは、ずっと続く。ASP.NET Core が終わり、Razor Pages も終わり、もしかしたら Blazor も少しかじるかもしれないが、それも終わったとすれば、今度は、JavaScript/TypeScript の学習、JavaScript 系のフロントエンドのライブラリーの学習、既存の CMS、ブログ、CRM のシステムの試用などが続く。学ぶということは、いつまでも続く。
+
+    そのため、まだ始めたばかりの段階で1と2について改めて整理し、「学習メモでは、これらの混用が認められる」という点を確定・確認しておく。
+
+    学習メモは時系列的なものだ。あとで古いメモにミスなどが見付かっても、単純な誤字・脱字でないなら、つまり修正により意味が変わるようなことなら、その部分を修正することは、前後のつながりが破綻するリスクを伴う。既に印刷してしまったから修正稿を入れるしかない新聞の感覚で追記のみしていくのが、学習メモには適する。
+
+    そのため、基本的には2が良い。差分を取っても取っても完全一致が続くなら、行数を抑えるべき。
+
+    しかし、上記の例のようにコメント感覚で複数行を一つにまとめることもある
+    そういうときには、1が適する
+
+    いろいろな方と関わらせていただいていると、「えっ、そんなん気にしますか？」と思うことだったり、
+    	「おおっ、それ、気付いてくれて嬉しいです！」だったりと、意外なことも多い
+    そのうち誰かに「なんか変なメモの書き方ですね」と言われる可能性もゼロでない
+    そのときに「○○のファイルで△△を検索してみてください」と言えるメモを、
+    	たまたま上記の例があって良い機会なので書いておいた
+
+[完了] https://stackify.com/asp-net-razor-pages-vs-mvc/ を読む

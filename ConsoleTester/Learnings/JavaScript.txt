@@ -2,4 +2,4 @@
     JavaScript を学ぶ
 ================================================================================
 
-[完了] Configure tk2Text to automatically update Learnings/JavaScript.txt
+[完了] このタスクリストのログが Nekote のソリューションに入るように設定

@@ -418,6 +418,9 @@ namespace Nekote
                     else throw new nFormatException ();
                 }
 
+                // 値がエスケープされているのに記号がそれと整合しない場合のリスクはない
+                // 元に戻らないだけで、システムに影響の及ぶ文字が混入するなどはない
+
                 string xKey = xLine.Substring (0, xIndex);
                 string? xValue = xLine [xIndex] == '=' ? iUnescapeString (xBuilder, xLine.Substring (xIndex + 1)) : xLine.Substring (xIndex + 1);
 

@@ -13,3 +13,5 @@ ConsoleTester/obj
 Nekote/bin
 Nekote/obj
 .gitignore
+README.md
+taskKiller.txt

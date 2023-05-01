@@ -2,10 +2,12 @@
 Compiled
 
 [Copy]
-Nekote\bin\Release\net6.0 > Compiled
+Nekote/bin/Release/net6.0 > Compiled
 
 [Exclude]
 .git
 .vs
-bin
-obj
+ConsoleTester/bin
+ConsoleTester/obj
+Nekote/bin
+Nekote/obj

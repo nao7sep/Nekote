@@ -18,6 +18,9 @@ namespace Nekote
         /// </summary>
         public readonly nStringOptimizationOptions Options = new nStringOptimizationOptions ();
 
+        // nStringOptimizationOptions との強い関連づけのためにインスタンスメソッドにしたが、設計としては static でも成り立つ
+        // いずれ Optimize 以外も追加し、さまざまな種類の最適化を行えるようにする可能性を想定し、現行の設計を選んだ
+
         public nStringOptimizationResult Optimize (string value, nStringOptimizationOptions? options = null, string? newLine = null)
         {
             // value が null でも落ちないようにした

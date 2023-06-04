@@ -18,10 +18,21 @@
 
 // iStringTester.PatchDiffMatchPatch
 
+#pragma warning disable CA1822
+#pragma warning disable CA1825
+#pragma warning disable CA1829
+#pragma warning disable CA1834
+#pragma warning disable CA1845
 #pragma warning disable CS8600
 #pragma warning disable CS8602
 #pragma warning disable CS8603
 #pragma warning disable CS8765
+#pragma warning disable IDE0019
+#pragma warning disable IDE0044
+#pragma warning disable IDE0054
+#pragma warning disable IDE0056
+#pragma warning disable IDE0059
+#pragma warning disable IDE0060
 
 using System;
 using System.Collections.Generic;
@@ -2302,7 +2313,18 @@ namespace DiffMatchPatch {
   }
 }
 
+#pragma warning restore CA1822
+#pragma warning restore CA1825
+#pragma warning restore CA1829
+#pragma warning restore CA1834
+#pragma warning restore CA1845
 #pragma warning restore CS8600
 #pragma warning restore CS8602
 #pragma warning restore CS8603
 #pragma warning restore CS8765
+#pragma warning restore IDE0019
+#pragma warning restore IDE0044
+#pragma warning restore IDE0054
+#pragma warning restore IDE0056
+#pragma warning restore IDE0059
+#pragma warning restore IDE0060

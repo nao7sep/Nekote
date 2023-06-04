@@ -935,18 +935,40 @@ namespace ConsoleTester
             xFileContents = xFileContents.Insert (xIndex,
                 "// iStringTester.PatchDiffMatchPatch" + xNewLine +
                 xNewLine +
+                "#pragma warning disable CA1822" + xNewLine +
+                "#pragma warning disable CA1825" + xNewLine +
+                "#pragma warning disable CA1829" + xNewLine +
+                "#pragma warning disable CA1834" + xNewLine +
+                "#pragma warning disable CA1845" + xNewLine +
                 "#pragma warning disable CS8600" + xNewLine +
                 "#pragma warning disable CS8602" + xNewLine +
                 "#pragma warning disable CS8603" + xNewLine +
                 "#pragma warning disable CS8765" + xNewLine +
+                "#pragma warning disable IDE0019" + xNewLine +
+                "#pragma warning disable IDE0044" + xNewLine +
+                "#pragma warning disable IDE0054" + xNewLine +
+                "#pragma warning disable IDE0056" + xNewLine +
+                "#pragma warning disable IDE0059" + xNewLine +
+                "#pragma warning disable IDE0060" + xNewLine +
                 xNewLine);
 
             xFileContents +=
                 xNewLine +
+                "#pragma warning restore CA1822" + xNewLine +
+                "#pragma warning restore CA1825" + xNewLine +
+                "#pragma warning restore CA1829" + xNewLine +
+                "#pragma warning restore CA1834" + xNewLine +
+                "#pragma warning restore CA1845" + xNewLine +
                 "#pragma warning restore CS8600" + xNewLine +
                 "#pragma warning restore CS8602" + xNewLine +
                 "#pragma warning restore CS8603" + xNewLine +
-                "#pragma warning restore CS8765" + xNewLine;
+                "#pragma warning restore CS8765" + xNewLine +
+                "#pragma warning restore IDE0019" + xNewLine +
+                "#pragma warning restore IDE0044" + xNewLine +
+                "#pragma warning restore IDE0054" + xNewLine +
+                "#pragma warning restore IDE0056" + xNewLine +
+                "#pragma warning restore IDE0059" + xNewLine +
+                "#pragma warning restore IDE0060" + xNewLine;
 
             nFile.WriteAllText (xFilePath!, xFileContents, xEncoding);
         }

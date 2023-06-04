@@ -8,8 +8,20 @@ using System.Diagnostics.CodeAnalysis;
 // Use object initializers
 [assembly: SuppressMessage ("Style", "IDE0017")]
 
+// Inline variable declaration
+[assembly: SuppressMessage ("Style", "IDE0018")]
+
+// Use expression body for constructors
+[assembly: SuppressMessage ("Style", "IDE0021")]
+
 // Use expression body for methods
 [assembly: SuppressMessage ("Style", "IDE0022")]
+
+// Use expression body for properties
+[assembly: SuppressMessage ("Style", "IDE0025")]
+
+// Use expression body for accessors
+[assembly: SuppressMessage ("Style", "IDE0027")]
 
 // Use collection initializers
 [assembly: SuppressMessage ("Style", "IDE0028")]
@@ -34,6 +46,18 @@ using System.Diagnostics.CodeAnalysis;
 
 // Use simple 'using' statement
 [assembly: SuppressMessage ("Style", "IDE0063")]
+
+// Simplify interpolation
+[assembly: SuppressMessage ("Style", "IDE0071")]
+
+// Use compound assignment
+[assembly: SuppressMessage ("Style", "IDE0074")]
+
+// Use pattern matching
+[assembly: SuppressMessage ("Style", "IDE0078")]
+
+// Remove unnecessary suppression
+[assembly: SuppressMessage ("CodeQuality", "IDE0079")]
 
 // Simplify 'new' expression
 [assembly: SuppressMessage ("Style", "IDE0090")]

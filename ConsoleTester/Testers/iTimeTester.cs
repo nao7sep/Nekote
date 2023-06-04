@@ -86,6 +86,7 @@ namespace ConsoleTester
 
             // Roundtrip 系のものは、UTC かローカル日時かでフォーマットが異なる
 
+#pragma warning disable CA1806
             string xString = nDateTime.ToRoundtripString (xUtcNow);
             Console.WriteLine (xString); // → 2022-12-27T05:07:40.4867604Z
             DateTime xDateTime = nDateTime.ParseRoundtripString (xString);
@@ -185,6 +186,7 @@ namespace ConsoleTester
             TimeSpan xTimeSpan = nTimeSpan.ParseRoundtripString (xString);
             nTimeSpan.TryParseRoundtripString (xString, out TimeSpan xResultAlt);
             xStringAlt = xResultAlt.ToRoundtripString ();
+#pragma warning restore CA1806
 
             if (xResultAlt != xTimeSpan || xStringAlt != xString)
                 throw new nDataException ();
@@ -252,7 +254,7 @@ namespace ConsoleTester
 
                         var xRule = xRules [temp];
 
-                        string iToString (TimeZoneInfo.TransitionTime time)
+                        static string iToString (TimeZoneInfo.TransitionTime time)
                         {
                             // Use fixed-date rules for time transitions that occur on a specific day of a specific month (such as 2:00 A.M. on November 3)
                             //     Use floating-date rules for time transitions that occur on a specific day of a specific week of a specific month (such as 2:00 A.M. on the first Sunday of November)

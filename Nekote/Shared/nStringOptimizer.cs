@@ -9,18 +9,23 @@ namespace Nekote
     public class nStringOptimizer
     {
         /// <summary>
-        /// Optimize に options を指定しないか、しても変更しないなら、マルチスレッドでも lock 不要。
+        /// Optimize に options を指定しないか、してもほかで変更しないなら、マルチスレッドでも lock 不要。
         /// </summary>
         public static readonly nStringOptimizer Default = new nStringOptimizer ();
+
+        /// <summary>
+        /// Optimize に options を指定しない場合に使われるもの。
+        /// </summary>
+        public readonly nStringOptimizationOptions Options = new nStringOptimizationOptions ();
 
         public nStringOptimizationResult Optimize (string value, nStringOptimizationOptions? options = null, string? newLine = null)
         {
             // value が null でも落ちないようにした
 
-            nStringOptimizationOptions xOptions = options ?? nStringOptimizationOptions.iDefault;
+            nStringOptimizationOptions xOptions = options ?? Options;
             string xNewLine = newLine ?? Environment.NewLine;
 
-            string? iWidthToString (int? width)
+            static string? iWidthToString (int? width)
             {
                 if (width != null)
                     return new string ('\x20', width.Value);
@@ -176,7 +181,7 @@ namespace Nekote
 
             // 調整の対象となる行においては、インデント部分があるから長さが得られるところと、見えるところしかないからインデント部分は null のところの二つを想定
 
-            if (xIndentationAdjustmentApplicableLines.Count () > 0)
+            if (xIndentationAdjustmentApplicableLines.Any ())
                 xMinIndentationLength = xIndentationAdjustmentApplicableLines.Min (y => y.IndentationString != null ? y.IndentationString.Length : 0);
 
             // 削られる場合は一つ目が、増える場合は二つ目が設定される
@@ -201,7 +206,9 @@ namespace Nekote
 
             for (int temp = 0; temp < xLines.Count; temp ++)
             {
+#pragma warning disable IDE0042
                 var xLine = xLines [temp];
+#pragma warning restore IDE0042
 
                 // 行ごとに複数の変数を見るが、扱う文字列の多くが数行から数百行で、ミリオンなどの単位でないため、微々たるコスト
                 // まず変数を見てからそれぞれに for ループを入れることも考えたが、コードを重複させるだけの利益がない

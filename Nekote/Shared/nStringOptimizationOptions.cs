@@ -8,9 +8,6 @@ namespace Nekote
 {
     public class nStringOptimizationOptions
     {
-        // 最初、public としたが、静的インスタンスにステート情報を入れるのはデザインとして問題があった
-        internal static readonly nStringOptimizationOptions iDefault = new nStringOptimizationOptions ();
-
         // nStringLineReader に渡される
         // いずれも具体的に役立つことの少ないものなのでデフォルトで削られる
         // Markdown では行末の半角空白二つで改行になるが、あまり好まれていない

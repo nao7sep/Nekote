@@ -201,7 +201,9 @@ namespace Nekote
 
                 int xIndex = xRandom.Next (firstIndex, temp + 1);
 
+#pragma warning disable IDE0180
                 ElementType xElement = elements [xIndex];
+#pragma warning restore IDE0180
                 elements [xIndex] = elements [temp];
                 elements [temp] = xElement;
             }

@@ -30,7 +30,6 @@
 #pragma warning disable IDE0019
 #pragma warning disable IDE0044
 #pragma warning disable IDE0054
-#pragma warning disable IDE0056
 #pragma warning disable IDE0059
 #pragma warning disable IDE0060
 
@@ -2325,6 +2324,5 @@ namespace DiffMatchPatch {
 #pragma warning restore IDE0019
 #pragma warning restore IDE0044
 #pragma warning restore IDE0054
-#pragma warning restore IDE0056
 #pragma warning restore IDE0059
 #pragma warning restore IDE0060

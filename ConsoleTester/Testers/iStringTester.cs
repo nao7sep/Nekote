@@ -949,7 +949,6 @@ namespace ConsoleTester
                 "#pragma warning disable IDE0019" + xNewLine +
                 "#pragma warning disable IDE0044" + xNewLine +
                 "#pragma warning disable IDE0054" + xNewLine +
-                "#pragma warning disable IDE0056" + xNewLine +
                 "#pragma warning disable IDE0059" + xNewLine +
                 "#pragma warning disable IDE0060" + xNewLine +
                 xNewLine);
@@ -968,7 +967,6 @@ namespace ConsoleTester
                 "#pragma warning restore IDE0019" + xNewLine +
                 "#pragma warning restore IDE0044" + xNewLine +
                 "#pragma warning restore IDE0054" + xNewLine +
-                "#pragma warning restore IDE0056" + xNewLine +
                 "#pragma warning restore IDE0059" + xNewLine +
                 "#pragma warning restore IDE0060" + xNewLine;
 

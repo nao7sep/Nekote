@@ -85,7 +85,7 @@ namespace Nekote
                     // なければ、FirstIndex が負になるので、必ずそれにより判別
                     // その場合の Length は、形としては不定と見なされる
 
-                    (int FirstIndex, int Length) iFindNumericPart (string value, int currentIndex)
+                    static (int FirstIndex, int Length) iFindNumericPart (string value, int currentIndex)
                     {
                         // 予想以上に遅かったので、string.IndexOfAny を使うように
                         // 詳細は、iStringTester.CompareStringComparisonSpeeds のところに

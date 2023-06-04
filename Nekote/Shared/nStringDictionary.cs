@@ -217,7 +217,7 @@ namespace Nekote
         //     「クラスのインスタンスの内容を文字列化するにおける1～2度の new StringBuilder」は、他でも発生する、常識的に許容されるべき範囲内のコスト
         // そこまで無理やり最適化してもメリットが限定的である一方、クラスライブラリーとしての thread safety などに影響が及ぶ
 
-        private bool iEscapeString (StringBuilder builder, string? value, out string result)
+        private static bool iEscapeString (StringBuilder builder, string? value, out string result)
         {
             // 次のページにある、Null を \0 にするというのは、文字列中の 0x00 のこと
 
@@ -327,7 +327,7 @@ namespace Nekote
             return xBuilder.ToString ();
         }
 
-        private string? iUnescapeString (StringBuilder builder, string value)
+        private static string? iUnescapeString (StringBuilder builder, string value)
         {
             if (string.IsNullOrEmpty (value))
                 return string.Empty;

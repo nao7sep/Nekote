@@ -26,7 +26,7 @@ namespace Nekote
 
     public class nStringLineReader
     {
-        private string mValue;
+        private readonly string mValue;
 
         // 二つ以上の連続する空行のうち一つだけを出力するモードなら、二つ目以降が無視される
         // 文字列の先頭を見る時点で既に一つ目が見付かっているとして、先頭の空行を無視
@@ -36,11 +36,11 @@ namespace Nekote
 
         // inclusive
         // length 系でもよかったが、コンストラクターで末尾の文字にアクセスするので、それに最適化
-        private int mLastIndex;
+        private readonly int mLastIndex;
 
-        private bool mTrimsTrailingWhiteSpaces;
+        private readonly bool mTrimsTrailingWhiteSpaces;
 
-        private bool mReducesEmptyLines;
+        private readonly bool mReducesEmptyLines;
 
         public nStringLineReader (string value, bool trimsTrailingWhiteSpaces = true, bool reducesEmptyLines = true)
         {

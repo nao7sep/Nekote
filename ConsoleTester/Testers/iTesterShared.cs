@@ -7,7 +7,7 @@ using Nekote;
 
 namespace ConsoleTester
 {
-    internal static class iTester
+    internal static class iTesterShared
     {
         // 1次元目に各テスト、2次元目に所要時間が入っている nMultiArray を想定
         // 決め打ちの仕様になるが、今後も同様のテストを行うだろうから、コードを共通化

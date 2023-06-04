@@ -335,7 +335,7 @@ namespace ConsoleTester
             }
 
             Console.WriteLine ();
-            Console.WriteLine (iTester.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
+            Console.WriteLine (iTesterShared.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
         }
 
         // 数年前のノートである SV7 での実行結果
@@ -406,7 +406,7 @@ namespace ConsoleTester
             }
 
             Console.WriteLine ();
-            Console.WriteLine (iTester.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
+            Console.WriteLine (iTesterShared.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
         }
     }
 }

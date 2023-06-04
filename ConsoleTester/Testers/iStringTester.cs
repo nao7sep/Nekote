@@ -590,7 +590,7 @@ namespace ConsoleTester
             }
 
             Console.WriteLine ();
-            Console.WriteLine (iTester.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
+            Console.WriteLine (iTesterShared.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
         }
 
         // 文字列を行に分割する速度の比較
@@ -693,7 +693,7 @@ namespace ConsoleTester
             }
 
             Console.WriteLine ();
-            Console.WriteLine (iTester.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
+            Console.WriteLine (iTesterShared.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
         }
 
         // 数年前のノートである SV7 での結果
@@ -761,7 +761,7 @@ namespace ConsoleTester
             }
 
             Console.WriteLine ();
-            Console.WriteLine (iTester.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
+            Console.WriteLine (iTesterShared.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
         }
 
         // 後続の TestStringOptimizationAlt とセットで、与えたディレクトリー内の（ほとんど）全てのテキストファイルの内容を最適化し、
@@ -910,7 +910,7 @@ namespace ConsoleTester
 
         public static void PatchDiffMatchPatch ()
         {
-            string? xFilePath = iTester.FindFileOrDirectory ("DiffMatchPatch.cs");
+            string? xFilePath = iTesterShared.FindFileOrDirectory ("DiffMatchPatch.cs");
             Encoding? xEncoding = nFile.GetEncoding (xFilePath!);
 
             // ASCII かと思えば、BOM 付きの UTF-8 だった
@@ -1431,7 +1431,7 @@ namespace ConsoleTester
             }
 
             Console.WriteLine ();
-            Console.WriteLine (iTester.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
+            Console.WriteLine (iTesterShared.FormatLabelsAndElapsedTimes (xLabels, xElapsed));
         }
 
         // nAlphanumericComparer.Compare 内の iFindNumericPart の実装を変更したため、テストを増やした

@@ -172,7 +172,9 @@ namespace ConsoleTester
                 xStopwatch.Restart ();
 
                 for (int tempAlt = 0; tempAlt < xComparisonCount; tempAlt ++)
+#pragma warning disable CA1806
                     Enumerable.SequenceEqual (xValues1, xValues2);
+#pragma warning restore CA1806
 
                 xResults [xLabelIndex ++].Elapsed.Add (xStopwatch.Elapsed);
 
@@ -305,7 +307,9 @@ namespace ConsoleTester
                 xStopwatch.Restart ();
 
                 for (int tempAlt = 0; tempAlt < xShufflingCount; tempAlt ++)
+#pragma warning disable CA1806
                     xValues.Select (x => (Value: x, SortKey: xRandom.Next ())).OrderBy (y => y.SortKey).ToArray ();
+#pragma warning restore CA1806
 
                 xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
 
@@ -315,7 +319,9 @@ namespace ConsoleTester
                 xStopwatch.Restart ();
 
                 for (int tempAlt = 0; tempAlt < xShufflingCount; tempAlt ++)
+#pragma warning disable CA1806
                     xValues.Select (x => (Value: x, SortKey: Random.Shared.Next ())).OrderBy (y => y.SortKey).ToArray ();
+#pragma warning restore CA1806
 
                 xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
 
@@ -325,7 +331,9 @@ namespace ConsoleTester
                 xStopwatch.Restart ();
 
                 for (int tempAlt = 0; tempAlt < xShufflingCount; tempAlt ++)
+#pragma warning disable CA1806
                     xValues.Select (x => (Value: x, SortKey: Guid.NewGuid ())).OrderBy (y => y.SortKey).ToArray ();
+#pragma warning restore CA1806
 
                 xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
 
@@ -382,7 +390,9 @@ namespace ConsoleTester
                 for (int tempAlt = 0; tempAlt < xAccessingCount; tempAlt ++)
                 {
                     for (int tempAlt1 = 0; tempAlt1 < xElementCount; tempAlt1 ++)
+#pragma warning disable IDE0059
                         xValue = xValues [tempAlt1];
+#pragma warning restore IDE0059
                 }
 
                 xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
@@ -395,7 +405,9 @@ namespace ConsoleTester
                 for (int tempAlt = 0; tempAlt < xAccessingCount; tempAlt ++)
                 {
                     for (int tempAlt1 = 0; tempAlt1 < xElementCount; tempAlt1 ++)
+#pragma warning disable IDE0059
                         xValue = xString [tempAlt1];
+#pragma warning restore IDE0059
                 }
 
                 xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;

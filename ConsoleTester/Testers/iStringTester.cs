@@ -202,7 +202,7 @@ namespace ConsoleTester
 
         public static void TestStringOptimization ()
         {
-            void iOptimize (string value, nStringOptimizationOptions options)
+            static void iOptimize (string value, nStringOptimizationOptions options)
             {
                 string xValue = value
                     .Replace ('□', '\x20')
@@ -683,7 +683,9 @@ namespace ConsoleTester
                 xStopwatch.Restart ();
 
                 for (int tempAlt = 0; tempAlt < xEnumerationCount; tempAlt ++)
+#pragma warning disable CA1806
                     nString.EnumerateLines (xValue).ToList ();
+#pragma warning restore CA1806
 
                 xElapsed [xLabelIndex ++, temp] = xStopwatch.Elapsed;
 
@@ -1573,9 +1575,11 @@ namespace ConsoleTester
                 try
                 {
                     // 2月31日などでは落とす
+#pragma warning disable CA1806
                     new DateTime (xYear, xMonth, xDay);
+#pragma warning restore CA1806
 
-                    string iToString (int value)
+                    static string iToString (int value)
                     {
                         string xString;
 

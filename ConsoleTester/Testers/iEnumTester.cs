@@ -155,6 +155,7 @@ namespace ConsoleTester
             // たとえば int のデータを転送していて数ビット飛べば、その値はその後の処理において無効とされる
             // enum は、A, B, C ... と、リストのように表記されるが、あくまで A | B | C であることを念頭に
 
+#pragma warning disable IDE0059
             Console.WriteLine (Enum.TryParse ("Red", out Color xResult)); // → True
             Console.WriteLine (Enum.TryParse ("rED", out xResult)); // → False
             Console.WriteLine (Enum.TryParse ("赤", out xResult)); // → False
@@ -162,6 +163,7 @@ namespace ConsoleTester
             Console.WriteLine (Enum.TryParse ("Black, White, 赤", out xResult)); // → False
             Console.WriteLine (Enum.TryParse (string.Empty, out xResult)); // → False
             Console.WriteLine (Enum.TryParse (null, out xResult)); // → False
+#pragma warning restore IDE0059
             Console.WriteLine ();
 
             // =============================================================================

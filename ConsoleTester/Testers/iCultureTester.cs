@@ -120,7 +120,7 @@ namespace ConsoleTester
             //     xErrorCount ++;
 
             if (CultureInfo.GetCultures (CultureTypes.AllCultures).DistinctBy (x => x.Name,
-                    StringComparer.InvariantCultureIgnoreCase).Count () != CultureInfo.GetCultures (CultureTypes.AllCultures).Count ())
+                    StringComparer.InvariantCultureIgnoreCase).Count () != CultureInfo.GetCultures (CultureTypes.AllCultures).Length)
                 xErrorCount ++;
 
             // LCID の共通する二つ以上のカルチャーのグループは一つだけだった
@@ -196,7 +196,7 @@ namespace ConsoleTester
 
             // InvariantCulture が必ず入るが、作法として
 
-            if (xLeftOutCultures.Count () > 0)
+            if (xLeftOutCultures.Any ())
             {
                 iAppend (new string ('=', 80) + Environment.NewLine);
 
@@ -206,7 +206,7 @@ namespace ConsoleTester
 
             // 項目が "" または null のところが残されていないのを確認
 
-            if (xBuilder.ToString ().IndexOf (": \r") >= 0 || xBuilder.ToString ().IndexOf (": \n") >= 0)
+            if (xBuilder.ToString ().Contains (": \r") || xBuilder.ToString ().Contains (": \n"))
                 xErrorCount ++;
 
             string xFilePath = nPath.Join (Environment.GetFolderPath (Environment.SpecialFolder.DesktopDirectory),

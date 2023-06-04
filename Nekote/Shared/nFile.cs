@@ -133,7 +133,9 @@ namespace Nekote
             File.WriteAllBytes (path, values);
         }
 
+#pragma warning disable CA1068
         public static Task WriteAllBytesAsync (string path, byte [] values, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
+#pragma warning restore CA1068
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
@@ -147,7 +149,9 @@ namespace Nekote
             File.WriteAllLines (path, values, encoding ?? Encoding.UTF8);
         }
 
+#pragma warning disable CA1068
         public static Task WriteAllLinesAsync (string path, IEnumerable <string> values, Encoding? encoding = null, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
+#pragma warning restore CA1068
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
@@ -161,7 +165,9 @@ namespace Nekote
             File.WriteAllText (path, value, encoding ?? Encoding.UTF8);
         }
 
+#pragma warning disable CA1068
         public static Task WriteAllTextAsync (string path, string? value, Encoding? encoding = null, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
+#pragma warning restore CA1068
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
@@ -191,7 +197,9 @@ namespace Nekote
         // .NET に *Async として用意されているもののラッパーは、.NET の方に async が付いていないこともあって async なしでよい
         // 一方、AppendAllBytesAsync は、async/await でないと FileStream の WriteAsync 中に Dispose が呼ばれる
 
+#pragma warning disable CA1068
         public static async Task AppendAllBytesAsync (string path, byte [] values, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
+#pragma warning restore CA1068
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
@@ -199,7 +207,7 @@ namespace Nekote
             using (FileStream xStream = new FileStream (path, FileMode.Append, FileAccess.Write, FileShare.Read, iDefaultBufferSize, FileOptions.Asynchronous))
             {
                 // xStream.Seek (0, SeekOrigin.End);
-                await xStream.WriteAsync (values, 0, values.Length, cancellationToken);
+                await xStream.WriteAsync (values, cancellationToken); // ReadOnlyMemory <byte> として
             }
         }
 
@@ -210,7 +218,9 @@ namespace Nekote
             File.AppendAllLines (path, values, encoding ?? Encoding.UTF8);
         }
 
+#pragma warning disable CA1068
         public static Task AppendAllLinesAsync (string path, IEnumerable <string> values, Encoding? encoding = null, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
+#pragma warning restore CA1068
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);
@@ -224,7 +234,9 @@ namespace Nekote
             File.AppendAllText (path, value, encoding ?? Encoding.UTF8);
         }
 
+#pragma warning disable CA1068
         public static Task AppendAllTextAsync (string path, string? value, Encoding? encoding = null, CancellationToken cancellationToken = default, bool createsParentDirectory = true, bool resetsAttributes = true)
+#pragma warning restore CA1068
         {
             FileInfo xFile = new FileInfo (path);
             iCreateParentDirectoryAndOrResetAttributesIfRequired (xFile, createsParentDirectory, resetsAttributes);

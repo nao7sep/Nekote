@@ -413,6 +413,11 @@ namespace Nekote
                 mContinuesAutoPausing = false;
                 mIsDisposed = true;
             }
+
+            // CA1816: Call GC.SuppressFinalize correctly (code analysis) - .NET | Microsoft Learn
+            // https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1816
+
+            GC.SuppressFinalize (this);
         }
     }
 

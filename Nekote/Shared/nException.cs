@@ -9,14 +9,14 @@ namespace Nekote
     public class nException: Exception
     {
         /// <summary>
-        /// 自動 lock。
+        /// 自動 lock。内部的には nExceptionLogger.Default が使われる。
         /// </summary>
-        public static void Log <ExceptionType> (ExceptionType exception)
+        public static void Log <ExceptionType> (ExceptionType exception, DateTime? utc = null)
             where ExceptionType: Exception
         {
             lock (nExceptionLogger.Locker)
             {
-                nExceptionLogger.Default.Add (DateTime.UtcNow, exception);
+                nExceptionLogger.Default.Log (exception, utc);
             }
         }
 
@@ -62,8 +62,8 @@ namespace Nekote
             }));
         }
 
-        // 残す必要のない例外も多いだろうから、自動的に Log するのをやめた
-        // .NET のものも Nekote のものも飛んでくるところで Nekote のものなら二重登録になるから既存でないか調べるコストも考慮
+        // 最初の設計では、Nekote の例外クラスのインスタンスが生成されるたびにそれが全て自動的にログに入るようにした
+        // しかし、それでは、呼び出し側が例外を catch で捕捉してログに入れたときに二重登録になる
 
         public nException ()
         {

@@ -198,6 +198,17 @@ namespace Nekote
                 {
                     // 理由は不詳だが、nStopwatch. を省くと正しく動かない
 
+                    // 追記
+                    // インスタンスメソッドから静的フィールドにアクセスすることよりデリゲートや ref の関与の方が気になる
+                    // nStopwatch. なしでもコンパイルはできて正しく動作しないというのがスッキリしない
+                    // こういう条件が揃うと（通常はテストしないほど）簡単な処理でもテストを欠かせないと念頭に置く
+
+                    // C# Static Members cannot be accessed with an instance reference - Stack Overflow
+                    // https://stackoverflow.com/questions/52452205/c-sharp-static-members-cannot-be-accessed-with-an-instance-reference
+
+                    // c# - Member '<member name>' cannot be accessed with an instance reference - Stack Overflow
+                    // https://stackoverflow.com/questions/1100009/member-member-name-cannot-be-accessed-with-an-instance-reference
+
                     Interlocked.Increment (ref nStopwatch.mThreadCount);
                     Interlocked.Increment (ref nLibrary.iThreadCount);
 

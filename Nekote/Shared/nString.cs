@@ -158,6 +158,9 @@ namespace Nekote
         // 一方、型変換が起こらず、"" が完全に正常値とみなされるところでは、他の多くで null が通るため、特段の理由がなければ null が通るべき
         // そのチェックにおいて、"" のときにすぐにメソッドを抜けても最後まで処理させても返るものが完全に同一なら、"" でも抜けてよいだろう
 
+        /// <summary>
+        /// options を指定し、それがほかのスレッドで変更されうるなら lock が必要。
+        /// </summary>
         public static string? Optimize (this string? value, nStringOptimizationOptions? options = null, string? newLine = null)
         {
             // nStringOptimizer.Optimize では null でも "" が返る

@@ -55,6 +55,8 @@ namespace Nekote
 
                 // 可読性のため半角空白を \x20 と書くことにしているが、ここでそうすると後続の a とつながる
 
+                // 行が半角空白三つ + at で始まっている場合のみ処理が行われるため、三つ以外なら影響を受けない
+
                 if (x.StartsWith ("\x20\x20 at\x20"))
                     return xIndentationString + '\x20' + x;
 

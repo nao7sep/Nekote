@@ -15,9 +15,12 @@ namespace Nekote
     // そういう処理が不要なら、nEmptyClass などを使用する、ジェネリックでない方を使う → 潰すだけなので object に変更
 
     // クラスを利用する側での lock をできるだけ減らすため、Locker を内包させ、lock を自動的に行う *_lock メソッドを揃えた → 野暮ったかったので廃止し、<summary> を付けた
-    // 一つのプログラム内で nStopwatch のインスタンスを多数使うことは稀だろうが、デッドロックには注意が必要
+    // 一つのプログラム内で nConcurrentStopwatch のインスタンスを多数使うことは稀だろうが、デッドロックには注意が必要
 
-    public class nStopwatch <TagType>: IDisposable
+    // 追記: ConcurrentDictionary にならい、スレッドセーフのクラスと位置づけ、そういう名前にした
+    // しかし、メンバー変数に直接アクセスするところでは、トランザクション的なことをする必要がある
+
+    public class nConcurrentStopwatch <TagType>: IDisposable
     {
         // lock についての考え方
         // これは、メンバー変数やプロパティーに横からアクセスしてくるループがずっと回るクラス
@@ -177,8 +180,6 @@ namespace Nekote
 
         public TimeSpan AutoPausingThreadSleepTimeout = DefaultAutoPausingThreadSleepTimeout;
 
-        private static int mThreadCount = 0;
-
         /// <summary>
         /// 処理の複雑なプログラムなら、このプロパティーによりスレッド数の変遷をチェックする。
         /// </summary>
@@ -186,7 +187,7 @@ namespace Nekote
         {
             get
             {
-                return mThreadCount;
+                return nConcurrentStopwatch.iThreadCount;
             }
         }
 
@@ -196,20 +197,7 @@ namespace Nekote
             {
                 try
                 {
-                    // 理由は不詳だが、nStopwatch. を省くと正しく動かない
-
-                    // 追記
-                    // インスタンスメソッドから静的フィールドにアクセスすることよりデリゲートや ref の関与の方が気になる
-                    // nStopwatch. なしでもコンパイルはできて正しく動作しないというのがスッキリしない
-                    // こういう条件が揃うと（通常はテストしないほど）簡単な処理でもテストを欠かせないと念頭に置く
-
-                    // C# Static Members cannot be accessed with an instance reference - Stack Overflow
-                    // https://stackoverflow.com/questions/52452205/c-sharp-static-members-cannot-be-accessed-with-an-instance-reference
-
-                    // c# - Member '<member name>' cannot be accessed with an instance reference - Stack Overflow
-                    // https://stackoverflow.com/questions/1100009/member-member-name-cannot-be-accessed-with-an-instance-reference
-
-                    Interlocked.Increment (ref nStopwatch.mThreadCount);
+                    Interlocked.Increment (ref nConcurrentStopwatch.iThreadCount);
                     Interlocked.Increment (ref nLibrary.iThreadCount);
 
                     while (true)
@@ -233,13 +221,13 @@ namespace Nekote
 
                 finally
                 {
-                    Interlocked.Decrement (ref nStopwatch.mThreadCount);
+                    Interlocked.Decrement (ref nConcurrentStopwatch.iThreadCount);
                     Interlocked.Decrement (ref nLibrary.iThreadCount);
                 }
             });
         }
 
-        public nStopwatch ()
+        public nConcurrentStopwatch ()
         {
             mContinuesAutoPausing = true;
             AutoPausingTask = iRunAutoPausingTask ();
@@ -434,7 +422,10 @@ namespace Nekote
 
     // Tag が不要なら、こちらを使う
 
-    public class nStopwatch: nStopwatch <object>
+    public class nConcurrentStopwatch: nConcurrentStopwatch <object>
     {
+        // ジェネリッククラス内の静的変数は、型ごとに別々に用意される
+        // 型を必要とするほうからも、それを継承する nConcurrentStopwatch のものを参照できるようだ
+        internal static int iThreadCount = 0;
     }
 }

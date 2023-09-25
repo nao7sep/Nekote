@@ -19,7 +19,7 @@ namespace ConsoleTester
 
             catch (Exception xException)
             {
-                nException.Log (xException);
+                nException.LogConcurrently (xException);
                 nConsole.WriteErrorHasOccurredMessage (xException);
                 nConsole.WritePressAnyKeyToCloseThisWindowMessage ();
             }

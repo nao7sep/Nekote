@@ -10,7 +10,7 @@ namespace ConsoleTester
 {
     internal static class iGenericTester
     {
-        // nStopwatch* には、最初、where 句で class の指定を受ける DataType および struct の TagType を用意した
+        // nConcurrentStopwatch* には、最初、where 句で class の指定を受ける DataType および struct の TagType を用意した
         // しかし、ジェネリックにおける nullability に関するところを調べたことで一つで足りると判明し、TagType Tag のみを残した
         // そのときのテストコードを少し冗長気味に整理しておく
 

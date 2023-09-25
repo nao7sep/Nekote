@@ -7,11 +7,11 @@ using Nekote;
 
 namespace ConsoleTester
 {
-    // nStopwatch は、処理としてはシンプルだが、内部に Task を持ち、「放っておくと自動的に止まる」という特徴があるため、ステート管理が少しややこしい
-    // また、nStopwatchEntry があっても nStopwatch.CurrentEntryElapsedTime を nStopwatch.CurrentEntry.ElapsedTime とできない理由（＝処理が異なる）などがあり、
-    //     nStopwatch 側にフィールドが多いことによる、何となくの分かりにくさがずっと残る
+    // nConcurrentStopwatch は、処理としてはシンプルだが、内部に Task を持ち、「放っておくと自動的に止まる」という特徴があるため、ステート管理が少しややこしい
+    // また、nStopwatchEntry があっても nConcurrentStopwatch.CurrentEntryElapsedTime を nConcurrentStopwatch.CurrentEntry.ElapsedTime とできない理由（＝処理が異なる）などがあり、
+    //     nConcurrentStopwatch 側にフィールドが多いことによる、何となくの分かりにくさがずっと残る
     // シンプルにするため、たとえば AutoPauser クラスを用意し、自動中断関連のコードをそちらに詰め込むなども考えたが、
-    //     nStopwatch からのアクセスの階層（？）が深まることが lock との兼ね合いに影響したり、オーバーヘッドによる（微々たる）誤差につながったりするのを懸念した
+    //     nConcurrentStopwatch からのアクセスの階層（？）が深まることが lock との兼ね合いに影響したり、オーバーヘッドによる（微々たる）誤差につながったりするのを懸念した
     // Task を持ち、lock を多用するクラスなので、どうしても、マルチスレッド的なややこしさは出てしまう
     // それをクラス側の設計の見直しにより改善するのが自分には難しいので、せめて、使い方の分かるテストコードを用意しておく
 
@@ -20,7 +20,7 @@ namespace ConsoleTester
         public static void TestEverything ()
         {
             // TagType は何でもよいので、ここでは前半のみで StartUtc + ElapsedTime を入れておく
-            nStopwatch <DateTime> xStopwatch = new nStopwatch <DateTime> ();
+            nConcurrentStopwatch <DateTime> xStopwatch = new nConcurrentStopwatch <DateTime> ();
 
             // =============================================================================
 
@@ -84,13 +84,13 @@ namespace ConsoleTester
             // 瞬間的に Task を止めるのでなく、止めるフラグを立てて待つ実装
             // そのうち止まるのを Thread.Sleep で少し長めに待つ
 
-            Console.WriteLine (nStopwatch.ThreadCount); // → 1
+            Console.WriteLine (nConcurrentStopwatch.ThreadCount); // → 1
             Console.WriteLine (nLibrary.ThreadCount); // → 1
 
             xStopwatch.Dispose ();
             Thread.Sleep (xStopwatch.AutoPausingThreadSleepTimeout * 2);
 
-            Console.WriteLine (nStopwatch.ThreadCount); // → 0
+            Console.WriteLine (nConcurrentStopwatch.ThreadCount); // → 0
             Console.WriteLine (nLibrary.ThreadCount); // → 0
 
             // =============================================================================

@@ -11,7 +11,7 @@ namespace Nekote
         /// <summary>
         /// 自動 lock。内部的には nExceptionLogger.Default が使われる。
         /// </summary>
-        public static void Log <ExceptionType> (ExceptionType exception, DateTime? utc = null)
+        public static void LogConcurrently <ExceptionType> (ExceptionType exception, DateTime? utc = null)
             where ExceptionType: Exception
         {
             lock (nExceptionLogger.Locker)
@@ -69,17 +69,17 @@ namespace Nekote
 
         public nException ()
         {
-            // Log (this);
+            // LogConcurrently (this);
         }
 
         public nException (string message): base (message)
         {
-            // Log (this);
+            // LogConcurrently (this);
         }
 
         public nException (string message, Exception inner): base (message, inner)
         {
-            // Log (this);
+            // LogConcurrently (this);
         }
     }
 }

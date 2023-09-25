@@ -9,6 +9,9 @@ namespace Nekote
     // 入れ物クラスなので、Guid もコンストラクターで設定されるなどがない
     // 値がないと処理に問題のある StartUtc と ElapsedTime 以外はオプションなので Nullable に
 
+    // 追記: nStopwatch をスレッドセーフのクラスと位置づけ、nConcurrentStopwatch としたが、
+    //     このクラスのほうは特に変更がなく、スレッドセーフでない実装でも使えるので、名前をそのままとする
+
     public class nStopwatchEntry <TagType>
     {
         // Pause/Resume を行えば、連続する二つ以上のエントリーの Guid が一致する

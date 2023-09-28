@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using Nekote;
 
-namespace ConsoleTester
+namespace NekoteConsole
 {
     internal class Program
     {

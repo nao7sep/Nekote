@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using DiffMatchPatch;
 using Nekote;
 
-namespace ConsoleTester
+namespace NekoteConsole
 {
     internal static class iCultureTester
     {

@@ -9,7 +9,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Nekote;
 
-namespace ConsoleTester
+namespace NekoteConsole
 {
     internal static class iStringTester
     {

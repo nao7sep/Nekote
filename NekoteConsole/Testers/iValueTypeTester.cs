@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleTester
+namespace NekoteConsole
 {
     // int など、ValueType を継承する構造体のテストに関するメソッドを集めていく
 

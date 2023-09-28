@@ -7,7 +7,7 @@ Nekote/bin/Release/net6.0 > Compiled
 [Exclude]
 .git
 .vs
-ConsoleTester/bin
-ConsoleTester/obj
 Nekote/bin
 Nekote/obj
+NekoteConsole/bin
+NekoteConsole/obj

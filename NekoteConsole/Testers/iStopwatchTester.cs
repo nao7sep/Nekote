@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Nekote;
 
-namespace ConsoleTester
+namespace NekoteConsole
 {
     // nConcurrentStopwatch は、処理としてはシンプルだが、内部に Task を持ち、「放っておくと自動的に止まる」という特徴があるため、ステート管理が少しややこしい
     // また、nStopwatchEntry があっても nConcurrentStopwatch.CurrentEntryElapsedTime を nConcurrentStopwatch.CurrentEntry.ElapsedTime とできない理由（＝処理が異なる）などがあり、

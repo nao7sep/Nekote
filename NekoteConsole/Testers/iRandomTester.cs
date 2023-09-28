@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Nekote;
 
-namespace ConsoleTester
+namespace NekoteConsole
 {
     internal static class iRandomTester
     {

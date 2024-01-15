@@ -1,7 +1,7 @@
 ﻿# ディレクトリー
 .vs/
 bin/
-Compiled/
+Lib/
 obj/
 
 # ファイル

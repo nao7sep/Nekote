@@ -64,3 +64,11 @@ using System.Diagnostics.CodeAnalysis;
 
 // Naming rule violation
 [assembly: SuppressMessage ("Style", "IDE1006")]
+
+[assembly: SuppressMessage ("Performance", "CA1854")]
+[assembly: SuppressMessage ("Performance", "CA1861")]
+[assembly: SuppressMessage ("Performance", "CA1864")]
+[assembly: SuppressMessage ("Performance", "SYSLIB1045")]
+[assembly: SuppressMessage ("Style", "IDE0290")]
+[assembly: SuppressMessage ("Style", "IDE0300")]
+[assembly: SuppressMessage ("Style", "IDE0305")]

@@ -1,0 +1,29 @@
+﻿# コンパイル済みバイナリとビルド出力
+bin/
+
+# コンパイル処理で生成されるオブジェクトファイル
+obj/
+
+# Visual Studio IDE の設定とキャッシュ
+.vs/
+
+# Visual Studio Code の設定と拡張機能
+.vscode/
+
+# JetBrains IDE（IntelliJ、Rider等）の設定
+.idea/
+
+# Visual Studio ソリューションのユーザーオプションファイル
+*.suo
+
+# Visual Studio のユーザー固有プロジェクト設定
+*.user
+
+# macOS のフォルダ表示オプション用システムファイル
+.DS_Store
+
+# Windows デスクトップ設定ファイル
+Desktop.ini
+
+# Windows サムネイルキャッシュデータベース
+Thumbs.db

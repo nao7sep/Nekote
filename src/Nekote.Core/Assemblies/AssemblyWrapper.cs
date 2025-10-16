@@ -1,4 +1,5 @@
 using Nekote.Core.IO;
+using Nekote.Core.Text;
 using System;
 using System.IO;
 using System.Reflection;
@@ -32,7 +33,9 @@ namespace Nekote.Core.Assemblies
                 {
                     return null;
                 }
-                return Path.GetDirectoryName(Location);
+                // Path.GetDirectoryNameは、パスにディレクトリ情報が含まれていない場合に空の文字列を返すことがあります。
+                // これをnullに正規化して、呼び出し元がnullチェックだけで済むようにします。
+                return StringHelper.NullIfWhiteSpace(Path.GetDirectoryName(Location));
             });
         }
 

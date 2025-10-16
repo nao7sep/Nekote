@@ -18,6 +18,24 @@ namespace Nekote.Core.Utilities
         private const int DefaultBufferSize = 81920;
 
         /// <summary>
+        /// 指定されたパスの親ディレクトリが存在することを確認します。
+        /// </summary>
+        /// <param name="path">ファイルパス。</param>
+        /// <remarks>
+        /// 親ディレクトリが存在しない場合は作成します。
+        /// 親ディレクトリが取得できない場合は何もしません。
+        /// </remarks>
+        public static void EnsureParentDirectoryExists(string path)
+        {
+            var directoryPath = Path.GetDirectoryName(path);
+
+            if (!string.IsNullOrWhiteSpace(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+        }
+
+        /// <summary>
         /// ファイルを非同期にコピーします。
         /// </summary>
         /// <param name="sourcePath">コピー元のファイルパス。</param>

@@ -37,23 +37,23 @@ namespace Nekote.Core.Utilities
         /// <summary>
         /// 再帰的にディレクトリをコピーするプライベートヘルパーメソッド。
         /// </summary>
-        private static async Task CopyInternalAsync(DirectoryInfo source, DirectoryInfo target, bool overwrite, CancellationToken cancellationToken)
+        private static async Task CopyInternalAsync(DirectoryInfo sourceDirectory, DirectoryInfo targetDirectory, bool overwrite, CancellationToken cancellationToken)
         {
             // ファイルをコピーします
-            foreach (var file in source.GetFiles())
+            foreach (var fileInfo in sourceDirectory.GetFiles())
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                string targetFilePath = Path.Combine(target.FullName, file.Name);
-                await FileUtilities.CopyAsync(file.FullName, targetFilePath, overwrite, cancellationToken).ConfigureAwait(false);
+                string targetFilePath = Path.Combine(targetDirectory.FullName, fileInfo.Name);
+                await FileUtilities.CopyAsync(fileInfo.FullName, targetFilePath, overwrite, cancellationToken).ConfigureAwait(false);
             }
 
             // サブディレクトリを処理します
-            foreach (var subDirectory in source.GetDirectories())
+            foreach (var subDirectoryInfo in sourceDirectory.GetDirectories())
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                DirectoryInfo newTarget = new DirectoryInfo(Path.Combine(target.FullName, subDirectory.Name));
-                Directory.CreateDirectory(newTarget.FullName);
-                await CopyInternalAsync(subDirectory, newTarget, overwrite, cancellationToken).ConfigureAwait(false);
+                DirectoryInfo newTargetDirectory = new DirectoryInfo(Path.Combine(targetDirectory.FullName, subDirectoryInfo.Name));
+                Directory.CreateDirectory(newTargetDirectory.FullName);
+                await CopyInternalAsync(subDirectoryInfo, newTargetDirectory, overwrite, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -86,27 +86,27 @@ namespace Nekote.Core.Utilities
         /// <summary>
         /// 再帰的にディレクトリを移動するプライベートヘルパーメソッド。
         /// </summary>
-        private static async Task MoveInternalAsync(DirectoryInfo source, DirectoryInfo target, bool overwrite, CancellationToken cancellationToken)
+        private static async Task MoveInternalAsync(DirectoryInfo sourceDirectory, DirectoryInfo targetDirectory, bool overwrite, CancellationToken cancellationToken)
         {
             // ファイルを移動します
-            foreach (var file in source.GetFiles())
+            foreach (var fileInfo in sourceDirectory.GetFiles())
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                string targetFilePath = Path.Combine(target.FullName, file.Name);
-                await FileUtilities.MoveAsync(file.FullName, targetFilePath, overwrite, cancellationToken).ConfigureAwait(false);
+                string targetFilePath = Path.Combine(targetDirectory.FullName, fileInfo.Name);
+                await FileUtilities.MoveAsync(fileInfo.FullName, targetFilePath, overwrite, cancellationToken).ConfigureAwait(false);
             }
 
             // サブディレクトリを処理します
-            foreach (var subDirectory in source.GetDirectories())
+            foreach (var subDirectoryInfo in sourceDirectory.GetDirectories())
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                DirectoryInfo newTarget = new DirectoryInfo(Path.Combine(target.FullName, subDirectory.Name));
-                Directory.CreateDirectory(newTarget.FullName);
-                await MoveInternalAsync(subDirectory, newTarget, overwrite, cancellationToken).ConfigureAwait(false);
+                DirectoryInfo newTargetDirectory = new DirectoryInfo(Path.Combine(targetDirectory.FullName, subDirectoryInfo.Name));
+                Directory.CreateDirectory(newTargetDirectory.FullName);
+                await MoveInternalAsync(subDirectoryInfo, newTargetDirectory, overwrite, cancellationToken).ConfigureAwait(false);
             }
 
             // 中身が空になったソースディレクトリを削除します
-            source.Delete();
+            sourceDirectory.Delete();
         }
     }
 }

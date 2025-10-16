@@ -40,5 +40,13 @@ namespace Nekote.Core.Assemblies
         /// <exception cref="ArgumentNullException">`relativePath` が null または空の場合にスローされます。</exception>
         /// <exception cref="ArgumentException">`relativePath` が絶対パスの場合にスローされます。</exception>
         public static string GetAbsolutePath(string relativePath) => Info.GetAbsolutePath(relativePath);
+
+        /// <summary>
+        /// 指定された書式に基づいて、実行中アセンブリの文字列表現を取得します。
+        /// </summary>
+        /// <param name="format">使用する表示書式。</param>
+        /// <returns>書式設定されたアセンブリの文字列表현。</returns>
+        /// <exception cref="ArgumentOutOfRangeException">format で指定された表示書式が定義されていません。</exception>
+        public static string? ToString(AssemblyDisplayFormat format) => Info.ToString(format);
     }
 }

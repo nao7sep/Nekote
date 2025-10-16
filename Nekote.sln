@@ -9,28 +9,28 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nekote.Lab.Console", "src\Nekote.Lab.Console\Nekote.Lab.Console.csproj", "{EEE12FEC-491F-CA90-945C-C1B6E9183E07}"
 EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BE08FAA0-0094-5956-DAC3-098722A00A8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE08FAA0-0094-5956-DAC3-098722A00A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE08FAA0-0094-5956-DAC3-098722A00A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE08FAA0-0094-5956-DAC3-098722A00A8A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EEE12FEC-491F-CA90-945C-C1B6E9183E07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EEE12FEC-491F-CA90-945C-C1B6E9183E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EEE12FEC-491F-CA90-945C-C1B6E9183E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EEE12FEC-491F-CA90-945C-C1B6E9183E07}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{BE08FAA0-0094-5956-DAC3-098722A00A8A} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
-		{EEE12FEC-491F-CA90-945C-C1B6E9183E07} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {846AB337-ED69-40FF-8F9A-07272705B775}
-	EndGlobalSection
+    GlobalSection(SolutionConfigurationPlatforms) = preSolution
+        Debug|Any CPU = Debug|Any CPU
+        Release|Any CPU = Release|Any CPU
+    EndGlobalSection
+    GlobalSection(ProjectConfigurationPlatforms) = postSolution
+        {BE08FAA0-0094-5956-DAC3-098722A00A8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {BE08FAA0-0094-5956-DAC3-098722A00A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {BE08FAA0-0094-5956-DAC3-098722A00A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {BE08FAA0-0094-5956-DAC3-098722A00A8A}.Release|Any CPU.Build.0 = Release|Any CPU
+        {EEE12FEC-491F-CA90-945C-C1B6E9183E07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {EEE12FEC-491F-CA90-945C-C1B6E9183E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {EEE12FEC-491F-CA90-945C-C1B6E9183E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {EEE12FEC-491F-CA90-945C-C1B6E9183E07}.Release|Any CPU.Build.0 = Release|Any CPU
+    EndGlobalSection
+    GlobalSection(SolutionProperties) = preSolution
+        HideSolutionNode = FALSE
+    EndGlobalSection
+    GlobalSection(NestedProjects) = preSolution
+        {BE08FAA0-0094-5956-DAC3-098722A00A8A} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+        {EEE12FEC-491F-CA90-945C-C1B6E9183E07} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+    EndGlobalSection
+    GlobalSection(ExtensibilityGlobals) = postSolution
+        SolutionGuid = {846AB337-ED69-40FF-8F9A-07272705B775}
+    EndGlobalSection
 EndGlobal

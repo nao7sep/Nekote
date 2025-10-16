@@ -1,5 +1,6 @@
 using Nekote.Core.IO;
 using Nekote.Core.Text;
+using Nekote.Core.Versioning;
 using System;
 using System.IO;
 using System.Reflection;
@@ -124,6 +125,30 @@ namespace Nekote.Core.Assemblies
 
             var normalizedRelativePath = PathHelper.NormalizeDirectorySeparators(relativePath);
             return Path.GetFullPath(Path.Combine(DirectoryPath, normalizedRelativePath));
+        }
+
+        /// <summary>
+        /// 指定された書式に基づいて、アセンブリの文字列表現を取得します。
+        /// </summary>
+        /// <param name="format">使用する表示書式。</param>
+        /// <returns>書式設定されたアセンブリの文字列表現。</returns>
+        /// <exception cref="ArgumentOutOfRangeException">format で指定された表示書式が定義されていません。</exception>
+        public string? ToString(AssemblyDisplayFormat format)
+        {
+            switch (format)
+            {
+                case AssemblyDisplayFormat.TitleAndVersion:
+                {
+                    if (string.IsNullOrWhiteSpace(Title) || Version is null)
+                    {
+                        return null;
+                    }
+                    var versionString = VersionHelper.ToString(Version);
+                    return $"{Title} v{versionString}";
+                }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(format), "The specified display format is not defined.");
+            }
         }
 
         /// <summary>

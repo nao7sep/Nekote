@@ -2,12 +2,12 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Nekote.Core.Utilities
+namespace Nekote.Core.IO
 {
     /// <summary>
     /// ファイル操作に関する静的ユーティリティメソッドを提供します。
     /// </summary>
-    public static class FileUtilities
+    public static class FileHelper
     {
         /// <summary>
         /// ストリームのコピー操作で使用する既定のバッファサイズ。(80KB)

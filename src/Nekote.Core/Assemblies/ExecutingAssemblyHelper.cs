@@ -4,35 +4,35 @@ using System.Reflection;
 namespace Nekote.Core.Assemblies
 {
     /// <summary>
-    /// エントリアセンブリへの静的アクセスを提供します。
+    /// 実行中アセンブリへの静的アクセスを提供します。
     /// </summary>
-    public static class EntryAssembly
+    public static class ExecutingAssemblyHelper
     {
         private static readonly Lazy<AssemblyWrapper> WrapperInstance =
-            new Lazy<AssemblyWrapper>(() => new AssemblyWrapper(Assembly.GetEntryAssembly()));
+            new Lazy<AssemblyWrapper>(() => new AssemblyWrapper(Assembly.GetExecutingAssembly()));
 
         /// <summary>
-        /// エントリアセンブリの完全な AssemblyWrapper インスタンスを取得します。
+        /// 現在のコードを実行しているアセンブリの完全な AssemblyWrapper インスタンスを取得します。
         /// </summary>
         public static AssemblyWrapper Info => WrapperInstance.Value;
 
         /// <summary>
-        /// エントリアセンブリが null でないかどうかを示す値を取得します。
+        /// 実行中アセンブリが null でないかどうかを示す値を取得します。
         /// </summary>
         public static bool Exists => Info.Exists;
 
         /// <summary>
-        /// エントリアセンブリがロードされたファイルの完全なパスまたは UNC の場所を取得します。
+        /// 実行中アセンブリがロードされたファイルの完全なパスまたは UNC の場所を取得します。
         /// </summary>
         public static string? Location => Info.Location;
 
         /// <summary>
-        /// エントリアセンブリが存在するディレクトリのパスを取得します。
+        /// 実行中アセンブリが存在するディレクトリのパスを取得します。
         /// </summary>
         public static string? DirectoryPath => Info.DirectoryPath;
 
         /// <summary>
-        /// エントリアセンブリのディレクトリを基準にして、相対パスを絶対パスに変換します。
+        /// 実行中アセンブリのディレクトリを基準にして、相対パスを絶対パスに変換します。
         /// </summary>
         /// <param name="relativePath">変換する相対パス。</param>
         /// <returns>解決された絶対パス。</returns>

@@ -1,11 +1,11 @@
 using System.IO;
 
-namespace Nekote.Core.Utilities
+namespace Nekote.Core.IO
 {
     /// <summary>
     /// パス操作に関する静的ユーティリティメソッドを提供します。
     /// </summary>
-    public static class PathUtilities
+    public static class PathHelper
     {
         /// <summary>
         /// パス文字列内のパス区切り文字を、現在の環境のプライマリ区切り文字に正規化します。

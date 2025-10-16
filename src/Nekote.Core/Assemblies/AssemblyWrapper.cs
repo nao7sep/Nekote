@@ -1,4 +1,4 @@
-using Nekote.Core.Utilities;
+using Nekote.Core.IO;
 using System;
 using System.IO;
 using System.Reflection;
@@ -119,7 +119,7 @@ namespace Nekote.Core.Assemblies
                 throw new InvalidOperationException("Could not determine the directory path for the assembly.");
             }
 
-            var normalizedRelativePath = PathUtilities.NormalizeDirectorySeparators(relativePath);
+            var normalizedRelativePath = PathHelper.NormalizeDirectorySeparators(relativePath);
             return Path.GetFullPath(Path.Combine(DirectoryPath, normalizedRelativePath));
         }
 

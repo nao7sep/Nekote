@@ -2,12 +2,12 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Nekote.Core.Utilities
+namespace Nekote.Core.IO
 {
     /// <summary>
     /// ディレクトリ操作に関する静的ユーティリティメソッドを提供します。
     /// </summary>
-    public static class DirectoryUtilities
+    public static class DirectoryHelper
     {
         /// <summary>
         /// ディレクトリの内容を別のディレクトリに非同期にコピー（マージ）します。
@@ -44,7 +44,7 @@ namespace Nekote.Core.Utilities
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 string targetFilePath = Path.Combine(targetDirectory.FullName, fileInfo.Name);
-                await FileUtilities.CopyAsync(fileInfo.FullName, targetFilePath, overwrite, cancellationToken).ConfigureAwait(false);
+                await FileHelper.CopyAsync(fileInfo.FullName, targetFilePath, overwrite, cancellationToken).ConfigureAwait(false);
             }
 
             // サブディレクトリを処理します
@@ -93,7 +93,7 @@ namespace Nekote.Core.Utilities
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 string targetFilePath = Path.Combine(targetDirectory.FullName, fileInfo.Name);
-                await FileUtilities.MoveAsync(fileInfo.FullName, targetFilePath, overwrite, cancellationToken).ConfigureAwait(false);
+                await FileHelper.MoveAsync(fileInfo.FullName, targetFilePath, overwrite, cancellationToken).ConfigureAwait(false);
             }
 
             // サブディレクトリを処理します

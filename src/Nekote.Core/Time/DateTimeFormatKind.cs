@@ -13,19 +13,9 @@ namespace Nekote.Core.Time
         LocalSortable,
 
         /// <summary>
-        /// 並べ替え可能なUTC時刻: yyyyMMddTHHmmssZ
-        /// </summary>
-        UtcSortable,
-
-        /// <summary>
         /// ミリ秒付きの並べ替え可能なローカル時刻: yyyyMMdd-HHmmss-fff
         /// </summary>
         LocalSortableMilliseconds,
-
-        /// <summary>
-        /// ミリ秒付きの並べ替え可能なUTC時刻: yyyyMMddTHHmmss-fffZ
-        /// </summary>
-        UtcSortableMilliseconds,
 
         /// <summary>
         /// ティック付きの並べ替え可能なローカル時刻: yyyyMMdd-HHmmss-fffffff
@@ -33,14 +23,19 @@ namespace Nekote.Core.Time
         LocalSortableTicks,
 
         /// <summary>
+        /// 並べ替え可能なUTC時刻: yyyyMMddTHHmmssZ
+        /// </summary>
+        UtcSortable,
+
+        /// <summary>
+        /// ミリ秒付きの並べ替え可能なUTC時刻: yyyyMMddTHHmmss-fffZ
+        /// </summary>
+        UtcSortableMilliseconds,
+
+        /// <summary>
         /// ティック付きの並べ替え可能なUTC時刻: yyyyMMddTHHmmss-fffffffZ
         /// </summary>
         UtcSortableTicks,
-
-        /// <summary>
-        /// タイムゾーン情報を含むラウンドトリップ書式。
-        /// </summary>
-        Roundtrip,
 
         // --- DateOnly & TimeOnly Formats ---
 
@@ -105,5 +100,32 @@ namespace Nekote.Core.Time
         /// 人間が読みやすい、ティックまでのUTC時刻書式: yyyy/M/d H:mm:ss.fffffff UTC
         /// </summary>
         UtcUserFriendlyTicks,
+
+        // --- Date & Time User-Friendly Formats ---
+
+        /// <summary>
+        /// 人間が読みやすい日付: yyyy/M/d
+        /// </summary>
+        DateUserFriendly,
+
+        /// <summary>
+        /// 人間が読みやすい時刻 (分まで): H:mm
+        /// </summary>
+        TimeUserFriendlyMinutes,
+
+        /// <summary>
+        /// 人間が読みやすい時刻 (秒まで): H:mm:ss
+        /// </summary>
+        TimeUserFriendlySeconds,
+
+        /// <summary>
+        /// 人間が読みやすい時刻 (ミリ秒まで): H:mm:ss.fff
+        /// </summary>
+        TimeUserFriendlyMilliseconds,
+
+        /// <summary>
+        /// 人間が読みやすい時刻 (ティックまで): H:mm:ss.fffffff
+        /// </summary>
+        TimeUserFriendlyTicks,
     }
 }

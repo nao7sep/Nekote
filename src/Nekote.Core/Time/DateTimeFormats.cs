@@ -12,12 +12,11 @@ namespace Nekote.Core.Time
         private static readonly ImmutableDictionary<DateTimeFormatKind, string> Map = new Dictionary<DateTimeFormatKind, string>
         {
             [DateTimeFormatKind.LocalSortable] = "yyyyMMdd'-'HHmmss",
-            [DateTimeFormatKind.UtcSortable] = "yyyyMMdd'T'HHmmss'Z'",
             [DateTimeFormatKind.LocalSortableMilliseconds] = "yyyyMMdd'-'HHmmss'-'fff",
-            [DateTimeFormatKind.UtcSortableMilliseconds] = "yyyyMMdd'T'HHmmss'-'fff'Z'",
             [DateTimeFormatKind.LocalSortableTicks] = "yyyyMMdd'-'HHmmss'-'fffffff",
+            [DateTimeFormatKind.UtcSortable] = "yyyyMMdd'T'HHmmss'Z'",
+            [DateTimeFormatKind.UtcSortableMilliseconds] = "yyyyMMdd'T'HHmmss'-'fff'Z'",
             [DateTimeFormatKind.UtcSortableTicks] = "yyyyMMdd'T'HHmmss'-'fffffff'Z'",
-            [DateTimeFormatKind.Roundtrip] = "o",
 
             [DateTimeFormatKind.DateSortable] = "yyyyMMdd",
             [DateTimeFormatKind.TimeSortable] = "HHmmss",
@@ -32,6 +31,12 @@ namespace Nekote.Core.Time
             [DateTimeFormatKind.UtcUserFriendlySeconds] = "yyyy'/'M'/'d' H':'mm':'ss 'UTC'",
             [DateTimeFormatKind.UtcUserFriendlyMilliseconds] = "yyyy'/'M'/'d' H':'mm':'ss'.'fff 'UTC'",
             [DateTimeFormatKind.UtcUserFriendlyTicks] = "yyyy'/'M'/'d' H':'mm':'ss'.'fffffff 'UTC'",
+
+            [DateTimeFormatKind.DateUserFriendly] = "yyyy'/'M'/'d'",
+            [DateTimeFormatKind.TimeUserFriendlyMinutes] = "H':'mm",
+            [DateTimeFormatKind.TimeUserFriendlySeconds] = "H':'mm':'ss",
+            [DateTimeFormatKind.TimeUserFriendlyMilliseconds] = "H':'mm':'ss'.'fff",
+            [DateTimeFormatKind.TimeUserFriendlyTicks] = "H':'mm':'ss'.'fffffff",
         }.ToImmutableDictionary();
 
         /// <summary>

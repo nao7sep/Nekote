@@ -122,10 +122,11 @@ namespace Nekote.Core.Time
             // --- DateTimeStylesの選択ロジック ---
             //
             // - UTC書式 (`Utc*`):
-            //   `AdjustToUniversal` を使用して、パーズ結果を確実にUTCに変換します。
-            //   書式自体に 'Z' や "UTC" といったタイムゾーン情報が含まれているため、
-            //   タイムゾーン不明な文字列をUTCと見なす `AssumeUniversal` は不要です。
-            //   また、ドキュメントでは `AssumeUniversal` と `AdjustToUniversal` の併用は推奨されていません。
+            //   `AssumeUniversal` と `AdjustToUniversal` の両方を指定しています。
+            //   一部の書式（特に 'Z' を含むもの）では、`AssumeUniversal` を付けないと
+            //   'Z' がUTC指標として正しく認識されず、テストが失敗する場合があります。
+            //   本来、ドキュメント上は `AssumeUniversal` と `AdjustToUniversal` の併用は非推奨ですが、
+            //   現状この組み合わせでテストが正しく通るため、実装しています。
             //
             // - ローカル書式 (`Local*`):
             //   `AssumeLocal` を使用します。これらの書式にはタイムゾーン情報が含まれていないため、
@@ -144,7 +145,7 @@ namespace Nekote.Core.Time
             DateTimeFormatKind.UtcSortable or
             DateTimeFormatKind.UtcSortableMilliseconds or
             DateTimeFormatKind.UtcSortableTicks
-                => DateTimeStyles.AdjustToUniversal,
+                => DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
 
             // --- 日付のみ・時刻のみの書式 ---
 
@@ -166,7 +167,7 @@ namespace Nekote.Core.Time
             DateTimeFormatKind.UtcUserFriendlySeconds or
             DateTimeFormatKind.UtcUserFriendlyMilliseconds or
             DateTimeFormatKind.UtcUserFriendlyTicks
-                => DateTimeStyles.AdjustToUniversal,
+                => DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
 
             // --- 日付・時刻の人間が読みやすい書式 ---
 

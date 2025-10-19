@@ -8,6 +8,12 @@ namespace Nekote.Core.Time
     /// </summary>
     public static class DateTimeHelper
     {
+        /// <summary>
+        /// 指定された書式を使用して、この <see cref="DateTimeOffset"/> のインスタンスの値を、それと等価な文字列形式に変換します。
+        /// </summary>
+        /// <param name="value">変換対象の <see cref="DateTimeOffset"/>。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <returns>指定した書式による文字列形式。</returns>
         public static string ToString(this DateTimeOffset value, DateTimeFormatKind format)
         {
             if (!Enum.IsDefined<DateTimeFormatKind>(format))
@@ -18,6 +24,12 @@ namespace Nekote.Core.Time
             return value.ToString(formatString, CultureInfo.InvariantCulture);
         }
 
+        /// <summary>
+        /// 指定された書式の文字列を、それと等価な <see cref="DateTimeOffset"/> に変換します。
+        /// </summary>
+        /// <param name="value">変換する文字列。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <returns>変換された <see cref="DateTimeOffset"/>。</returns>
         public static DateTimeOffset ParseDateTimeOffset(string value, DateTimeFormatKind format)
         {
             if (!Enum.IsDefined<DateTimeFormatKind>(format))
@@ -29,6 +41,13 @@ namespace Nekote.Core.Time
             return DateTimeOffset.ParseExact(value, formatString, CultureInfo.InvariantCulture, styles);
         }
 
+        /// <summary>
+        /// 指定された書式の文字列を、それと等価な <see cref="DateTimeOffset"/> に変換しようと試みます。
+        /// </summary>
+        /// <param name="value">変換する文字列。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <param name="result">変換に成功した場合、変換された <see cref="DateTimeOffset"/> が格納されます。</param>
+        /// <returns>変換に成功した場合は true、それ以外は false。</returns>
         public static bool TryParseDateTimeOffset(string value, DateTimeFormatKind format, out DateTimeOffset result)
         {
             if (!Enum.IsDefined<DateTimeFormatKind>(format))
@@ -41,6 +60,12 @@ namespace Nekote.Core.Time
             return DateTimeOffset.TryParseExact(value, formatString, CultureInfo.InvariantCulture, styles, out result);
         }
 
+        /// <summary>
+        /// 指定された書式を使用して、この <see cref="DateTime"/> のインスタンスの値を、それと等価な文字列形式に変換します。
+        /// </summary>
+        /// <param name="value">変換対象の <see cref="DateTime"/>。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <returns>指定した書式による文字列形式。</returns>
         public static string ToString(this DateTime value, DateTimeFormatKind format)
         {
             if (!Enum.IsDefined<DateTimeFormatKind>(format))
@@ -51,6 +76,12 @@ namespace Nekote.Core.Time
             return value.ToString(formatString, CultureInfo.InvariantCulture);
         }
 
+        /// <summary>
+        /// 指定された書式の文字列を、それと等価な <see cref="DateTime"/> に変換します。
+        /// </summary>
+        /// <param name="value">変換する文字列。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <returns>変換された <see cref="DateTime"/>。</returns>
         public static DateTime ParseDateTime(string value, DateTimeFormatKind format)
         {
             if (!Enum.IsDefined<DateTimeFormatKind>(format))
@@ -62,6 +93,13 @@ namespace Nekote.Core.Time
             return DateTime.ParseExact(value, formatString, CultureInfo.InvariantCulture, styles);
         }
 
+        /// <summary>
+        /// 指定された書式の文字列を、それと等価な <see cref="DateTime"/> に変換しようと試みます。
+        /// </summary>
+        /// <param name="value">変換する文字列。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <param name="result">変換に成功した場合、変換された <see cref="DateTime"/> が格納されます。</param>
+        /// <returns>変換に成功した場合は true、それ以外は false。</returns>
         public static bool TryParseDateTime(string value, DateTimeFormatKind format, out DateTime result)
         {
             if (!Enum.IsDefined<DateTimeFormatKind>(format))
@@ -127,6 +165,12 @@ namespace Nekote.Core.Time
             _ => throw new ArgumentException($"Invalid format '{format}' for this operation.", nameof(format))
         };
 
+        /// <summary>
+        /// 指定された書式を使用して、この <see cref="DateOnly"/> のインスタンスの値を、それと等価な文字列形式に変換します。
+        /// </summary>
+        /// <param name="value">変換対象の <see cref="DateOnly"/>。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <returns>指定した書式による文字列形式。</returns>
         public static string ToString(this DateOnly value, DateTimeFormatKind format)
         {
             switch (format)
@@ -140,6 +184,12 @@ namespace Nekote.Core.Time
             }
         }
 
+        /// <summary>
+        /// 指定された書式の文字列を、それと等価な <see cref="DateOnly"/> に変換します。
+        /// </summary>
+        /// <param name="value">変換する文字列。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <returns>変換された <see cref="DateOnly"/>。</returns>
         public static DateOnly ParseDateOnly(string value, DateTimeFormatKind format)
         {
             switch (format)
@@ -154,6 +204,13 @@ namespace Nekote.Core.Time
             }
         }
 
+        /// <summary>
+        /// 指定された書式の文字列を、それと等価な <see cref="DateOnly"/> に変換しようと試みます。
+        /// </summary>
+        /// <param name="value">変換する文字列。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <param name="result">変換に成功した場合、変換された <see cref="DateOnly"/> が格納されます。</param>
+        /// <returns>変換に成功した場合は true、それ以外は false。</returns>
         public static bool TryParseDateOnly(string value, DateTimeFormatKind format, out DateOnly result)
         {
             switch (format)
@@ -169,6 +226,12 @@ namespace Nekote.Core.Time
             }
         }
 
+        /// <summary>
+        /// 指定された書式を使用して、この <see cref="TimeOnly"/> のインスタンスの値を、それと等価な文字列形式に変換します。
+        /// </summary>
+        /// <param name="value">変換対象の <see cref="TimeOnly"/>。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <returns>指定した書式による文字列形式。</returns>
         public static string ToString(this TimeOnly value, DateTimeFormatKind format)
         {
             switch (format)
@@ -187,6 +250,12 @@ namespace Nekote.Core.Time
             }
         }
 
+        /// <summary>
+        /// 指定された書式の文字列を、それと等価な <see cref="TimeOnly"/> に変換します。
+        /// </summary>
+        /// <param name="value">変換する文字列。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <returns>変換された <see cref="TimeOnly"/>。</returns>
         public static TimeOnly ParseTimeOnly(string value, DateTimeFormatKind format)
         {
             switch (format)
@@ -206,6 +275,13 @@ namespace Nekote.Core.Time
             }
         }
 
+        /// <summary>
+        /// 指定された書式の文字列を、それと等価な <see cref="TimeOnly"/> に変換しようと試みます。
+        /// </summary>
+        /// <param name="value">変換する文字列。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <param name="result">変換に成功した場合、変換された <see cref="TimeOnly"/> が格納されます。</param>
+        /// <returns>変換に成功した場合は true、それ以外は false。</returns>
         public static bool TryParseTimeOnly(string value, DateTimeFormatKind format, out TimeOnly result)
         {
             switch (format)

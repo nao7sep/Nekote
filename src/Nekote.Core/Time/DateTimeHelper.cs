@@ -135,6 +135,28 @@ namespace Nekote.Core.Time
             // - 日付・時刻のみの書式:
             //   `None` を使用します。これらの書式はタイムゾーンの概念を持たないため、特別なスタイルは不要です。
 
+            // わい: パッと見た限り、併用を非推奨とする公式ドキュメントは見つからず。
+            //
+            // タイムゾーンが関係する値を返してもらいたい format の指定のときに、どちらが返ってほしいかを Assume* で指定するのは理にかなう。
+            //
+            // そこに AdjustToUniversal が不可欠か再テストしたく、なくしてみたところ、七つの Utc* の format で確実に失敗した。
+            // "yyyyMMdd'T'HHmmss'Z'" や "yyyy'/'M'/'d H':'mm 'UTC'" などだ。
+            // 返ってきた値は、必ず9時間、先へ進んでいた。
+            // AdjustToUniversal の追加によりテストに通ることを考えると、返ってきているものは「9時間先のデータが入ったローカル日時」だ。
+            // 公式ドキュメントの Remarks には、
+            // If the input string does not contain any indication of the time zone,
+            // the date and time parsing methods interpret the value of the date and time string based on the time zone setting for the operating system. とある。
+            // https://learn.microsoft.com/en-us/dotnet/api/system.globalization.datetimestyles?view=net-9.0
+            // おそらく、DateTime はローカル日時が基本で、Parse* 時に UTC っぽいなと思えば、
+            // DateTimeStyles には存在しない AdjustToLocal 的な変換を勝手に行う仕様になっているのだろう。
+            //
+            // 入力がローカルか UTC か、それが検出されるかどうかにより、四つのパターンになる。
+            // ローカル日時 → ローカル文字列 → ローカルだと検出されれば Kind のみそう設定され、そうでなければ AssumeLocal により同じことが起こる。
+            // UTC 日時 → UTC 文字列 → UTC だと検出されれば「勝手にローカルに変換され」、そうでなければ AssumeUniversal により Kind のみそう設定される。
+            // ここで勝手に変換されるのを、AdjustToUniversal により、同じ the time zone setting for the operating system に基づいて元に戻す。
+            // 無駄な処理だが、20年前につくられた DateTime が基本ローカルなのは、C 言語の文字列がデフォルトでは Unicode でなかったのと同じようなことだろう。
+            // そういうものだと諦めて、無駄な処理を組み込んでおくしかない。
+
             // --- 並べ替え可能な書式 ---
 
             DateTimeFormatKind.LocalSortable or

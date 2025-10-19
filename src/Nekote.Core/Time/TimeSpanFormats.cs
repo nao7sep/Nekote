@@ -6,12 +6,12 @@ namespace Nekote.Core.Time
 {
     /// <summary>
     /// TimeSpanFormatKind に対応する書式文字列を管理します。
+    /// 注意: 1日未満 (24時間未満) の TimeSpan のみサポートします。
     /// </summary>
     public static class TimeSpanFormats
     {
-        // TimeSpan.ToString() は合計時間 (例: 25時間) を
-        // 直接フォーマットする機能がないため、ToString の実装はカスタムロジックで行います。
-        // 一方、ParseExact は合計時間に対応しているため、ここでの書式文字列は主にパース処理で使用されます。
+        // 1日未満の TimeSpan に対して、標準的な書式文字列を使用します。
+        // ToString と ParseExact の両方でこれらの書式文字列を使用できます。
         private static readonly ImmutableDictionary<TimeSpanFormatKind, string> Map = new Dictionary<TimeSpanFormatKind, string>
         {
             [TimeSpanFormatKind.SortableSeconds] = @"hh\-mm\-ss",

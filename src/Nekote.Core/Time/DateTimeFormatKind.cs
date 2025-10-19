@@ -5,7 +5,7 @@ namespace Nekote.Core.Time
     /// </summary>
     public enum DateTimeFormatKind
     {
-        // --- Sortable Formats ---
+        // --- 並べ替え可能な書式 ---
 
         /// <summary>
         /// 並べ替え可能なローカル時刻: yyyyMMdd-HHmmss
@@ -37,7 +37,7 @@ namespace Nekote.Core.Time
         /// </summary>
         UtcSortableTicks,
 
-        // --- DateOnly & TimeOnly Formats ---
+        // --- 日付のみ・時刻のみの書式 ---
 
         /// <summary>
         /// 並べ替え可能な日付: yyyyMMdd
@@ -59,7 +59,7 @@ namespace Nekote.Core.Time
         /// </summary>
         TimeSortableTicks,
 
-        // --- User-Friendly Formats ---
+        // --- 人間が読みやすい書式 ---
 
         /// <summary>
         /// 人間が読みやすい、分までのローカル時刻書式: yyyy/M/d H:mm
@@ -101,7 +101,7 @@ namespace Nekote.Core.Time
         /// </summary>
         UtcUserFriendlyTicks,
 
-        // --- Date & Time User-Friendly Formats ---
+        // --- 日付・時刻の人間が読みやすい書式 ---
 
         /// <summary>
         /// 人間が読みやすい日付: yyyy/M/d

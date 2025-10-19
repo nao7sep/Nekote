@@ -112,12 +112,27 @@ namespace Nekote.Core.Time
             return DateTime.TryParseExact(value, formatString, CultureInfo.InvariantCulture, styles, out result);
         }
 
+        /// <summary>
+        /// 指定された <see cref="DateTimeFormatKind"/> に応じた <see cref="DateTimeStyles"/> を返します。
+        /// </summary>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <returns>対応する <see cref="DateTimeStyles"/>。</returns>
         private static DateTimeStyles GetDateTimeStyles(DateTimeFormatKind format) => format switch
         {
-            // わい: AI は AssumeUniversal のところに AdjustToUniversal を足そうとしたが、必要でない。
-            // Assume* は、+09:00 などがなくてタイムゾーンが分からないときに DateTime.Kind に何を設定するかの指定。
-            // このクラスでの Parse* は ParseExact なので、完全一致でないとそもそもパーズを通らない。
-            // +09:00 などが見つかったからローカルだと判断されたものを AdjustToUniversal で UTC にして返すことは起こりえない。
+            // --- DateTimeStylesの選択ロジック ---
+            //
+            // - UTC書式 (`Utc*`):
+            //   `AdjustToUniversal` を使用して、パーズ結果を確実にUTCに変換します。
+            //   書式自体に 'Z' や "UTC" といったタイムゾーン情報が含まれているため、
+            //   タイムゾーン不明な文字列をUTCと見なす `AssumeUniversal` は不要です。
+            //   また、ドキュメントでは `AssumeUniversal` と `AdjustToUniversal` の併用は推奨されていません。
+            //
+            // - ローカル書式 (`Local*`):
+            //   `AssumeLocal` を使用します。これらの書式にはタイムゾーン情報が含まれていないため、
+            //   パーズ時にシステムのローカルタイムゾーンであると解釈するよう明示的に指定する必要があります。
+            //
+            // - 日付・時刻のみの書式:
+            //   `None` を使用します。これらの書式はタイムゾーンの概念を持たないため、特別なスタイルは不要です。
 
             // --- 並べ替え可能な書式 ---
 
@@ -129,7 +144,7 @@ namespace Nekote.Core.Time
             DateTimeFormatKind.UtcSortable or
             DateTimeFormatKind.UtcSortableMilliseconds or
             DateTimeFormatKind.UtcSortableTicks
-                => DateTimeStyles.AssumeUniversal,
+                => DateTimeStyles.AdjustToUniversal,
 
             // --- 日付のみ・時刻のみの書式 ---
 
@@ -151,7 +166,7 @@ namespace Nekote.Core.Time
             DateTimeFormatKind.UtcUserFriendlySeconds or
             DateTimeFormatKind.UtcUserFriendlyMilliseconds or
             DateTimeFormatKind.UtcUserFriendlyTicks
-                => DateTimeStyles.AssumeUniversal,
+                => DateTimeStyles.AdjustToUniversal,
 
             // --- 日付・時刻の人間が読みやすい書式 ---
 

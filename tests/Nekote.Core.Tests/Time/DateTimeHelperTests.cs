@@ -1,4 +1,5 @@
 using System;
+using Nekote.Core.Randomization;
 using Nekote.Core.Time;
 using Xunit;
 
@@ -9,7 +10,7 @@ namespace Nekote.Core.Tests.Time
     /// </summary>
     public class DateTimeHelperTests
     {
-        private static readonly Random _random = new();
+        private static readonly IRandomProvider _random = new SystemRandomProvider();
 
         /// <summary>
         /// 指定された種類のランダムな <see cref="DateTimeOffset"/> を作成します。

@@ -1,4 +1,5 @@
 using System;
+using Nekote.Core.Randomization;
 using Nekote.Core.Time;
 using Xunit;
 
@@ -9,7 +10,7 @@ namespace Nekote.Core.Tests.Time
     /// </summary>
     public class TimeSpanHelperTests
     {
-        private static readonly Random _random = new();
+        private static readonly IRandomProvider _random = new SystemRandomProvider();
 
         /// <summary>
         /// ランダムな <see cref="TimeSpan"/> を作成します。

@@ -12,6 +12,13 @@ namespace Nekote.Core.Text
     /// <para>このAPIは、インターフェースではなく抽象クラスとして設計されています。主な理由は、<see cref="System.StringComparer"/> のような使い慣れたファクトリパターンを提供するためです。
     /// これにより、<see cref="InvariantCulture"/> のような静的プロパティを通じて、事前に構成されたインスタンスに簡単にアクセスできます。抽象クラスはまた、実装の詳細をライブラリの利用者に公開することなく、内部で管理することを可能にします。</para>
     /// <br/>
+    /// <para><b>デフォルトの動作: Unicode正規化</b></para>
+    /// <para>このクラスの静的プロパティ（例：<see cref="InvariantCulture"/>）によって返されるデフォルトのコンパレータは、Unicode正規化を実行します。
+    /// これは、全角数字（例：「１２３」）と半角数字（例：「123」）を等しいものとして扱うことを意味します。
+    /// この動作は、特に日本語のような全角文字が一般的に使用される環境での直感的なソート順序を提供します。
+    /// パフォーマンスが最優先で、入力文字列に全角数字などが含まれないことが確実な場合は、<see cref="Create(StringComparer, bool)"/> メソッドで正規化を無効にしたインスタンスを生成できます。
+    /// 例：<c>NaturalStringComparer.Create(StringComparer.Ordinal, normalize: false)</c></para>
+    /// <br/>
     /// <para><b>現在の実装の制限事項</b></para>
     /// <para>現在の実装は、符号なし整数を効率的に処理することに特化しています。以下の要素はサポートされていません：</para>
     /// <list type="bullet">
@@ -26,48 +33,48 @@ namespace Nekote.Core.Text
     public abstract class NaturalStringComparer : IComparer<string>, IEqualityComparer<string>
     {
         /// <summary>
-        /// インバリアントカルチャを使用して、大文字と小文字を区別する自然順比較を行うインスタンスを取得します。
+        /// インバリアントカルチャを使用して、大文字と小文字を区別し、Unicode正規化を行う自然順比較のインスタンスを取得します。
         /// </summary>
-        public static NaturalStringComparer InvariantCulture { get; } = new NaturalStringComparerImplementation(StringComparer.InvariantCulture);
+        public static NaturalStringComparer InvariantCulture { get; } = new NaturalStringComparerImplementation(StringComparer.InvariantCulture, normalize: true);
 
         /// <summary>
-        /// インバリアントカルチャを使用して、大文字と小文字を区別しない自然順比較を行うインスタンスを取得します。
+        /// インバリアントカルチャを使用して、大文字と小文字を区別せず、Unicode正規化を行う自然順比較のインスタンスを取得します。
         /// </summary>
-        public static NaturalStringComparer InvariantCultureIgnoreCase { get; } = new NaturalStringComparerImplementation(StringComparer.InvariantCultureIgnoreCase);
+        public static NaturalStringComparer InvariantCultureIgnoreCase { get; } = new NaturalStringComparerImplementation(StringComparer.InvariantCultureIgnoreCase, normalize: true);
 
         /// <summary>
-        /// 現在のカルチャを使用して、大文字と小文字を区別する自然順比較を行うインスタンスを取得します。
+        /// 現在のカルチャを使用して、大文字と小文字を区別し、Unicode正規化を行う自然順比較のインスタンスを取得します。
         /// </summary>
-        public static NaturalStringComparer CurrentCulture { get; } = new NaturalStringComparerImplementation(StringComparer.CurrentCulture);
+        public static NaturalStringComparer CurrentCulture { get; } = new NaturalStringComparerImplementation(StringComparer.CurrentCulture, normalize: true);
 
         /// <summary>
-        /// 現在のカルチャを使用して、大文字と小文字を区別しない自然順比較を行うインスタンスを取得します。
+        /// 現在のカルチャを使用して、大文字と小文字を区別せず、Unicode正規化を行う自然順比較のインスタンスを取得します。
         /// </summary>
-        public static NaturalStringComparer CurrentCultureIgnoreCase { get; } = new NaturalStringComparerImplementation(StringComparer.CurrentCultureIgnoreCase);
+        public static NaturalStringComparer CurrentCultureIgnoreCase { get; } = new NaturalStringComparerImplementation(StringComparer.CurrentCultureIgnoreCase, normalize: true);
 
         /// <summary>
-        /// 序数（バイナリ）ルールを使用して、大文字と小文字を区別する自然順比較を行うインスタンスを取得します。
+        /// 序数（バイナリ）ルールを使用して、大文字と小文字を区別し、Unicode正規化を行う自然順比較のインスタンスを取得します。
         /// </summary>
-        public static NaturalStringComparer Ordinal { get; } = new NaturalStringComparerImplementation(StringComparer.Ordinal);
+        public static NaturalStringComparer Ordinal { get; } = new NaturalStringComparerImplementation(StringComparer.Ordinal, normalize: true);
 
         /// <summary>
-        /// 序数（バイナリ）ルールを使用して、大文字と小文字を区別しない自然順比較を行うインスタンスを取得します。
+        /// 序数（バイナリ）ルールを使用して、大文字と小文字を区別せず、Unicode正規化を行う自然順比較のインスタンスを取得します。
         /// </summary>
-        public static NaturalStringComparer OrdinalIgnoreCase { get; } = new NaturalStringComparerImplementation(StringComparer.OrdinalIgnoreCase);
+        public static NaturalStringComparer OrdinalIgnoreCase { get; } = new NaturalStringComparerImplementation(StringComparer.OrdinalIgnoreCase, normalize: true);
 
         /// <summary>
-        /// 指定した StringComparer を使用して NaturalStringComparer のインスタンスを作成します。
-        /// これにより、カスタムの文字列比較ロジックを自然順比較に組み込むことができます。
+        /// 指定した StringComparer と正規化オプションを使用して NaturalStringComparer のインスタンスを作成します。
         /// </summary>
         /// <param name="baseComparer">基本的な文字列比較（大文字小文字の区別、カルチャなど）を行うための StringComparer。</param>
+        /// <param name="normalize">比較前にUnicode正規化（例：全角数字を半角に変換）を行うかどうか。デフォルトは <c>true</c> です。</param>
         /// <returns>NaturalStringComparer の新しいインスタンス。</returns>
-        public static NaturalStringComparer Create(StringComparer baseComparer)
+        public static NaturalStringComparer Create(StringComparer baseComparer, bool normalize = true)
         {
             if (baseComparer is null)
             {
                 throw new ArgumentNullException(nameof(baseComparer));
             }
-            return new NaturalStringComparerImplementation(baseComparer);
+            return new NaturalStringComparerImplementation(baseComparer, normalize);
         }
 
         /// <summary>

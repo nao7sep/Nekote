@@ -9,14 +9,21 @@ namespace Nekote.Core.Text
     internal sealed class NaturalStringComparerImplementation : NaturalStringComparer
     {
         private readonly StringComparer _baseComparer;
+        private readonly bool _normalize;
 
-        internal NaturalStringComparerImplementation(StringComparer baseComparer)
+        /// <summary>
+        /// NaturalStringComparerの実装を初期化します。
+        /// </summary>
+        /// <param name="baseComparer">テキスト部分の比較に使用する基本的な文字列コンパレータ。</param>
+        /// <param name="normalize">比較前にUnicode正規化（例：全角数字を半角に変換）を行うかどうか。</param>
+        internal NaturalStringComparerImplementation(StringComparer baseComparer, bool normalize)
         {
             if (baseComparer is null)
             {
                 throw new ArgumentNullException(nameof(baseComparer));
             }
             _baseComparer = baseComparer;
+            _normalize = normalize;
         }
 
         public override int Compare(string? x, string? y)
@@ -150,21 +157,32 @@ namespace Nekote.Core.Text
                     {
                         pos++;
                     }
+                    var numSpan = obj.Slice(start, pos - start);
+
+                    ReadOnlySpan<char> spanToHash = numSpan;
+                    if (_normalize)
+                    {
+                        // スタック上にバッファを確保し、正規化を試みます。
+                        // 頻繁に発生する小さな文字列に対しては、ヒープ割り当てを回避できます。
+                        Span<char> buffer = numSpan.Length <= 128 ? stackalloc char[numSpan.Length] : new char[numSpan.Length];
+                        spanToHash = Normalize(numSpan, buffer);
+                    }
+
                     // 先頭のゼロをトリムして、数値的な値を正規化します。
                     // これにより、「file 1」と「file 01」が同じハッシュ貢献を持つようになります。
                     // 特殊なケースとして、"0"や"00"は空スパン""になります。この場合、long.TryParseは失敗し、
                     // フォールバックとして空文字列のハッシュコードが使われます。
                     // これにより、全てのゼロ値（"0", "00"など）が同じハッシュコードを持つことが保証されます。
-                    var numSpan = obj.Slice(start, pos - start).TrimStart('0');
+                    var trimmedSpan = spanToHash.TrimStart('0');
 
-                    if (long.TryParse(numSpan, out long num))
+                    if (long.TryParse(trimmedSpan, out long num))
                     {
                         hashCode.Add(num);
                     }
                     else
                     {
                         // longに収まらない巨大な数の場合は文字列としてハッシュコードを計算します。
-                        hashCode.Add(numSpan.ToString());
+                        hashCode.Add(trimmedSpan.ToString());
                     }
                 }
                 else
@@ -185,8 +203,20 @@ namespace Nekote.Core.Text
         /// <summary>
         /// 文字列の数値部分を自然順で比較します。
         /// </summary>
-        private static int CompareNumeric(ReadOnlySpan<char> x, ReadOnlySpan<char> y)
+        private int CompareNumeric(ReadOnlySpan<char> x, ReadOnlySpan<char> y)
         {
+            ReadOnlySpan<char> xToCompare = x;
+            ReadOnlySpan<char> yToCompare = y;
+
+            if (_normalize)
+            {
+                Span<char> bufferX = x.Length <= 128 ? stackalloc char[x.Length] : new char[x.Length];
+                xToCompare = Normalize(x, bufferX);
+
+                Span<char> bufferY = y.Length <= 128 ? stackalloc char[y.Length] : new char[y.Length];
+                yToCompare = Normalize(y, bufferY);
+            }
+
             // このメソッドは、2つの文字列スパンを数値として比較します。
             // 例：「2」は「10」より小さい。
 
@@ -195,8 +225,8 @@ namespace Nekote.Core.Text
             // 特殊なケースとして、"0"や"000"のような文字列は空のスパン""になります。
             // この場合、その長さは0となり、どの正の数の有効桁数（1以上）よりも小さくなるため、
             // 続く長さの比較によって正しく「0」が他の全ての正の数より小さいと判断されます。
-            var trimX = x.TrimStart('0');
-            var trimY = y.TrimStart('0');
+            var trimX = xToCompare.TrimStart('0');
+            var trimY = yToCompare.TrimStart('0');
 
             // まず、有効な桁数で比較します。桁数が多い方が数値的に大きいです。
             // 例：「100」（長さ3）は「99」（長さ2）より大きい。
@@ -209,6 +239,29 @@ namespace Nekote.Core.Text
             // 桁数が同じ場合、単純な辞書順比較で十分です。
             // 例：「20」は「10」より大きい。
             return trimX.SequenceCompareTo(trimY);
+        }
+
+        /// <summary>
+        /// 数字スパンを正規化します（例：全角を半角に）。
+        /// </summary>
+        private static ReadOnlySpan<char> Normalize(ReadOnlySpan<char> span, Span<char> buffer)
+        {
+            bool hasFullWidth = false;
+            for (int i = 0; i < span.Length; i++)
+            {
+                char c = span[i];
+                if (c >= '０' && c <= '９')
+                {
+                    buffer[i] = (char)('0' + (c - '０'));
+                    hasFullWidth = true;
+                }
+                else
+                {
+                    buffer[i] = c;
+                }
+            }
+            // 正規化が必要なかった場合は、元のスパンを返してアロケーションを避けます。
+            return hasFullWidth ? buffer.Slice(0, span.Length) : span;
         }
     }
 }

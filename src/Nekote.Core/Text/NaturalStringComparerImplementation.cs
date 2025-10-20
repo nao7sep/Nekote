@@ -49,8 +49,18 @@ namespace Nekote.Core.Text
             return Compare(x, y) == 0;
         }
 
+        /// <summary>
+        /// 指定した文字列のハッシュコードを返します。
+        /// </summary>
+        /// <param name="obj">ハッシュコードを取得する対象の文字列。</param>
+        /// <returns>指定した文字列のハッシュコード。</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="obj"/> が null の場合。</exception>
         public override int GetHashCode(string obj)
         {
+            if (obj is null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
             return GetHashCode(obj.AsSpan());
         }
 
@@ -67,9 +77,18 @@ namespace Nekote.Core.Text
                 bool isDigitX = char.IsDigit(x[posX]);
                 bool isDigitY = char.IsDigit(y[posY]);
 
-                if (isDigitX && isDigitY)
+                if (isDigitX != isDigitY)
                 {
-                    // ケース1：両方のチャンクが数字です。
+                    // ケース1：数字と非数字の比較（例：'a' vs '1'、'-' vs '1'）。
+                    // 以前の最適化（数字 < 非数字）は、記号（例：'-'）に対して不正確でした。
+                    // 正確性を保証するため、基本コンパレータに単一文字の比較を委ねます。
+                    // これが、文字列全体としての最初の相違点となるため、この結果が最終的な結果となります。
+                    return _baseComparer.Compare(x.Slice(posX, 1).ToString(), y.Slice(posY, 1).ToString());
+                }
+
+                // この時点で、両方の文字が数字であるか、両方とも非数字であることがわかっています。
+                if (isDigitX) // ケース2：両方とも数字
+                {
                     // 数字チャンク全体を抽出し、数値として比較します。
                     int numStartX = posX;
                     while (posX < x.Length && char.IsDigit(x[posX]))
@@ -91,10 +110,13 @@ namespace Nekote.Core.Text
                         return result;
                     }
                 }
-                else if (!isDigitX && !isDigitY)
+                else // ケース3：両方とも非数字
                 {
-                    // ケース2：両方のチャンクが非数字（テキスト）です。
-                    // テキストチャンクを抽出し、指定された基本のStringComparerで比較します。
+                    // ここでは、文字単位ではなく、テキストチャンク全体を抽出して比較します。
+                    // これは、カルチャ依存の比較（Ordinal以外）を正しく処理するために不可欠です。
+                    // StringComparerは、複数の文字を単一の照合要素として扱うことがあります
+                    // （例：合成文字 "e" + "´" -> "é"、サロゲートペアで表現される絵文字など）。
+                    // そのため、コンパレータには完全なコンテキスト（チャンク全体）を渡す必要があります。
                     int strStartX = posX;
                     while (posX < x.Length && !char.IsDigit(x[posX]))
                     {
@@ -115,12 +137,6 @@ namespace Nekote.Core.Text
                         return result;
                     }
                 }
-                else
-                {
-                    // ケース3：数字とテキストの比較。
-                    // 一般的な規則に従い、数字は常にテキストより小さい（先に来る）と見なします。
-                    return isDigitX ? -1 : 1;
-                }
             }
 
             // 一方の文字列がもう一方のプレフィックスである場合（例："file" vs "file1"）。
@@ -140,6 +156,11 @@ namespace Nekote.Core.Text
             return Compare(x, y) == 0;
         }
 
+        /// <summary>
+        /// 指定した文字スパンのハッシュコードを返します。
+        /// </summary>
+        /// <param name="obj">ハッシュコードを取得する対象の文字スパン。</param>
+        /// <returns>指定した文字スパンのハッシュコード。</returns>
         public override int GetHashCode(ReadOnlySpan<char> obj)
         {
             // このハッシュコード計算は、Equalsメソッドと一貫性があります。
@@ -159,14 +180,7 @@ namespace Nekote.Core.Text
                     }
                     var numSpan = obj.Slice(start, pos - start);
 
-                    ReadOnlySpan<char> spanToHash = numSpan;
-                    if (_normalize)
-                    {
-                        // スタック上にバッファを確保し、正規化を試みます。
-                        // 頻繁に発生する小さな文字列に対しては、ヒープ割り当てを回避できます。
-                        Span<char> buffer = numSpan.Length <= 128 ? stackalloc char[numSpan.Length] : new char[numSpan.Length];
-                        spanToHash = Normalize(numSpan, buffer);
-                    }
+                    ReadOnlySpan<char> spanToHash = _normalize ? Normalize(numSpan) : numSpan;
 
                     // 先頭のゼロをトリムして、数値的な値を正規化します。
                     // これにより、「file 1」と「file 01」が同じハッシュ貢献を持つようになります。
@@ -210,11 +224,8 @@ namespace Nekote.Core.Text
 
             if (_normalize)
             {
-                Span<char> bufferX = x.Length <= 128 ? stackalloc char[x.Length] : new char[x.Length];
-                xToCompare = Normalize(x, bufferX);
-
-                Span<char> bufferY = y.Length <= 128 ? stackalloc char[y.Length] : new char[y.Length];
-                yToCompare = Normalize(y, bufferY);
+                xToCompare = Normalize(x);
+                yToCompare = Normalize(y);
             }
 
             // このメソッドは、2つの文字列スパンを数値として比較します。
@@ -244,24 +255,40 @@ namespace Nekote.Core.Text
         /// <summary>
         /// 数字スパンを正規化します（例：全角を半角に）。
         /// </summary>
-        private static ReadOnlySpan<char> Normalize(ReadOnlySpan<char> span, Span<char> buffer)
+        private static ReadOnlySpan<char> Normalize(ReadOnlySpan<char> span)
         {
+            // 最初に全角数字があるかチェックして、不要な割り当てを避けます
             bool hasFullWidth = false;
+            for (int i = 0; i < span.Length; i++)
+            {
+                if (span[i] >= '０' && span[i] <= '９')
+                {
+                    hasFullWidth = true;
+                    break;
+                }
+            }
+
+            // 全角数字がない場合は元のスパンをそのまま返します
+            if (!hasFullWidth)
+            {
+                return span;
+            }
+
+            // 全角数字がある場合のみバッファを割り当てて正規化します
+            var buffer = new char[span.Length];
             for (int i = 0; i < span.Length; i++)
             {
                 char c = span[i];
                 if (c >= '０' && c <= '９')
                 {
                     buffer[i] = (char)('0' + (c - '０'));
-                    hasFullWidth = true;
                 }
                 else
                 {
                     buffer[i] = c;
                 }
             }
-            // 正規化が必要なかった場合は、元のスパンを返してアロケーションを避けます。
-            return hasFullWidth ? buffer.Slice(0, span.Length) : span;
+            return buffer;
         }
     }
 }

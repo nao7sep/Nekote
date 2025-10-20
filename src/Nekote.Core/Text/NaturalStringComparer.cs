@@ -100,8 +100,8 @@ namespace Nekote.Core.Text
         /// <summary>
         /// 指定した文字列のハッシュコードを返します。
         /// </summary>
-        /// <param name="obj">ハッシュコードを取得する対象のオブジェクト。</param>
-        /// <returns>指定したオブジェクトのハッシュコード。</returns>
+        /// <param name="obj">ハッシュコードを取得する対象の文字列。</param>
+        /// <returns>指定した文字列のハッシュコード。</returns>
         public abstract int GetHashCode(string obj);
 
         /// <summary>

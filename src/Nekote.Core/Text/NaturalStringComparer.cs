@@ -1,0 +1,127 @@
+using System;
+using System.Collections.Generic;
+
+namespace Nekote.Core.Text
+{
+    /// <summary>
+    /// 文字列を自然順（例: "file 2.txt"が"file 10.txt"より前に来る）で比較するための機能を提供します。
+    /// このクラスは、StringComparerと同様の静的プロパティとファクトリメソッドを提供します。
+    /// </summary>
+    /// <remarks>
+    /// <para><b>設計について: abstract class vs. interface</b></para>
+    /// <para>このAPIは、インターフェースではなく抽象クラスとして設計されています。主な理由は、<see cref="System.StringComparer"/> のような使い慣れたファクトリパターンを提供するためです。
+    /// これにより、<see cref="InvariantCulture"/> のような静的プロパティを通じて、事前に構成されたインスタンスに簡単にアクセスできます。抽象クラスはまた、実装の詳細をライブラリの利用者に公開することなく、内部で管理することを可能にします。</para>
+    /// <br/>
+    /// <para><b>現在の実装の制限事項</b></para>
+    /// <para>現在の実装は、符号なし整数を効率的に処理することに特化しています。以下の要素はサポートされていません：</para>
+    /// <list type="bullet">
+    ///   <item><description><b>符号:</b> 正（+）または負（-）の符号は数字の一部として解釈されません。</description></item>
+    ///   <item><description><b>浮動小数点数:</b> 小数点（.や,）は数字の一部として認識されず、文字列として扱われます。例えば、"1.5" は "1"、"."、"5" の3つの部分として比較されます。</description></item>
+    ///   <item><description><b>桁区切り文字:</b> 桁区切り文字（,や.）はサポートされていません。例えば、"1,000" は数値の "1" と、文字列の ","、数値の "000" として解釈されます。</description></item>
+    /// </list>
+    /// <para>これらの機能をサポートするには、カルチャに依存した数値解析が必要となり、大幅に複雑さが増します。例えば、"1,000" は英語圏では「千」を意味しますが、ドイツ語圏では「1.000」と表記され、逆に "," は小数点を意味します。
+    /// このような曖昧さを解決するには、<see cref="System.Globalization.CultureInfo"/> をコンパレータに渡し、<see cref="decimal.TryParse(string?, System.Globalization.NumberStyles, System.IFormatProvider?, out decimal)"/> のような高度な解析を行う必要があります。
+    /// このような機能は、パフォーマンスへの影響と設計の複雑化を伴うため、現在の実装では意図的に除外されています。</para>
+    /// </remarks>
+    public abstract class NaturalStringComparer : IComparer<string>, IEqualityComparer<string>
+    {
+        /// <summary>
+        /// インバリアントカルチャを使用して、大文字と小文字を区別する自然順比較を行うインスタンスを取得します。
+        /// </summary>
+        public static NaturalStringComparer InvariantCulture { get; } = new NaturalStringComparerImplementation(StringComparer.InvariantCulture);
+
+        /// <summary>
+        /// インバリアントカルチャを使用して、大文字と小文字を区別しない自然順比較を行うインスタンスを取得します。
+        /// </summary>
+        public static NaturalStringComparer InvariantCultureIgnoreCase { get; } = new NaturalStringComparerImplementation(StringComparer.InvariantCultureIgnoreCase);
+
+        /// <summary>
+        /// 現在のカルチャを使用して、大文字と小文字を区別する自然順比較を行うインスタンスを取得します。
+        /// </summary>
+        public static NaturalStringComparer CurrentCulture { get; } = new NaturalStringComparerImplementation(StringComparer.CurrentCulture);
+
+        /// <summary>
+        /// 現在のカルチャを使用して、大文字と小文字を区別しない自然順比較を行うインスタンスを取得します。
+        /// </summary>
+        public static NaturalStringComparer CurrentCultureIgnoreCase { get; } = new NaturalStringComparerImplementation(StringComparer.CurrentCultureIgnoreCase);
+
+        /// <summary>
+        /// 序数（バイナリ）ルールを使用して、大文字と小文字を区別する自然順比較を行うインスタンスを取得します。
+        /// </summary>
+        public static NaturalStringComparer Ordinal { get; } = new NaturalStringComparerImplementation(StringComparer.Ordinal);
+
+        /// <summary>
+        /// 序数（バイナリ）ルールを使用して、大文字と小文字を区別しない自然順比較を行うインスタンスを取得します。
+        /// </summary>
+        public static NaturalStringComparer OrdinalIgnoreCase { get; } = new NaturalStringComparerImplementation(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// 指定した StringComparer を使用して NaturalStringComparer のインスタンスを作成します。
+        /// これにより、カスタムの文字列比較ロジックを自然順比較に組み込むことができます。
+        /// </summary>
+        /// <param name="baseComparer">基本的な文字列比較（大文字小文字の区別、カルチャなど）を行うための StringComparer。</param>
+        /// <returns>NaturalStringComparer の新しいインスタンス。</returns>
+        public static NaturalStringComparer Create(StringComparer baseComparer)
+        {
+            if (baseComparer is null)
+            {
+                throw new ArgumentNullException(nameof(baseComparer));
+            }
+            return new NaturalStringComparerImplementation(baseComparer);
+        }
+
+        /// <summary>
+        /// 2つの文字列を比較し、並べ替え順序での相対的な位置を示す値を返します。
+        /// </summary>
+        /// <param name="x">比較する最初のオブジェクト。</param>
+        /// <param name="y">比較する 2 番目のオブジェクト。</param>
+        /// <returns>
+        /// 0未満: xはyより小さい。
+        /// 0: xはyと等しい。
+        /// 0より大きい: xはyより大きい。
+        /// </returns>
+        public abstract int Compare(string? x, string? y);
+
+        /// <summary>
+        /// 2つの文字列が等しいかどうかを判断します。
+        /// </summary>
+        /// <param name="x">比較する最初の文字列。</param>
+        /// <param name="y">比較する 2 番目の文字列。</param>
+        /// <returns>文字列が等しい場合はtrue、それ以外の場合はfalse。</returns>
+        public abstract bool Equals(string? x, string? y);
+
+        /// <summary>
+        /// 指定した文字列のハッシュコードを返します。
+        /// </summary>
+        /// <param name="obj">ハッシュコードを取得する対象のオブジェクト。</param>
+        /// <returns>指定したオブジェクトのハッシュコード。</returns>
+        public abstract int GetHashCode(string obj);
+
+        /// <summary>
+        /// 2つの文字スパンを比較し、並べ替え順序での相対的な位置を示す値を返します。
+        /// </summary>
+        /// <param name="x">比較する最初の文字スパン。</param>
+        /// <param name="y">比較する 2 番目の文字スパン。</param>
+        /// <returns>
+        /// 0未満: xはyより小さい。
+        /// 0: xはyと等しい。
+        /// 0より大きい: xはyより大きい。
+        /// </returns>
+        public abstract int Compare(ReadOnlySpan<char> x, ReadOnlySpan<char> y);
+
+        /// <summary>
+        /// 2つの文字スパンが等しいかどうかを判断します。
+        /// </summary>
+        /// <param name="x">比較する最初の文字スパン。</param>
+        /// <param name="y">比較する 2 番目の文字スパン。</param>
+        /// <returns>文字スパンが等しい場合はtrue、それ以外の場合はfalse。</returns>
+        public abstract bool Equals(ReadOnlySpan<char> x, ReadOnlySpan<char> y);
+
+        /// <summary>
+        /// 指定した文字スパンのハッシュコードを返します。
+        /// </summary>
+        /// <param name="obj">ハッシュコードを取得する対象の文字スパン。</param>
+        /// <returns>指定した文字スパンのハッシュコード。</returns>
+        public abstract int GetHashCode(ReadOnlySpan<char> obj);
+    }
+}

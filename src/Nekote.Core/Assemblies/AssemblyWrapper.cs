@@ -26,7 +26,12 @@ namespace Nekote.Core.Assemblies
         {
             _assembly = assembly;
 
-            _location = new Lazy<string?>(() => _assembly?.Location);
+            _location = new Lazy<string?>(() =>
+            {
+                // バイト配列からロードされたアセンブリの場合、Locationは空文字列を返すことがあります。
+                // これをnullに正規化して、呼び出し元がnullチェックだけで済むようにします。
+                return StringHelper.NullIfWhiteSpace(_assembly?.Location);
+            });
             _directoryPath = new Lazy<string?>(() =>
             {
                 // Locationがnullまたは空の場合、ディレクトリパスもnullです。

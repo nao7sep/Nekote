@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Nekote.Core.Text
 {
@@ -49,12 +50,6 @@ namespace Nekote.Core.Text
             return Compare(x, y) == 0;
         }
 
-        /// <summary>
-        /// 指定した文字列のハッシュコードを返します。
-        /// </summary>
-        /// <param name="obj">ハッシュコードを取得する対象の文字列。</param>
-        /// <returns>指定した文字列のハッシュコード。</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="obj"/> が null の場合。</exception>
         public override int GetHashCode(string obj)
         {
             if (obj is null)
@@ -64,91 +59,101 @@ namespace Nekote.Core.Text
             return GetHashCode(obj.AsSpan());
         }
 
+        /// <summary>
+        /// 2つの文字スパンを自然順で比較します。
+        /// </summary>
+        /// <remarks>
+        /// アルゴリズム戦略:
+        /// 1. GraphemeReaderを使用して、文字列を文字単位ではなく書記素クラスタ単位で反復処理します。
+        ///    これにより、サロゲートペア（絵文字など）や結合文字が正しく1つの単位として扱われます。
+        /// 2. 文字列を「数値チャンク」と「非数値チャンク」に分割します。
+        /// 3. 対応するチャンク同士を比較します。
+        ///    - 両方が数値チャンクの場合、数値として比較します（例: 2は10より小さい）。
+        ///    - 両方が非数値チャンクの場合、指定された基本コンパレータ（_baseComparer）を使用して文字列として比較します。
+        /// 4. チャンクの種類が異なる場合（例: 数字と文字）、比較を基本コンパレータに委ね、一貫した順序付けを保証します。
+        /// 5. 非数値チャンクの比較では、一方がもう一方の接頭辞であるケースを正しく処理します。
+        ///    （例: "file"と"file.txt"）共通部分を比較した後、残りの部分の比較を続行します。
+        /// </remarks>
         public override int Compare(ReadOnlySpan<char> x, ReadOnlySpan<char> y)
         {
-            // アルゴリズムの戦略：
-            // 文字列をスキャンし、文字チャンクと数字チャンクに分割して比較します。
-            int posX = 0;
-            int posY = 0;
+            var xReader = new GraphemeReader(new string(x));
+            var yReader = new GraphemeReader(new string(y));
 
-            // 両方の文字列に比較するコンテンツが残っている間、ループを続けます。
-            while (posX < x.Length && posY < y.Length)
+            while (!xReader.IsEndOfText && !yReader.IsEndOfText)
             {
-                bool isDigitX = char.IsDigit(x[posX]);
-                bool isDigitY = char.IsDigit(y[posY]);
+                var isDigitX = IsCurrentGraphemeDigit(xReader);
+                var isDigitY = IsCurrentGraphemeDigit(yReader);
 
-                if (isDigitX != isDigitY)
+                if (isDigitX && isDigitY)
                 {
-                    // ケース1：数字と非数字の比較（例：'a' vs '1'、'-' vs '1'）。
-                    // 以前の最適化（数字 < 非数字）は、記号（例：'-'）に対して不正確でした。
-                    // 正確性を保証するため、基本コンパレータに単一文字の比較を委ねます。
-                    // これが、文字列全体としての最初の相違点となるため、この結果が最終的な結果となります。
-                    return _baseComparer.Compare(x.Slice(posX, 1).ToString(), y.Slice(posY, 1).ToString());
+                    // ケース1: 両方のチャンクが数値
+                    var xStartPos = xReader.Position;
+                    while (!xReader.IsEndOfText && IsCurrentGraphemeDigit(xReader))
+                    {
+                        xReader.Advance();
+                    }
+                    var xChunk = xReader.Slice(xStartPos, xReader.Position - xStartPos);
+
+                    var yStartPos = yReader.Position;
+                    while (!yReader.IsEndOfText && IsCurrentGraphemeDigit(yReader))
+                    {
+                        yReader.Advance();
+                    }
+                    var yChunk = yReader.Slice(yStartPos, yReader.Position - yStartPos);
+
+                    var result = CompareNumeric(xChunk, yChunk);
+                    if (result != 0) return result;
                 }
-
-                // この時点で、両方の文字が数字であるか、両方とも非数字であることがわかっています。
-                if (isDigitX) // ケース2：両方とも数字
+                else if (!isDigitX && !isDigitY)
                 {
-                    // 数字チャンク全体を抽出し、数値として比較します。
-                    int numStartX = posX;
-                    while (posX < x.Length && char.IsDigit(x[posX]))
+                    // ケース2: 両方のチャンクが非数値
+                    var xStartPos = xReader.Position;
+                    while (!xReader.IsEndOfText && !IsCurrentGraphemeDigit(xReader))
                     {
-                        posX++;
+                        xReader.Advance();
                     }
-                    var numSpanX = x.Slice(numStartX, posX - numStartX);
+                    var xChunkGraphemeCount = xReader.Position - xStartPos;
 
-                    int numStartY = posY;
-                    while (posY < y.Length && char.IsDigit(y[posY]))
+                    var yStartPos = yReader.Position;
+                    while (!yReader.IsEndOfText && !IsCurrentGraphemeDigit(yReader))
                     {
-                        posY++;
+                        yReader.Advance();
                     }
-                    var numSpanY = y.Slice(numStartY, posY - numStartY);
+                    var yChunkGraphemeCount = yReader.Position - yStartPos;
 
-                    int result = CompareNumeric(numSpanX, numSpanY);
-                    if (result != 0)
-                    {
-                        return result;
-                    }
+                    // 2つの非数値チャンクの共通接頭辞部分を比較します。
+                    var minGraphemeCount = Math.Min(xChunkGraphemeCount, yChunkGraphemeCount);
+
+                    // minGraphemeCountが0になることはありません。なぜなら、このコードブロックに
+                    // 入る条件は、現在の書記素が数字ではないことであり、外側のループ条件から
+                    // 文字列の終端ではないことも保証されているため、チャンクは少なくとも1つの
+                    // 書記素を含むためです。
+                    var xCommonPrefix = xReader.Slice(xStartPos, minGraphemeCount);
+                    var yCommonPrefix = yReader.Slice(yStartPos, minGraphemeCount);
+                    var result = _baseComparer.Compare(xCommonPrefix.ToString(), yCommonPrefix.ToString());
+                    if (result != 0) return result;
+
+                    // 共通接頭辞が等しい場合、リーダーの位置を共通部分の末尾まで進めて、
+                    // 次のチャンクの比較を継続できるようにします。
+                    // 例えば "filea" と "fileb" を比較する場合、"file" が共通接頭辞として
+                    // 比較された後、リーダーは 'a' と 'b' の位置に進められます。
+                    // "file" と "file.txt" のような接頭辞関係にある文字列の場合は、
+                    // このループの後の処理で最終的な順序が決定されます。
+                    xReader.Position = xStartPos + minGraphemeCount;
+                    yReader.Position = yStartPos + minGraphemeCount;
                 }
-                else // ケース3：両方とも非数字
+                else
                 {
-                    // ここでは、文字単位ではなく、テキストチャンク全体を抽出して比較します。
-                    // これは、カルチャ依存の比較（Ordinal以外）を正しく処理するために不可欠です。
-                    // StringComparerは、複数の文字を単一の照合要素として扱うことがあります
-                    // （例：合成文字 "e" + "´" -> "é"、サロゲートペアで表現される絵文字など）。
-                    // そのため、コンパレータには完全なコンテキスト（チャンク全体）を渡す必要があります。
-                    int strStartX = posX;
-                    while (posX < x.Length && !char.IsDigit(x[posX]))
-                    {
-                        posX++;
-                    }
-                    var strSpanX = x.Slice(strStartX, posX - strStartX);
-
-                    int strStartY = posY;
-                    while (posY < y.Length && !char.IsDigit(y[posY]))
-                    {
-                        posY++;
-                    }
-                    var strSpanY = y.Slice(strStartY, posY - strStartY);
-
-                    int result = _baseComparer.Compare(strSpanX.ToString(), strSpanY.ToString());
-                    if (result != 0)
-                    {
-                        return result;
-                    }
+                    // ケース3: チャンクの種類が混合（数字 vs 非数字）
+                    // 残りの文字列全体を基本コンパレータに委ねて、一貫性のある順序を決定します。
+                    var xRest = xReader.Slice(xReader.Position, xReader.Count - xReader.Position);
+                    var yRest = yReader.Slice(yReader.Position, yReader.Count - yReader.Position);
+                    return _baseComparer.Compare(xRest.ToString(), yRest.ToString());
                 }
             }
 
-            // 一方の文字列がもう一方のプレフィックスである場合（例："file" vs "file1"）。
-            // すべてのチャンクが等しかった後、コンテンツが残っている方が大きいと見なされます。
-            if (posX >= x.Length && posY >= y.Length)
-            {
-                // 両方の文字列を同時に使い切った場合、それらは等しいです。
-                return 0;
-            }
-
-            // 短い方が小さいと見なされます。
-            return posX >= x.Length ? -1 : 1;
+            // 一方の文字列がもう一方の末尾に到達した場合、短い方が小さいと見なされます。
+            return xReader.IsEndOfText == yReader.IsEndOfText ? 0 : (xReader.IsEndOfText ? -1 : 1);
         }
 
         public override bool Equals(ReadOnlySpan<char> x, ReadOnlySpan<char> y)
@@ -159,39 +164,36 @@ namespace Nekote.Core.Text
         /// <summary>
         /// 指定した文字スパンのハッシュコードを返します。
         /// </summary>
-        /// <param name="obj">ハッシュコードを取得する対象の文字スパン。</param>
-        /// <returns>指定した文字スパンのハッシュコード。</returns>
+        /// <remarks>
+        /// このハッシュコード計算は、Compareメソッドのロジックと一貫性があります。
+        /// 文字列を同じように数値チャンクと非数値チャンクに分割し、各チャンクのハッシュ値を計算して結合します。
+        /// これにより、Compareが0（等しい）を返す2つの文字列は、同じハッシュコードを持つことが保証されます。
+        /// </remarks>
         public override int GetHashCode(ReadOnlySpan<char> obj)
         {
-            // このハッシュコード計算は、Equalsメソッドと一貫性があります。
-            // つまり、Equalsがtrueを返す2つの文字列は、同じハッシュコードを生成します。
             var hashCode = new HashCode();
-            int pos = 0;
+            var reader = new GraphemeReader(new string(obj));
 
-            while (pos < obj.Length)
+            while (!reader.IsEndOfText)
             {
-                if (char.IsDigit(obj[pos]))
+                var isDigit = IsCurrentGraphemeDigit(reader);
+                var startPos = reader.Position;
+
+                while (!reader.IsEndOfText && IsCurrentGraphemeDigit(reader) == isDigit)
                 {
-                    // 数字チャンクを処理します。
-                    int start = pos;
-                    while (pos < obj.Length && char.IsDigit(obj[pos]))
-                    {
-                        pos++;
-                    }
-                    var numSpan = obj.Slice(start, pos - start);
+                    reader.Advance();
+                }
+                var chunk = reader.Slice(startPos, reader.Position - startPos);
 
-                    ReadOnlySpan<char> spanToHash = _normalize ? Normalize(numSpan) : numSpan;
-
-                    // 先頭のゼロをトリムして、数値的な値を正規化します。
-                    // これにより、「file 1」と「file 01」が同じハッシュ貢献を持つようになります。
-                    // 特殊なケースとして、"0"や"00"は空スパン""になります。この場合、long.TryParseは失敗し、
-                    // フォールバックとして空文字列のハッシュコードが使われます。
-                    // これにより、全てのゼロ値（"0", "00"など）が同じハッシュコードを持つことが保証されます。
+                if (isDigit)
+                {
+                    // 数値チャンクの場合、先行ゼロをトリムして数値としてハッシュ値を追加します。
+                    // これにより "01" と "1" が同じハッシュ値を持つようになります。
+                    var spanToHash = _normalize ? Normalize(chunk) : chunk;
                     var trimmedSpan = spanToHash.TrimStart('0');
-
-                    if (long.TryParse(trimmedSpan, out long num))
+                    if (long.TryParse(trimmedSpan, out var numericValue))
                     {
-                        hashCode.Add(num);
+                        hashCode.Add(numericValue);
                     }
                     else
                     {
@@ -201,22 +203,57 @@ namespace Nekote.Core.Text
                 }
                 else
                 {
-                    // テキストチャンクを処理します。
-                    int start = pos;
-                    while (pos < obj.Length && !char.IsDigit(obj[pos]))
-                    {
-                        pos++;
-                    }
-                    var strSpan = obj.Slice(start, pos - start);
-                    hashCode.Add(strSpan.ToString(), _baseComparer);
+                    // 非数値チャンクの場合、基本コンパレータを使用してハッシュ値を追加します。
+                    hashCode.Add(chunk.ToString(), _baseComparer);
                 }
             }
             return hashCode.ToHashCode();
         }
 
         /// <summary>
+        /// 書記素クラスタが数字として扱われるべきかどうかを判断します。
+        /// </summary>
+        private bool IsCurrentGraphemeDigit(GraphemeReader reader)
+        {
+            if (reader.IsEndOfText)
+            {
+                return false;
+            }
+
+            // 自然順ソートの目的では、書記素クラスタの最初の文字が数字であれば、
+            // そのクラスタ全体を「数字」として扱います。
+            // 複数の文字から成る書記素クラスタ（例：絵文字）が数字として解釈されることは
+            // ほとんどないため、このヒューリスティックは効率的かつ実用的です。
+            var grapheme = reader.PeekAsSpan();
+            if (grapheme.IsEmpty) return false;
+
+            char c = grapheme[0];
+
+            // ASCII数字は常に数字として扱われます。
+            if (c >= '0' && c <= '9')
+            {
+                return true;
+            }
+
+            // 正規化が有効な場合にのみ、全角数字を数字として扱います。
+            if (_normalize && c >= '０' && c <= '９')
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// 文字列の数値部分を自然順で比較します。
         /// </summary>
+        /// <remarks>
+        /// このメソッドは、2つの文字列スパンを数値として比較します。
+        /// 例：「2」は「10」より小さい。
+        ///
+        /// 先行するゼロは無視されます（例：「01」と「1」は等しい）。
+        /// まず有効な桁数で比較し、桁数が同じ場合は辞書順で比較します。
+        /// </remarks>
         private int CompareNumeric(ReadOnlySpan<char> x, ReadOnlySpan<char> y)
         {
             ReadOnlySpan<char> xToCompare = x;
@@ -228,64 +265,51 @@ namespace Nekote.Core.Text
                 yToCompare = Normalize(y);
             }
 
-            // このメソッドは、2つの文字列スパンを数値として比較します。
-            // 例：「2」は「10」より小さい。
-
-            // 先頭のゼロをトリムして、数値的な値を表現する部分を取得します。
-            // これにより、「01」と「1」が同じ数値として扱われます。
-            // 特殊なケースとして、"0"や"000"のような文字列は空のスパン""になります。
-            // この場合、その長さは0となり、どの正の数の有効桁数（1以上）よりも小さくなるため、
-            // 続く長さの比較によって正しく「0」が他の全ての正の数より小さいと判断されます。
             var trimX = xToCompare.TrimStart('0');
             var trimY = yToCompare.TrimStart('0');
 
-            // まず、有効な桁数で比較します。桁数が多い方が数値的に大きいです。
-            // 例：「100」（長さ3）は「99」（長さ2）より大きい。
-            // 例：「1」（長さ1）は「0」（トリム後長さ0）より大きい。
             if (trimX.Length != trimY.Length)
             {
                 return trimX.Length.CompareTo(trimY.Length);
             }
 
-            // 桁数が同じ場合、単純な辞書順比較で十分です。
-            // 例：「20」は「10」より大きい。
             return trimX.SequenceCompareTo(trimY);
         }
 
         /// <summary>
         /// 数字スパンを正規化します（例：全角を半角に）。
         /// </summary>
+        /// <remarks>
+        /// このメソッドは、パフォーマンスのために、全角数字が含まれている場合にのみ新しいメモリ割り当てを行います。
+        /// </remarks>
         private static ReadOnlySpan<char> Normalize(ReadOnlySpan<char> span)
         {
-            // 最初に全角数字があるかチェックして、不要な割り当てを避けます
             bool hasFullWidth = false;
-            for (int i = 0; i < span.Length; i++)
+            for (int index = 0; index < span.Length; index++)
             {
-                if (span[i] >= '０' && span[i] <= '９')
+                if (span[index] >= '０' && span[index] <= '９')
                 {
                     hasFullWidth = true;
                     break;
                 }
             }
 
-            // 全角数字がない場合は元のスパンをそのまま返します
             if (!hasFullWidth)
             {
                 return span;
             }
 
-            // 全角数字がある場合のみバッファを割り当てて正規化します
             var buffer = new char[span.Length];
-            for (int i = 0; i < span.Length; i++)
+            for (int index = 0; index < span.Length; index++)
             {
-                char c = span[i];
-                if (c >= '０' && c <= '９')
+                char currentChar = span[index];
+                if (currentChar >= '０' && currentChar <= '９')
                 {
-                    buffer[i] = (char)('0' + (c - '０'));
+                    buffer[index] = (char)('0' + (currentChar - '０'));
                 }
                 else
                 {
-                    buffer[i] = c;
+                    buffer[index] = currentChar;
                 }
             }
             return buffer;

@@ -21,12 +21,13 @@
 * **ConfigureAwait Usage**: Verify all `await` calls include `.ConfigureAwait(false)`.
 * **CancellationToken Support**: Check that async methods accept `CancellationToken` parameters where cancellation makes sense.
 
-### Documentation & Comments
+### Documentation, Comments & Messaging
 
-* **Missing Documentation**: Verify all public members have XML documentation comments (`/// <summary>`) in Japanese, as AI often generates code with minimal commenting.
-* **Outdated Comments**: Identify comments that no longer match the current implementation due to code maintenance.
-* **Documentation Accuracy**: Ensure XML documentation reflects actual method behavior and parameters.
-* **Comment Completeness**: Check that complex logic includes explanatory inline comments in Japanese.
+* **Comment Language**: Ensure all XML documentation (`/// <summary>`) and inline source code comments are written in clear, idiomatic Japanese.
+* **Message and Metadata Language**: Verify that user-facing text, such as exception messages and log output, is written in clear and precise English.
+* **Test Comments**: Confirm that test methods are structured with the "Arrange, Act, Assert" pattern, using English comments (`// Arrange`, `// Act`, `// Assert`).
+* **Comment Accuracy**: Identify and correct comments that are outdated or no longer match the current code implementation.
+* **Documentation Completeness**: Verify that all public members are fully documented and that complex logic is explained with inline comments.
 
 ### Testing Coverage
 

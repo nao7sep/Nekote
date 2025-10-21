@@ -208,6 +208,36 @@ namespace Nekote.Core.Tests.Text
         }
 
         /// <summary>
+        /// Advance メソッドが正しく機能し、範囲外で例外をスローすることをテストします。
+        /// </summary>
+        [Fact]
+        public void Advance_ShouldMovePositionAndThrowWhenOutOfRange()
+        {
+            // Arrange
+            var reader = new GraphemeReader("a👍c"); // Count = 3
+
+            // Act & Assert
+            Assert.Equal(0, reader.Position);
+
+            // 1つ進める
+            reader.Advance(); // Default is 1
+            Assert.Equal(1, reader.Position);
+            Assert.Equal("👍", reader.Peek());
+
+            // さらに2つ進めて末尾へ
+            reader.Advance(2);
+            Assert.Equal(3, reader.Position);
+            Assert.True(reader.IsEndOfText);
+
+            // 末尾からさらに進めようとすると例外が発生することを確認
+            Assert.Throws<ArgumentOutOfRangeException>(() => reader.Advance(1));
+
+            // 先頭より前に戻ろうとすると例外が発生することを確認
+            reader.Position = 0;
+            Assert.Throws<ArgumentOutOfRangeException>(() => reader.Advance(-1));
+        }
+
+        /// <summary>
         /// Slice および Substring が正しい範囲を返すことをテストします。
         /// </summary>
         [Theory]

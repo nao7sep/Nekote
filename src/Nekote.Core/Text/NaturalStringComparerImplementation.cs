@@ -86,7 +86,11 @@ namespace Nekote.Core.Text
 
                 if (isDigitX && isDigitY)
                 {
-                    // ケース1: 両方のチャンクが数値
+                    // シナリオ1: 両方の現在位置が数字。
+                    // この場合、両方の文字列から完全な数値チャンク（連続する数字の並び）を抽出し、
+                    // それらを数値として比較します。例えば "2" と "10" を比較する場合、
+                    // "2" は "10" より小さいと正しく判断されます。
+                    // これが自然順ソートの核となるロジックです。
                     var xStartPos = xReader.Position;
                     while (!xReader.IsEndOfText && IsCurrentGraphemeDigit(xReader))
                     {
@@ -106,7 +110,15 @@ namespace Nekote.Core.Text
                 }
                 else if (!isDigitX && !isDigitY)
                 {
-                    // ケース2: 両方のチャンクが非数値
+                    // シナリオ2: 両方の現在位置が非数字。
+                    // ここでの課題は、"file.txt" と "file1.txt" のようなケースを正しく扱うことです。
+                    // もし単純に非数値チャンク全体（この例では "file.txt" と "file"）を比較すると、
+                    // "file" が小さいと判断され、"file1.txt" が "file.txt" の前に来てしまい、誤った順序になります。
+                    //
+                    // この問題を回避するため、ここでは両方の非数値チャンクの「最短の長さ」ぶんだけを比較します。
+                    // "file.txt" と "file1.txt" の例では、"file" 同士を比較し、結果は等価（0）になります。
+                    // このブロックの処理でリーダーが共通部分の末尾に進むため、ループの次のイテレーションでは
+                    // 状況が「非数字 vs 数字」（".txt" vs "1.txt"）に変わり、そこで最終的な順序が決定されます。
                     var xStartPos = xReader.Position;
                     while (!xReader.IsEndOfText && !IsCurrentGraphemeDigit(xReader))
                     {
@@ -121,13 +133,8 @@ namespace Nekote.Core.Text
                     }
                     var yChunkGraphemeCount = yReader.Position - yStartPos;
 
-                    // 2つの非数値チャンクの共通接頭辞部分を比較します。
                     var minGraphemeCount = Math.Min(xChunkGraphemeCount, yChunkGraphemeCount);
 
-                    // minGraphemeCountが0になることはありません。なぜなら、このコードブロックに
-                    // 入る条件は、現在の書記素が数字ではないことであり、外側のループ条件から
-                    // 文字列の終端ではないことも保証されているため、チャンクは少なくとも1つの
-                    // 書記素を含むためです。
                     var xCommonPrefix = xReader.Slice(xStartPos, minGraphemeCount);
                     var yCommonPrefix = yReader.Slice(yStartPos, minGraphemeCount);
                     var result = _baseComparer.Compare(xCommonPrefix.ToString(), yCommonPrefix.ToString());
@@ -135,17 +142,19 @@ namespace Nekote.Core.Text
 
                     // 共通接頭辞が等しい場合、リーダーの位置を共通部分の末尾まで進めて、
                     // 次のチャンクの比較を継続できるようにします。
-                    // 例えば "filea" と "fileb" を比較する場合、"file" が共通接頭辞として
-                    // 比較された後、リーダーは 'a' と 'b' の位置に進められます。
-                    // "file" と "file.txt" のような接頭辞関係にある文字列の場合は、
-                    // このループの後の処理で最終的な順序が決定されます。
                     xReader.Position = xStartPos + minGraphemeCount;
                     yReader.Position = yStartPos + minGraphemeCount;
                 }
                 else
                 {
-                    // ケース3: チャンクの種類が混合（数字 vs 非数字）
-                    // 残りの文字列全体を基本コンパレータに委ねて、一貫性のある順序を決定します。
+                    // シナリオ3: 一方が数字で、もう一方が非数字。
+                    // この時点で、2つの文字列は根本的に異なる構造を持つことが確定します。
+                    // 例えば "a1" と "aa" を比較する場合、最初の 'a' は共通ですが、
+                    // 次に '1' と 'a' が比較されます。
+                    //
+                    // このような場合、残りの部分文字列全体を単純に比較するのが最も安全で確実です。
+                    // これにより、Unicodeの将来のバージョンで複数のコードポイントから成る新しい数字が導入されたとしても、
+                    // アルゴリズムの堅牢性が保たれます。
                     var xRest = xReader.Slice(xReader.Position, xReader.Count - xReader.Position);
                     var yRest = yReader.Slice(yReader.Position, yReader.Count - yReader.Position);
                     return _baseComparer.Compare(xRest.ToString(), yRest.ToString());

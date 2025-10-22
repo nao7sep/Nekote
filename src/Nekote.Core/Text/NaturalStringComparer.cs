@@ -6,6 +6,7 @@ namespace Nekote.Core.Text
     /// <summary>
     /// 文字列を自然順（natural order）で比較するための機能を提供します。この順序は、ファイル名やバージョン番号など、
     /// 人間が直感的に期待するソート順（例: "file 2.txt"が"file 10.txt"より前に来る）を実現します。
+    /// このクラスは不変（immutable）であり、その静的インスタンスはスレッドセーフです。
     /// </summary>
     /// <remarks>
     /// 設計思想
@@ -40,34 +41,69 @@ namespace Nekote.Core.Text
     public abstract class NaturalStringComparer : IComparer<string>, IEqualityComparer<string>
     {
         /// <summary>
-        /// インバリアントカルチャを使用して、大文字と小文字を区別し、Unicode正規化を行う自然順比較のインスタンスを取得します。
+        /// 序数（バイナリ）ルールを使用して、大文字と小文字を区別する自然順比較のインスタンスを取得します。
         /// </summary>
+        /// <remarks>
+        /// 用途: ファイルパス、URI、プロトコルメッセージ、内部キーなど、機械が処理する識別子の比較に適しています。
+        /// 動作: 文字をUnicodeコードポイントとして直接比較するため、高速で予測可能です。カルチャに依存しないため、環境を問わず一貫した結果が得られます。
+        /// 注意: 'f' と 'F' を区別します。言語的な等価性（例: 'é' と 'e' + '´'）を考慮しないため、ユーザー向けの表示には不向きです。Linuxのような大文字と小文字を区別するファイルシステムで特に有用です。
+        /// </remarks>
+        public static NaturalStringComparer Ordinal { get; } = new NaturalStringComparerImplementation(StringComparer.Ordinal, normalize: true);
+
+        /// <summary>
+        /// 序数（バイナリ）ルールを使用して、大文字と小文字を区別しない自然順比較のインスタンスを取得します。
+        /// </summary>
+        /// <remarks>
+        /// 用途: <see cref="Ordinal"/> と同様に機械が処理する識別子向けですが、大文字と小文字を区別しません。
+        /// 動作: <see cref="Ordinal"/> の大文字・小文字を区別しないバージョンです。
+        /// 注意: Windowsのように大文字と小文字を区別しないファイルシステムでのファイル名比較に最適です。
+        /// </remarks>
+        public static NaturalStringComparer OrdinalIgnoreCase { get; } = new NaturalStringComparerImplementation(StringComparer.OrdinalIgnoreCase, normalize: true);
+
+        /// <summary>
+        /// インバリアントカルチャを使用して、大文字と小文字を区別する自然順比較のインスタンスを取得します。
+        /// </summary>
+        /// <remarks>
+        /// 用途: 言語的に意味のあるが、特定のカルチャに依存しない方法で表示・ソートするデータに適しています。
+        /// 動作: 言語的な規則に基づいて比較します。例えば、カノニカル等価な文字列（'é' と 'e' + '´'）を正しく等価と判断します。
+        /// 注意: <see cref="Ordinal"/> よりも低速です。また、ファイル名のような技術的識別子に使用すると、直感に反する結果を返すことがあります。
+        /// 例えば、`StringComparer.InvariantCulture`が"File1.txt"を"file2.txt"より小さいと判断するのに対し、
+        /// この自然順比較では"File1.txt"がより大きいと判断されます。
+        /// これは、自然順アルゴリズムが文字列を「File」と「1」、および「file」と「2」のようにチャンクに分割するためです。
+        /// この分割により、.NETの`StringComparer`が持つ、大文字小文字以外の部分が同一の場合に数値を優先する能力が妨げられます。
+        /// 結果として、最初のテキストチャンク（"File"と"file"）の比較が全体の順序を決定してしまい、直感に反する順序が生まれます。
+        /// </remarks>
         public static NaturalStringComparer InvariantCulture { get; } = new NaturalStringComparerImplementation(StringComparer.InvariantCulture, normalize: true);
 
         /// <summary>
-        /// インバリアントカルチャを使用して、大文字と小文字を区別せず、Unicode正規化を行う自然順比較のインスタンスを取得します。
+        /// インバリアントカルチャを使用して、大文字と小文字を区別しない自然順比較のインスタンスを取得します。
         /// </summary>
+        /// <remarks>
+        /// 用途: <see cref="InvariantCulture"/> と同様ですが、大文字と小文字を区別しません。
+        /// 動作: <see cref="InvariantCulture"/> の大文字・小文字を区別しないバージョンです。
+        /// 注意: ユーザーに表示するリストなどで、カルチャに依存しないが、大文字・小文字を区別しないソートが必要な場合に適しています。
+        /// </remarks>
         public static NaturalStringComparer InvariantCultureIgnoreCase { get; } = new NaturalStringComparerImplementation(StringComparer.InvariantCultureIgnoreCase, normalize: true);
 
         /// <summary>
         /// 現在のカルチャを使用して、大文字と小文字を区別し、Unicode正規化を行う自然順比較のインスタンスを取得します。
         /// </summary>
+        /// <remarks>
+        /// 用途: 現在のシステムカルチャに固有の規則で、ユーザーに表示するデータをソートする場合にのみ使用します。
+        /// 動作: 実行環境のカルチャ設定に依存するため、結果が環境によって変わる可能性があります。
+        /// 注意: 結果の再現性が保証されないため、データの永続化や内部キーの比較には絶対に使用しないでください。
+        /// </remarks>
         public static NaturalStringComparer CurrentCulture { get; } = new NaturalStringComparerImplementation(StringComparer.CurrentCulture, normalize: true);
 
         /// <summary>
         /// 現在のカルチャを使用して、大文字と小文字を区別せず、Unicode正規化を行う自然順比較のインスタンスを取得します。
         /// </summary>
+        /// <remarks>
+        /// 用途: <see cref="CurrentCulture"/> と同様ですが、大文字と小文字を区別しません。
+        /// 動作: <see cref="CurrentCulture"/> の大文字・小文字を区別しないバージョンです。
+        /// 注意: <see cref="CurrentCulture"/> と同じく、結果の再現性が保証されないため、データの永続化や内部キーには使用しないでください。
+        /// </remarks>
         public static NaturalStringComparer CurrentCultureIgnoreCase { get; } = new NaturalStringComparerImplementation(StringComparer.CurrentCultureIgnoreCase, normalize: true);
-
-        /// <summary>
-        /// 序数（バイナリ）ルールを使用して、大文字と小文字を区別し、Unicode正規化を行う自然順比較のインスタンスを取得します。
-        /// </summary>
-        public static NaturalStringComparer Ordinal { get; } = new NaturalStringComparerImplementation(StringComparer.Ordinal, normalize: true);
-
-        /// <summary>
-        /// 序数（バイナリ）ルールを使用して、大文字と小文字を区別せず、Unicode正規化を行う自然順比較のインスタンスを取得します。
-        /// </summary>
-        public static NaturalStringComparer OrdinalIgnoreCase { get; } = new NaturalStringComparerImplementation(StringComparer.OrdinalIgnoreCase, normalize: true);
 
         /// <summary>
         /// 指定した StringComparer と正規化オプションを使用して NaturalStringComparer のインスタンスを作成します。

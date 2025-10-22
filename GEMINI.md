@@ -12,7 +12,7 @@
 * **Class Member Organization**: When adding a class member (method, property, etc.), insert it in a logical position within the class based on existing structure and conventions. Do not just append it to the end. Refactor if necessary to maintain clarity.
 * **String Checks**: When checking for null or empty strings, always use `string.IsNullOrWhiteSpace` in preference to `string.IsNullOrEmpty` to ensure whitespace-only strings are also handled.
 * **XML Doc Comments**: Do not use HTML tags (e.g., `<b>`, `<i>`) for formatting within XML documentation comments. Use plain text for emphasis. The `<see>` tag is permitted for referencing other code elements.
-* **Comment Readability**: Split long comment paragraphs, especially within XML docs, into multiple lines at natural breaking points to ensure readability.
+* **Comment Readability**: Wrap long comment lines to maintain readability, targeting a soft limit of 120 characters. Avoid creating very short "orphan" lines; it is preferable to exceed the 120-character target slightly to ensure paragraphs flow naturally.
 
 ### Naming Conventions
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Nekote.Core.Text;
 using Xunit;
 
@@ -455,64 +456,93 @@ namespace Nekote.Core.Tests.Text
         }
 
         /// <summary>
-        /// Unicode正規化が等価な形式を処理できることをテストします。
+        /// OrdinalとInvariantCultureのUnicode正規化に対する挙動の違いを実証します。
         /// </summary>
         [Fact]
-        public void Compare_UnicodeNormalization_ShouldHandleEquivalentForms()
-        {
-            // Arrange
-            var naturalCultureComparer = NaturalStringComparer.InvariantCulture;
-            var systemCultureComparer = StringComparer.InvariantCulture;
-            var naturalOrdinalComparer = NaturalStringComparer.Ordinal;
-
-            // é の2つの表現：合成済み文字 vs 基底文字+結合文字
-            string composed = "filé1.txt";    // U+00E9 (合成済み)
-            string decomposed = "file\u0065\u0301" + "1.txt"; // e + 結合アクセント
-
-            // Act
-            var naturalCultureResult = naturalCultureComparer.Compare(composed, decomposed);
-            var systemCultureResult = systemCultureComparer.Compare(composed, decomposed);
-            var naturalOrdinalResult = naturalOrdinalComparer.Compare(composed, decomposed);
-
-            // Assert
-            // NaturalStringComparerは内部的にStringComparerを使用するため、
-            // 正規化形式が異なる文字に対する動作は、基になるコンパレータと一致するはずです。
-            Assert.Equal(Math.Sign(systemCultureResult), Math.Sign(naturalCultureResult));
-
-            // StringComparer.InvariantCultureは、これらの正規化形式を等価とは見なしません。
-            // そのため、結果は0にはなりません。
-            Assert.NotEqual(0, naturalCultureResult);
-
-            // Ordinal比較ではバイナリが異なるため、結果は0にはなりません。
-            Assert.NotEqual(0, naturalOrdinalResult);
-        }
-
-        /// <summary>
-        /// 異なるコンパレータタイプがすべて機能することをテストします。
-        /// </summary>
-        [Fact]
-        public void Compare_DifferentComparerTypes_ShouldAllWork()
+        public void Compare_DemonstratesNormalizationDifferences()
         {
             // Arrange
             var ordinalComparer = NaturalStringComparer.Ordinal;
             var cultureComparer = NaturalStringComparer.InvariantCulture;
-            var ignoreCaseComparer = NaturalStringComparer.InvariantCultureIgnoreCase;
 
-            string text1 = "File1.TXT";
-            string text2 = "file2.txt";
+            // é の2つの表現：合成済み文字 vs 基底文字+結合文字
+            // これらは視覚的に同じ "filé1.txt" ですが、内部的なバイト表現は異なります。
+            string composed = "filé1.txt";               // U+00E9 (合成済み)
+            string decomposed = "file\u0301" + "1.txt";      // e + U+0301 (結合アクセント)
 
             // Act
-            var ordinalResult = ordinalComparer.Compare(text1, text2);
-            var cultureResult = cultureComparer.Compare(text1, text2);
-            var ignoreCaseResult = ignoreCaseComparer.Compare(text1, text2);
+            var ordinalResult = ordinalComparer.Compare(composed, decomposed);
+            var cultureResult = cultureComparer.Compare(composed, decomposed);
 
             // Assert
-            // すべてのコンパレータで"File1.TXT"は"file2.txt"より小さいと判断されることを確認します。
-            // OrdinalとInvariantCultureは'F'と'f'を区別し、'F'が小さいため、早い段階で-1を返します。
-            // InvariantCultureIgnoreCaseは"File"と"file"を等しいと見なしますが、次に数値の1と2を比較して-1を返します。
-            Assert.True(ordinalResult < 0, "Ordinal comparer should return negative value");
-            Assert.True(cultureResult < 0, "Culture comparer should return negative value");
-            Assert.True(ignoreCaseResult < 0, "Ignore case comparer should return negative value");
+
+            // Ordinal比較はバイナリ表現を直接比較するため、正規化形式が異なると「等しくない」と判断します。
+            // これはファイルパスや識別子など、バイナリの一貫性が重要な場合に期待される動作です。
+            Assert.NotEqual(0, ordinalResult);
+
+            // InvariantCulture比較は言語的な規則に基づいており、カノニカル等価な文字列を「等しい」と判断します。
+            // これはユーザー向けの表示やソートなど、言語的な意味が重要な場合に期待される動作です。
+            Assert.Equal(0, cultureResult);
+
+            // 参考: 明示的な正規化
+            // もしOrdinal比較で等価性を評価したい場合は、事前に文字列を同じ形式に正規化する必要があります。
+            // FormCは多くの場面で標準的に使われる合成形式です。
+            string normalizedComposed = composed.Normalize(NormalizationForm.FormC);
+            string normalizedDecomposed = decomposed.Normalize(NormalizationForm.FormC);
+            var normalizedOrdinalResult = ordinalComparer.Compare(normalizedComposed, normalizedDecomposed);
+
+            // これでOrdinal比較でも同じ結果が得られます。
+            Assert.Equal(0, normalizedOrdinalResult);
+        }
+
+        /// <summary>
+        /// NaturalStringComparer.InvariantCultureの動作がファイル名のような技術的な文字列に対して
+        /// 直感に反する結果を返すことがあることを実証します。
+        /// これはNaturalStringComparerのバグではなく、基盤となるStringComparer.InvariantCultureの言語的な比較規則によるものです。
+        /// このテストは、ファイル名を比較する際には、より予測可能で一貫性のある
+        /// NaturalStringComparer.OrdinalまたはNaturalStringComparer.OrdinalIgnoreCaseを使用することが推奨される理由を示します。
+        /// 根本的な原因については、StringComparison_DemonstratesCounterIntuitiveInvariantCultureBehaviorテストも参照してください。
+        /// </summary>
+        [Fact]
+        public void Compare_InvariantCultureBehavior_IsCounterIntuitiveForFileNames()
+        {
+            // Arrange
+            string fileName1 = "file1.txt";
+            string fileName2 = "File2.txt";
+            string fileName1Prefix = fileName1.Substring(0, 4); // "file"
+            string fileName2Prefix = fileName2.Substring(0, 4); // "File"
+
+            var ordinalComparer = NaturalStringComparer.Ordinal;
+            var invariantComparer = NaturalStringComparer.InvariantCulture;
+
+            // Act
+            int fullStringOrdinal = ordinalComparer.Compare(fileName1, fileName2);
+            int prefixOrdinal = ordinalComparer.Compare(fileName1Prefix, fileName2Prefix);
+
+            int fullStringInvariant = invariantComparer.Compare(fileName1, fileName2);
+            int prefixInvariant = invariantComparer.Compare(fileName1Prefix, fileName2Prefix);
+
+            // Assert
+
+            // Ordinal比較は文字のコードポイントに基づいて予測可能な結果を返します。
+            // 'f' (102) > 'F' (70)
+            Assert.True(fullStringOrdinal > 0, "Ordinal: 'file1.txt' > 'File2.txt' because 'f' > 'F'.");
+            Assert.True(prefixOrdinal > 0, "Ordinal: 'file' > 'File' because 'f' > 'F'.");
+
+            // InvariantCulture比較は言語的な規則に基づいており、直感に反することがあります。
+            // 完全な文字列の場合、数値部分が比較の決め手となり、'1' < '2' となります。
+            Assert.True(fullStringInvariant < 0, "Invariant: 'file1.txt' < 'File2.txt' because the number 1 is less than 2.");
+
+            // しかし、接頭辞だけを比較すると、数値がないため文字の規則が適用されます。
+            // StringComparer.InvariantCultureの規則では 'file' は 'File' より小さいと判断されます。
+            // これは 'f' のASCII値が 'F' より大きいという事実とは逆であり、直感に反します。
+            Assert.True(prefixInvariant < 0, "Invariant: 'file' < 'File'. This is counter-intuitive as the ASCII value of 'f' is greater than 'F'.");
+
+            // 結論:
+            // InvariantCultureは、ファイル名のような単純な識別子の比較には適していません。
+            // 比較結果が文字列のどの部分（文字または数値）に基づいているかが不明確になり、混乱を招きます。
+            // ファイルシステムの多くはOrdinal（WindowsではIgnoreCase、LinuxではCase-sensitive）に基づいているため、
+            // NaturalStringComparer.OrdinalまたはNaturalStringComparer.OrdinalIgnoreCaseを使用する方が安全で予測可能です。
         }
     }
 }

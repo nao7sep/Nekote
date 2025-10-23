@@ -54,8 +54,22 @@ namespace Nekote.Core.Text.Processing
         }
 
         /// <summary>
+        /// 先頭の空白の処理方法。
+        /// </summary>
+        public LeadingWhitespaceBehavior LeadingBehavior => _leadingBehavior;
+
+        /// <summary>
+        /// 行内の空白の処理方法。
+        /// </summary>
+        public InternalWhitespaceBehavior InternalBehavior => _internalBehavior;
+
+        /// <summary>
+        /// 末尾の空白の処理方法。
+        /// </summary>
+        public TrailingWhitespaceBehavior TrailingBehavior => _trailingBehavior;
+
+        /// <summary>
         /// 指定されたルールに基づいて、入力行スパンを処理し、新しい文字列を返します。
-        /// このメソッドは、結果として新しい文字列を割り当てます。
         /// </summary>
         /// <param name="line">処理対象の行を表すスパン。</param>
         /// <returns>処理済みの文字列。</returns>
@@ -77,44 +91,7 @@ namespace Nekote.Core.Text.Processing
         }
 
         /// <summary>
-        /// 指定されたルールに基づいて、入力行スパンを処理し、結果を書き込み先スパンに書き込みます。
-        /// このメソッドは、ヒープ割り当てを試みません。
-        /// </summary>
-        /// <param name="line">処理対象の行を表すスパン。</param>
-        /// <param name="destination">処理結果を書き込むスパン。</param>
-        /// <param name="charsWritten">
-        /// 処理が成功した場合に、<paramref name="destination"/> に書き込まれた文字数。
-        /// </param>
-        /// <returns>
-        /// 処理が成功し、結果が <paramref name="destination"/> に収まった場合は true。
-        /// <paramref name="destination"/> が小さすぎる場合は false。
-        /// </returns>
-        public bool TryProcess(ReadOnlySpan<char> line, Span<char> destination, out int charsWritten)
-        {
-            ReadOnlySpan<char> trimmedSpan = TrimSpan(line);
-
-            // 内部空白の処理方法に応じて分岐
-            switch (_internalBehavior)
-            {
-                case InternalWhitespaceBehavior.Keep:
-                    if (trimmedSpan.Length > destination.Length)
-                    {
-                        charsWritten = 0;
-                        return false;
-                    }
-                    trimmedSpan.CopyTo(destination);
-                    charsWritten = trimmedSpan.Length;
-                    return true;
-                case InternalWhitespaceBehavior.CollapseToOneSpace:
-                    return TryCollapseInternalWhitespace(trimmedSpan, destination, out charsWritten);
-                default:
-                    // 未定義の列挙値が指定された場合は例外をスロー
-                    throw new InvalidOperationException($"An undefined {nameof(InternalWhitespaceBehavior)} value was used.");
-            }
-        }
-
-        /// <summary>
-        /// 先頭と末尾のトリミングルールをスパンに適用します。割り当ては行いません。
+        /// 先頭と末尾のトリミングルールをスパンに適用します。
         /// </summary>
         private ReadOnlySpan<char> TrimSpan(ReadOnlySpan<char> line)
         {
@@ -150,7 +127,7 @@ namespace Nekote.Core.Text.Processing
         }
 
         /// <summary>
-        /// スパン内の連続する空白を単一のスペースに置き換えます。（割り当てあり）
+        /// スパン内の連続する空白を単一のスペースに置き換えます。
         /// </summary>
         private static string CollapseInternalWhitespace(ReadOnlySpan<char> span)
         {
@@ -180,50 +157,6 @@ namespace Nekote.Core.Text.Processing
             }
 
             return stringBuilder.ToString();
-        }
-
-        /// <summary>
-        /// スパン内の連続する空白を単一のスペースに置き換え、結果をdestinationに書き込みます。（非割り当て）
-        /// </summary>
-        private static bool TryCollapseInternalWhitespace(ReadOnlySpan<char> span, Span<char> destination, out int charsWritten)
-        {
-            charsWritten = 0;
-            bool inWhitespace = false;
-
-            foreach (char c in span)
-            {
-                if (char.IsWhiteSpace(c))
-                {
-                    if (inWhitespace)
-                    {
-                        continue;
-                    }
-
-                    if (charsWritten >= destination.Length)
-                    {
-                        charsWritten = 0;
-                        return false;
-                    }
-
-                    destination[charsWritten] = ' ';
-                    charsWritten++;
-                    inWhitespace = true;
-                }
-                else
-                {
-                    if (charsWritten >= destination.Length)
-                    {
-                        charsWritten = 0;
-                        return false;
-                    }
-
-                    destination[charsWritten] = c;
-                    charsWritten++;
-                    inWhitespace = false;
-                }
-            }
-
-            return true;
         }
     }
 }

@@ -32,6 +32,16 @@ namespace Nekote.Core.Text
         }
 
         /// <summary>
+        /// 読み取り対象のソーステキスト。
+        /// </summary>
+        public ReadOnlyMemory<char> SourceText => _sourceText;
+
+        /// <summary>
+        /// 現在の読み取り位置。
+        /// </summary>
+        public int Position => _position;
+
+        /// <summary>
         /// 読み取り位置をテキストの先頭に戻します。
         /// </summary>
         public void Reset()
@@ -85,49 +95,6 @@ namespace Nekote.Core.Text
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// テキスト内のすべての行を文字列として列挙します。
-        /// <para>行末に改行があっても空行は返さず、<see cref="System.IO.StringReader.ReadLine"/> と同じ挙動です。</para>
-        /// </summary>
-        /// <remarks>
-        /// このメソッドは、<see cref="ReadLine"/> とは独立して動作し、リーダーの状態（位置）を変更しません。
-        /// LINQ を使用した操作に便利ですが、各行で文字列の割り当てが発生するため、
-        /// パフォーマンスが重要な場面では <see cref="ReadLine"/> の使用を推奨します。
-        /// </remarks>
-        /// <returns>テキスト内の各行を文字列として返す列挙子。</returns>
-        public IEnumerable<string> EnumerateLines()
-        {
-            int currentPosition = 0;
-            ReadOnlySpan<char> span = _sourceText.Span;
-
-            while (currentPosition < span.Length)
-            {
-                ReadOnlySpan<char> remainingSpan = span.Slice(currentPosition);
-                int newlineIndex = remainingSpan.IndexOfAny('\r', '\n');
-
-                if (newlineIndex == -1)
-                {
-                    // 最後の行
-                    yield return remainingSpan.ToString();
-                    yield break;
-                }
-
-                ReadOnlySpan<char> lineSpan = remainingSpan.Slice(0, newlineIndex);
-                yield return lineSpan.ToString();
-
-                if (remainingSpan[newlineIndex] == '\r' && newlineIndex + 1 < remainingSpan.Length && remainingSpan[newlineIndex + 1] == '\n')
-                {
-                    // CRLF
-                    currentPosition += newlineIndex + 2;
-                }
-                else
-                {
-                    // CR or LF
-                    currentPosition += newlineIndex + 1;
-                }
-            }
         }
     }
 }

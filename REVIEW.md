@@ -1,35 +1,41 @@
 ## Review Checklist
 
-### Class Organization & Logic
+### Code Structure & Organization
 
-* **Member Placement**: Verify new class members are inserted in logical positions within the class structure, not simply appended to the end.
-* **Member Ordering**: Check if type members follow a logical sequence that doesn't require manual reorganization.
+* **Member Placement**: Confirm that new class members are positioned logically within the class hierarchy rather than appended arbitrarily to the end.
+* **Member Ordering**: Assess whether type members follow a coherent sequence that eliminates the need for manual reorganization.
 
-### Variable Naming & Semantics
+### Standards Compliance
 
-* **Meaningful Names**: Check for cryptic variable names like `dt`, `s`, or `str` that should be replaced with descriptive names like `dateTime`, `result`, or `connectionString`.
-* **Null Semantics**: Confirm `null` represents "value not set or unclear" while empty strings represent "value explicitly set as empty."
-* **Lazy Usage**: Verify `Lazy<T>` is used appropriately when initialization should be delayed AND the result may be null, or when values can become null again after initialization.
+* **Coding Directive Adherence**: Verify comprehensive compliance with all coding standards specified in GEMINI.md.
+* **Path Validation Implementation**: Ensure path parameters undergo proper validation using `Path.IsFullyQualified()` with appropriate exception handling.
+* **Enum Parameter Validation**: Confirm that methods accepting enum parameters explicitly validate all input values and throw exceptions for undefined values. Never assume that if a value is not A, it must be B, as enum types may be extended with additional values.
 
-### Path Validation
+### Asynchronous Programming Review
 
-* **Path Type Enforcement**: Ensure path parameters are validated for their expected type (relative vs absolute) using `Path.IsFullyQualified()` with appropriate exceptions.
+* **ConfigureAwait Consistency**: Verify that all `await` expressions include `.ConfigureAwait(false)` to prevent deadlock scenarios.
+* **Cancellation Token Integration**: Assess whether async methods appropriately accept `CancellationToken` parameters where cancellation semantics are meaningful.
+* **Asynchronous Operation Assessment**: Evaluate whether computationally intensive or I/O-bound operations have been appropriately converted to asynchronous implementations.
 
-### Async Implementation
+### Variable Naming & Semantic Accuracy
 
-* **Async Necessity**: Evaluate whether potentially heavy operations should be made asynchronous.
-* **ConfigureAwait Usage**: Verify all `await` calls include `.ConfigureAwait(false)`.
-* **CancellationToken Support**: Check that async methods accept `CancellationToken` parameters where cancellation makes sense.
+* **Descriptive Naming**: Identify and replace cryptic variable names (e.g., `dt`, `s`, `str`) with descriptive alternatives (e.g., `dateTime`, `result`, `connectionString`).
+* **Path vs Name Distinction**: Validate that variable names clearly distinguish between path references and name identifiers.
+* **Type-Reflective Naming**: Ensure variable names for complex objects reflect their types (e.g., `FileInfo fileInfo` rather than `FileInfo file`).
+* **Null Semantic Consistency**: Verify that `null` represents "value not set or unclear" while empty strings represent "value explicitly set as empty."
+* **Lazy Initialization Appropriateness**: Assess whether `Lazy<T>` usage is appropriate when initialization should be delayed AND the result may be null, or when values can become null again after initialization.
 
-### Documentation, Comments & Messaging
+### Documentation & Communication Standards
 
-* **Comment Language**: Ensure all XML documentation (`/// <summary>`) and inline source code comments are written in clear, idiomatic Japanese.
-* **Message and Metadata Language**: Verify that user-facing text, such as exception messages and log output, is written in clear and precise English.
-* **Test Comments**: Confirm that test methods are structured with the "Arrange, Act, Assert" pattern, using English comments (`// Arrange`, `// Act`, `// Assert`).
-* **Comment Accuracy**: Identify and correct comments that are outdated or no longer match the current code implementation.
-* **Documentation Completeness**: Verify that all public members are fully documented and that complex logic is explained with inline comments.
+* **Source Code Commentary**: Ensure all XML documentation (`/// <summary>`) and inline comments are written in clear, idiomatic Japanese.
+* **User-Facing Messaging**: Verify that exception messages, log entries, and metadata are composed in precise, professional English.
+* **Test Method Structure**: Confirm test methods follow the "Arrange, Act, Assert" pattern with corresponding English section comments.
+* **Documentation Currency**: Identify and rectify comments that have become obsolete or inconsistent with current implementation.
+* **Documentation Completeness**: Verify comprehensive documentation coverage for all public members and adequate explanation of complex algorithmic logic.
+* **Comment Formatting**: Assess comment line wrapping for readability while maintaining natural paragraph flow.
 
-### Testing Coverage
+### Test Coverage Analysis
 
-* **Edge Case Analysis**: Identify methods or classes that handle complex logic or edge cases but lack corresponding test coverage.
-* **Test Necessity**: Distinguish between code that requires testing (complex logic, edge cases) and code that is obviously sound and doesn't need additional test coverage.
+* **Edge Case Coverage**: Identify methods or classes handling complex logic or boundary conditions that lack corresponding test coverage.
+* **Testing Necessity Assessment**: Distinguish between code requiring rigorous testing (complex algorithms, edge cases) and code with obvious correctness that may not warrant additional test coverage.
+* **Test Project Structure**: Verify that test project organization mirrors the structural hierarchy of the target project being tested.

@@ -18,7 +18,7 @@ namespace Nekote.Lab.Console.Hosting
         {
             var builder = Host.CreateDefaultBuilder();
 
-            // サービスの構成を行います。
+            // DI コンテナに時間関連サービスとテスタークラスを登録します。
             builder.ConfigureServices((hostContext, services) =>
             {
                 // Nekote.Core で定義した拡張メソッドを呼び出し、IClock サービスを登録します。

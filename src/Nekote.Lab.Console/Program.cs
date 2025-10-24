@@ -22,7 +22,7 @@ namespace Nekote.Lab.Console
             // DI コンテナから TimeTester のインスタンスを取得します。
             var timeTester = host.Services.GetRequiredService<TimeTester>();
 
-            // テストを実行します。
+            // 現在時刻の取得と表示のテストを実行します。
             timeTester.DisplayCurrentTime();
         }
     }

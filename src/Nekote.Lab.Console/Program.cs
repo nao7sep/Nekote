@@ -24,6 +24,12 @@ namespace Nekote.Lab.Console
 
             // 現在時刻の取得と表示のテストを実行します。
             timeTester.DisplayCurrentTime();
+
+            // DI コンテナから TextTester のインスタンスを取得します。
+            var textTester = host.Services.GetRequiredService<TextTester>();
+
+            // StringHelper.Reformat の速度テストを実行します（3秒間）。
+            textTester.SpeedTestReformat(3);
         }
     }
 }

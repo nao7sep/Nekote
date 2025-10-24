@@ -26,6 +26,9 @@ namespace Nekote.Lab.Console.Hosting
 
                 // テスト用の TimeTester クラスを一時的なサービスとして登録します。
                 services.AddTransient<TimeTester>();
+
+                // テスト用の TextTester クラスを一時的なサービスとして登録します。
+                services.AddTransient<TextTester>();
             });
 
             // ホストをビルドして返します。

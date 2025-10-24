@@ -2,14 +2,15 @@
 
 ### Code Structure & Organization
 
-* **Member Placement**: Confirm that new class members are positioned logically within the class hierarchy rather than appended arbitrarily to the end.
+* **Member Placement**: Confirm that new class members are positioned logically within the class structure rather than appended arbitrarily to the end.
 * **Member Ordering**: Assess whether type members follow a coherent sequence that eliminates the need for manual reorganization.
+* **Separation of Concerns**: Verify that each class, method, and module maintains a single, well-defined responsibility. Identify components that mix unrelated functionality and recommend splitting them into focused, cohesive units.
 
 ### Standards Compliance
 
 * **Coding Directive Adherence**: Verify comprehensive compliance with all coding standards specified in GEMINI.md.
-* **Path Validation Implementation**: Ensure path parameters undergo proper validation using `Path.IsFullyQualified()` with appropriate exception handling.
-* **Enum Parameter Validation**: Confirm that methods accepting enum parameters explicitly validate all input values and throw exceptions for undefined values. Never assume that if a value is not A, it must be B, as enum types may be extended with additional values.
+* **Path Validation Implementation**: Ensure path parameters are properly validated using `Path.IsFullyQualified()` with appropriate exception handling.
+* **Enum Value Validation**: Confirm that when enum values are used (not when stored), they are explicitly validated using switch statements with default cases that throw exceptions for undefined values. Never assume that if a value is not A, it must be B, as enum types may be extended with additional values. Constructors and property setters typically store enum values without validation.
 
 ### Asynchronous Programming Review
 
@@ -20,7 +21,7 @@
 ### Variable Naming & Semantic Accuracy
 
 * **Descriptive Naming**: Identify and replace cryptic variable names (e.g., `dt`, `s`, `str`) with descriptive alternatives (e.g., `dateTime`, `result`, `connectionString`).
-* **Path vs Name Distinction**: Validate that variable names clearly distinguish between path references and name identifiers.
+* **Path vs. Name Distinction**: Validate that variable names clearly distinguish between path references and name identifiers.
 * **Type-Reflective Naming**: Ensure variable names for complex objects reflect their types (e.g., `FileInfo fileInfo` rather than `FileInfo file`).
 * **Null Semantic Consistency**: Verify that `null` represents "value not set or unclear" while empty strings represent "value explicitly set as empty."
 * **Lazy Initialization Appropriateness**: Assess whether `Lazy<T>` usage is appropriate when initialization should be delayed AND the result may be null, or when values can become null again after initialization.
@@ -29,6 +30,7 @@
 
 * **Source Code Commentary**: Ensure all XML documentation (`/// <summary>`) and inline comments are written in clear, idiomatic Japanese.
 * **User-Facing Messaging**: Verify that exception messages, log entries, and metadata are composed in precise, professional English.
+* **English Text Quality**: Verify that all English text in comments, documentation, exception messages, and variable names uses clear, precise, and professional language appropriate for technical documentation. Identify and refine any informal expressions, unclear phrasing, or awkward constructions.
 * **Test Method Structure**: Confirm test methods follow the "Arrange, Act, Assert" pattern with corresponding English section comments.
 * **Documentation Currency**: Identify and rectify comments that have become obsolete or inconsistent with current implementation.
 * **Documentation Completeness**: Verify comprehensive documentation coverage for all public members and adequate explanation of complex algorithmic logic.

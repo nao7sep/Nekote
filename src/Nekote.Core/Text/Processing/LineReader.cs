@@ -34,7 +34,7 @@ namespace Nekote.Core.Text.Processing
                     return new LineReader(
                         rawLineReader,
                         LineProcessor.Passthrough,
-                        EmptyLineDefinition.IsEmptyString,
+                        EmptyLineDefinition.IsEmpty,
                         LeadingEmptyLineHandling.Keep,
                         InterstitialEmptyLineHandling.Keep,
                         TrailingEmptyLineHandling.Keep);
@@ -52,22 +52,16 @@ namespace Nekote.Core.Text.Processing
 
         private readonly RawLineReader _rawLineReader;
         private readonly LineProcessor _lineProcessor;
-
         private readonly EmptyLineDefinition _emptyLineDefinition;
         private readonly LeadingEmptyLineHandling _leadingEmptyLineHandling;
         private readonly InterstitialEmptyLineHandling _interstitialEmptyLineHandling;
         private readonly TrailingEmptyLineHandling _trailingEmptyLineHandling;
 
         public RawLineReader RawLineReader => _rawLineReader;
-
         public LineProcessor LineProcessor => _lineProcessor;
-
         public EmptyLineDefinition EmptyLineDefinition => _emptyLineDefinition;
-
         public LeadingEmptyLineHandling LeadingEmptyLineHandling => _leadingEmptyLineHandling;
-
         public InterstitialEmptyLineHandling InterstitialEmptyLineHandling => _interstitialEmptyLineHandling;
-
         public TrailingEmptyLineHandling TrailingEmptyLineHandling => _trailingEmptyLineHandling;
 
         public LineReader(
@@ -80,7 +74,6 @@ namespace Nekote.Core.Text.Processing
         {
             _rawLineReader = rawLineReader ?? throw new ArgumentNullException(nameof(rawLineReader));
             _lineProcessor = lineProcessor ?? throw new ArgumentNullException(nameof(lineProcessor));
-
             _emptyLineDefinition = emptyLineDefinition;
             _leadingEmptyLineHandling = leadingEmptyLineHandling;
             _interstitialEmptyLineHandling = interstitialEmptyLineHandling;

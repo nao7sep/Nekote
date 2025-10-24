@@ -8,7 +8,7 @@ namespace Nekote.Core.Text.Processing
         /// <summary>
         /// 長さが0（""）の行のみを空行と見なします。
         /// </summary>
-        IsEmptyString,
+        IsEmpty,
 
         /// <summary>
         /// null、長さが0、または空白文字のみで構成される行を空行と見なします。

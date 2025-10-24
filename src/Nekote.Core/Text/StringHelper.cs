@@ -26,5 +26,39 @@ namespace Nekote.Core.Text
         {
             return string.IsNullOrWhiteSpace(value) ? null : value;
         }
+
+        /// <summary>
+        /// 指定された ReadOnlySpan<char> が空かどうかを判定します。
+        /// </summary>
+        /// <param name="value">確認する文字列スパン。</param>
+        /// <returns>空の場合は true、それ以外の場合は false。</returns>
+        public static bool IsEmpty(ReadOnlySpan<char> value)
+        {
+            // 空の場合 true を返します。
+            return value.IsEmpty;
+        }
+
+        /// <summary>
+        /// 指定された ReadOnlySpan<char> が空、または空白文字のみで構成されているかどうかを判定します。
+        /// </summary>
+        /// <param name="value">確認する文字列スパン。</param>
+        /// <returns>空または空白のみの場合は true、それ以外の場合は false。</returns>
+        public static bool IsWhiteSpace(ReadOnlySpan<char> value)
+        {
+            // 空の場合 true を返します。
+            if (value.IsEmpty)
+            {
+                return true;
+            }
+            // 空白文字のみの場合 true を返します。
+            foreach (var c in value)
+            {
+                if (!char.IsWhiteSpace(c))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

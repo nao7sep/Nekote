@@ -103,15 +103,14 @@ namespace Nekote.Core.Text.Processing
 
         /// <summary>
         /// 指定された行を処理し、結果を指定されたSpanに書き込みます。
-        /// 書き込み先のバッファが不足している場合はfalseを返します。
+        /// 書き込み先のバッファが不足している場合や未定義の動作値が使用された場合はfalseを返します。
         /// 重要：このメソッドはいかなる処理においてもメモリ割り当てを行いません。
         /// 高性能が要求される場面や、メモリ割り当てを避けたい場合に使用してください。
         /// </summary>
         /// <param name="line">処理対象の行</param>
         /// <param name="destination">処理結果の書き込み先バッファ</param>
         /// <param name="charsWritten">実際に書き込まれた文字数</param>
-        /// <returns>処理が成功した場合はtrue、バッファ不足の場合はfalse</returns>
-        /// <exception cref="InvalidOperationException">未定義のInternalWhitespaceBehavior値が使用された場合</exception>
+        /// <returns>処理が成功した場合はtrue、バッファ不足や未定義の動作値の場合はfalse</returns>
         public bool TryProcess(ReadOnlySpan<char> line, Span<char> destination, out int charsWritten)
         {
             charsWritten = 0;
@@ -138,7 +137,8 @@ namespace Nekote.Core.Text.Processing
                     return TryCollapseInternalWhitespace(trimmedSpan, destination, out charsWritten);
 
                 default:
-                    throw new InvalidOperationException($"An undefined {nameof(InternalWhitespaceBehavior)} value was used.");
+                    // 未定義の動作値の場合は失敗を返す
+                    return false;
             }
         }
 

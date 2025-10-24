@@ -96,17 +96,26 @@ namespace Nekote.Core.Text.Processing
 
         /// <summary>
         /// 指定された構成を使用して、メモリ領域を行ごとに分割します。
+        /// パフォーマンス最適化のため、LineReaderを直接使用して実装されています。
         /// </summary>
         /// <param name="text">分割するテキストを含むメモリ領域。</param>
         /// <param name="configuration">使用する行読み取り構成。</param>
         /// <returns>分割された行を含む文字列の配列。</returns>
         public static string[] SplitLines(ReadOnlyMemory<char> text, LineReaderConfiguration configuration)
         {
-            var lines = new List<string>();
-            foreach (var line in EnumerateLines(text, configuration))
+            if (text.IsEmpty)
             {
-                lines.Add(line);
+                return Array.Empty<string>();
             }
+
+            var lines = new List<string>();
+            var reader = LineReader.Create(configuration, text);
+
+            while (reader.ReadLine(out var line))
+            {
+                lines.Add(new string(line));
+            }
+
             return lines.ToArray();
         }
 

@@ -91,5 +91,73 @@ namespace Nekote.Core.Text
             };
             return string.Join(newline, lines);
         }
+
+        /// <summary>
+        /// 指定された文字列を行ごとに効率的に列挙します。
+        /// RawLineReaderを使用してメモリ効率的な行の読み取りを行います。
+        /// </summary>
+        /// <param name="text">列挙する文字列。</param>
+        /// <returns>行を列挙する <see cref="IEnumerable{String}"/>。</returns>
+        public static IEnumerable<string> EnumerateLines(string text)
+        {
+            return EnumerateLines(text.AsMemory());
+        }
+
+        /// <summary>
+        /// 指定されたメモリ領域を行ごとに効率的に列挙します。
+        /// RawLineReaderを使用してメモリ効率的な行の読み取りを行います。
+        /// このメソッドは遅延実行を使用し、巨大なテキストを処理する際のメモリ効率を高めます。
+        /// </summary>
+        /// <param name="text">列挙するテキストを含むメモリ領域。</param>
+        /// <returns>行を列挙する <see cref="IEnumerable{String}"/>。</returns>
+        public static IEnumerable<string> EnumerateLines(ReadOnlyMemory<char> text)
+        {
+            if (text.IsEmpty)
+            {
+                yield break;
+            }
+
+            var reader = new RawLineReader(text);
+
+            while (reader.ReadLine(out var line))
+            {
+                yield return new string(line);
+            }
+        }
+
+        /// <summary>
+        /// 指定された文字列を行ごとに分割します。
+        /// RawLineReaderを使用してメモリ効率的な行の読み取りを行います。
+        /// </summary>
+        /// <param name="text">分割する文字列。</param>
+        /// <returns>分割された行を含む文字列の配列。</returns>
+        public static string[] SplitLines(string text)
+        {
+            return SplitLines(text.AsMemory());
+        }
+
+        /// <summary>
+        /// 指定されたメモリ領域を行ごとに分割します。
+        /// パフォーマンス最適化のため、RawLineReaderを直接使用して実装されています。
+        /// </summary>
+        /// <param name="text">分割するテキストを含むメモリ領域。</param>
+        /// <returns>分割された行を含む文字列の配列。</returns>
+        public static string[] SplitLines(ReadOnlyMemory<char> text)
+        {
+            if (text.IsEmpty)
+            {
+                return Array.Empty<string>();
+            }
+
+            var lines = new List<string>();
+            var reader = new RawLineReader(text);
+
+            while (reader.ReadLine(out var line))
+            {
+                lines.Add(new string(line));
+            }
+
+            return lines.ToArray();
+        }
     }
 }

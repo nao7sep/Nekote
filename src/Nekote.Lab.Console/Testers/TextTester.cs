@@ -12,7 +12,7 @@ namespace Nekote.Lab.Console.Testers
     public class TextTester
     {
         /// <summary>
-        /// StringHelper.Reformat メソッドの速度テストを実行します。
+        /// TextProcessor.Reformat メソッドの速度テストを実行します。
         /// デフォルト設定での様々なエッジケースを含む包括的なテストを行います。
         /// </summary>
         /// <param name="testDurationMilliseconds">テストを実行する時間（ミリ秒）。</param>
@@ -55,9 +55,9 @@ namespace Nekote.Lab.Console.Testers
 
             var stopwatch = new Stopwatch();
 
-            // StringHelper.Reformat の速度テストを開始します。
+            // TextProcessor.Reformat の速度テストを開始します。
             System.Console.WriteLine();
-            System.Console.WriteLine("=== StringHelper.Reformat Speed Test ===");
+            System.Console.WriteLine("=== TextProcessor.Reformat Speed Test ===");
 
             System.Console.WriteLine();
             System.Console.WriteLine($"Running test for {testDurationMilliseconds} ms using a comprehensive edge case text...");
@@ -70,7 +70,7 @@ namespace Nekote.Lab.Console.Testers
             System.Console.WriteLine("- Contains: Leading/trailing empty lines, mixed whitespace, Unicode whitespace, various line endings");
 
             // 1回だけ実行して結果を確認します。
-            var reformattedSample = StringHelper.Reformat(sampleText);
+            var reformattedSample = TextProcessor.Reformat(sampleText);
             System.Console.WriteLine();
             System.Console.WriteLine("Reformatted Result Preview (with [EOL] at line endings):");
             System.Console.WriteLine("--- Start ---");
@@ -96,8 +96,8 @@ namespace Nekote.Lab.Console.Testers
 
             while (stopwatch.Elapsed < testDuration)
             {
-                // StringHelper.Reformat メソッドを呼び出します。
-                _ = StringHelper.Reformat(sampleText);
+                // TextProcessor.Reformat メソッドを呼び出します。
+                _ = TextProcessor.Reformat(sampleText);
                 iterations++;
             }
 

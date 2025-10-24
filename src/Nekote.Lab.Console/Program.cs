@@ -28,8 +28,8 @@ namespace Nekote.Lab.Console
             // DI コンテナから TextTester のインスタンスを取得します。
             var textTester = host.Services.GetRequiredService<TextTester>();
 
-            // StringHelper.Reformat の速度テストを実行します（3秒間）。
-            textTester.SpeedTestReformat(3);
+            // StringHelper.Reformat の速度テストを実行します（3000ミリ秒間）。
+            textTester.SpeedTestReformat(3000);
         }
     }
 }

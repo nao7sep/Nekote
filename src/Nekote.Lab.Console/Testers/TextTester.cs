@@ -66,7 +66,7 @@ namespace Nekote.Lab.Console.Testers
             System.Console.WriteLine();
             System.Console.WriteLine("Sample Text Characteristics:");
             System.Console.WriteLine($"- Original length: {sampleText.Length} characters");
-            System.Console.WriteLine($"- Original line count: {StringHelper.SplitLines(sampleText, LineReaderConfiguration.Passthrough).Length}");
+            System.Console.WriteLine($"- Original line count: {StringHelper.SplitLines(sampleText).Length}");
             System.Console.WriteLine("- Contains: Leading/trailing empty lines, mixed whitespace, Unicode whitespace, various line endings");
 
             // 1回だけ実行して結果を確認します。
@@ -76,7 +76,7 @@ namespace Nekote.Lab.Console.Testers
             System.Console.WriteLine("--- Start ---");
 
             // 各行の末尾を明示的に表示するため、行ごとに分割して [EOL] マーカーを追加します。
-            var lines = StringHelper.SplitLines(reformattedSample, LineReaderConfiguration.Passthrough);
+            var lines = StringHelper.SplitLines(reformattedSample);
             foreach (var line in lines)
             {
                 System.Console.WriteLine($"{line}[EOL]");

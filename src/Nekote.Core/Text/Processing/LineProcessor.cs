@@ -201,9 +201,9 @@ namespace Nekote.Core.Text.Processing
             var stringBuilder = new StringBuilder(span.Length);
             bool inWhitespace = false; // 現在空白文字の連続内にいるかを追跡
 
-            foreach (char c in span)
+            foreach (char character in span)
             {
-                if (char.IsWhiteSpace(c))
+                if (char.IsWhiteSpace(character))
                 {
                     // 空白文字の場合
                     if (!inWhitespace)
@@ -217,7 +217,7 @@ namespace Nekote.Core.Text.Processing
                 else
                 {
                     // 非空白文字の場合
-                    stringBuilder.Append(c);
+                    stringBuilder.Append(character);
                     inWhitespace = false; // 空白文字の連続を終了
                 }
             }
@@ -247,9 +247,9 @@ namespace Nekote.Core.Text.Processing
             int writeIndex = 0; // 書き込み位置のインデックス
             bool inWhitespace = false; // 現在空白文字の連続内にいるかを追跡
 
-            foreach (char c in span)
+            foreach (char character in span)
             {
-                if (char.IsWhiteSpace(c))
+                if (char.IsWhiteSpace(character))
                 {
                     // 空白文字の場合
                     if (!inWhitespace)
@@ -275,7 +275,7 @@ namespace Nekote.Core.Text.Processing
                         charsWritten = 0;
                         return false;
                     }
-                    destination[writeIndex++] = c;
+                    destination[writeIndex++] = character;
                     inWhitespace = false; // 空白文字の連続を終了
                 }
             }

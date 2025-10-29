@@ -18,6 +18,18 @@ namespace Nekote.Lab.Console.Testers
         /// <param name="testDurationMilliseconds">テストを実行する時間（ミリ秒）。</param>
         public void SpeedTestReformat(int testDurationMilliseconds)
         {
+            var sampleText = PrepareSampleText();
+            DisplaySampleCharacteristics(sampleText);
+            var reformattedSample = ExecuteAndDisplaySample(sampleText);
+            RunPerformanceTest(sampleText, testDurationMilliseconds);
+        }
+
+        /// <summary>
+        /// テスト用の複雑なサンプルテキストを準備します。
+        /// </summary>
+        /// <returns>エッジケースを含むサンプルテキスト。</returns>
+        private string PrepareSampleText()
+        {
             // デフォルト設定でテストする複雑なサンプルテキストを準備します。
             // LineReaderConfiguration.Default の動作をテストするため、以下の要素を含みます：
             // - 先頭の空行（無視される）
@@ -51,24 +63,33 @@ namespace Nekote.Lab.Console.Testers
             stringBuilder.Append("\n");   // 末尾の空行
             stringBuilder.Append("\r\n"); // 末尾の空行
             stringBuilder.Append("");      // 末尾の空行
-            var sampleText = stringBuilder.ToString();
+            return stringBuilder.ToString();
+        }
 
-            var stopwatch = new Stopwatch();
-
+        /// <summary>
+        /// サンプルテキストの特徴をコンソールに表示します。
+        /// </summary>
+        /// <param name="sampleText">表示するサンプルテキスト。</param>
+        private void DisplaySampleCharacteristics(string sampleText)
+        {
             // TextProcessor.Reformat の速度テストを開始します。
             System.Console.WriteLine();
             System.Console.WriteLine("=== TextProcessor.Reformat Speed Test ===");
 
             System.Console.WriteLine();
-            System.Console.WriteLine($"Running test for {testDurationMilliseconds} ms using a comprehensive edge case text...");
-
-            // サンプルテキストの特徴を表示します。
-            System.Console.WriteLine();
             System.Console.WriteLine("Sample Text Characteristics:");
             System.Console.WriteLine($"- Original length: {sampleText.Length} characters");
             System.Console.WriteLine($"- Original line count: {StringHelper.SplitLines(sampleText).Length}");
             System.Console.WriteLine("- Contains: Leading/trailing empty lines, mixed whitespace, Unicode whitespace, various line endings");
+        }
 
+        /// <summary>
+        /// サンプルテキストを1回実行して結果をプレビュー表示します。
+        /// </summary>
+        /// <param name="sampleText">実行するサンプルテキスト。</param>
+        /// <returns>フォーマット済みのサンプルテキスト。</returns>
+        private string ExecuteAndDisplaySample(string sampleText)
+        {
             // 1回だけ実行して結果を確認します。
             var reformattedSample = TextProcessor.Reformat(sampleText);
             System.Console.WriteLine();
@@ -86,8 +107,21 @@ namespace Nekote.Lab.Console.Testers
             System.Console.WriteLine($"Reformatted length: {reformattedSample.Length} characters");
             System.Console.WriteLine($"Reformatted line count: {lines.Length}");
 
+            return reformattedSample;
+        }
+
+        /// <summary>
+        /// 指定された時間でパフォーマンステストを実行し、結果を表示します。
+        /// </summary>
+        /// <param name="sampleText">テストに使用するサンプルテキスト。</param>
+        /// <param name="testDurationMilliseconds">テストを実行する時間（ミリ秒）。</param>
+        private void RunPerformanceTest(string sampleText, int testDurationMilliseconds)
+        {
+            var stopwatch = new Stopwatch();
+
             // 指定された時間だけテストを実行します。
             System.Console.WriteLine();
+            System.Console.WriteLine($"Running test for {testDurationMilliseconds} ms using a comprehensive edge case text...");
             System.Console.WriteLine("Starting speed test...");
             var testDuration = TimeSpan.FromMilliseconds(testDurationMilliseconds);
             var iterations = 0;

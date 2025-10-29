@@ -33,17 +33,20 @@ namespace Nekote.Core.Tests.Time
         [InlineData(TimeSpanFormatKind.UserFriendlyTicks)]
         public void TimeSpan_Roundtrip(TimeSpanFormatKind format)
         {
+            // Arrange
             var originalValue = CreateRandomTimeSpan();
             var formattedString = originalValue.ToString(format);
             var formatString = TimeSpanFormats.GetFormatString(format);
             var expectedString = originalValue.ToString(formatString);
 
+            // Act
             var parsedValue = TimeSpanHelper.ParseTimeSpan(formattedString, format);
             var actualParsedString = parsedValue.ToString(formatString);
-            Assert.Equal(expectedString, actualParsedString);
-
             Assert.True(TimeSpanHelper.TryParseTimeSpan(formattedString, format, out var tryParsedValue));
             var actualTryParsedString = tryParsedValue.ToString(formatString);
+
+            // Assert
+            Assert.Equal(expectedString, actualParsedString);
             Assert.Equal(expectedString, actualTryParsedString);
         }
     }

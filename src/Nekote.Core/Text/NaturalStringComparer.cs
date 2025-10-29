@@ -109,7 +109,7 @@ namespace Nekote.Core.Text
         /// 指定した StringComparer と正規化オプションを使用して NaturalStringComparer のインスタンスを作成します。
         /// </summary>
         /// <param name="baseComparer">基本的な文字列比較（大文字小文字の区別、カルチャなど）を行うための StringComparer。</param>
-        /// <param name="normalize">比較前にUnicode正規化（例：全角数字を半角に変換）を行うかどうか。デフォルトは <c>true</c> です。</param>
+        /// <param name="normalize">比較前にUnicode正規化（例：全角数字を半角に変換）を行うかどうか。デフォルトは true です。</param>
         /// <returns>NaturalStringComparer の新しいインスタンス。</returns>
         public static NaturalStringComparer Create(StringComparer baseComparer, bool normalize = true)
         {
@@ -123,55 +123,55 @@ namespace Nekote.Core.Text
         /// <summary>
         /// 2つの文字列を比較し、並べ替え順序での相対的な位置を示す値を返します。
         /// </summary>
-        /// <param name="x">比較する最初のオブジェクト。</param>
-        /// <param name="y">比較する 2 番目のオブジェクト。</param>
+        /// <param name="left">比較する最初のオブジェクト。</param>
+        /// <param name="right">比較する 2 番目のオブジェクト。</param>
         /// <returns>
-        /// 0未満: xはyより小さい。
-        /// 0: xはyと等しい。
-        /// 0より大きい: xはyより大きい。
+        /// 0未満: leftはrightより小さい。
+        /// 0: leftはrightと等しい。
+        /// 0より大きい: leftはrightより大きい。
         /// </returns>
-        public abstract int Compare(string? x, string? y);
+        public abstract int Compare(string? left, string? right);
 
         /// <summary>
         /// 2つの文字列が等しいかどうかを判断します。
         /// </summary>
-        /// <param name="x">比較する最初の文字列。</param>
-        /// <param name="y">比較する 2 番目の文字列。</param>
+        /// <param name="left">比較する最初の文字列。</param>
+        /// <param name="right">比較する 2 番目の文字列。</param>
         /// <returns>文字列が等しい場合はtrue、それ以外の場合はfalse。</returns>
-        public abstract bool Equals(string? x, string? y);
+        public abstract bool Equals(string? left, string? right);
 
         /// <summary>
         /// 指定した文字列のハッシュコードを返します。
         /// </summary>
-        /// <param name="obj">ハッシュコードを取得する対象の文字列。</param>
+        /// <param name="text">ハッシュコードを取得する対象の文字列。</param>
         /// <returns>指定した文字列のハッシュコード。</returns>
-        public abstract int GetHashCode(string obj);
+        public abstract int GetHashCode(string text);
 
         /// <summary>
         /// 2つの文字スパンを比較し、並べ替え順序での相対的な位置を示す値を返します。
         /// </summary>
-        /// <param name="x">比較する最初の文字スパン。</param>
-        /// <param name="y">比較する 2 番目の文字スパン。</param>
+        /// <param name="left">比較する最初の文字スパン。</param>
+        /// <param name="right">比較する 2 番目の文字スパン。</param>
         /// <returns>
-        /// 0未満: xはyより小さい。
-        /// 0: xはyと等しい。
-        /// 0より大きい: xはyより大きい。
+        /// 0未満: leftはrightより小さい。
+        /// 0: leftはrightと等しい。
+        /// 0より大きい: leftはrightより大きい。
         /// </returns>
-        public abstract int Compare(ReadOnlySpan<char> x, ReadOnlySpan<char> y);
+        public abstract int Compare(ReadOnlySpan<char> left, ReadOnlySpan<char> right);
 
         /// <summary>
         /// 2つの文字スパンが等しいかどうかを判断します。
         /// </summary>
-        /// <param name="x">比較する最初の文字スパン。</param>
-        /// <param name="y">比較する 2 番目の文字スパン。</param>
+        /// <param name="left">比較する最初の文字スパン。</param>
+        /// <param name="right">比較する 2 番目の文字スパン。</param>
         /// <returns>文字スパンが等しい場合はtrue、それ以外の場合はfalse。</returns>
-        public abstract bool Equals(ReadOnlySpan<char> x, ReadOnlySpan<char> y);
+        public abstract bool Equals(ReadOnlySpan<char> left, ReadOnlySpan<char> right);
 
         /// <summary>
         /// 指定した文字スパンのハッシュコードを返します。
         /// </summary>
-        /// <param name="obj">ハッシュコードを取得する対象の文字スパン。</param>
+        /// <param name="text">ハッシュコードを取得する対象の文字スパン。</param>
         /// <returns>指定した文字スパンのハッシュコード。</returns>
-        public abstract int GetHashCode(ReadOnlySpan<char> obj);
+        public abstract int GetHashCode(ReadOnlySpan<char> text);
     }
 }

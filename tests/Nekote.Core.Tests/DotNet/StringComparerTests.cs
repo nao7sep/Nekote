@@ -39,15 +39,15 @@ namespace Nekote.Core.Tests.DotNet
 
             // Assert - InvariantCultureでは数値が優先される
             Assert.True(fullStringInvariant < 0,
-                $"InvariantCulture完全文字列: '{fileName1}' < '{fileName2}' (数値1<2が優先), 結果: {fullStringInvariant}");
+                $"InvariantCulture full string: '{fileName1}' < '{fileName2}' (numerical 1<2 is prioritized), Result: {fullStringInvariant}");
             Assert.True(prefixInvariant < 0,
-                $"InvariantCulture部分文字列: '{fileName1Prefix}' < '{fileName2Prefix}' (小文字<大文字), 結果: {prefixInvariant}");
+                $"InvariantCulture substring: '{fileName1Prefix}' < '{fileName2Prefix}' (lowercase < uppercase), Result: {prefixInvariant}");
 
             // Assert - Ordinalでは文字のASCII値が優先される
             Assert.True(fullStringOrdinal > 0,
-                $"Ordinal完全文字列: '{fileName1}' > '{fileName2}' ('f'>'F'が優先), 結果: {fullStringOrdinal}");
+                $"Ordinal full string: '{fileName1}' > '{fileName2}' ('f'>'F' is prioritized), Result: {fullStringOrdinal}");
             Assert.True(prefixOrdinal > 0,
-                $"Ordinal部分文字列: '{fileName1Prefix}' > '{fileName2Prefix}' ('f'>'F'), 結果: {prefixOrdinal}");
+                $"Ordinal substring: '{fileName1Prefix}' > '{fileName2Prefix}' ('f'>'F'), Result: {prefixOrdinal}");
 
             // この現象により比較結果の解釈が複雑になる:
             // InvariantCulture: "file1.txt" < "File2.txt" (数値 '1' < '2' が決定要因)

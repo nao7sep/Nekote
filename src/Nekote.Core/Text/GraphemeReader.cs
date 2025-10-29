@@ -14,6 +14,7 @@ namespace Nekote.Core.Text
     {
         private readonly string _source;
         private readonly int[] _graphemeIndexes;
+        private int _position;
 
         /// <summary>
         /// GraphemeReader クラスの新しいインスタンスを初期化します。
@@ -44,8 +45,6 @@ namespace Nekote.Core.Text
         /// "a👍c" の場合、Count は 3 です。
         /// </example>
         public int Count => _graphemeIndexes.Length;
-
-        private int _position;
 
         /// <summary>
         /// 書記素クラスタ単位での現在の読み取り位置を取得または設定します。
@@ -199,9 +198,9 @@ namespace Nekote.Core.Text
         /// <returns>シーケンスを反復処理するために使用できる <see cref="IEnumerator{T}"/>。</returns>
         public IEnumerator<string> GetEnumerator()
         {
-            for (var i = 0; i < Count; i++)
+            for (var graphemeIndex = 0; graphemeIndex < Count; graphemeIndex++)
             {
-                yield return GetGraphemeAt(i);
+                yield return GetGraphemeAt(graphemeIndex);
             }
         }
 

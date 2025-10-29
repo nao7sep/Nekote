@@ -71,7 +71,19 @@ namespace Nekote.Core.Time
             }
 
             var timeSpanFormatString = TimeSpanFormats.GetFormatString(format);
-            return TimeSpan.TryParseExact(value, timeSpanFormatString, CultureInfo.InvariantCulture, TimeSpanStyles.None, out result);
+            if (TimeSpan.TryParseExact(value, timeSpanFormatString, CultureInfo.InvariantCulture, TimeSpanStyles.None, out result))
+            {
+                // 1日未満の制約を確認
+                if (result.TotalDays >= 1)
+                {
+                    result = default;
+                    return false;
+                }
+                return true;
+            }
+
+            result = default;
+            return false;
         }
     }
 }

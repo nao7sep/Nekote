@@ -15,6 +15,13 @@ namespace Nekote.Core.Versioning
         /// <returns>バージョン番号の文字列表現。</returns>
         /// <exception cref="ArgumentNullException">version が null の場合にスローされます。</exception>
         /// <exception cref="ArgumentOutOfRangeException">minimumFieldCount が 1 未満または 4 を超える場合にスローされます。</exception>
+        /// <remarks>
+        /// このメソッドの設計思想：
+        /// - メジャーとマイナーバージョンは常に表示されるべきです（例：「1.0」は意味のあるバージョン文字列ですが、「1」だけでは不十分）
+        /// - 「0.0.0.0」のような入力では、significantFieldCount は 0 になりますが、minimumFieldCount により「0.0」として表示されます
+        /// - セマンティックバージョニングに従い、ビルド番号が頻繁に更新される場合は minimumFieldCount を 3 に設定することを推奨します
+        /// - 現在の実装では、リリース時にマイナーバージョンのみを更新し、「0.1」を最初のバージョンとして使用します
+        /// </remarks>
         /// <example>
         /// <code>
         /// ToString(new Version(1, 0, 0, 0), 2) // "1.0"

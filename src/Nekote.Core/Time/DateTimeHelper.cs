@@ -282,43 +282,31 @@ namespace Nekote.Core.Time
         /// <returns>対応する <see cref="DateTimeStyles"/>。</returns>
         private static DateTimeStyles GetDateTimeStyles(DateTimeFormatKind format) => format switch
         {
-            // --- DateTimeStylesの選択ロジック ---
+            // 詳細: `AssumeUniversal` と `AdjustToUniversal` の併用に関する経緯と技術的背景
             //
-            // - UTC書式 (`Utc*`):
-            //   `AssumeUniversal` と `AdjustToUniversal` の両方を指定しています。
-            //   一部の書式（特に 'Z' を含むもの）では、`AssumeUniversal` を付けないと
-            //   'Z' がUTC指標として正しく認識されず、テストが失敗する場合があります。
-            //   本来、ドキュメント上は `AssumeUniversal` と `AdjustToUniversal` の併用は非推奨ですが、
-            //   現状この組み合わせでテストが正しく通るため、実装しています。
+            // 1. 経緯:
+            // `AdjustToUniversal` の必要性を検証するため、このフラグを除外してテストを実施したところ、
+            // 全てのUTC関連書式（例: "yyyyMMddTHHmmssZ"）のパースが失敗しました。
+            // 具体的には、JST（+09:00）環境において、期待されるUTC時刻より9時間進んだローカル時刻が返されました。
+            // この結果から、`AdjustToUniversal` が意図した動作に不可欠であることが確認されました。
             //
-            // - ローカル書式 (`Local*`):
-            //   `AssumeLocal` を使用します。これらの書式にはタイムゾーン情報が含まれていないため、
-            //   パーズ時にシステムのローカルタイムゾーンであると解釈するよう明示的に指定する必要があります。
+            // 2. 技術的背景:
+            // .NETの `DateTime.ParseExact` メソッドは、デフォルトでシステムのローカルタイムゾーンを強く意識します。
+            // 公式ドキュメントにも「タイムゾーン情報が文字列に含まれない場合、OSのタイムゾーン設定に基づいて解釈する」
+            // と記載されています。
+            // 参照: https://learn.microsoft.com/en-us/dotnet/api/system.globalization.datetimestyles?view=net-9.0
             //
-            // - 日付・時刻のみの書式:
-            //   `None` を使用します。これらの書式はタイムゾーンの概念を持たないため、特別なスタイルは不要です。
-
-            // わい: パッと見た限り、併用を非推奨とする公式ドキュメントは見つからず。
+            // この動作は、UTC指示子（'Z'など）を含む文字列をパースする際にも影響します。
+            // パーサーは文字列をUTCとして認識しますが、最終的に返す `DateTime` オブジェクトを
+            // 自動的にローカル時刻に変換します。これが前述の9時間のずれの原因です。
             //
-            // タイムゾーンが関係する値を返してもらいたい format の指定のときに、どちらが返ってほしいかを Assume* で指定するのは理にかなう。
+            // 3. 解決策としてのフラグの役割:
+            // - `AssumeUniversal`: このフラグは、文字列にタイムゾーン指示子がない場合でも、UTCとして解釈するよう指示します。
+            // - `AdjustToUniversal`: このフラグは、上記（2.）で発生する自動的なローカル時刻への変換を「元に戻し」、
+            //   `DateTime` オブジェクトが純粋なUTC値（`Kind=Utc`）として返されることを強制します。
             //
-            // そこに AdjustToUniversal が不可欠か再テストしたく、なくしてみたところ、七つの Utc* の format で確実に失敗した。
-            // "yyyyMMdd'T'HHmmss'Z'" や "yyyy'/'M'/'d H':'mm 'UTC'" などだ。
-            // 返ってきた値は、必ず9時間、先へ進んでいた。
-            // AdjustToUniversal の追加によりテストに通ることを考えると、返ってきているものは「9時間先のデータが入ったローカル日時」だ。
-            // 公式ドキュメントの Remarks には、
-            // If the input string does not contain any indication of the time zone,
-            // the date and time parsing methods interpret the value of the date and time string based on the time zone setting for the operating system. とある。
-            // https://learn.microsoft.com/en-us/dotnet/api/system.globalization.datetimestyles?view=net-9.0
-            // おそらく、DateTime はローカル日時が基本で、Parse* 時に UTC っぽいなと思えば、
-            // DateTimeStyles には存在しない AdjustToLocal 的な変換を勝手に行う仕様になっているのだろう。
-            //
-            // 入力がローカルか UTC か、それが検出されるかどうかにより、四つのパターンになる。
-            // ローカル日時 → ローカル文字列 → ローカルだと検出されれば Kind のみそう設定され、そうでなければ AssumeLocal により同じことが起こる。
-            // UTC 日時 → UTC 文字列 → UTC だと検出されれば「勝手にローカルに変換され」、そうでなければ AssumeUniversal により Kind のみそう設定される。
-            // ここで勝手に変換されるのを、AdjustToUniversal により、同じ the time zone setting for the operating system に基づいて元に戻す。
-            // 無駄な処理だが、20年前につくられた DateTime が基本ローカルなのは、C 言語の文字列がデフォルトでは Unicode でなかったのと同じようなことだろう。
-            // そういうものだと諦めて、無駄な処理を組み込んでおくしかない。
+            // 結論として、この2つのフラグの組み合わせは、`DateTime` の既定の動作を上書きし、
+            // 環境に依存しない一貫したUTCパースを実現するために必須となります。
 
             // --- 並べ替え可能な書式 ---
 

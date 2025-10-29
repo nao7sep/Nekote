@@ -59,9 +59,9 @@ namespace Nekote.Core.Text
                 return true;
             }
             // 空白文字のみの場合 true を返します。
-            foreach (var c in value)
+            foreach (var character in value)
             {
-                if (!char.IsWhiteSpace(c))
+                if (!char.IsWhiteSpace(character))
                 {
                     return false;
                 }
@@ -76,6 +76,10 @@ namespace Nekote.Core.Text
         /// <returns>結合された文字列。</returns>
         public static string JoinLines(IEnumerable<string> lines)
         {
+            if (lines is null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
             return JoinLines(lines, NewlineSequence.PlatformDefault);
         }
 
@@ -87,6 +91,10 @@ namespace Nekote.Core.Text
         /// <returns>結合された文字列。</returns>
         public static string JoinLines(IEnumerable<string> lines, NewlineSequence sequence)
         {
+            if (lines is null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
             var newline = sequence switch
             {
                 NewlineSequence.Lf => "\n",
@@ -105,6 +113,10 @@ namespace Nekote.Core.Text
         /// <returns>行を列挙する <see cref="IEnumerable{String}"/>。</returns>
         public static IEnumerable<string> EnumerateLines(string text)
         {
+            if (text is null)
+            {
+                throw new ArgumentNullException(nameof(text));
+            }
             return EnumerateLines(text.AsMemory());
         }
 
@@ -138,6 +150,10 @@ namespace Nekote.Core.Text
         /// <returns>分割された行を含む文字列の配列。</returns>
         public static string[] SplitLines(string text)
         {
+            if (text is null)
+            {
+                throw new ArgumentNullException(nameof(text));
+            }
             return SplitLines(text.AsMemory());
         }
 

@@ -89,18 +89,21 @@ namespace Nekote.Core.Tests.Time
         [InlineData(DateTimeFormatKind.UtcUserFriendlyTicks)]
         public void DateTimeOffset_Roundtrip(DateTimeFormatKind format)
         {
+            // Arrange
             var dateTimeKind = GetDateTimeKindFromFormat(format);
             var originalValue = CreateRandomDateTimeOffset(dateTimeKind);
             var sourceString = originalValue.ToString(format);
             var formatString = DateTimeFormats.GetFormatString(format);
             var expectedString = originalValue.ToString(formatString);
 
+            // Act
             var parsedValue = DateTimeHelper.ParseDateTimeOffset(sourceString, format);
             var actualParsedString = parsedValue.ToString(formatString);
-            Assert.Equal(expectedString, actualParsedString);
-
             Assert.True(DateTimeHelper.TryParseDateTimeOffset(sourceString, format, out var tryParsedValue));
             var actualTryParsedString = tryParsedValue.ToString(formatString);
+
+            // Assert
+            Assert.Equal(expectedString, actualParsedString);
             Assert.Equal(expectedString, actualTryParsedString);
         }
 
@@ -133,18 +136,21 @@ namespace Nekote.Core.Tests.Time
         [InlineData(DateTimeFormatKind.TimeUserFriendlyTicks)]
         public void DateTime_Roundtrip(DateTimeFormatKind format)
         {
+            // Arrange
             var dateTimeKind = GetDateTimeKindFromFormat(format);
             var originalValue = CreateRandomDateTime(dateTimeKind);
             var sourceString = originalValue.ToString(format);
             var formatString = DateTimeFormats.GetFormatString(format);
             var expectedString = originalValue.ToString(formatString);
 
+            // Act
             var parsedValue = DateTimeHelper.ParseDateTime(sourceString, format);
             var actualParsedString = parsedValue.ToString(formatString);
-            Assert.Equal(expectedString, actualParsedString);
-
             Assert.True(DateTimeHelper.TryParseDateTime(sourceString, format, out var tryParsedValue));
             var actualTryParsedString = tryParsedValue.ToString(formatString);
+
+            // Assert
+            Assert.Equal(expectedString, actualParsedString);
             Assert.Equal(expectedString, actualTryParsedString);
         }
 
@@ -156,13 +162,16 @@ namespace Nekote.Core.Tests.Time
         [InlineData(DateTimeFormatKind.DateUserFriendly)]
         public void DateOnly_Roundtrip(DateTimeFormatKind format)
         {
+            // Arrange
             var expectedValue = CreateRandomDateOnly();
             var sourceString = expectedValue.ToString(format);
 
+            // Act
             var parsedValue = DateTimeHelper.ParseDateOnly(sourceString, format);
-            Assert.Equal(expectedValue, parsedValue);
-
             Assert.True(DateTimeHelper.TryParseDateOnly(sourceString, format, out var tryParsedValue));
+
+            // Assert
+            Assert.Equal(expectedValue, parsedValue);
             Assert.Equal(expectedValue, tryParsedValue);
         }
 
@@ -179,17 +188,20 @@ namespace Nekote.Core.Tests.Time
         [InlineData(DateTimeFormatKind.TimeUserFriendlyTicks)]
         public void TimeOnly_Roundtrip(DateTimeFormatKind format)
         {
+            // Arrange
             var originalValue = CreateRandomTimeOnly();
             var sourceString = originalValue.ToString(format);
             var formatString = DateTimeFormats.GetFormatString(format);
             var expectedString = originalValue.ToString(formatString);
 
+            // Act
             var parsedValue = DateTimeHelper.ParseTimeOnly(sourceString, format);
             var actualParsedString = parsedValue.ToString(formatString);
-            Assert.Equal(expectedString, actualParsedString);
-
             Assert.True(DateTimeHelper.TryParseTimeOnly(sourceString, format, out var tryParsedValue));
             var actualTryParsedString = tryParsedValue.ToString(formatString);
+
+            // Assert
+            Assert.Equal(expectedString, actualParsedString);
             Assert.Equal(expectedString, actualTryParsedString);
         }
     }

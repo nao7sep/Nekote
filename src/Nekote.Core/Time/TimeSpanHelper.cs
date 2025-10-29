@@ -25,11 +25,11 @@ namespace Nekote.Core.Time
 
             if (!Enum.IsDefined<TimeSpanFormatKind>(format))
             {
-                throw new ArgumentOutOfRangeException(nameof(format), format, "Invalid enum value.");
+                throw new ArgumentOutOfRangeException(nameof(format), format, "The specified format is not a valid TimeSpanFormatKind value.");
             }
 
-            var formatString = TimeSpanFormats.GetFormatString(format);
-            return value.ToString(formatString, CultureInfo.InvariantCulture);
+            var timeSpanFormatString = TimeSpanFormats.GetFormatString(format);
+            return value.ToString(timeSpanFormatString, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -42,13 +42,17 @@ namespace Nekote.Core.Time
         /// <exception cref="FormatException">文字列の解析に失敗した場合にスローされます。</exception>
         public static TimeSpan ParseTimeSpan(string value, TimeSpanFormatKind format)
         {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Value cannot be null, empty, or whitespace.", nameof(value));
+            }
             if (!Enum.IsDefined<TimeSpanFormatKind>(format))
             {
-                throw new ArgumentOutOfRangeException(nameof(format), format, "Invalid enum value.");
+                throw new ArgumentOutOfRangeException(nameof(format), format, "The specified format is not a valid TimeSpanFormatKind value.");
             }
 
-            var formatString = TimeSpanFormats.GetFormatString(format);
-            return TimeSpan.ParseExact(value, formatString, CultureInfo.InvariantCulture, TimeSpanStyles.None);
+            var timeSpanFormatString = TimeSpanFormats.GetFormatString(format);
+            return TimeSpan.ParseExact(value, timeSpanFormatString, CultureInfo.InvariantCulture, TimeSpanStyles.None);
         }
 
         /// <summary>
@@ -60,14 +64,14 @@ namespace Nekote.Core.Time
         /// <returns>変換に成功し、結果が1日未満の場合は true、それ以外は false。</returns>
         public static bool TryParseTimeSpan(string value, TimeSpanFormatKind format, out TimeSpan result)
         {
-            if (!Enum.IsDefined<TimeSpanFormatKind>(format))
+            if (string.IsNullOrWhiteSpace(value) || !Enum.IsDefined<TimeSpanFormatKind>(format))
             {
                 result = default;
                 return false;
             }
 
-            var formatString = TimeSpanFormats.GetFormatString(format);
-            return TimeSpan.TryParseExact(value, formatString, CultureInfo.InvariantCulture, TimeSpanStyles.None, out result);
+            var timeSpanFormatString = TimeSpanFormats.GetFormatString(format);
+            return TimeSpan.TryParseExact(value, timeSpanFormatString, CultureInfo.InvariantCulture, TimeSpanStyles.None, out result);
         }
     }
 }

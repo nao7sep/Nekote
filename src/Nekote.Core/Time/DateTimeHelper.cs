@@ -18,10 +18,10 @@ namespace Nekote.Core.Time
         {
             if (!Enum.IsDefined<DateTimeFormatKind>(format))
             {
-                throw new ArgumentOutOfRangeException(nameof(format), format, "Invalid enum value.");
+                throw new ArgumentOutOfRangeException(nameof(format), format, "The specified format is not a valid DateTimeFormatKind value.");
             }
-            var formatString = DateTimeFormats.GetFormatString(format);
-            return value.ToString(formatString, CultureInfo.InvariantCulture);
+            var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
+            return value.ToString(dateTimeFormatString, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -32,13 +32,17 @@ namespace Nekote.Core.Time
         /// <returns>変換された <see cref="DateTimeOffset"/>。</returns>
         public static DateTimeOffset ParseDateTimeOffset(string value, DateTimeFormatKind format)
         {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Value cannot be null, empty, or whitespace.", nameof(value));
+            }
             if (!Enum.IsDefined<DateTimeFormatKind>(format))
             {
-                throw new ArgumentOutOfRangeException(nameof(format), format, "Invalid enum value.");
+                throw new ArgumentOutOfRangeException(nameof(format), format, "The specified format is not a valid DateTimeFormatKind value.");
             }
-            var formatString = DateTimeFormats.GetFormatString(format);
-            var styles = GetDateTimeStyles(format);
-            return DateTimeOffset.ParseExact(value, formatString, CultureInfo.InvariantCulture, styles);
+            var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
+            var dateTimeStyles = GetDateTimeStyles(format);
+            return DateTimeOffset.ParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles);
         }
 
         /// <summary>
@@ -50,14 +54,14 @@ namespace Nekote.Core.Time
         /// <returns>変換に成功した場合は true、それ以外は false。</returns>
         public static bool TryParseDateTimeOffset(string value, DateTimeFormatKind format, out DateTimeOffset result)
         {
-            if (!Enum.IsDefined<DateTimeFormatKind>(format))
+            if (string.IsNullOrWhiteSpace(value) || !Enum.IsDefined<DateTimeFormatKind>(format))
             {
                 result = default;
                 return false;
             }
-            var formatString = DateTimeFormats.GetFormatString(format);
-            var styles = GetDateTimeStyles(format);
-            return DateTimeOffset.TryParseExact(value, formatString, CultureInfo.InvariantCulture, styles, out result);
+            var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
+            var dateTimeStyles = GetDateTimeStyles(format);
+            return DateTimeOffset.TryParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles, out result);
         }
 
         /// <summary>
@@ -70,10 +74,10 @@ namespace Nekote.Core.Time
         {
             if (!Enum.IsDefined<DateTimeFormatKind>(format))
             {
-                throw new ArgumentOutOfRangeException(nameof(format), format, "Invalid enum value.");
+                throw new ArgumentOutOfRangeException(nameof(format), format, "The specified format is not a valid DateTimeFormatKind value.");
             }
-            var formatString = DateTimeFormats.GetFormatString(format);
-            return value.ToString(formatString, CultureInfo.InvariantCulture);
+            var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
+            return value.ToString(dateTimeFormatString, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -84,13 +88,17 @@ namespace Nekote.Core.Time
         /// <returns>変換された <see cref="DateTime"/>。</returns>
         public static DateTime ParseDateTime(string value, DateTimeFormatKind format)
         {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Value cannot be null, empty, or whitespace.", nameof(value));
+            }
             if (!Enum.IsDefined<DateTimeFormatKind>(format))
             {
-                throw new ArgumentOutOfRangeException(nameof(format), format, "Invalid enum value.");
+                throw new ArgumentOutOfRangeException(nameof(format), format, "The specified format is not a valid DateTimeFormatKind value.");
             }
-            var formatString = DateTimeFormats.GetFormatString(format);
-            var styles = GetDateTimeStyles(format);
-            return DateTime.ParseExact(value, formatString, CultureInfo.InvariantCulture, styles);
+            var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
+            var dateTimeStyles = GetDateTimeStyles(format);
+            return DateTime.ParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles);
         }
 
         /// <summary>
@@ -102,14 +110,169 @@ namespace Nekote.Core.Time
         /// <returns>変換に成功した場合は true、それ以外は false。</returns>
         public static bool TryParseDateTime(string value, DateTimeFormatKind format, out DateTime result)
         {
-            if (!Enum.IsDefined<DateTimeFormatKind>(format))
+            if (string.IsNullOrWhiteSpace(value) || !Enum.IsDefined<DateTimeFormatKind>(format))
             {
                 result = default;
                 return false;
             }
-            var formatString = DateTimeFormats.GetFormatString(format);
-            var styles = GetDateTimeStyles(format);
-            return DateTime.TryParseExact(value, formatString, CultureInfo.InvariantCulture, styles, out result);
+            var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
+            var dateTimeStyles = GetDateTimeStyles(format);
+            return DateTime.TryParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles, out result);
+        }
+
+        /// <summary>
+        /// 指定された書式を使用して、この <see cref="DateOnly"/> のインスタンスの値を、それと等価な文字列形式に変換します。
+        /// </summary>
+        /// <param name="value">変換対象の <see cref="DateOnly"/>。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <returns>指定した書式による文字列形式。</returns>
+        public static string ToString(this DateOnly value, DateTimeFormatKind format)
+        {
+            switch (format)
+            {
+                case DateTimeFormatKind.DateSortable:
+                case DateTimeFormatKind.DateUserFriendly:
+                    var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
+                    return value.ToString(dateTimeFormatString, CultureInfo.InvariantCulture);
+                default:
+                    throw new ArgumentException($"The format '{format}' is not valid for DateOnly. Only DateSortable and DateUserFriendly formats are supported.", nameof(format));
+            }
+        }
+
+        /// <summary>
+        /// 指定された書式の文字列を、それと等価な <see cref="DateOnly"/> に変換します。
+        /// </summary>
+        /// <param name="value">変換する文字列。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <returns>変換された <see cref="DateOnly"/>。</returns>
+        public static DateOnly ParseDateOnly(string value, DateTimeFormatKind format)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Value cannot be null, empty, or whitespace.", nameof(value));
+            }
+            switch (format)
+            {
+                case DateTimeFormatKind.DateSortable:
+                case DateTimeFormatKind.DateUserFriendly:
+                    var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
+                    var dateTimeStyles = GetDateTimeStyles(format);
+                    return DateOnly.ParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles);
+                default:
+                    throw new ArgumentException($"The format '{format}' is not valid for DateOnly. Only DateSortable and DateUserFriendly formats are supported.", nameof(format));
+            }
+        }
+
+        /// <summary>
+        /// 指定された書式の文字列を、それと等価な <see cref="DateOnly"/> に変換しようと試みます。
+        /// </summary>
+        /// <param name="value">変換する文字列。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <param name="result">変換に成功した場合、変換された <see cref="DateOnly"/> が格納されます。</param>
+        /// <returns>変換に成功した場合は true、それ以外は false。</returns>
+        public static bool TryParseDateOnly(string value, DateTimeFormatKind format, out DateOnly result)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                result = default;
+                return false;
+            }
+            switch (format)
+            {
+                case DateTimeFormatKind.DateSortable:
+                case DateTimeFormatKind.DateUserFriendly:
+                    var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
+                    var dateTimeStyles = GetDateTimeStyles(format);
+                    return DateOnly.TryParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles, out result);
+                default:
+                    result = default;
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// 指定された書式を使用して、この <see cref="TimeOnly"/> のインスタンスの値を、それと等価な文字列形式に変換します。
+        /// </summary>
+        /// <param name="value">変換対象の <see cref="TimeOnly"/>。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <returns>指定した書式による文字列形式。</returns>
+        public static string ToString(this TimeOnly value, DateTimeFormatKind format)
+        {
+            switch (format)
+            {
+                case DateTimeFormatKind.TimeSortable:
+                case DateTimeFormatKind.TimeSortableMilliseconds:
+                case DateTimeFormatKind.TimeSortableTicks:
+                case DateTimeFormatKind.TimeUserFriendlyMinutes:
+                case DateTimeFormatKind.TimeUserFriendlySeconds:
+                case DateTimeFormatKind.TimeUserFriendlyMilliseconds:
+                case DateTimeFormatKind.TimeUserFriendlyTicks:
+                    var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
+                    return value.ToString(dateTimeFormatString, CultureInfo.InvariantCulture);
+                default:
+                    throw new ArgumentException($"The format '{format}' is not valid for TimeOnly. Only time-related formats are supported.", nameof(format));
+            }
+        }
+
+        /// <summary>
+        /// 指定された書式の文字列を、それと等価な <see cref="TimeOnly"/> に変換します。
+        /// </summary>
+        /// <param name="value">変換する文字列。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <returns>変換された <see cref="TimeOnly"/>。</returns>
+        public static TimeOnly ParseTimeOnly(string value, DateTimeFormatKind format)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Value cannot be null, empty, or whitespace.", nameof(value));
+            }
+            switch (format)
+            {
+                case DateTimeFormatKind.TimeSortable:
+                case DateTimeFormatKind.TimeSortableMilliseconds:
+                case DateTimeFormatKind.TimeSortableTicks:
+                case DateTimeFormatKind.TimeUserFriendlyMinutes:
+                case DateTimeFormatKind.TimeUserFriendlySeconds:
+                case DateTimeFormatKind.TimeUserFriendlyMilliseconds:
+                case DateTimeFormatKind.TimeUserFriendlyTicks:
+                    var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
+                    var dateTimeStyles = GetDateTimeStyles(format);
+                    return TimeOnly.ParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles);
+                default:
+                    throw new ArgumentException($"The format '{format}' is not valid for TimeOnly. Only time-related formats are supported.", nameof(format));
+            }
+        }
+
+        /// <summary>
+        /// 指定された書式の文字列を、それと等価な <see cref="TimeOnly"/> に変換しようと試みます。
+        /// </summary>
+        /// <param name="value">変換する文字列。</param>
+        /// <param name="format">使用する書式の種類。</param>
+        /// <param name="result">変換に成功した場合、変換された <see cref="TimeOnly"/> が格納されます。</param>
+        /// <returns>変換に成功した場合は true、それ以外は false。</returns>
+        public static bool TryParseTimeOnly(string value, DateTimeFormatKind format, out TimeOnly result)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                result = default;
+                return false;
+            }
+            switch (format)
+            {
+                case DateTimeFormatKind.TimeSortable:
+                case DateTimeFormatKind.TimeSortableMilliseconds:
+                case DateTimeFormatKind.TimeSortableTicks:
+                case DateTimeFormatKind.TimeUserFriendlyMinutes:
+                case DateTimeFormatKind.TimeUserFriendlySeconds:
+                case DateTimeFormatKind.TimeUserFriendlyMilliseconds:
+                case DateTimeFormatKind.TimeUserFriendlyTicks:
+                    var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
+                    var dateTimeStyles = GetDateTimeStyles(format);
+                    return TimeOnly.TryParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles, out result);
+                default:
+                    result = default;
+                    return false;
+            }
         }
 
         /// <summary>
@@ -200,144 +363,7 @@ namespace Nekote.Core.Time
             DateTimeFormatKind.TimeUserFriendlyTicks
                 => DateTimeStyles.None,
 
-            _ => throw new ArgumentException($"Invalid format '{format}' for this operation.", nameof(format))
+            _ => throw new ArgumentException($"The specified format is not valid for this operation.", nameof(format))
         };
-
-        /// <summary>
-        /// 指定された書式を使用して、この <see cref="DateOnly"/> のインスタンスの値を、それと等価な文字列形式に変換します。
-        /// </summary>
-        /// <param name="value">変換対象の <see cref="DateOnly"/>。</param>
-        /// <param name="format">使用する書式の種類。</param>
-        /// <returns>指定した書式による文字列形式。</returns>
-        public static string ToString(this DateOnly value, DateTimeFormatKind format)
-        {
-            switch (format)
-            {
-                case DateTimeFormatKind.DateSortable:
-                case DateTimeFormatKind.DateUserFriendly:
-                    var formatString = DateTimeFormats.GetFormatString(format);
-                    return value.ToString(formatString, CultureInfo.InvariantCulture);
-                default:
-                    throw new ArgumentException($"Invalid format '{format}' for DateOnly.", nameof(format));
-            }
-        }
-
-        /// <summary>
-        /// 指定された書式の文字列を、それと等価な <see cref="DateOnly"/> に変換します。
-        /// </summary>
-        /// <param name="value">変換する文字列。</param>
-        /// <param name="format">使用する書式の種類。</param>
-        /// <returns>変換された <see cref="DateOnly"/>。</returns>
-        public static DateOnly ParseDateOnly(string value, DateTimeFormatKind format)
-        {
-            switch (format)
-            {
-                case DateTimeFormatKind.DateSortable:
-                case DateTimeFormatKind.DateUserFriendly:
-                    var formatString = DateTimeFormats.GetFormatString(format);
-                    var styles = GetDateTimeStyles(format);
-                    return DateOnly.ParseExact(value, formatString, CultureInfo.InvariantCulture, styles);
-                default:
-                    throw new ArgumentException($"Invalid format '{format}' for DateOnly.", nameof(format));
-            }
-        }
-
-        /// <summary>
-        /// 指定された書式の文字列を、それと等価な <see cref="DateOnly"/> に変換しようと試みます。
-        /// </summary>
-        /// <param name="value">変換する文字列。</param>
-        /// <param name="format">使用する書式の種類。</param>
-        /// <param name="result">変換に成功した場合、変換された <see cref="DateOnly"/> が格納されます。</param>
-        /// <returns>変換に成功した場合は true、それ以外は false。</returns>
-        public static bool TryParseDateOnly(string value, DateTimeFormatKind format, out DateOnly result)
-        {
-            switch (format)
-            {
-                case DateTimeFormatKind.DateSortable:
-                case DateTimeFormatKind.DateUserFriendly:
-                    var formatString = DateTimeFormats.GetFormatString(format);
-                    var styles = GetDateTimeStyles(format);
-                    return DateOnly.TryParseExact(value, formatString, CultureInfo.InvariantCulture, styles, out result);
-                default:
-                    result = default;
-                    return false;
-            }
-        }
-
-        /// <summary>
-        /// 指定された書式を使用して、この <see cref="TimeOnly"/> のインスタンスの値を、それと等価な文字列形式に変換します。
-        /// </summary>
-        /// <param name="value">変換対象の <see cref="TimeOnly"/>。</param>
-        /// <param name="format">使用する書式の種類。</param>
-        /// <returns>指定した書式による文字列形式。</returns>
-        public static string ToString(this TimeOnly value, DateTimeFormatKind format)
-        {
-            switch (format)
-            {
-                case DateTimeFormatKind.TimeSortable:
-                case DateTimeFormatKind.TimeSortableMilliseconds:
-                case DateTimeFormatKind.TimeSortableTicks:
-                case DateTimeFormatKind.TimeUserFriendlyMinutes:
-                case DateTimeFormatKind.TimeUserFriendlySeconds:
-                case DateTimeFormatKind.TimeUserFriendlyMilliseconds:
-                case DateTimeFormatKind.TimeUserFriendlyTicks:
-                    var formatString = DateTimeFormats.GetFormatString(format);
-                    return value.ToString(formatString, CultureInfo.InvariantCulture);
-                default:
-                    throw new ArgumentException($"Invalid format '{format}' for TimeOnly.", nameof(format));
-            }
-        }
-
-        /// <summary>
-        /// 指定された書式の文字列を、それと等価な <see cref="TimeOnly"/> に変換します。
-        /// </summary>
-        /// <param name="value">変換する文字列。</param>
-        /// <param name="format">使用する書式の種類。</param>
-        /// <returns>変換された <see cref="TimeOnly"/>。</returns>
-        public static TimeOnly ParseTimeOnly(string value, DateTimeFormatKind format)
-        {
-            switch (format)
-            {
-                case DateTimeFormatKind.TimeSortable:
-                case DateTimeFormatKind.TimeSortableMilliseconds:
-                case DateTimeFormatKind.TimeSortableTicks:
-                case DateTimeFormatKind.TimeUserFriendlyMinutes:
-                case DateTimeFormatKind.TimeUserFriendlySeconds:
-                case DateTimeFormatKind.TimeUserFriendlyMilliseconds:
-                case DateTimeFormatKind.TimeUserFriendlyTicks:
-                    var formatString = DateTimeFormats.GetFormatString(format);
-                    var styles = GetDateTimeStyles(format);
-                    return TimeOnly.ParseExact(value, formatString, CultureInfo.InvariantCulture, styles);
-                default:
-                    throw new ArgumentException($"Invalid format '{format}' for TimeOnly.", nameof(format));
-            }
-        }
-
-        /// <summary>
-        /// 指定された書式の文字列を、それと等価な <see cref="TimeOnly"/> に変換しようと試みます。
-        /// </summary>
-        /// <param name="value">変換する文字列。</param>
-        /// <param name="format">使用する書式の種類。</param>
-        /// <param name="result">変換に成功した場合、変換された <see cref="TimeOnly"/> が格納されます。</param>
-        /// <returns>変換に成功した場合は true、それ以外は false。</returns>
-        public static bool TryParseTimeOnly(string value, DateTimeFormatKind format, out TimeOnly result)
-        {
-            switch (format)
-            {
-                case DateTimeFormatKind.TimeSortable:
-                case DateTimeFormatKind.TimeSortableMilliseconds:
-                case DateTimeFormatKind.TimeSortableTicks:
-                case DateTimeFormatKind.TimeUserFriendlyMinutes:
-                case DateTimeFormatKind.TimeUserFriendlySeconds:
-                case DateTimeFormatKind.TimeUserFriendlyMilliseconds:
-                case DateTimeFormatKind.TimeUserFriendlyTicks:
-                    var formatString = DateTimeFormats.GetFormatString(format);
-                    var styles = GetDateTimeStyles(format);
-                    return TimeOnly.TryParseExact(value, formatString, CultureInfo.InvariantCulture, styles, out result);
-                default:
-                    result = default;
-                    return false;
-            }
-        }
     }
 }

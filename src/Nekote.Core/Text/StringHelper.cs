@@ -14,6 +14,11 @@ namespace Nekote.Core.Text
         /// </summary>
         /// <param name="value">確認する文字列。</param>
         /// <returns>null または空の場合は null、それ以外の場合は元の文字列。</returns>
+        /// <remarks>
+        /// 注意: このメソッドは意図的に IsNullOrEmpty を使用しています。IsNullOrWhiteSpace を使用すると、
+        /// 空白文字のみの文字列をチェックする NullIfWhiteSpace メソッドとの目的が重複してしまうためです。
+        /// 両メソッドは異なる用途を持ち、使い分けが必要です。
+        /// </remarks>
         public static string? NullIfEmpty(string? value)
         {
             return string.IsNullOrEmpty(value) ? null : value;

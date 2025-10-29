@@ -20,6 +20,11 @@ namespace Nekote.Core.Text
         /// </summary>
         /// <param name="source">読み取る対象の文字列。nullは許容されません。</param>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> が null です。</exception>
+        /// <remarks>
+        /// 注意: このコンストラクタは意図的に string 型を受け取ります。ReadOnlySpan<char> を受け取る方が
+        /// メモリ効率的ですが、StringInfo.ParseCombiningCharacters メソッドが現在 string 型のみを
+        /// サポートしているため、現時点では string を使用する必要があります。
+        /// </remarks>
         public GraphemeReader(string source)
         {
             _source = source ?? throw new ArgumentNullException(nameof(source));

@@ -6,14 +6,10 @@
     public sealed class ChatResponse
     {
         /// <summary>
-        /// 生成されたメッセージの内容を取得します。
+        /// 生成された選択肢のリストを取得します。
+        /// 通常は 1 つの選択肢ですが、n > 1 の場合は複数の選択肢が含まれます。
         /// </summary>
-        public required string Content { get; init; }
-
-        /// <summary>
-        /// 応答の完了理由を取得します。
-        /// </summary>
-        public required string FinishReason { get; init; }
+        public required IReadOnlyList<ChatChoice> Choices { get; init; }
 
         /// <summary>
         /// 使用されたトークン数の情報を取得します。

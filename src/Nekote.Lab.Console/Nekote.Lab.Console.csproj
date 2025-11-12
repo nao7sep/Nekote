@@ -10,7 +10,7 @@
     <AssemblyTitle>Nekote Lab - Console</AssemblyTitle>
     <Description></Description>
 
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
 
     <Authors>Yoshinao Inoguchi</Authors>
     <Company>Purrfect Disaster</Company>
@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
   </ItemGroup>
 
 </Project>

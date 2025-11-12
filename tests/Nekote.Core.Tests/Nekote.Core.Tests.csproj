@@ -11,7 +11,7 @@
       prjBuildはこのプロジェクトをアーカイブするためではなく、
       NuGetパッケージの更新のために使用されています。
     -->
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +20,7 @@
       そのため、PackageReferenceにPrivateAssets="all"を指定しなくても問題ありません。
     -->
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
   </ItemGroup>

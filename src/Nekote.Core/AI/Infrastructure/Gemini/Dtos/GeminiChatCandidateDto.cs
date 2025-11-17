@@ -21,12 +21,6 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public string? FinishReason { get; set; }
 
         /// <summary>
-        /// レスポンス候補のリスト内の候補のインデックス（出力専用）。
-        /// </summary>
-        [JsonPropertyName("index")]
-        public int? Index { get; set; }
-
-        /// <summary>
         /// レスポンス候補の安全性に関する評価のリスト。
         /// </summary>
         [JsonPropertyName("safetyRatings")]
@@ -73,6 +67,12 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         /// </summary>
         [JsonPropertyName("urlContextMetadata")]
         public GeminiChatUrlContextMetadataDto? UrlContextMetadata { get; set; }
+
+        /// <summary>
+        /// レスポンス候補のリスト内の候補のインデックス（出力専用）。
+        /// </summary>
+        [JsonPropertyName("index")]
+        public int? Index { get; set; }
 
         /// <summary>
         /// モデルがトークンの生成を停止した理由の詳細（出力専用）。

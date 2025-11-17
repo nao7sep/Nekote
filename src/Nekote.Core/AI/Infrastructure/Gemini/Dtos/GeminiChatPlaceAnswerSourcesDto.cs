@@ -4,21 +4,15 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// ウェブからのグラウンディング チャンク DTO。
+    /// Google マップの特定の場所の機能に関する回答を提供するソースのコレクション DTO。
     /// </summary>
-    internal class GeminiChatWebDto
+    internal class GeminiChatPlaceAnswerSourcesDto
     {
         /// <summary>
-        /// チャンクの URI 参照。
+        /// Google マップで特定の場所の特徴に関する回答を生成するために使用されるクチコミのスニペット。
         /// </summary>
-        [JsonPropertyName("uri")]
-        public string? Uri { get; set; }
-
-        /// <summary>
-        /// チャンクのタイトル。
-        /// </summary>
-        [JsonPropertyName("title")]
-        public string? Title { get; set; }
+        [JsonPropertyName("reviewSnippets")]
+        public List<GeminiChatReviewSnippetDto>? ReviewSnippets { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

@@ -9,6 +9,18 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     internal class GeminiChatAttributionSourceIdDto
     {
         /// <summary>
+        /// インライン パッセージの識別子。
+        /// </summary>
+        [JsonPropertyName("groundingPassage")]
+        public GeminiChatGroundingPassageIdDto? GroundingPassage { get; set; }
+
+        /// <summary>
+        /// セマンティック リトリーバーで取得された Chunk の識別子。
+        /// </summary>
+        [JsonPropertyName("semanticRetrieverChunk")]
+        public GeminiChatSemanticRetrieverChunkDto? SemanticRetrieverChunk { get; set; }
+
+        /// <summary>
         /// API から返される未知のフィールドを保持する。
         /// </summary>
         [JsonExtensionData]

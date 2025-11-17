@@ -1,0 +1,53 @@
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
+{
+    /// <summary>
+    /// OpenAI Chat API からのレスポンスボディ DTO。
+    /// </summary>
+    internal class OpenAiChatResponseDto
+    {
+        /// <summary>
+        /// レスポンスの一意識別子。
+        /// </summary>
+        [JsonPropertyName("id")]
+        public string? Id { get; set; }
+
+        /// <summary>
+        /// オブジェクトの種類 (通常は "chat.completion")。
+        /// </summary>
+        [JsonPropertyName("object")]
+        public string? Object { get; set; }
+
+        /// <summary>
+        /// レスポンスが作成された Unix タイムスタンプ。
+        /// </summary>
+        [JsonPropertyName("created")]
+        public long? Created { get; set; }
+
+        /// <summary>
+        /// 使用されたモデルの識別子。
+        /// </summary>
+        [JsonPropertyName("model")]
+        public string? Model { get; set; }
+
+        /// <summary>
+        /// 生成された補完の候補リスト。
+        /// </summary>
+        [JsonPropertyName("choices")]
+        public List<OpenAiChatChoiceDto>? Choices { get; set; }
+
+        /// <summary>
+        /// トークン使用量の詳細。
+        /// </summary>
+        [JsonPropertyName("usage")]
+        public OpenAiChatUsageDto? Usage { get; set; }
+
+        /// <summary>
+        /// API から返される未知のフィールドを保持する。
+        /// </summary>
+        [JsonExtensionData]
+        public Dictionary<string, JsonElement>? ExtensionData { get; set; }
+    }
+}

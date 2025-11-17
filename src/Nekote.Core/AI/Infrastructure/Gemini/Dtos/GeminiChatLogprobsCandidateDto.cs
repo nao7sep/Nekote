@@ -4,27 +4,27 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Chat API の安全性評価 DTO。
+    /// logprobs トークンとスコアの候補 DTO。
     /// </summary>
-    internal class GeminiChatSafetyRatingDto
+    internal class GeminiChatLogprobsCandidateDto
     {
         /// <summary>
-        /// 安全性カテゴリ。
+        /// 候補のトークン文字列値。
         /// </summary>
-        [JsonPropertyName("category")]
-        public string? Category { get; set; }
+        [JsonPropertyName("token")]
+        public string? Token { get; set; }
 
         /// <summary>
-        /// 安全性の確率。
+        /// 候補のトークン ID 値。
         /// </summary>
-        [JsonPropertyName("probability")]
-        public string? Probability { get; set; }
+        [JsonPropertyName("tokenId")]
+        public int? TokenId { get; set; }
 
         /// <summary>
-        /// このレーティングが原因でコンテンツがブロックされたかどうか。
+        /// 候補者のログ確率。
         /// </summary>
-        [JsonPropertyName("blocked")]
-        public bool? Blocked { get; set; }
+        [JsonPropertyName("logProbability")]
+        public double? LogProbability { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

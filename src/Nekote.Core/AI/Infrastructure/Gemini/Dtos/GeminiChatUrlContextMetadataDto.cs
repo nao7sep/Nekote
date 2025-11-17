@@ -4,15 +4,15 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Embedding API からのレスポンスボディ DTO。
+    /// URL コンテキスト取得ツールに関連するメタデータ DTO。
     /// </summary>
-    internal class GeminiEmbeddingResponseDto
+    internal class GeminiChatUrlContextMetadataDto
     {
         /// <summary>
-        /// 生成されたエンベディング。
+        /// URL コンテキストのリスト。
         /// </summary>
-        [JsonPropertyName("embedding")]
-        public GeminiEmbeddingValuesDto? Embedding { get; set; }
+        [JsonPropertyName("urlMetadata")]
+        public List<GeminiChatUrlMetadataDto>? UrlMetadata { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

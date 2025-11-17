@@ -4,15 +4,15 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Embedding API からのレスポンスボディ DTO。
+    /// 各デコード ステップでログ確率が最も高い候補 DTO。
     /// </summary>
-    internal class GeminiEmbeddingResponseDto
+    internal class GeminiChatTopCandidatesDto
     {
         /// <summary>
-        /// 生成されたエンベディング。
+        /// 対数確率の降順で並べ替えられた候補。
         /// </summary>
-        [JsonPropertyName("embedding")]
-        public GeminiEmbeddingValuesDto? Embedding { get; set; }
+        [JsonPropertyName("candidates")]
+        public List<GeminiChatLogprobsCandidateDto>? Candidates { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

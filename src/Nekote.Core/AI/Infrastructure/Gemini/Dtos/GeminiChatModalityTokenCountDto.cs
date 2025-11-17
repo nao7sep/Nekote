@@ -4,21 +4,21 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Batch Embedding API の個別リクエストコンテンツ DTO。
+    /// 単一のモダリティのトークン カウント情報 DTO。
     /// </summary>
-    internal class GeminiEmbeddingBatchRequestContentDto
+    internal class GeminiChatModalityTokenCountDto
     {
         /// <summary>
-        /// 使用するモデルの識別子。
+        /// このトークン数に関連付けられたモダリティ。
         /// </summary>
-        [JsonPropertyName("model")]
-        public string? Model { get; set; }
+        [JsonPropertyName("modality")]
+        public string? Modality { get; set; }
 
         /// <summary>
-        /// エンベディングを生成するコンテンツ。
+        /// トークンの数。
         /// </summary>
-        [JsonPropertyName("content")]
-        public GeminiEmbeddingContentDto? Content { get; set; }
+        [JsonPropertyName("tokenCount")]
+        public int? TokenCount { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

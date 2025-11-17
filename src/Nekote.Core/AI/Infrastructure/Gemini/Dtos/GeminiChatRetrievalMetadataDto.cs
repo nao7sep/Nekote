@@ -4,15 +4,15 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Embedding API からのレスポンスボディ DTO。
+    /// グラウンディング フローでの取得に関連するメタデータ DTO。
     /// </summary>
-    internal class GeminiEmbeddingResponseDto
+    internal class GeminiChatRetrievalMetadataDto
     {
         /// <summary>
-        /// 生成されたエンベディング。
+        /// Google 検索の情報がプロンプトの回答に役立つ可能性を示すスコア（範囲は 0 ～ 1）。
         /// </summary>
-        [JsonPropertyName("embedding")]
-        public GeminiEmbeddingValuesDto? Embedding { get; set; }
+        [JsonPropertyName("googleSearchDynamicRetrievalScore")]
+        public double? GoogleSearchDynamicRetrievalScore { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

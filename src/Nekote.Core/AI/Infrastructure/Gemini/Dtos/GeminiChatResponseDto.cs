@@ -27,6 +27,18 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public GeminiChatUsageMetadataDto? UsageMetadata { get; set; }
 
         /// <summary>
+        /// レスポンスの生成に使用されたモデル バージョン（出力専用）。
+        /// </summary>
+        [JsonPropertyName("modelVersion")]
+        public string? ModelVersion { get; set; }
+
+        /// <summary>
+        /// 各レスポンスの識別に使用される ID（出力専用）。
+        /// </summary>
+        [JsonPropertyName("responseId")]
+        public string? ResponseId { get; set; }
+
+        /// <summary>
         /// API から返される未知のフィールドを保持する。
         /// </summary>
         [JsonExtensionData]

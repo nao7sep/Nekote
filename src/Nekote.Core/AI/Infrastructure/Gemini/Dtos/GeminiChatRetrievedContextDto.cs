@@ -4,16 +4,10 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Embedding API からのレスポンスボディ DTO。
+    /// ファイル検索ツールで取得されたコンテキストのグラウンディング チャンク DTO。
     /// </summary>
-    internal class GeminiEmbeddingResponseDto
+    internal class GeminiChatRetrievedContextDto
     {
-        /// <summary>
-        /// 生成されたエンベディング。
-        /// </summary>
-        [JsonPropertyName("embedding")]
-        public GeminiEmbeddingValuesDto? Embedding { get; set; }
-
         /// <summary>
         /// API から返される未知のフィールドを保持する。
         /// </summary>

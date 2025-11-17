@@ -4,21 +4,21 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Batch Embedding API の個別リクエストコンテンツ DTO。
+    /// 単一の URL の取得のコンテキスト DTO。
     /// </summary>
-    internal class GeminiEmbeddingBatchRequestContentDto
+    internal class GeminiChatUrlMetadataDto
     {
         /// <summary>
-        /// 使用するモデルの識別子。
+        /// ツールによって取得された URL。
         /// </summary>
-        [JsonPropertyName("model")]
-        public string? Model { get; set; }
+        [JsonPropertyName("retrievedUrl")]
+        public string? RetrievedUrl { get; set; }
 
         /// <summary>
-        /// エンベディングを生成するコンテンツ。
+        /// URL 取得のステータス。
         /// </summary>
-        [JsonPropertyName("content")]
-        public GeminiEmbeddingContentDto? Content { get; set; }
+        [JsonPropertyName("urlRetrievalStatus")]
+        public string? UrlRetrievalStatus { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

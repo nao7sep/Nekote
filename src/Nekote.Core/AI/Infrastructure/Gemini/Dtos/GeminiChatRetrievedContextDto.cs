@@ -26,6 +26,12 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         [JsonPropertyName("text")]
         public string? Text { get; set; }
 
+        // 2025-11-18:
+        // https://ai.google.dev/api/generate-content の RetrievedContext セクションには、
+        // fileSearchStore フィールドが JSON 例には出現するが、ドキュメント本文には記載されていない。
+        // これは Google の File Search 機能（https://ai.google.dev/gemini-api/docs/file-search）に関連すると思われる。
+        // このフィールドは未記載であり、かつチャット・エンベディング以外の機能に関連するため、現時点では省略されている。
+
         /// <summary>
         /// API から返される未知のフィールドを保持する。
         /// </summary>

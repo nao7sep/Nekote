@@ -9,10 +9,10 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     internal class OpenAiEmbeddingDataDto
     {
         /// <summary>
-        /// オブジェクトの種類 (通常は "embedding")。
+        /// エンベディングベクトル。
         /// </summary>
-        [JsonPropertyName("object")]
-        public string? Object { get; set; }
+        [JsonPropertyName("embedding")]
+        public float[]? Embedding { get; set; }
 
         /// <summary>
         /// この埋め込みのインデックス。
@@ -21,10 +21,10 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public int? Index { get; set; }
 
         /// <summary>
-        /// エンベディングベクトル。
+        /// オブジェクトの種類 (通常は "embedding")。
         /// </summary>
-        [JsonPropertyName("embedding")]
-        public float[]? Embedding { get; set; }
+        [JsonPropertyName("object")]
+        public string? Object { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

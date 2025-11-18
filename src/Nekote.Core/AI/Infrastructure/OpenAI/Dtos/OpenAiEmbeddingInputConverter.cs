@@ -1,0 +1,130 @@
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
+{
+    /// <summary>
+    /// OpenAI の "input" プロパティをシリアライズ/デシリアライズするカスタム コンバーター。
+    /// JSON の型 (string, array) に応じて、
+    /// OpenAiEmbeddingInputBaseDto の適切な派生クラスをインスタンス化する。
+    /// </summary>
+    internal class OpenAiEmbeddingInputConverter : JsonConverter<OpenAiEmbeddingInputBaseDto>
+    {
+        /// <summary>
+        /// JSON から OpenAiEmbeddingInputBaseDto を読み取る。
+        /// </summary>
+        public override OpenAiEmbeddingInputBaseDto Read(
+            ref Utf8JsonReader reader,
+            Type typeToConvert,
+            JsonSerializerOptions options)
+        {
+            switch (reader.TokenType)
+            {
+                // "input": "Hello world"
+                case JsonTokenType.String:
+                    return new OpenAiEmbeddingInputStringDto { Text = reader.GetString() };
+
+                // "input": ["text1", "text2"] or [[token1, token2], [token3]]
+                case JsonTokenType.StartArray:
+                    using (JsonDocument doc = JsonDocument.ParseValue(ref reader))
+                    {
+                        JsonElement root = doc.RootElement;
+
+                        if (root.GetArrayLength() == 0)
+                        {
+                            // 空配列は文字列配列として扱う
+                            return new OpenAiEmbeddingInputStringArrayDto { Texts = new List<string>() };
+                        }
+
+                        JsonElement firstElement = root[0];
+
+                        // 最初の要素が文字列 → string[]
+                        if (firstElement.ValueKind == JsonValueKind.String)
+                        {
+                            var texts = new List<string>();
+                            foreach (JsonElement element in root.EnumerateArray())
+                            {
+                                string text = element.GetString() ?? throw new JsonException(
+                                    $"Cannot deserialize 'input' string array. Expected all elements to be strings, but got null or non-string value.");
+                                texts.Add(text);
+                            }
+                            return new OpenAiEmbeddingInputStringArrayDto { Texts = texts };
+                        }
+                        // 最初の要素が配列 → int[][]
+                        else if (firstElement.ValueKind == JsonValueKind.Array)
+                        {
+                            var tokenArrays = new List<int[]>();
+                            foreach (JsonElement arrayElement in root.EnumerateArray())
+                            {
+                                var tokens = new List<int>();
+                                foreach (JsonElement token in arrayElement.EnumerateArray())
+                                {
+                                    tokens.Add(token.GetInt32());
+                                }
+                                tokenArrays.Add(tokens.ToArray());
+                            }
+                            return new OpenAiEmbeddingInputTokenArrayDto { TokenArrays = tokenArrays };
+                        }
+                        else
+                        {
+                            throw new JsonException(
+                                $"Cannot deserialize 'input' array. Expected array of strings or array of token arrays, but got array of {firstElement.ValueKind}.");
+                        }
+                    }
+
+                default:
+                    throw new JsonException(
+                        $"Cannot deserialize 'input'. Expected string or array, but got {reader.TokenType}.");
+            }
+        }
+
+        /// <summary>
+        /// OpenAiEmbeddingInputBaseDto を JSON に書き込む。
+        /// </summary>
+        public override void Write(
+            Utf8JsonWriter writer,
+            OpenAiEmbeddingInputBaseDto value,
+            JsonSerializerOptions options)
+        {
+            switch (value)
+            {
+                case OpenAiEmbeddingInputStringDto stringInput:
+                    writer.WriteStringValue(stringInput.Text);
+                    break;
+
+                case OpenAiEmbeddingInputStringArrayDto stringArrayInput:
+                    writer.WriteStartArray();
+                    if (stringArrayInput.Texts != null)
+                    {
+                        foreach (string text in stringArrayInput.Texts)
+                        {
+                            writer.WriteStringValue(text);
+                        }
+                    }
+                    writer.WriteEndArray();
+                    break;
+
+                case OpenAiEmbeddingInputTokenArrayDto tokenArrayInput:
+                    writer.WriteStartArray();
+                    if (tokenArrayInput.TokenArrays != null)
+                    {
+                        foreach (int[] tokens in tokenArrayInput.TokenArrays)
+                        {
+                            writer.WriteStartArray();
+                            foreach (int token in tokens)
+                            {
+                                writer.WriteNumberValue(token);
+                            }
+                            writer.WriteEndArray();
+                        }
+                    }
+                    writer.WriteEndArray();
+                    break;
+
+                case null:
+                    writer.WriteNullValue();
+                    break;
+            }
+        }
+    }
+}

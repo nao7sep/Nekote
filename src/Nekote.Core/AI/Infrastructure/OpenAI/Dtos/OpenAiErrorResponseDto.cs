@@ -12,7 +12,19 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// エラーの詳細情報。
         /// </summary>
         [JsonPropertyName("error")]
-        public OpenAiErrorDto? Error { get; set; }
+        public OpenAiErrorDetailsDto? Error { get; set; }
+
+        /// <summary>
+        /// サーバーイベントの一意の ID。
+        /// </summary>
+        [JsonPropertyName("event_id")]
+        public string? EventId { get; set; }
+
+        /// <summary>
+        /// イベントの種類。"error" である必要があります。
+        /// </summary>
+        [JsonPropertyName("type")]
+        public string? Type { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

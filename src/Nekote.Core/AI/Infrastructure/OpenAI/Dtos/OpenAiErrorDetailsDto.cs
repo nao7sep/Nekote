@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// OpenAI API エラー詳細 DTO。
     /// </summary>
-    internal class OpenAiErrorDto
+    internal class OpenAiErrorDetailsDto
     {
         /// <summary>
         /// エラーメッセージ。
@@ -21,16 +21,22 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Type { get; set; }
 
         /// <summary>
-        /// エラーに関連するパラメータ名。
-        /// </summary>
-        [JsonPropertyName("param")]
-        public string? Param { get; set; }
-
-        /// <summary>
         /// エラーコード。
         /// </summary>
         [JsonPropertyName("code")]
         public string? Code { get; set; }
+
+        /// <summary>
+        /// 関連するイベントの ID。
+        /// </summary>
+        [JsonPropertyName("event_id")]
+        public string? EventId { get; set; }
+
+        /// <summary>
+        /// エラーに関連するパラメータ名。
+        /// </summary>
+        [JsonPropertyName("param")]
+        public string? Param { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

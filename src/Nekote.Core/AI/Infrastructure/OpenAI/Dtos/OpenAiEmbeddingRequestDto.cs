@@ -9,16 +9,35 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     internal class OpenAiEmbeddingRequestDto
     {
         /// <summary>
+        /// エンベディングを生成する入力テキスト (文字列、文字列の配列、またはトークン配列の配列)。
+        /// </summary>
+        [JsonPropertyName("input")]
+        [JsonConverter(typeof(OpenAiEmbeddingInputConverter))]
+        public OpenAiEmbeddingInputBaseDto? Input { get; set; }
+
+        /// <summary>
         /// 使用するモデルの識別子。
         /// </summary>
         [JsonPropertyName("model")]
         public string? Model { get; set; }
 
         /// <summary>
-        /// エンベディングを生成する入力テキスト (文字列または文字列の配列)。
+        /// 出力エンベディングの次元数 (text-embedding-3 以降のモデルでサポート)。
         /// </summary>
-        [JsonPropertyName("input")]
-        public object? Input { get; set; }
+        [JsonPropertyName("dimensions")]
+        public int? Dimensions { get; set; }
+
+        /// <summary>
+        /// エンベディングを返す形式 ("float" または "base64")。
+        /// </summary>
+        [JsonPropertyName("encoding_format")]
+        public string? EncodingFormat { get; set; }
+
+        /// <summary>
+        /// エンドユーザーを表す一意の識別子。悪用の監視と検出に役立つ。
+        /// </summary>
+        [JsonPropertyName("user")]
+        public string? User { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

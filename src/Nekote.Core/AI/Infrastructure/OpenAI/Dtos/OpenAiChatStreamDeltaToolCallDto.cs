@@ -4,33 +4,33 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// レスポンスの "choice" オブジェクト DTO。
+    /// ストリーミングツール呼び出しの増分 DTO (レスポンス解析用)。
     /// </summary>
-    internal class OpenAiChatChoiceDto
+    internal class OpenAiChatStreamDeltaToolCallDto
     {
         /// <summary>
-        /// この候補のインデックス。
+        /// ツール呼び出しのインデックス。
         /// </summary>
         [JsonPropertyName("index")]
         public int? Index { get; set; }
 
         /// <summary>
-        /// 生成されたメッセージ。
+        /// ツール呼び出しの一意識別子。
         /// </summary>
-        [JsonPropertyName("message")]
-        public OpenAiChatMessageDto? Message { get; set; }
+        [JsonPropertyName("id")]
+        public string? Id { get; set; }
 
         /// <summary>
-        /// ログ確率情報。
+        /// ツールのタイプ ("function" など)。
         /// </summary>
-        [JsonPropertyName("logprobs")]
-        public OpenAiChatLogprobsDto? Logprobs { get; set; }
+        [JsonPropertyName("type")]
+        public string? Type { get; set; }
 
         /// <summary>
-        /// 補完が終了した理由 ("stop", "length", "content_filter" など)。
+        /// 関数呼び出し情報の増分部分。
         /// </summary>
-        [JsonPropertyName("finish_reason")]
-        public string? FinishReason { get; set; }
+        [JsonPropertyName("function")]
+        public OpenAiChatStreamDeltaFunctionCallDto? Function { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

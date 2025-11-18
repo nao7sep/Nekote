@@ -9,16 +9,10 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     internal class OpenAiChatResponseDto
     {
         /// <summary>
-        /// レスポンスの一意識別子。
+        /// 生成された補完の候補リスト。
         /// </summary>
-        [JsonPropertyName("id")]
-        public string? Id { get; set; }
-
-        /// <summary>
-        /// オブジェクトの種類 (通常は "chat.completion")。
-        /// </summary>
-        [JsonPropertyName("object")]
-        public string? Object { get; set; }
+        [JsonPropertyName("choices")]
+        public List<OpenAiChatChoiceDto>? Choices { get; set; }
 
         /// <summary>
         /// レスポンスが作成された Unix タイムスタンプ。
@@ -27,16 +21,34 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public long? Created { get; set; }
 
         /// <summary>
+        /// レスポンスの一意識別子。
+        /// </summary>
+        [JsonPropertyName("id")]
+        public string? Id { get; set; }
+
+        /// <summary>
         /// 使用されたモデルの識別子。
         /// </summary>
         [JsonPropertyName("model")]
         public string? Model { get; set; }
 
         /// <summary>
-        /// 生成された補完の候補リスト。
+        /// オブジェクトの種類 (通常は "chat.completion")。
         /// </summary>
-        [JsonPropertyName("choices")]
-        public List<OpenAiChatChoiceDto>? Choices { get; set; }
+        [JsonPropertyName("object")]
+        public string? Object { get; set; }
+
+        /// <summary>
+        /// 実際に使用されたサービス層。
+        /// </summary>
+        [JsonPropertyName("service_tier")]
+        public string? ServiceTier { get; set; }
+
+        /// <summary>
+        /// バックエンド構成のフィンガープリント (非推奨)。
+        /// </summary>
+        [JsonPropertyName("system_fingerprint")]
+        public string? SystemFingerprint { get; set; }
 
         /// <summary>
         /// トークン使用量の詳細。

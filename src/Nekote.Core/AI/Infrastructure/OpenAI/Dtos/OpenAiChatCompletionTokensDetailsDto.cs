@@ -21,6 +21,18 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public int? AudioTokens { get; set; }
 
         /// <summary>
+        /// 受け入れられた予測トークン数。
+        /// </summary>
+        [JsonPropertyName("accepted_prediction_tokens")]
+        public int? AcceptedPredictionTokens { get; set; }
+
+        /// <summary>
+        /// 拒否された予測トークン数。
+        /// </summary>
+        [JsonPropertyName("rejected_prediction_tokens")]
+        public int? RejectedPredictionTokens { get; set; }
+
+        /// <summary>
         /// API から返される未知のフィールドを保持する。
         /// </summary>
         [JsonExtensionData]

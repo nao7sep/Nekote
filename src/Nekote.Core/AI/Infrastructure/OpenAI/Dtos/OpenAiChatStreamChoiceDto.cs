@@ -21,6 +21,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public OpenAiChatStreamDeltaDto? Delta { get; set; }
 
         /// <summary>
+        /// ログ確率情報。
+        /// </summary>
+        [JsonPropertyName("logprobs")]
+        public OpenAiChatLogprobsDto? Logprobs { get; set; }
+
+        /// <summary>
         /// 補完が終了した理由 ("stop", "length", "content_filter" など)。
         /// </summary>
         [JsonPropertyName("finish_reason")]

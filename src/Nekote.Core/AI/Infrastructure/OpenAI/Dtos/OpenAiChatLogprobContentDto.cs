@@ -9,10 +9,10 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     internal class OpenAiChatLogprobContentDto
     {
         /// <summary>
-        /// トークン文字列。
+        /// バイト値のリスト。
         /// </summary>
-        [JsonPropertyName("token")]
-        public string? Token { get; set; }
+        [JsonPropertyName("bytes")]
+        public List<int>? Bytes { get; set; }
 
         /// <summary>
         /// ログ確率値。
@@ -21,10 +21,10 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public double? Logprob { get; set; }
 
         /// <summary>
-        /// バイト値のリスト。
+        /// トークン文字列。
         /// </summary>
-        [JsonPropertyName("bytes")]
-        public List<int>? Bytes { get; set; }
+        [JsonPropertyName("token")]
+        public string? Token { get; set; }
 
         /// <summary>
         /// トップログ確率のリスト。

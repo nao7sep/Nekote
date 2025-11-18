@@ -4,27 +4,21 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// トップログ確率 DTO。
+    /// 入力オーディオデータを表す DTO。
     /// </summary>
-    internal class OpenAiChatTopLogprobDto
+    internal class OpenAiChatInputAudioDto
     {
         /// <summary>
-        /// バイト値のリスト。
+        /// Base64 エンコードされたオーディオデータ。
         /// </summary>
-        [JsonPropertyName("bytes")]
-        public List<int>? Bytes { get; set; }
+        [JsonPropertyName("data")]
+        public string? Data { get; set; }
 
         /// <summary>
-        /// ログ確率値。
+        /// エンコードされたオーディオデータのフォーマット ("wav", "mp3")。
         /// </summary>
-        [JsonPropertyName("logprob")]
-        public double? Logprob { get; set; }
-
-        /// <summary>
-        /// トークン文字列。
-        /// </summary>
-        [JsonPropertyName("token")]
-        public string? Token { get; set; }
+        [JsonPropertyName("format")]
+        public string? Format { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

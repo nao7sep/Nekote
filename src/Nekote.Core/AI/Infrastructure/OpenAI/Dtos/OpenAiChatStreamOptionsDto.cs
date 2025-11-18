@@ -9,6 +9,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     internal class OpenAiChatStreamOptionsDto
     {
         /// <summary>
+        /// ストリーム難読化を有効にするかどうか。
+        /// </summary>
+        [JsonPropertyName("include_obfuscation")]
+        public bool? IncludeObfuscation { get; set; }
+
+        /// <summary>
         /// ストリーム終了時に使用量を含めるかどうか。
         /// </summary>
         [JsonPropertyName("include_usage")]

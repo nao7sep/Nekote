@@ -4,21 +4,36 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// オーディオ出力のパラメータ DTO。
+    /// メッセージのオーディオ情報 DTO。
+    /// レスポンス受信時はすべてのフィールドが含まれる。
+    /// リクエスト送信時は id のみを使用して以前のオーディオを参照する。
     /// </summary>
     internal class OpenAiChatAudioDto
     {
         /// <summary>
-        /// 音声の識別子。
+        /// オーディオの一意識別子。
+        /// レスポンス受信時はこの ID をキャッシュし、リクエスト送信時に再利用する。
         /// </summary>
-        [JsonPropertyName("voice")]
-        public string? Voice { get; set; }
+        [JsonPropertyName("id")]
+        public string? Id { get; set; }
 
         /// <summary>
-        /// オーディオフォーマット。
+        /// モデルが生成した Base64 エンコードされたオーディオバイト (レスポンスのみ)。
         /// </summary>
-        [JsonPropertyName("format")]
-        public string? Format { get; set; }
+        [JsonPropertyName("data")]
+        public string? Data { get; set; }
+
+        /// <summary>
+        /// このオーディオがサーバー上でアクセス不可になる Unix タイムスタンプ (秒) (レスポンスのみ)。
+        /// </summary>
+        [JsonPropertyName("expires_at")]
+        public long? ExpiresAt { get; set; }
+
+        /// <summary>
+        /// モデルが生成したオーディオのトランスクリプト (レスポンスのみ)。
+        /// </summary>
+        [JsonPropertyName("transcript")]
+        public string? Transcript { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

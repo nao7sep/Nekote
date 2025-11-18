@@ -4,21 +4,21 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// 関数呼び出し情報 DTO (レスポンス解析用)。
+    /// オーディオ出力のパラメータ DTO。
     /// </summary>
-    internal class OpenAiChatFunctionCallDto
+    internal class OpenAiChatAudioParametersDto
     {
         /// <summary>
-        /// 関数名。
+        /// オーディオフォーマット。
         /// </summary>
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
+        [JsonPropertyName("format")]
+        public string? Format { get; set; }
 
         /// <summary>
-        /// 関数の引数 (JSON 文字列)。
+        /// 音声の識別子。
         /// </summary>
-        [JsonPropertyName("arguments")]
-        public string? Arguments { get; set; }
+        [JsonPropertyName("voice")]
+        public string? Voice { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

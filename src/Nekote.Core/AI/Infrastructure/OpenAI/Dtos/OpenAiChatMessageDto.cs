@@ -9,12 +9,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     internal class OpenAiChatMessageDto
     {
         /// <summary>
-        /// メッセージのロール ("system", "user", "assistant", "developer", "tool")。
-        /// </summary>
-        [JsonPropertyName("role")]
-        public string? Role { get; set; }
-
-        /// <summary>
         /// メッセージの内容。
         /// リクエスト送信時は常に単純な文字列 content を使用する。
         /// レスポンス受信時は JsonConverter がこれを処理する。
@@ -24,28 +18,10 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public OpenAiChatMessageContentBaseDto? Content { get; set; }
 
         /// <summary>
-        /// モデルが生成を拒否した場合の理由。
+        /// メッセージのロール ("system", "user", "assistant", "developer", "tool")。
         /// </summary>
-        [JsonPropertyName("refusal")]
-        public string? Refusal { get; set; }
-
-        /// <summary>
-        /// コンテンツに対する注釈のリスト。
-        /// </summary>
-        [JsonPropertyName("annotations")]
-        public List<OpenAiChatAnnotationDto>? Annotations { get; set; }
-
-        /// <summary>
-        /// モデルが呼び出すツール呼び出しのリスト。
-        /// </summary>
-        [JsonPropertyName("tool_calls")]
-        public List<OpenAiChatToolCallDto>? ToolCalls { get; set; }
-
-        /// <summary>
-        /// 関数呼び出し情報 (非推奨、tool_calls を使用)。
-        /// </summary>
-        [JsonPropertyName("function_call")]
-        public OpenAiChatFunctionCallDto? FunctionCall { get; set; }
+        [JsonPropertyName("role")]
+        public string? Role { get; set; }
 
         /// <summary>
         /// このメッセージの送信者名。
@@ -55,15 +31,31 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 
         /// <summary>
         /// オーディオ情報。
+        /// レスポンス受信時はすべてのフィールドが含まれる。
+        /// リクエスト送信時は id のみを使用して以前のオーディオを参照する。
         /// </summary>
         [JsonPropertyName("audio")]
-        public object? Audio { get; set; }
+        public OpenAiChatAudioDto? Audio { get; set; }
 
         /// <summary>
-        /// コンテンツパーツのリスト。
+        /// モデルが生成を拒否した場合の理由。
         /// </summary>
-        [JsonPropertyName("content_parts")]
-        public List<object>? ContentParts { get; set; }
+        [JsonPropertyName("refusal")]
+        public string? Refusal { get; set; }
+
+        // annotations は API レスポンスでのみ使用され、リクエストでは使用されない。
+        // API からのレスポンスを解析する DTO ではデータの損失を防ぐためにこのフィールドをサポートするが、
+        // リクエスト送信時には含まれていない。
+
+        /// <summary>
+        /// コンテンツに対する注釈のリスト。
+        /// </summary>
+        [JsonPropertyName("annotations")]
+        public List<OpenAiChatAnnotationDto>? Annotations { get; set; }
+
+        // function_call, tool_calls は、このライブラリが現在ツール関連の操作をサポートしていないため省略されている。
+        // API からのレスポンスを解析する DTO ではデータの損失を防ぐためにこれらのフィールドをサポートするが、
+        // リクエスト DTO ではツール関連のデータを送信しないため含まれていない。
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

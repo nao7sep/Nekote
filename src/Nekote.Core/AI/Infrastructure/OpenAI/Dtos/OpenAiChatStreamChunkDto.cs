@@ -44,11 +44,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         [JsonPropertyName("service_tier")]
         public string? ServiceTier { get; set; }
 
-        /// <summary>
-        /// バックエンド構成のフィンガープリント (非推奨)。
-        /// </summary>
-        [JsonPropertyName("system_fingerprint")]
-        public string? SystemFingerprint { get; set; }
+        // system_fingerprint は非推奨となり、API ドキュメントから削除されたため、このライブラリではサポートしない。
 
         /// <summary>
         /// トークン使用量の詳細 (最終チャンクでのみ返される)。

@@ -24,7 +24,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// オーディオ出力のパラメータ。
         /// </summary>
         [JsonPropertyName("audio")]
-        public OpenAiChatAudioDto? Audio { get; set; }
+        public OpenAiChatAudioParametersDto? Audio { get; set; }
 
         /// <summary>
         /// 頻度ペナルティ (-2.0 ~ 2.0)。
@@ -32,7 +32,8 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         [JsonPropertyName("frequency_penalty")]
         public double? FrequencyPenalty { get; set; }
 
-        // function_call, functions, tool_choice, tools は、このライブラリが現在ツール関連の操作をサポートしていないため省略されている。
+        // function_call, functions, parallel_tool_calls, tool_choice, tools は、
+        // このライブラリが現在ツール関連の操作をサポートしていないため省略されている。
         // API からのレスポンスを解析する DTO ではデータの損失を防ぐためにこれらのフィールドをサポートするが、
         // リクエスト DTO ではツール関連のデータを送信しないため含まれていない。
 
@@ -54,11 +55,8 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         [JsonPropertyName("max_completion_tokens")]
         public int? MaxCompletionTokens { get; set; }
 
-        /// <summary>
-        /// 最大トークン数 (非推奨、max_completion_tokens を使用)。
-        /// </summary>
-        [JsonPropertyName("max_tokens")]
-        public int? MaxTokens { get; set; }
+        // max_tokens は非推奨であり、max_completion_tokens を使用することが推奨されているため、
+        // このライブラリでは max_tokens をサポートしない。
 
         /// <summary>
         /// メタデータのキーバリューペア (最大16個)。
@@ -77,12 +75,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// </summary>
         [JsonPropertyName("n")]
         public int? N { get; set; }
-
-        /// <summary>
-        /// 並列ツール呼び出しを有効にするかどうか。
-        /// </summary>
-        [JsonPropertyName("parallel_tool_calls")]
-        public bool? ParallelToolCalls { get; set; }
 
         /// <summary>
         /// 予測出力の構成。
@@ -126,11 +118,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         [JsonPropertyName("safety_identifier")]
         public string? SafetyIdentifier { get; set; }
 
-        /// <summary>
-        /// 決定論的サンプリングのシード値 (非推奨)。
-        /// </summary>
-        [JsonPropertyName("seed")]
-        public long? Seed { get; set; }
+        // seed は非推奨となり、API ドキュメントから削除されたため、このライブラリではサポートしない。
 
         /// <summary>
         /// サービス層 (例: "auto", "default", "flex", "priority")。
@@ -140,9 +128,11 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 
         /// <summary>
         /// 生成停止シーケンス (最大4個)。
+        /// リクエスト送信時は単一の文字列または文字列の配列を使用する。
         /// </summary>
         [JsonPropertyName("stop")]
-        public object? Stop { get; set; }
+        [JsonConverter(typeof(OpenAiChatStopConverter))]
+        public OpenAiChatStopBaseDto? Stop { get; set; }
 
         /// <summary>
         /// 出力を保存するかどうか (デフォルト: false)。
@@ -180,11 +170,8 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         [JsonPropertyName("top_p")]
         public double? TopP { get; set; }
 
-        /// <summary>
-        /// ユーザー識別子 (非推奨、safety_identifier と prompt_cache_key を使用)。
-        /// </summary>
-        [JsonPropertyName("user")]
-        public string? User { get; set; }
+        // user は非推奨となり、safety_identifier と prompt_cache_key に置き換えられたため、
+        // このライブラリではサポートしない。
 
         /// <summary>
         /// レスポンスの冗長性レベル (例: "low", "medium", "high")。

@@ -8,8 +8,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// </summary>
     internal class OpenAiChatMessageContentPartDto
     {
+        // type は API ドキュメントでは各フィールドの最後に記載されているが、
+        // コンテンツパーツのタイプを判別する際に最も重要な役割を果たすため、
+        // 可読性を向上させるためにこのクラスでは最初に配置している。
+
         /// <summary>
-        /// パーツの種類 ("text", "image_url" など)。
+        /// パーツの種類 ("text", "image_url", "input_audio", "file", "refusal")。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }
@@ -19,6 +23,30 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// </summary>
         [JsonPropertyName("text")]
         public string? Text { get; set; }
+
+        /// <summary>
+        /// type が "image_url" の場合にのみ使用する画像 URL 情報。
+        /// </summary>
+        [JsonPropertyName("image_url")]
+        public OpenAiChatImageUrlDto? ImageUrl { get; set; }
+
+        /// <summary>
+        /// type が "input_audio" の場合にのみ使用するオーディオ入力情報。
+        /// </summary>
+        [JsonPropertyName("input_audio")]
+        public OpenAiChatInputAudioDto? InputAudio { get; set; }
+
+        /// <summary>
+        /// type が "file" の場合にのみ使用するファイル情報。
+        /// </summary>
+        [JsonPropertyName("file")]
+        public OpenAiChatFileDto? File { get; set; }
+
+        /// <summary>
+        /// type が "refusal" の場合にのみ使用する拒否メッセージ。
+        /// </summary>
+        [JsonPropertyName("refusal")]
+        public string? Refusal { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

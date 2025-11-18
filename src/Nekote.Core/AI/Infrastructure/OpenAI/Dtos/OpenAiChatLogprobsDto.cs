@@ -15,6 +15,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public List<OpenAiChatLogprobContentDto>? Content { get; set; }
 
         /// <summary>
+        /// 拒否トークンのログ確率情報のリスト。
+        /// </summary>
+        [JsonPropertyName("refusal")]
+        public List<OpenAiChatLogprobContentDto>? Refusal { get; set; }
+
+        /// <summary>
         /// API から返される未知のフィールドを保持する。
         /// </summary>
         [JsonExtensionData]

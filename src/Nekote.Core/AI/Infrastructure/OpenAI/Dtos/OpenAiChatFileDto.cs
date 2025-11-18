@@ -4,27 +4,27 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ツール呼び出し情報 DTO (レスポンス解析用)。
+    /// ファイル入力を表す DTO。
     /// </summary>
-    internal class OpenAiChatToolCallDto
+    internal class OpenAiChatFileDto
     {
         /// <summary>
-        /// ツール呼び出しの一意識別子。
+        /// Base64 エンコードされたファイルデータ。
         /// </summary>
-        [JsonPropertyName("id")]
-        public string? Id { get; set; }
+        [JsonPropertyName("file_data")]
+        public string? FileData { get; set; }
 
         /// <summary>
-        /// ツールのタイプ ("function" など)。
+        /// アップロードされたファイルの ID。
         /// </summary>
-        [JsonPropertyName("type")]
-        public string? Type { get; set; }
+        [JsonPropertyName("file_id")]
+        public string? FileId { get; set; }
 
         /// <summary>
-        /// 関数呼び出し情報。
+        /// ファイル名。
         /// </summary>
-        [JsonPropertyName("function")]
-        public OpenAiChatFunctionCallDto? Function { get; set; }
+        [JsonPropertyName("filename")]
+        public string? Filename { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

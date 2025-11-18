@@ -9,10 +9,10 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     internal class OpenAiChatCompletionTokensDetailsDto
     {
         /// <summary>
-        /// 推論 (reasoning) に使用されたトークン数。
+        /// 受け入れられた予測トークン数。
         /// </summary>
-        [JsonPropertyName("reasoning_tokens")]
-        public int? ReasoningTokens { get; set; }
+        [JsonPropertyName("accepted_prediction_tokens")]
+        public int? AcceptedPredictionTokens { get; set; }
 
         /// <summary>
         /// オーディオ出力に使用されたトークン数。
@@ -21,10 +21,10 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public int? AudioTokens { get; set; }
 
         /// <summary>
-        /// 受け入れられた予測トークン数。
+        /// 推論 (reasoning) に使用されたトークン数。
         /// </summary>
-        [JsonPropertyName("accepted_prediction_tokens")]
-        public int? AcceptedPredictionTokens { get; set; }
+        [JsonPropertyName("reasoning_tokens")]
+        public int? ReasoningTokens { get; set; }
 
         /// <summary>
         /// 拒否された予測トークン数。

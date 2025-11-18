@@ -20,22 +20,19 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         {
             switch (reader.TokenType)
             {
-                // Case 1: "content": "Hello world"
+                // "content": "Hello world"
                 case JsonTokenType.String:
                     return new OpenAiChatMessageContentStringDto { Text = reader.GetString() };
 
-                // Case 2: "content": [ { "type": "text", ... } ]
+                // "content": [ { "type": "text", ... } ]
                 case JsonTokenType.StartArray:
-                    var parts = JsonSerializer.Deserialize<List<OpenAiChatMessageContentPartDto>>(ref reader, options);
-                    return new OpenAiChatMessageContentArrayDto { Parts = parts ?? new() };
-
-                // Case 3: "content": null (例: ツール呼び出し応答時)
-                case JsonTokenType.Null:
-                    return new OpenAiChatMessageContentStringDto { Text = "" };
+                    var parts = JsonSerializer.Deserialize<List<OpenAiChatMessageContentPartDto>>(ref reader, options)
+                        ?? throw new JsonException("Cannot deserialize 'content' array. Deserialization returned null.");
+                    return new OpenAiChatMessageContentArrayDto { Parts = parts };
 
                 default:
                     throw new JsonException(
-                        $"Cannot deserialize 'content'. Expected string, array, or null, but got {reader.TokenType}.");
+                        $"Cannot deserialize 'content'. Expected string or array, but got {reader.TokenType}.");
             }
         }
 

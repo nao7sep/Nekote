@@ -9,16 +9,16 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     internal class OpenAiChatResponseFormatDto
     {
         /// <summary>
-        /// フォーマットのタイプ ("text", "json_object", "json_schema")。
+        /// フォーマットのタイプ ("text", "json_schema", "json_object")。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }
 
         /// <summary>
-        /// JSON スキーマの定義 (type が "json_schema" の場合)。
+        /// JSON スキーマの構成 (type が "json_schema" の場合にのみ使用)。
         /// </summary>
         [JsonPropertyName("json_schema")]
-        public object? JsonSchema { get; set; }
+        public OpenAiChatJsonSchemaDto? JsonSchema { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

@@ -4,21 +4,21 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ストリーミング関数呼び出しの増分 DTO (レスポンス解析用)。
+    /// ユーザーの位置情報パラメータ DTO。
     /// </summary>
-    internal class OpenAiChatStreamDeltaFunctionCallDto
+    internal class OpenAiChatUserLocationDto
     {
         /// <summary>
-        /// 関数名の増分部分。
+        /// おおよその位置情報パラメータ。
         /// </summary>
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
+        [JsonPropertyName("approximate")]
+        public OpenAiChatApproximateLocationDto? Approximate { get; set; }
 
         /// <summary>
-        /// 関数の引数の増分部分 (JSON 文字列)。
+        /// 位置近似のタイプ (常に "approximate")。
         /// </summary>
-        [JsonPropertyName("arguments")]
-        public string? Arguments { get; set; }
+        [JsonPropertyName("type")]
+        public string? Type { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

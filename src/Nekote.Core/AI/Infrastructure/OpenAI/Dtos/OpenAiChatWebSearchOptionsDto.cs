@@ -9,10 +9,16 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     internal class OpenAiChatWebSearchOptionsDto
     {
         /// <summary>
-        /// Web 検索を有効にするかどうか。
+        /// 検索に使用するコンテキストウィンドウスペースの量に関する高レベルのガイダンス ("low", "medium", "high")。
         /// </summary>
-        [JsonPropertyName("enabled")]
-        public bool? Enabled { get; set; }
+        [JsonPropertyName("search_context_size")]
+        public string? SearchContextSize { get; set; }
+
+        /// <summary>
+        /// 検索のおおよその位置パラメータ。
+        /// </summary>
+        [JsonPropertyName("user_location")]
+        public OpenAiChatUserLocationDto? UserLocation { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

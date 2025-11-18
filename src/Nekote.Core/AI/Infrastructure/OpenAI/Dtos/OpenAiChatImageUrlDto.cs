@@ -4,27 +4,21 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// トップログ確率 DTO。
+    /// 画像 URL の詳細を表す DTO。
     /// </summary>
-    internal class OpenAiChatTopLogprobDto
+    internal class OpenAiChatImageUrlDto
     {
         /// <summary>
-        /// バイト値のリスト。
+        /// 画像の URL または Base64 エンコードされた画像データ。
         /// </summary>
-        [JsonPropertyName("bytes")]
-        public List<int>? Bytes { get; set; }
+        [JsonPropertyName("url")]
+        public string? Url { get; set; }
 
         /// <summary>
-        /// ログ確率値。
+        /// 画像の詳細レベル ("low", "high", "auto")。
         /// </summary>
-        [JsonPropertyName("logprob")]
-        public double? Logprob { get; set; }
-
-        /// <summary>
-        /// トークン文字列。
-        /// </summary>
-        [JsonPropertyName("token")]
-        public string? Token { get; set; }
+        [JsonPropertyName("detail")]
+        public string? Detail { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

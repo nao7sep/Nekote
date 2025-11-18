@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// ユーザーの位置情報パラメータ DTO。
     /// </summary>
-    internal class OpenAiChatUserLocationDto
+    public class OpenAiChatUserLocationDto
     {
         /// <summary>
         /// おおよその位置情報パラメータ。

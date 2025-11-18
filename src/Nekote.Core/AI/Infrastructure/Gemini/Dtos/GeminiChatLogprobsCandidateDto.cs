@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// logprobs トークンとスコアの候補 DTO。
     /// </summary>
-    internal class GeminiChatLogprobsCandidateDto
+    public class GeminiChatLogprobsCandidateDto
     {
         /// <summary>
         /// 候補のトークン文字列値。

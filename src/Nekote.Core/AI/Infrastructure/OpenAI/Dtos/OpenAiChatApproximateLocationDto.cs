@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// ユーザーのおおよその位置情報パラメータ DTO。
     /// </summary>
-    internal class OpenAiChatApproximateLocationDto
+    public class OpenAiChatApproximateLocationDto
     {
         /// <summary>
         /// ユーザーの都市 (例: "San Francisco")。

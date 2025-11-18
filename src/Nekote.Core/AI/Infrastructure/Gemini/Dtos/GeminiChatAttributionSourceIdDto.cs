@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// アトリビューションに貢献したソースの識別子 DTO。
     /// </summary>
-    internal class GeminiChatAttributionSourceIdDto
+    public class GeminiChatAttributionSourceIdDto
     {
         /// <summary>
         /// インライン パッセージの識別子。

@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// 予測出力の構成 DTO。
     /// </summary>
-    internal class OpenAiChatPredictionDto
+    public class OpenAiChatPredictionDto
     {
         /// <summary>
         /// 予測コンテンツ。

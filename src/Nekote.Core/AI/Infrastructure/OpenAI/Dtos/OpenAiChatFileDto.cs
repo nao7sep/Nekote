@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// ファイル入力を表す DTO。
     /// </summary>
-    internal class OpenAiChatFileDto
+    public class OpenAiChatFileDto
     {
         /// <summary>
         /// Base64 エンコードされたファイルデータ。

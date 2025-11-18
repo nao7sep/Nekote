@@ -8,7 +8,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// レスポンス受信時はすべてのフィールドが含まれる。
     /// リクエスト送信時は id のみを使用して以前のオーディオを参照する。
     /// </summary>
-    internal class OpenAiChatAudioDto
+    public class OpenAiChatAudioDto
     {
         /// <summary>
         /// オーディオの一意識別子。

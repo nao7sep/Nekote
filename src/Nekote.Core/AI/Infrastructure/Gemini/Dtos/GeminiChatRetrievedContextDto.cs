@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// ファイル検索ツールで取得されたコンテキストのグラウンディング チャンク DTO。
     /// </summary>
-    internal class GeminiChatRetrievedContextDto
+    public class GeminiChatRetrievedContextDto
     {
         /// <summary>
         /// セマンティック検索ドキュメントの URI 参照。

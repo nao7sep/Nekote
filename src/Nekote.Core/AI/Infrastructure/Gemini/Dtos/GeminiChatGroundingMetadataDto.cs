@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// グラウンディングが有効になっている場合にクライアントに返されるメタデータ DTO。
     /// </summary>
-    internal class GeminiChatGroundingMetadataDto
+    public class GeminiChatGroundingMetadataDto
     {
         /// <summary>
         /// 指定されたグラウンディング ソースから取得されたサポート参照のリスト。

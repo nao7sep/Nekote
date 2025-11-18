@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// コンテンツのセグメント DTO。
     /// </summary>
-    internal class GeminiChatSegmentDto
+    public class GeminiChatSegmentDto
     {
         /// <summary>
         /// 親 Content オブジェクト内の Part オブジェクトのインデックス（出力専用）。

@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// GroundingPassage 内のパートの識別子 DTO。
     /// </summary>
-    internal class GeminiChatGroundingPassageIdDto
+    public class GeminiChatGroundingPassageIdDto
     {
         /// <summary>
         /// GenerateAnswerRequest の GroundingPassage.id と一致するパッセージの ID（出力専用）。

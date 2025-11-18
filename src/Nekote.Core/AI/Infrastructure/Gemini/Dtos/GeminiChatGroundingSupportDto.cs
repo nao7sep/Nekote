@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// グラウンディング サポート DTO。
     /// </summary>
-    internal class GeminiChatGroundingSupportDto
+    public class GeminiChatGroundingSupportDto
     {
         /// <summary>
         /// クレームに関連付けられた引用を指定するインデックスのリスト。

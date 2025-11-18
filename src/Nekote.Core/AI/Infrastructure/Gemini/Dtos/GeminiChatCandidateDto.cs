@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// Gemini Chat API の候補 DTO。
     /// </summary>
-    internal class GeminiChatCandidateDto
+    public class GeminiChatCandidateDto
     {
         /// <summary>
         /// モデルから返された生成コンテンツ（出力専用）。

@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// Logprobs の結果 DTO。
     /// </summary>
-    internal class GeminiChatLogprobsResultDto
+    public class GeminiChatLogprobsResultDto
     {
         /// <summary>
         /// 各デコード ステップでログ確率が最も高い候補のリスト。

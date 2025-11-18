@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// エンベディングリクエストのトークン使用量 DTO。
     /// </summary>
-    internal class OpenAiEmbeddingUsageDto
+    public class OpenAiEmbeddingUsageDto
     {
         /// <summary>
         /// プロンプトで使用されたトークン数。

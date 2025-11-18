@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// レスポンスの "choice" オブジェクト DTO。
     /// </summary>
-    internal class OpenAiChatChoiceDto
+    public class OpenAiChatChoiceDto
     {
         /// <summary>
         /// 補完が終了した理由 ("stop", "length", "content_filter" など)。

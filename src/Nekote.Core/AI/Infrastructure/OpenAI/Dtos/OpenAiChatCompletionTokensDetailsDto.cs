@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// 完了トークンの内訳詳細 DTO。
     /// </summary>
-    internal class OpenAiChatCompletionTokensDetailsDto
+    public class OpenAiChatCompletionTokensDetailsDto
     {
         /// <summary>
         /// 受け入れられた予測トークン数。

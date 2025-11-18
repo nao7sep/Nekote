@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// "content" 配列内の "part" オブジェクト DTO。
     /// </summary>
-    internal class OpenAiChatMessageContentPartDto
+    public class OpenAiChatMessageContentPartDto
     {
         // type は API ドキュメントでは各フィールドの最後に記載されているが、
         // コンテンツパーツのタイプを判別する際に最も重要な役割を果たすため、

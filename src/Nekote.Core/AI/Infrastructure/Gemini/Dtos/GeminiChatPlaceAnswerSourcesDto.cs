@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// Google マップの特定の場所の機能に関する回答を提供するソースのコレクション DTO。
     /// </summary>
-    internal class GeminiChatPlaceAnswerSourcesDto
+    public class GeminiChatPlaceAnswerSourcesDto
     {
         /// <summary>
         /// Google マップで特定の場所の特徴に関する回答を生成するために使用されるクチコミのスニペット。

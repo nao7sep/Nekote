@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// Web 検索オプション DTO。
     /// </summary>
-    internal class OpenAiChatWebSearchOptionsDto
+    public class OpenAiChatWebSearchOptionsDto
     {
         /// <summary>
         /// 検索に使用するコンテキストウィンドウスペースの量に関する高レベルのガイダンス ("low", "medium", "high")。

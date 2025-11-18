@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// Google 検索のエントリ ポイント DTO。
     /// </summary>
-    internal class GeminiChatSearchEntryPointDto
+    public class GeminiChatSearchEntryPointDto
     {
         /// <summary>
         /// ウェブページまたはアプリの WebView に埋め込むことができるウェブ コンテンツ スニペット。

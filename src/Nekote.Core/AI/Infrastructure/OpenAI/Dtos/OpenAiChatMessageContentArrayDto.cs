@@ -3,7 +3,7 @@
     /// <summary>
     /// "content" が "parts" の配列の場合の具象 DTO。
     /// </summary>
-    internal class OpenAiChatMessageContentArrayDto : OpenAiChatMessageContentBaseDto
+    public class OpenAiChatMessageContentArrayDto : OpenAiChatMessageContentBaseDto
     {
         /// <summary>
         /// コンテンツパーツのリスト。

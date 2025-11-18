@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// コンテンツのソース帰属情報のコレクション DTO。
     /// </summary>
-    internal class GeminiChatCitationMetadataDto
+    public class GeminiChatCitationMetadataDto
     {
         /// <summary>
         /// 特定の回答のソースへの引用。

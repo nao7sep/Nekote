@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// 事前構築済み音声の構成 DTO。
     /// </summary>
-    internal class GeminiChatPrebuiltVoiceConfigDto
+    public class GeminiChatPrebuiltVoiceConfigDto
     {
         /// <summary>
         /// 音壷名。

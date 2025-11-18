@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// オーディオ出力のパラメータ DTO。
     /// </summary>
-    internal class OpenAiChatAudioParametersDto
+    public class OpenAiChatAudioParametersDto
     {
         /// <summary>
         /// オーディオフォーマット。

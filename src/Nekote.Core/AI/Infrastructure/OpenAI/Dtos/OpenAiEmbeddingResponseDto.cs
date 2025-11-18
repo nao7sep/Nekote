@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// OpenAI Embedding API からのレスポンスボディ DTO。
     /// </summary>
-    internal class OpenAiEmbeddingResponseDto
+    public class OpenAiEmbeddingResponseDto
     {
         /// <summary>
         /// オブジェクトの種類 (通常は "list")。

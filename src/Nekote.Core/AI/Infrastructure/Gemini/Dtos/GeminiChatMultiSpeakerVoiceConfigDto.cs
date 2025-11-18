@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// 複数話者の音声構成 DTO。
     /// </summary>
-    internal class GeminiChatMultiSpeakerVoiceConfigDto
+    public class GeminiChatMultiSpeakerVoiceConfigDto
     {
         /// <summary>
         /// 話者ごとの音声構成のリスト。

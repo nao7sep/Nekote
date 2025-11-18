@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// グラウンディング フローでの取得に関連するメタデータ DTO。
     /// </summary>
-    internal class GeminiChatRetrievalMetadataDto
+    public class GeminiChatRetrievalMetadataDto
     {
         /// <summary>
         /// Google 検索の情報がプロンプトの回答に役立つ可能性を示すスコア（範囲は 0 ～ 1）。

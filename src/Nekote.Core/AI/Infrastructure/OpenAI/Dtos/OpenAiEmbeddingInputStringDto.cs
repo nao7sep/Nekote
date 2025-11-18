@@ -3,7 +3,7 @@
     /// <summary>
     /// "input" が単一の文字列の場合の具象 DTO。
     /// </summary>
-    internal class OpenAiEmbeddingInputStringDto : OpenAiEmbeddingInputBaseDto
+    public class OpenAiEmbeddingInputStringDto : OpenAiEmbeddingInputBaseDto
     {
         /// <summary>
         /// 入力テキスト。

@@ -8,7 +8,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// JSON の型 (string, array, null) に応じて、
     /// OpenAiChatStopBaseDto の適切な派生クラスをインスタンス化する。
     /// </summary>
-    internal class OpenAiChatStopConverter : JsonConverter<OpenAiChatStopBaseDto>
+    public class OpenAiChatStopConverter : JsonConverter<OpenAiChatStopBaseDto>
     {
         /// <summary>
         /// JSON から OpenAiChatStopBaseDto を読み取る。

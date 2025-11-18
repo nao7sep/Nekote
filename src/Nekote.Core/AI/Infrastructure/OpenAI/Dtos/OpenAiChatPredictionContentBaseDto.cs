@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// "prediction" 内の "content" プロパティのポリモーフィックな値を表現するための抽象基底 DTO。
     /// </summary>
     [JsonConverter(typeof(OpenAiChatPredictionContentConverter))]
-    internal abstract class OpenAiChatPredictionContentBaseDto
+    public abstract class OpenAiChatPredictionContentBaseDto
     {
     }
 }

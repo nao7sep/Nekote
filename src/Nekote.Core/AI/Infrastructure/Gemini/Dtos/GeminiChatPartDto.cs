@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// Gemini Chat API のパート DTO。
     /// </summary>
-    internal class GeminiChatPartDto
+    public class GeminiChatPartDto
     {
         /// <summary>
         /// テキスト内容。

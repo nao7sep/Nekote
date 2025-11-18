@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// 話者の音声構成 DTO。
     /// </summary>
-    internal class GeminiChatSpeakerVoiceConfigDto
+    public class GeminiChatSpeakerVoiceConfigDto
     {
         /// <summary>
         /// 話者名。

@@ -3,7 +3,7 @@
     /// <summary>
     /// "content" が単純な文字列の場合の具象 DTO。
     /// </summary>
-    internal class OpenAiChatMessageContentStringDto : OpenAiChatMessageContentBaseDto
+    public class OpenAiChatMessageContentStringDto : OpenAiChatMessageContentBaseDto
     {
         /// <summary>
         /// テキスト内容。

@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// OpenAI Chat API のメッセージ DTO (リクエスト/レスポンス共通部)。
     /// </summary>
-    internal class OpenAiChatMessageDto
+    public class OpenAiChatMessageDto
     {
         /// <summary>
         /// メッセージの内容。

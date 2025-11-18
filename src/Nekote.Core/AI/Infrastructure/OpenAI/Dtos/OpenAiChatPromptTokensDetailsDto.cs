@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// プロンプトトークンの内訳詳細 DTO。
     /// </summary>
-    internal class OpenAiChatPromptTokensDetailsDto
+    public class OpenAiChatPromptTokensDetailsDto
     {
         /// <summary>
         /// オーディオ入力に使用されたトークン数。

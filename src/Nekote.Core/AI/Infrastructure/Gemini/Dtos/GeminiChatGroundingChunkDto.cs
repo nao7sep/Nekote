@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// グラウンディング チャンク DTO。
     /// </summary>
-    internal class GeminiChatGroundingChunkDto
+    public class GeminiChatGroundingChunkDto
     {
         /// <summary>
         /// ウェブからのグラウンディング チャンク。

@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// Gemini Batch Embedding API の個別リクエストコンテンツ DTO。
     /// </summary>
-    internal class GeminiEmbeddingBatchRequestContentDto
+    public class GeminiEmbeddingBatchRequestContentDto
     {
         /// <summary>
         /// 使用するモデルの識別子。

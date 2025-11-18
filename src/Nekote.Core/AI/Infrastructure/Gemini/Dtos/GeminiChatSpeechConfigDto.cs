@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// 音声生成の構成 DTO。
     /// </summary>
-    internal class GeminiChatSpeechConfigDto
+    public class GeminiChatSpeechConfigDto
     {
         /// <summary>
         /// 音声の構成。

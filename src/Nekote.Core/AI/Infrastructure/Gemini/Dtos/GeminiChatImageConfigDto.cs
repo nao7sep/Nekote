@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// 画像生成の構成 DTO。
     /// </summary>
-    internal class GeminiChatImageConfigDto
+    public class GeminiChatImageConfigDto
     {
         /// <summary>
         /// アスペクト比。

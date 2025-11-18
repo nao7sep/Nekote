@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// 安全性設定 DTO。
     /// </summary>
-    internal class GeminiChatSafetySettingDto
+    public class GeminiChatSafetySettingDto
     {
         /// <summary>
         /// カテゴリ。

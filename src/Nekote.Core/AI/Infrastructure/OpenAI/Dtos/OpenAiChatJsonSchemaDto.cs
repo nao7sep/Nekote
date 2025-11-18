@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// JSON スキーマレスポンスフォーマットの構成 DTO。
     /// </summary>
-    internal class OpenAiChatJsonSchemaDto
+    public class OpenAiChatJsonSchemaDto
     {
         /// <summary>
         /// レスポンスフォーマットの名前 (a-z, A-Z, 0-9, アンダースコア、ダッシュのみ、最大64文字)。

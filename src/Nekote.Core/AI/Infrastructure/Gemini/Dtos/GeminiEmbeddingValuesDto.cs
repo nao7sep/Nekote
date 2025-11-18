@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// Gemini Embedding API のエンベディング値 DTO。
     /// </summary>
-    internal class GeminiEmbeddingValuesDto
+    public class GeminiEmbeddingValuesDto
     {
         /// <summary>
         /// エンベディングベクトル。

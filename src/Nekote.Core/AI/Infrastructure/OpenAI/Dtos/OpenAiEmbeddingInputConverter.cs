@@ -8,7 +8,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// JSON の型 (string, array) に応じて、
     /// OpenAiEmbeddingInputBaseDto の適切な派生クラスをインスタンス化する。
     /// </summary>
-    internal class OpenAiEmbeddingInputConverter : JsonConverter<OpenAiEmbeddingInputBaseDto>
+    public class OpenAiEmbeddingInputConverter : JsonConverter<OpenAiEmbeddingInputBaseDto>
     {
         /// <summary>
         /// JSON から OpenAiEmbeddingInputBaseDto を読み取る。

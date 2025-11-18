@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// Gemini Chat API からのレスポンスボディ DTO。
     /// </summary>
-    internal class GeminiChatResponseDto
+    public class GeminiChatResponseDto
     {
         /// <summary>
         /// 生成された候補のリスト。

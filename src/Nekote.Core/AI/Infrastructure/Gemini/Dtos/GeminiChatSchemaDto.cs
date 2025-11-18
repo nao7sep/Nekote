@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// スキーマ DTO (OpenAPI スキーマのサブセット)。
     /// </summary>
-    internal class GeminiChatSchemaDto
+    public class GeminiChatSchemaDto
     {
         /// <summary>
         /// 型。

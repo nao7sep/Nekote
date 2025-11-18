@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// "input" プロパティのポリモーフィックな値を表現するための抽象基底 DTO。
     /// </summary>
     [JsonConverter(typeof(OpenAiEmbeddingInputConverter))]
-    internal abstract class OpenAiEmbeddingInputBaseDto
+    public abstract class OpenAiEmbeddingInputBaseDto
     {
     }
 }

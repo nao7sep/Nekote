@@ -3,7 +3,7 @@
     /// <summary>
     /// "input" がトークン配列の配列の場合の具象 DTO。
     /// </summary>
-    internal class OpenAiEmbeddingInputTokenArrayDto : OpenAiEmbeddingInputBaseDto
+    public class OpenAiEmbeddingInputTokenArrayDto : OpenAiEmbeddingInputBaseDto
     {
         /// <summary>
         /// トークン配列のリスト。

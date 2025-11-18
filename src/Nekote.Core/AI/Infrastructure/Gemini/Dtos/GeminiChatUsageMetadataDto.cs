@@ -7,7 +7,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// Gemini Chat API の使用量メタデータ DTO。
     /// ストリーミングおよび非ストリーミングレスポンスで共有される。
     /// </summary>
-    internal class GeminiChatUsageMetadataDto
+    public class GeminiChatUsageMetadataDto
     {
         /// <summary>
         /// プロンプト内のトークン数。キャッシュに保存されたコンテンツのトークン数も含まれる。

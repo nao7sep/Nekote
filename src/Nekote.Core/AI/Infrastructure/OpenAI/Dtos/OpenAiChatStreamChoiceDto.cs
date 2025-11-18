@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// ストリーミングレスポンスの "choice" オブジェクト DTO。
     /// </summary>
-    internal class OpenAiChatStreamChoiceDto
+    public class OpenAiChatStreamChoiceDto
     {
         /// <summary>
         /// ストリーミング時は "message" ではなく "delta" が使用される。

@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// OpenAI Embedding API へのリクエストボディ DTO。
     /// </summary>
-    internal class OpenAiEmbeddingRequestDto
+    public class OpenAiEmbeddingRequestDto
     {
         /// <summary>
         /// エンベディングを生成する入力テキスト (文字列、文字列の配列、またはトークン配列の配列)。

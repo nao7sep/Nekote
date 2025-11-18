@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// 単一のモダリティのトークン カウント情報 DTO。
     /// </summary>
-    internal class GeminiChatModalityTokenCountDto
+    public class GeminiChatModalityTokenCountDto
     {
         /// <summary>
         /// このトークン数に関連付けられたモダリティ。

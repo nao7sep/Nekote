@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// 回答に貢献した情報源の帰属 DTO。
     /// </summary>
-    internal class GeminiChatGroundingAttributionDto
+    public class GeminiChatGroundingAttributionDto
     {
         /// <summary>
         /// このアトリビューションに貢献したソースの識別子（出力専用）。

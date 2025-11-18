@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// 特定のレスポンスの一部に対するソースの引用 DTO。
     /// </summary>
-    internal class GeminiChatCitationSourceDto
+    public class GeminiChatCitationSourceDto
     {
         /// <summary>
         /// このソースに起因するレスポンスのセグメントの開始（バイト単位）。

@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// Gemini Embedding API のコンテンツ DTO。
     /// </summary>
-    internal class GeminiEmbeddingContentDto
+    public class GeminiEmbeddingContentDto
     {
         /// <summary>
         /// コンテンツパーツのリスト。

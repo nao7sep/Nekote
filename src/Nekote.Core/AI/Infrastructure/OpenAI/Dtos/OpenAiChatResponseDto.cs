@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// OpenAI Chat API からのレスポンスボディ DTO。
     /// </summary>
-    internal class OpenAiChatResponseDto
+    public class OpenAiChatResponseDto
     {
         /// <summary>
         /// 生成された補完の候補リスト。

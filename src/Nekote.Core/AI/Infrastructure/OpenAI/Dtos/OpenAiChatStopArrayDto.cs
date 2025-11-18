@@ -3,7 +3,7 @@
     /// <summary>
     /// "stop" が文字列の配列の場合の具象 DTO (最大4個)。
     /// </summary>
-    internal class OpenAiChatStopArrayDto : OpenAiChatStopBaseDto
+    public class OpenAiChatStopArrayDto : OpenAiChatStopBaseDto
     {
         /// <summary>
         /// 停止シーケンスのリスト。

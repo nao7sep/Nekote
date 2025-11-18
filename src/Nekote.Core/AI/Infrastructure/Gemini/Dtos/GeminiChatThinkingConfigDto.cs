@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// 思考機能の構成 DTO。
     /// </summary>
-    internal class GeminiChatThinkingConfigDto
+    public class GeminiChatThinkingConfigDto
     {
         /// <summary>
         /// レスポンスに思考を含めるかどうか。

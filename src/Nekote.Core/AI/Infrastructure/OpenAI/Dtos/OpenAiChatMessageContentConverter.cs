@@ -8,7 +8,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// JSON の型 (string, array, null) に応じて、
     /// OpenAiChatMessageContentBaseDto の適切な派生クラスをインスタンス化する。
     /// </summary>
-    internal class OpenAiChatMessageContentConverter : JsonConverter<OpenAiChatMessageContentBaseDto>
+    public class OpenAiChatMessageContentConverter : JsonConverter<OpenAiChatMessageContentBaseDto>
     {
         /// <summary>
         /// JSON から OpenAiChatMessageContentBaseDto を読み取る。

@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// 単一の URL の取得のコンテキスト DTO。
     /// </summary>
-    internal class GeminiChatUrlMetadataDto
+    public class GeminiChatUrlMetadataDto
     {
         /// <summary>
         /// ツールによって取得された URL。

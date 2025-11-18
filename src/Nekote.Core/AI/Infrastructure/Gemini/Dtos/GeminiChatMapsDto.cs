@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// Google マップのグラウンディング チャンク DTO。
     /// </summary>
-    internal class GeminiChatMapsDto
+    public class GeminiChatMapsDto
     {
         /// <summary>
         /// 場所の URI 参照。

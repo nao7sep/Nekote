@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// Gemini Chat API のコンテンツ DTO (リクエスト/レスポンス共通部)。
     /// </summary>
-    internal class GeminiChatContentDto
+    public class GeminiChatContentDto
     {
         /// <summary>
         /// コンテンツのロール ("user" または "model")。

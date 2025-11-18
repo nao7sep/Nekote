@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// セマンティック リトリーバーで取得された Chunk の識別子 DTO。
     /// </summary>
-    internal class GeminiChatSemanticRetrieverChunkDto
+    public class GeminiChatSemanticRetrieverChunkDto
     {
         /// <summary>
         /// リクエストの SemanticRetrieverConfig.source に一致するソースの名前（出力専用）。

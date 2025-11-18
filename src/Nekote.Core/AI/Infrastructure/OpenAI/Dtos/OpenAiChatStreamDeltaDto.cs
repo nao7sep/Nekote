@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// ストリーミングチャンクの差分 (delta) DTO。
     /// </summary>
-    internal class OpenAiChatStreamDeltaDto
+    public class OpenAiChatStreamDeltaDto
     {
         /// <summary>
         /// メッセージ内容の増分部分。

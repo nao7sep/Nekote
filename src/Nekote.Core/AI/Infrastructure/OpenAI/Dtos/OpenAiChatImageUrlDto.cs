@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// 画像 URL の詳細を表す DTO。
     /// </summary>
-    internal class OpenAiChatImageUrlDto
+    public class OpenAiChatImageUrlDto
     {
         /// <summary>
         /// 画像の URL または Base64 エンコードされた画像データ。

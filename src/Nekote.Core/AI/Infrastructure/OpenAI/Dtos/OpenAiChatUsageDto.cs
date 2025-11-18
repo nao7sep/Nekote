@@ -7,7 +7,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// トークン使用量 DTO (最新 API 対応)。
     /// ストリーミングおよび非ストリーミングレスポンスで共有される。
     /// </summary>
-    internal class OpenAiChatUsageDto
+    public class OpenAiChatUsageDto
     {
         /// <summary>
         /// 補完で生成されたトークン数。

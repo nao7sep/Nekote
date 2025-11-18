@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// Google マップの特定の場所の機能に関する質問に回答するユーザー レビューのスニペット DTO。
     /// </summary>
-    internal class GeminiChatReviewSnippetDto
+    public class GeminiChatReviewSnippetDto
     {
         /// <summary>
         /// レビュー スニペットの ID。

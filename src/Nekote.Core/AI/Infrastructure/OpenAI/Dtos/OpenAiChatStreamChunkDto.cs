@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// OpenAI Chat API のストリーミングレスポンスチャンク DTO。
     /// </summary>
-    internal class OpenAiChatStreamChunkDto
+    public class OpenAiChatStreamChunkDto
     {
         /// <summary>
         /// ストリーミングチャンクの候補リスト。

@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// URL 引用情報 DTO。
     /// </summary>
-    internal class OpenAiChatUrlCitationDto
+    public class OpenAiChatUrlCitationDto
     {
         /// <summary>
         /// メッセージ内の URL 引用の最後の文字のインデックス。

@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// Gemini Chat API のプロンプトフィードバック DTO。
     /// </summary>
-    internal class GeminiChatPromptFeedbackDto
+    public class GeminiChatPromptFeedbackDto
     {
         /// <summary>
         /// ブロック理由 (プロンプトがブロックされた場合)。

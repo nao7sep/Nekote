@@ -3,7 +3,7 @@
     /// <summary>
     /// "prediction" 内の "content" が単純な文字列の場合の具象 DTO。
     /// </summary>
-    internal class OpenAiChatPredictionContentStringDto : OpenAiChatPredictionContentBaseDto
+    public class OpenAiChatPredictionContentStringDto : OpenAiChatPredictionContentBaseDto
     {
         /// <summary>
         /// 予測されるテキスト内容。

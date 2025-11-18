@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// エンベディングレスポンスの "data" 配列内の単一エンベディング DTO。
     /// </summary>
-    internal class OpenAiEmbeddingDataDto
+    public class OpenAiEmbeddingDataDto
     {
         /// <summary>
         /// エンベディングベクトル。

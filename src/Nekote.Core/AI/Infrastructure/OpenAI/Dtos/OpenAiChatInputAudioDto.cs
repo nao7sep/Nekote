@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// 入力オーディオデータを表す DTO。
     /// </summary>
-    internal class OpenAiChatInputAudioDto
+    public class OpenAiChatInputAudioDto
     {
         /// <summary>
         /// Base64 エンコードされたオーディオデータ。

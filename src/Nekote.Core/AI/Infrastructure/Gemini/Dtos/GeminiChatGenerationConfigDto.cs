@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     /// <summary>
     /// 生成構成 DTO。
     /// </summary>
-    internal class GeminiChatGenerationConfigDto
+    public class GeminiChatGenerationConfigDto
     {
         /// <summary>
         /// 停止シーケンスのリスト。

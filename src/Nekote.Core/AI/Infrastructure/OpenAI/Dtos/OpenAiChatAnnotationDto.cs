@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// コンテンツ注釈 DTO (レスポンス解析用)。
     /// </summary>
-    internal class OpenAiChatAnnotationDto
+    public class OpenAiChatAnnotationDto
     {
         /// <summary>
         /// 注釈のタイプ (現在は "url_citation" のみ)。

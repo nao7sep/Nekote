@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// トップログ確率 DTO。
     /// </summary>
-    internal class OpenAiChatTopLogprobDto
+    public class OpenAiChatTopLogprobDto
     {
         /// <summary>
         /// バイト値のリスト。

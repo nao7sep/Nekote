@@ -5,6 +5,8 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
     /// OpenAI API エラー詳細 DTO。
+    /// Realtime API のエラーイベント構造 (https://platform.openai.com/docs/api-reference/realtime-server-events/error) に基づく。
+    /// Chat Completions API のエラーでは event_id は含まれず、message、type、code、param のみが使用される。
     /// </summary>
     internal class OpenAiErrorDetailsDto
     {

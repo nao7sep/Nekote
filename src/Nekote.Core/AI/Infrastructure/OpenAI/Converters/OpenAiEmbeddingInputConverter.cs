@@ -42,8 +42,9 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                             var texts = new List<string>();
                             foreach (JsonElement element in root.EnumerateArray())
                             {
-                                string? text = element.GetString();
-                                texts.Add(text!);
+                                string text = element.GetString() ?? throw new JsonException(
+                                    $"Cannot deserialize 'input' string array. Expected all elements to be strings, but got null or non-string value.");
+                                texts.Add(text);
                             }
                             return new OpenAiEmbeddingInputStringArrayDto { Texts = texts };
                         }

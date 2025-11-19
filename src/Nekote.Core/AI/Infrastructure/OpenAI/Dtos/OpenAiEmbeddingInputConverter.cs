@@ -32,7 +32,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 
                         if (root.GetArrayLength() == 0)
                         {
-                            // 空配列は文字列配列として扱う
+                            // 空配列は文字列配列として扱われる
                             return new OpenAiEmbeddingInputStringArrayDto { Texts = new List<string>() };
                         }
 

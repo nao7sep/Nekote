@@ -55,8 +55,14 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         [JsonPropertyName("max_completion_tokens")]
         public int? MaxCompletionTokens { get; set; }
 
-        // max_tokens は非推奨であり、max_completion_tokens を使用することが推奨されているため、
-        // このライブラリでは max_tokens をサポートしない。
+        /// <summary>
+        /// 生成可能な最大トークン数 (非推奨)。
+        /// </summary>
+        /// <remarks>
+        /// このフィールドは非推奨となり、max_completion_tokens に置き換えられた。
+        /// </remarks>
+        [JsonPropertyName("max_tokens")]
+        public int? MaxTokens { get; set; }
 
         /// <summary>
         /// メタデータのキーバリューペア (最大16個)。
@@ -118,7 +124,11 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         [JsonPropertyName("safety_identifier")]
         public string? SafetyIdentifier { get; set; }
 
-        // seed は非推奨となり、API ドキュメントから削除されたため、このライブラリではサポートしない。
+        /// <summary>
+        /// 決定論的サンプリングのシード値 (非推奨)。
+        /// </summary>
+        [JsonPropertyName("seed")]
+        public int? Seed { get; set; }
 
         /// <summary>
         /// サービス層 (例: "auto", "default", "flex", "priority")。
@@ -170,8 +180,14 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         [JsonPropertyName("top_p")]
         public double? TopP { get; set; }
 
-        // user は非推奨となり、safety_identifier と prompt_cache_key に置き換えられたため、
-        // このライブラリではサポートしない。
+        /// <summary>
+        /// エンドユーザーの識別子 (非推奨)。
+        /// </summary>
+        /// <remarks>
+        /// このフィールドは非推奨となり、safety_identifier と prompt_cache_key に置き換えられた。
+        /// </remarks>
+        [JsonPropertyName("user")]
+        public string? User { get; set; }
 
         /// <summary>
         /// レスポンスの冗長性レベル (例: "low", "medium", "high")。

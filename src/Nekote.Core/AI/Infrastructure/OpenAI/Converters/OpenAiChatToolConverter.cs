@@ -52,6 +52,14 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                 case OpenAiChatToolCustomDto customTool:
                     JsonSerializer.Serialize(writer, customTool, options);
                     break;
+
+                case null:
+                    writer.WriteNullValue();
+                    break;
+
+                default:
+                    throw new JsonException(
+                        $"Cannot serialize 'tools' element. Unexpected type: {value.GetType().Name}.");
             }
         }
     }

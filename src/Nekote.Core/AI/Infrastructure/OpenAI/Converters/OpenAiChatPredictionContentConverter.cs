@@ -52,6 +52,14 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                 case OpenAiChatPredictionContentArrayDto arrayContent:
                     JsonSerializer.Serialize(writer, arrayContent.Parts, options);
                     break;
+
+                case null:
+                    writer.WriteNullValue();
+                    break;
+
+                default:
+                    throw new JsonException(
+                        $"Cannot serialize prediction 'content'. Unexpected type: {value.GetType().Name}.");
             }
         }
     }

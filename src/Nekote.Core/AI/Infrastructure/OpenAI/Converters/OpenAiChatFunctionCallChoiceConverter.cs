@@ -41,6 +41,14 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                 case OpenAiChatFunctionCallChoiceObjectDto objectValue:
                     JsonSerializer.Serialize(writer, objectValue, options);
                     break;
+
+                case null:
+                    writer.WriteNullValue();
+                    break;
+
+                default:
+                    throw new JsonException(
+                        $"Cannot serialize 'function_call' choice. Unexpected type: {value.GetType().Name}.");
             }
         }
     }

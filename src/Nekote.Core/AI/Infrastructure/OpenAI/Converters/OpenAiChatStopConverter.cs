@@ -52,6 +52,14 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                 case OpenAiChatStopArrayDto arrayStop:
                     JsonSerializer.Serialize(writer, arrayStop.Sequences, options);
                     break;
+
+                case null:
+                    writer.WriteNullValue();
+                    break;
+
+                default:
+                    throw new JsonException(
+                        $"Cannot serialize 'stop'. Unexpected type: {value.GetType().Name}.");
             }
         }
     }

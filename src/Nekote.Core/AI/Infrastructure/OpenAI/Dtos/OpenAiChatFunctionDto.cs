@@ -6,6 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// 関数の定義 (非推奨: tools に置き換えられた)。
     /// </summary>
+    [Obsolete("This class is deprecated. Use Tools instead.")]
     public class OpenAiChatFunctionDto
     {
         /// <summary>

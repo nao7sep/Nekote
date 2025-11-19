@@ -7,6 +7,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// 関数呼び出し選択のための JSON コンバーター (非推奨: tool_choice に置き換えられた)。
     /// 文字列またはオブジェクトを適切な型に変換する。
     /// </summary>
+    [Obsolete("This class is deprecated. Use ToolChoice instead.")]
     public class OpenAiChatFunctionCallChoiceConverter : JsonConverter<OpenAiChatFunctionCallChoiceBaseDto>
     {
         public override OpenAiChatFunctionCallChoiceBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

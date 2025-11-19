@@ -39,12 +39,14 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// {"name": "my_function"}: 特定の関数を強制。
         /// </summary>
         [JsonPropertyName("function_call")]
+        [Obsolete("This field is deprecated. Use ToolChoice instead.")]
         public OpenAiChatFunctionCallChoiceBaseDto? FunctionCall { get; set; }
 
         /// <summary>
         /// 関数のリスト (非推奨: tools に置き換えられた)。
         /// </summary>
         [JsonPropertyName("functions")]
+        [Obsolete("This field is deprecated. Use Tools instead.")]
         public List<OpenAiChatFunctionDto>? Functions { get; set; }
 
         /// <summary>
@@ -72,6 +74,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// このフィールドは非推奨となり、max_completion_tokens に置き換えられた。
         /// </remarks>
         [JsonPropertyName("max_tokens")]
+        [Obsolete("This field is deprecated. Use MaxCompletionTokens instead.")]
         public int? MaxTokens { get; set; }
 
         /// <summary>
@@ -144,6 +147,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// 決定論的サンプリングのシード値 (非推奨)。
         /// </summary>
         [JsonPropertyName("seed")]
+        [Obsolete("This field is deprecated.")]
         public int? Seed { get; set; }
 
         /// <summary>
@@ -219,6 +223,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// このフィールドは非推奨となり、safety_identifier と prompt_cache_key に置き換えられた。
         /// </remarks>
         [JsonPropertyName("user")]
+        [Obsolete("This field is deprecated. Use SafetyIdentifier and PromptCacheKey instead.")]
         public string? User { get; set; }
 
         /// <summary>

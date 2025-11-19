@@ -28,12 +28,15 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 
         /// <summary>
         /// 生成されたレスポンスの出力スキーマ（内部詳細）。
+        /// 非推奨: 代わりに <see cref="ResponseJsonSchema"/> を使用してください。
         /// </summary>
         [JsonPropertyName("_responseJsonSchema")]
+        [Obsolete("Use ResponseJsonSchema instead. This field is for internal use only.")]
         public JsonElement? _ResponseJsonSchema { get; set; }
 
         /// <summary>
-        /// JSON スキーマ形式のレスポンススキーマ。
+        /// JSON スキーマ形式のレスポンススキーマ（推奨）。
+        /// 完全な JSON スキーマを指定できますが、すべての機能がサポートされているわけではありません。
         /// </summary>
         [JsonPropertyName("responseJsonSchema")]
         public JsonElement? ResponseJsonSchema { get; set; }

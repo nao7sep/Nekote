@@ -48,6 +48,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// システムフィンガープリント (非推奨)。
         /// </summary>
         [JsonPropertyName("system_fingerprint")]
+        [Obsolete("This field is deprecated.")]
         public string? SystemFingerprint { get; set; }
 
         /// <summary>

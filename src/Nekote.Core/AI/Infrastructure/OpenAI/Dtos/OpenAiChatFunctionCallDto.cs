@@ -6,6 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// 関数呼び出し情報 (非推奨: tool_choice に置き換えられた)。
     /// </summary>
+    [Obsolete("This class is deprecated. Use ToolCalls instead.")]
     public class OpenAiChatFunctionCallDto
     {
         /// <summary>

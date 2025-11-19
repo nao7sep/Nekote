@@ -18,6 +18,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// 関数呼び出し情報の増分部分 (非推奨: tool_calls に置き換えられた)。
         /// </summary>
         [JsonPropertyName("function_call")]
+        [Obsolete("This field is deprecated. Use ToolCalls instead.")]
         public OpenAiChatFunctionCallDto? FunctionCall { get; set; }
 
         /// <summary>

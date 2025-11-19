@@ -21,6 +21,12 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public int? ThinkingBudget { get; set; }
 
         /// <summary>
+        /// モデルが生成する思考トークンのレベル。
+        /// </summary>
+        [JsonPropertyName("thinkingLevel")]
+        public string? ThinkingLevel { get; set; }
+
+        /// <summary>
         /// API から返される未知のフィールドを保持する。
         /// </summary>
         [JsonExtensionData]

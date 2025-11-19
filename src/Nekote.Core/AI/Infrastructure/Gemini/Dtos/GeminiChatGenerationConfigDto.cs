@@ -27,6 +27,12 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public GeminiChatSchemaDto? ResponseSchema { get; set; }
 
         /// <summary>
+        /// 生成されたレスポンスの出力スキーマ（内部詳細）。
+        /// </summary>
+        [JsonPropertyName("_responseJsonSchema")]
+        public JsonElement? _ResponseJsonSchema { get; set; }
+
+        /// <summary>
         /// JSON スキーマ形式のレスポンススキーマ。
         /// </summary>
         [JsonPropertyName("responseJsonSchema")]

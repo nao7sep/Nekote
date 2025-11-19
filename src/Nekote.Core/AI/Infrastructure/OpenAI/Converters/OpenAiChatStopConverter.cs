@@ -24,9 +24,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 
                 // "stop": ["string1", "string2"]
                 case JsonTokenType.StartArray:
-                    var sequences = JsonSerializer.Deserialize<List<string>>(ref reader, options)
-                        ?? throw new JsonException("Cannot deserialize 'stop' array. Deserialization returned null.");
-                    return new OpenAiChatStopArrayDto { Sequences = sequences };
+                    return new OpenAiChatStopArrayDto { Sequences = JsonSerializer.Deserialize<List<string>>(ref reader, options) };
 
                 // "stop": null
                 case JsonTokenType.Null:

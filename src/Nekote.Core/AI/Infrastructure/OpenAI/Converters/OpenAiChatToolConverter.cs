@@ -29,10 +29,8 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 
                 return typeValue switch
                 {
-                    "function" => JsonSerializer.Deserialize<OpenAiChatToolFunctionDto>(json, options)
-                        ?? throw new JsonException("Cannot deserialize tool as function. Deserialization returned null."),
-                    "custom" => JsonSerializer.Deserialize<OpenAiChatToolCustomDto>(json, options)
-                        ?? throw new JsonException("Cannot deserialize tool as custom. Deserialization returned null."),
+                    "function" => JsonSerializer.Deserialize<OpenAiChatToolFunctionDto>(json, options),
+                    "custom" => JsonSerializer.Deserialize<OpenAiChatToolCustomDto>(json, options),
                     _ => throw new JsonException($"Cannot deserialize tool. Unknown type: {typeValue}")
                 };
             }

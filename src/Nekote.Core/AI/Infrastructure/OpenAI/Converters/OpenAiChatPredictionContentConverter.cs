@@ -24,9 +24,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 
                 // "content": [ { "type": "text", ... } ]
                 case JsonTokenType.StartArray:
-                    var parts = JsonSerializer.Deserialize<List<OpenAiChatPredictionContentPartDto>>(ref reader, options)
-                        ?? throw new JsonException("Cannot deserialize prediction 'content' array. Deserialization returned null.");
-                    return new OpenAiChatPredictionContentArrayDto { Parts = parts };
+                    return new OpenAiChatPredictionContentArrayDto { Parts = JsonSerializer.Deserialize<List<OpenAiChatPredictionContentPartDto>>(ref reader, options) };
 
                 // "content": null
                 case JsonTokenType.Null:

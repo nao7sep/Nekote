@@ -43,10 +43,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         [JsonPropertyName("refusal")]
         public string? Refusal { get; set; }
 
-        // annotations は API レスポンスでのみ使用され、リクエストでは使用されない。
-        // API からのレスポンスを解析する DTO ではデータの損失を防ぐためにこのフィールドをサポートするが、
-        // リクエスト送信時には含まれていない。
-
         /// <summary>
         /// コンテンツに対する注釈のリスト。
         /// </summary>

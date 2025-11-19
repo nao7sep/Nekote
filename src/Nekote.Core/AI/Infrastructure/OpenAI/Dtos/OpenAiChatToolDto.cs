@@ -4,8 +4,13 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ツールの定義。
+    /// ツールの定義 (レガシー実装)。
     /// </summary>
+    /// <remarks>
+    /// このクラスは後方互換性のために残されている。
+    /// 新しいコードでは <see cref="OpenAiChatToolBaseDto"/> とその派生クラスを使用すること。
+    /// </remarks>
+    [Obsolete("This class is legacy. Use OpenAiChatToolBaseDto and its derived classes instead.")]
     public class OpenAiChatToolDto
     {
         /// <summary>

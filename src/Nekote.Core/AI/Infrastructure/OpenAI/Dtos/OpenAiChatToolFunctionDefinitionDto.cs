@@ -4,10 +4,9 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// 関数の定義 (非推奨: tools に置き換えられた)。
+    /// ツール内の関数定義。
     /// </summary>
-    [Obsolete("This class is deprecated. Use Tools instead.")]
-    public class OpenAiChatFunctionDto
+    public class OpenAiChatToolFunctionDefinitionDto
     {
         /// <summary>
         /// 関数の名前。
@@ -26,6 +25,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// </summary>
         [JsonPropertyName("parameters")]
         public JsonElement? Parameters { get; set; }
+
+        /// <summary>
+        /// 厳格モード (パラメータスキーマに定義されたすべてのパラメータが必須となる)。
+        /// </summary>
+        [JsonPropertyName("strict")]
+        public bool? Strict { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

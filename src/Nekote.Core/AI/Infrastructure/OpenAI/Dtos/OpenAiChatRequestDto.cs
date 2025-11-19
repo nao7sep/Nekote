@@ -190,19 +190,29 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 
         /// <summary>
         /// 呼び出すツールの制御。
-        /// "none": ツールを呼び出さない。
-        /// "auto": メッセージまたはツール呼び出しを選択。
-        /// "required": 1つ以上のツールを呼び出す。
-        /// {"type": "function", "function": {"name": "my_function"}}: 特定のツールを強制。
         /// </summary>
+        /// <remarks>
+        /// "none": モデルはツールを呼び出さず、メッセージを生成する。
+        /// "auto": モデルはメッセージの生成と 1 つ以上のツール呼び出しのいずれかを選択できる。
+        /// "required": モデルは 1 つ以上のツールを呼び出す必要がある。
+        /// {"type": "function", "function": {"name": "my_function"}}: 特定の関数の呼び出しを強制する。
+        /// {"type": "allowed_tools", "allowed_tools": {...}}: モデルが使用できるツールを制約する。
+        /// {"type": "custom", "custom": {...}}: カスタムツールを指定する。
+        /// ツールが存在しない場合、デフォルトは "none"。
+        /// ツールが存在する場合、デフォルトは "auto"。
+        /// </remarks>
         [JsonPropertyName("tool_choice")]
         public OpenAiChatToolChoiceBaseDto? ToolChoice { get; set; }
 
         /// <summary>
         /// ツールのリスト。
         /// </summary>
+        /// <remarks>
+        /// モデルが呼び出すことができるツールのリスト。
+        /// カスタムツールまたは関数ツールを提供できる。
+        /// </remarks>
         [JsonPropertyName("tools")]
-        public List<OpenAiChatToolDto>? Tools { get; set; }
+        public List<OpenAiChatToolBaseDto>? Tools { get; set; }
 
         /// <summary>
         /// 返すトップログ確率の数 (0 ~ 20)。

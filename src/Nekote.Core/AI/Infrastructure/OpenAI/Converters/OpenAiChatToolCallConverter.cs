@@ -38,12 +38,10 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                     switch (type)
                     {
                         case "function":
-                            return JsonSerializer.Deserialize<OpenAiChatToolCallFunctionToolDto>(root.GetRawText(), options)
-                                ?? throw new JsonException("Failed to deserialize function tool call.");
+                            return JsonSerializer.Deserialize<OpenAiChatToolCallFunctionToolDto>(root.GetRawText(), options);
 
                         case "custom":
-                            return JsonSerializer.Deserialize<OpenAiChatToolCallCustomToolDto>(root.GetRawText(), options)
-                                ?? throw new JsonException("Failed to deserialize custom tool call.");
+                            return JsonSerializer.Deserialize<OpenAiChatToolCallCustomToolDto>(root.GetRawText(), options);
 
                         default:
                             throw new JsonException(
@@ -59,7 +57,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         /// <summary>
         /// OpenAiChatToolCallBaseDto を JSON に書き込む。
         /// </summary>
-        public override void Write(Utf8JsonWriter writer, OpenAiChatToolCallBaseDto value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, OpenAiChatToolCallBaseDto? value, JsonSerializerOptions options)
         {
             switch (value)
             {

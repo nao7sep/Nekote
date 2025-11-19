@@ -35,13 +35,20 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                         var typeValue = typeProperty.GetString();
                         var json = root.GetRawText();
 
-                        return typeValue switch
+                        switch (typeValue)
                         {
-                            "function" => JsonSerializer.Deserialize<OpenAiChatToolChoiceFunctionDto>(json, options),
-                            "allowed_tools" => JsonSerializer.Deserialize<OpenAiChatToolChoiceAllowedDto>(json, options),
-                            "custom" => JsonSerializer.Deserialize<OpenAiChatToolChoiceCustomDto>(json, options),
-                            _ => throw new JsonException($"Cannot deserialize 'tool_choice' object. Unknown type: {typeValue}")
-                        };
+                            case "function":
+                                return JsonSerializer.Deserialize<OpenAiChatToolChoiceFunctionDto>(json, options);
+
+                            case "custom":
+                                return JsonSerializer.Deserialize<OpenAiChatToolChoiceCustomDto>(json, options);
+
+                            case "allowed":
+                                return JsonSerializer.Deserialize<OpenAiChatToolChoiceAllowedDto>(json, options);
+
+                            default:
+                                throw new JsonException($"Cannot deserialize tool_choice. Unknown type: {typeValue}");
+                        }
                     }
 
                 // "tool_choice": null
@@ -57,7 +64,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         /// <summary>
         /// <see cref="OpenAiChatToolChoiceBaseDto"/> を JSON に書き込む。
         /// </summary>
-        public override void Write(Utf8JsonWriter writer, OpenAiChatToolChoiceBaseDto value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, OpenAiChatToolChoiceBaseDto? value, JsonSerializerOptions options)
         {
             switch (value)
             {

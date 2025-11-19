@@ -38,12 +38,10 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                     switch (type)
                     {
                         case "text":
-                            return JsonSerializer.Deserialize<OpenAiChatToolCustomFormatTextDto>(root.GetRawText(), options)
-                                ?? throw new JsonException("Failed to deserialize text format.");
+                            return JsonSerializer.Deserialize<OpenAiChatToolCustomFormatTextDto>(root.GetRawText(), options);
 
                         case "grammar":
-                            return JsonSerializer.Deserialize<OpenAiChatToolCustomFormatGrammarDto>(root.GetRawText(), options)
-                                ?? throw new JsonException("Failed to deserialize grammar format.");
+                            return JsonSerializer.Deserialize<OpenAiChatToolCustomFormatGrammarDto>(root.GetRawText(), options);
 
                         default:
                             throw new JsonException(
@@ -59,7 +57,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         /// <summary>
         /// OpenAiChatToolCustomFormatBaseDto を JSON に書き込む。
         /// </summary>
-        public override void Write(Utf8JsonWriter writer, OpenAiChatToolCustomFormatBaseDto value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, OpenAiChatToolCustomFormatBaseDto? value, JsonSerializerOptions options)
         {
             switch (value)
             {

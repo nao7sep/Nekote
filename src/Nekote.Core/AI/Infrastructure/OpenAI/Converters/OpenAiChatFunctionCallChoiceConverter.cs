@@ -30,7 +30,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
             }
         }
 
-        public override void Write(Utf8JsonWriter writer, OpenAiChatFunctionCallChoiceBaseDto value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, OpenAiChatFunctionCallChoiceBaseDto? value, JsonSerializerOptions options)
         {
             switch (value)
             {

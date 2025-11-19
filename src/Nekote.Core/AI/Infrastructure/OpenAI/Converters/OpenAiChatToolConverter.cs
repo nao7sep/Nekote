@@ -14,7 +14,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         /// <summary>
         /// JSON から <see cref="OpenAiChatToolBaseDto"/> を読み取る。
         /// </summary>
-        public override OpenAiChatToolBaseDto Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override OpenAiChatToolBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             using (var doc = JsonDocument.ParseValue(ref reader))
             {
@@ -27,19 +27,24 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                 var typeValue = typeProperty.GetString();
                 var json = root.GetRawText();
 
-                return typeValue switch
+                switch (typeValue)
                 {
-                    "function" => JsonSerializer.Deserialize<OpenAiChatToolFunctionDto>(json, options),
-                    "custom" => JsonSerializer.Deserialize<OpenAiChatToolCustomDto>(json, options),
-                    _ => throw new JsonException($"Cannot deserialize tool. Unknown type: {typeValue}")
-                };
+                    case "function":
+                        return JsonSerializer.Deserialize<OpenAiChatToolFunctionDto>(json, options);
+
+                    case "custom":
+                        return JsonSerializer.Deserialize<OpenAiChatToolCustomDto>(json, options);
+
+                    default:
+                        throw new JsonException($"Cannot deserialize tool. Unknown type: {typeValue}");
+                }
             }
         }
 
         /// <summary>
         /// <see cref="OpenAiChatToolBaseDto"/> を JSON に書き込む。
         /// </summary>
-        public override void Write(Utf8JsonWriter writer, OpenAiChatToolBaseDto value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, OpenAiChatToolBaseDto? value, JsonSerializerOptions options)
         {
             switch (value)
             {

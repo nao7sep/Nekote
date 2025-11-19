@@ -42,6 +42,10 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                             var texts = new List<string>();
                             foreach (JsonElement element in root.EnumerateArray())
                             {
+                                // 配列内の個別要素が null の場合は例外をスローする。
+                                // 配列自体が null であれば防御的プログラミングで許容するが、
+                                // 配列内の要素が null であることは異常であり、データが破損している可能性が高い。
+                                // List<string?> にする必要はなく、このような状況は例外として扱う。
                                 string text = element.GetString() ?? throw new JsonException(
                                     $"Cannot deserialize 'input' string array. Expected all elements to be strings, but got null or non-string value.");
                                 texts.Add(text);
@@ -83,7 +87,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         /// <summary>
         /// OpenAiEmbeddingInputBaseDto を JSON に書き込む。
         /// </summary>
-        public override void Write(Utf8JsonWriter writer, OpenAiEmbeddingInputBaseDto value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, OpenAiEmbeddingInputBaseDto? value, JsonSerializerOptions options)
         {
             switch (value)
             {

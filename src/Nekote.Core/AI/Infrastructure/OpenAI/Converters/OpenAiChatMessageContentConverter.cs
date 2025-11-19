@@ -39,7 +39,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         /// <summary>
         /// OpenAiChatMessageContentBaseDto を JSON に書き込む。
         /// </summary>
-        public override void Write(Utf8JsonWriter writer, OpenAiChatMessageContentBaseDto value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, OpenAiChatMessageContentBaseDto? value, JsonSerializerOptions options)
         {
             switch (value)
             {

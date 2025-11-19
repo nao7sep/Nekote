@@ -9,7 +9,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     public class OpenAiChatAnnotationDto
     {
         /// <summary>
-        /// 注釈のタイプ ("url_citation", "file_citation", "file_path", "container_file_citation")。
+        /// 注釈のタイプ (現在は "url_citation" のみ)。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }
@@ -19,18 +19,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// </summary>
         [JsonPropertyName("url_citation")]
         public OpenAiChatUrlCitationDto? UrlCitation { get; set; }
-
-        /// <summary>
-        /// ファイル引用情報 (type が "file_citation" の場合)。
-        /// </summary>
-        [JsonPropertyName("file_citation")]
-        public OpenAiChatFileCitationDto? FileCitation { get; set; }
-
-        /// <summary>
-        /// ファイルパス情報 (type が "file_path" の場合)。
-        /// </summary>
-        [JsonPropertyName("file_path")]
-        public OpenAiChatFilePathDto? FilePath { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

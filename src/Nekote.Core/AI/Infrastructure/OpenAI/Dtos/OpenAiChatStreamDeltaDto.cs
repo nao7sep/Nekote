@@ -22,12 +22,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public OpenAiChatFunctionCallDto? FunctionCall { get; set; }
 
         /// <summary>
-        /// ツール呼び出し情報の増分部分のリスト。
-        /// </summary>
-        [JsonPropertyName("tool_calls")]
-        public List<OpenAiChatToolCallDto>? ToolCalls { get; set; }
-
-        /// <summary>
         /// モデルが生成を拒否した場合の理由。
         /// </summary>
         [JsonPropertyName("refusal")]
@@ -38,6 +32,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// </summary>
         [JsonPropertyName("role")]
         public string? Role { get; set; }
+
+        /// <summary>
+        /// ツール呼び出し情報の増分部分のリスト。
+        /// </summary>
+        [JsonPropertyName("tool_calls")]
+        public List<OpenAiChatToolCallDto>? ToolCalls { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

@@ -51,6 +51,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public List<OpenAiChatAnnotationDto>? Annotations { get; set; }
 
         /// <summary>
+        /// ツールメッセージの場合のツール呼び出し ID。
+        /// </summary>
+        [JsonPropertyName("tool_call_id")]
+        public string? ToolCallId { get; set; }
+
+        /// <summary>
         /// 関数呼び出し情報 (非推奨: tool_calls に置き換えられた)。
         /// </summary>
         [JsonPropertyName("function_call")]
@@ -62,12 +68,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// </summary>
         [JsonPropertyName("tool_calls")]
         public List<OpenAiChatToolCallDto>? ToolCalls { get; set; }
-
-        /// <summary>
-        /// ツールメッセージの場合のツール呼び出し ID。
-        /// </summary>
-        [JsonPropertyName("tool_call_id")]
-        public string? ToolCallId { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

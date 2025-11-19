@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Nekote.Core.AI.Infrastructure.OpenAI.Converters;
 
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
@@ -15,7 +14,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// レスポンス受信時は JsonConverter がこれを処理する。
         /// </summary>
         [JsonPropertyName("content")]
-        [JsonConverter(typeof(OpenAiChatMessageContentConverter))]
         public OpenAiChatMessageContentBaseDto? Content { get; set; }
 
         /// <summary>
@@ -67,7 +65,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// ツール呼び出し情報のリスト。
         /// </summary>
         [JsonPropertyName("tool_calls")]
-        public List<OpenAiChatToolCallDto>? ToolCalls { get; set; }
+        public List<OpenAiChatToolCallBaseDto>? ToolCalls { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

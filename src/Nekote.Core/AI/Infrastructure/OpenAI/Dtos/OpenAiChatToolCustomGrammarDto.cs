@@ -4,15 +4,21 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// カスタムツールの構成。
+    /// カスタムツールの文法定義。
     /// </summary>
-    public class OpenAiChatToolChoiceCustomDefinitionDto
+    public class OpenAiChatToolCustomGrammarDto
     {
         /// <summary>
-        /// 呼び出すカスタムツールの名前。
+        /// 文法定義。
         /// </summary>
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
+        [JsonPropertyName("definition")]
+        public string? Definition { get; set; }
+
+        /// <summary>
+        /// 文法定義の構文 ("lark" または "regex")。
+        /// </summary>
+        [JsonPropertyName("syntax")]
+        public string? Syntax { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

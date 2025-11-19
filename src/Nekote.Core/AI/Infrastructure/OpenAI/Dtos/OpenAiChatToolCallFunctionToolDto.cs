@@ -4,21 +4,24 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// "tool_choice" が許可ツール制約オブジェクトの場合の具象 DTO。
+    /// モデルによって作成された関数ツールの呼び出し。
     /// </summary>
-    /// <remarks>
-    /// モデルが使用できるツールを事前定義されたセットに制約する。
-    /// </remarks>
-    public class OpenAiChatToolChoiceAllowedDto : OpenAiChatToolChoiceBaseDto
+    public class OpenAiChatToolCallFunctionToolDto : OpenAiChatToolCallBaseDto
     {
         /// <summary>
-        /// 許可ツールの構成。
+        /// モデルが呼び出した関数。
         /// </summary>
-        [JsonPropertyName("allowed_tools")]
-        public OpenAiChatToolChoiceAllowedConfigDto? AllowedTools { get; set; }
+        [JsonPropertyName("function")]
+        public OpenAiChatToolCallFunctionDto? Function { get; set; }
 
         /// <summary>
-        /// ツールの種類 (常に "allowed_tools")。
+        /// ツール呼び出しの ID。
+        /// </summary>
+        [JsonPropertyName("id")]
+        public string? Id { get; set; }
+
+        /// <summary>
+        /// ツールのタイプ (常に "function")。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }

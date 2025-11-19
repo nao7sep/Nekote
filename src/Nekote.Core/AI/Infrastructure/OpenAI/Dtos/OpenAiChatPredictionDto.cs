@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Nekote.Core.AI.Infrastructure.OpenAI.Converters;
 
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
@@ -14,7 +13,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// リクエスト送信時は単純な文字列またはコンテンツパーツの配列を使用する。
         /// </summary>
         [JsonPropertyName("content")]
-        [JsonConverter(typeof(OpenAiChatPredictionContentConverter))]
         public OpenAiChatPredictionContentBaseDto? Content { get; set; }
 
         /// <summary>

@@ -12,16 +12,16 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     public class OpenAiChatToolCustomDto : OpenAiChatToolBaseDto
     {
         /// <summary>
-        /// ツールの種類 (カスタムツールの場合は常に "custom")。
-        /// </summary>
-        [JsonPropertyName("type")]
-        public string? Type { get; set; }
-
-        /// <summary>
         /// カスタムツールのプロパティ。
         /// </summary>
         [JsonPropertyName("custom")]
         public OpenAiChatToolCustomDefinitionDto? Custom { get; set; }
+
+        /// <summary>
+        /// ツールの種類 (カスタムツールの場合は常に "custom")。
+        /// </summary>
+        [JsonPropertyName("type")]
+        public string? Type { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

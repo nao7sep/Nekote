@@ -13,16 +13,16 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     public class OpenAiChatToolChoiceFunctionDto : OpenAiChatToolChoiceBaseDto
     {
         /// <summary>
-        /// ツールの種類 (関数呼び出しの場合は常に "function")。
-        /// </summary>
-        [JsonPropertyName("type")]
-        public string? Type { get; set; }
-
-        /// <summary>
         /// 関数の情報。
         /// </summary>
         [JsonPropertyName("function")]
         public OpenAiChatToolChoiceFunctionSpecDto? Function { get; set; }
+
+        /// <summary>
+        /// ツールの種類 (関数呼び出しの場合は常に "function")。
+        /// </summary>
+        [JsonPropertyName("type")]
+        public string? Type { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

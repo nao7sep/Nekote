@@ -37,7 +37,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// ツール呼び出し情報の増分部分のリスト。
         /// </summary>
         [JsonPropertyName("tool_calls")]
-        public List<OpenAiChatToolCallDto>? ToolCalls { get; set; }
+        public List<OpenAiChatStreamToolCallDto>? ToolCalls { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

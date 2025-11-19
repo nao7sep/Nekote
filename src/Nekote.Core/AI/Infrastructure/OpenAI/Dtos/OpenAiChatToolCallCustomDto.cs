@@ -4,10 +4,16 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// カスタムツールの構成。
+    /// カスタムツール呼び出しの詳細情報。
     /// </summary>
-    public class OpenAiChatToolChoiceCustomDefinitionDto
+    public class OpenAiChatToolCallCustomDto
     {
+        /// <summary>
+        /// モデルによって生成されたカスタムツール呼び出しの入力。
+        /// </summary>
+        [JsonPropertyName("input")]
+        public string? Input { get; set; }
+
         /// <summary>
         /// 呼び出すカスタムツールの名前。
         /// </summary>

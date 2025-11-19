@@ -4,21 +4,18 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// "tool_choice" が許可ツール制約オブジェクトの場合の具象 DTO。
+    /// ユーザー定義の文法による入力フォーマット。
     /// </summary>
-    /// <remarks>
-    /// モデルが使用できるツールを事前定義されたセットに制約する。
-    /// </remarks>
-    public class OpenAiChatToolChoiceAllowedDto : OpenAiChatToolChoiceBaseDto
+    public class OpenAiChatToolCustomFormatGrammarDto : OpenAiChatToolCustomFormatBaseDto
     {
         /// <summary>
-        /// 許可ツールの構成。
+        /// 選択した文法の定義。
         /// </summary>
-        [JsonPropertyName("allowed_tools")]
-        public OpenAiChatToolChoiceAllowedConfigDto? AllowedTools { get; set; }
+        [JsonPropertyName("grammar")]
+        public OpenAiChatToolCustomGrammarDto? Grammar { get; set; }
 
         /// <summary>
-        /// ツールの種類 (常に "allowed_tools")。
+        /// フォーマットのタイプ (常に "grammar")。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }

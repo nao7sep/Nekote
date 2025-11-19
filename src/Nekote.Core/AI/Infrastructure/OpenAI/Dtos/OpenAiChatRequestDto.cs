@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Nekote.Core.AI.Infrastructure.OpenAI.Converters;
 
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
@@ -162,7 +161,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// リクエスト送信時は単一の文字列または文字列の配列を使用する。
         /// </summary>
         [JsonPropertyName("stop")]
-        [JsonConverter(typeof(OpenAiChatStopConverter))]
         public OpenAiChatStopBaseDto? Stop { get; set; }
 
         /// <summary>

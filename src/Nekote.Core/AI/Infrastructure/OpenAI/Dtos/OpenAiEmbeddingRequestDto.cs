@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Nekote.Core.AI.Infrastructure.OpenAI.Converters;
 
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
@@ -13,7 +12,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// エンベディングを生成する入力テキスト (文字列、文字列の配列、またはトークン配列の配列)。
         /// </summary>
         [JsonPropertyName("input")]
-        [JsonConverter(typeof(OpenAiEmbeddingInputConverter))]
         public OpenAiEmbeddingInputBaseDto? Input { get; set; }
 
         /// <summary>

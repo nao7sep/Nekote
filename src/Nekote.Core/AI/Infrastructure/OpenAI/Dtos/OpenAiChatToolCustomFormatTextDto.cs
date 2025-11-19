@@ -4,15 +4,15 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// カスタムツールの構成。
+    /// 制約のない自由形式テキスト入力フォーマット。
     /// </summary>
-    public class OpenAiChatToolChoiceCustomDefinitionDto
+    public class OpenAiChatToolCustomFormatTextDto : OpenAiChatToolCustomFormatBaseDto
     {
         /// <summary>
-        /// 呼び出すカスタムツールの名前。
+        /// フォーマットのタイプ (常に "text")。
         /// </summary>
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
+        [JsonPropertyName("type")]
+        public string? Type { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

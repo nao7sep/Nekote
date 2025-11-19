@@ -4,27 +4,29 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ツール呼び出し情報。
+    /// モデルによって作成されたカスタムツールの呼び出し。
     /// </summary>
-    public class OpenAiChatToolCallDto
+    public class OpenAiChatToolCallCustomToolDto : OpenAiChatToolCallBaseDto
     {
         /// <summary>
-        /// ツール呼び出しの一意識別子。
+        /// モデルが呼び出したカスタムツール。
+        /// </summary>
+        [JsonPropertyName("custom")]
+        public OpenAiChatToolCallCustomDto? Custom { get; set; }
+
+        /// <summary>
+        /// ツール呼び出しの ID。
         /// </summary>
         [JsonPropertyName("id")]
         public string? Id { get; set; }
 
         /// <summary>
-        /// ツールの種類 (通常は "function")。
+        /// ツールのタイプ (常に "custom")。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }
 
-    /// <summary>
-    /// 呼び出される関数の情報。
-    /// </summary>
-    [JsonPropertyName("function")]
-    public OpenAiChatToolCallFunctionDto? Function { get; set; }        /// <summary>
+        /// <summary>
         /// API から返される未知のフィールドを保持する。
         /// </summary>
         [JsonExtensionData]

@@ -49,9 +49,23 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         [JsonPropertyName("annotations")]
         public List<OpenAiChatAnnotationDto>? Annotations { get; set; }
 
-        // function_call, tool_calls は、このライブラリが現在ツール関連の操作をサポートしていないため省略されている。
-        // API からのレスポンスを解析する DTO ではデータの損失を防ぐためにこれらのフィールドをサポートするが、
-        // リクエスト DTO ではツール関連のデータを送信しないため含まれていない。
+        /// <summary>
+        /// 関数呼び出し情報 (非推奨: tool_calls に置き換えられた)。
+        /// </summary>
+        [JsonPropertyName("function_call")]
+        public OpenAiChatFunctionCallDto? FunctionCall { get; set; }
+
+        /// <summary>
+        /// ツール呼び出し情報のリスト。
+        /// </summary>
+        [JsonPropertyName("tool_calls")]
+        public List<OpenAiChatToolCallDto>? ToolCalls { get; set; }
+
+        /// <summary>
+        /// ツールメッセージの場合のツール呼び出し ID。
+        /// </summary>
+        [JsonPropertyName("tool_call_id")]
+        public string? ToolCallId { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

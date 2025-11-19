@@ -32,10 +32,20 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         [JsonPropertyName("frequency_penalty")]
         public double? FrequencyPenalty { get; set; }
 
-        // function_call, functions, parallel_tool_calls, tool_choice, tools は、
-        // このライブラリが現在ツール関連の操作をサポートしていないため省略されている。
-        // API からのレスポンスを解析する DTO ではデータの損失を防ぐためにこれらのフィールドをサポートするが、
-        // リクエスト DTO ではツール関連のデータを送信しないため含まれていない。
+        /// <summary>
+        /// 呼び出す関数の制御 (非推奨: tool_choice に置き換えられた)。
+        /// "none": 関数を呼び出さない。
+        /// "auto": メッセージまたは関数呼び出しを選択。
+        /// {"name": "my_function"}: 特定の関数を強制。
+        /// </summary>
+        [JsonPropertyName("function_call")]
+        public OpenAiChatFunctionCallChoiceBaseDto? FunctionCall { get; set; }
+
+        /// <summary>
+        /// 関数のリスト (非推奨: tools に置き換えられた)。
+        /// </summary>
+        [JsonPropertyName("functions")]
+        public List<OpenAiChatFunctionDto>? Functions { get; set; }
 
         /// <summary>
         /// トークン出現確率の調整マップ。
@@ -81,6 +91,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// </summary>
         [JsonPropertyName("n")]
         public int? N { get; set; }
+
+        /// <summary>
+        /// 並列ツール呼び出しを有効にするかどうか。
+        /// </summary>
+        [JsonPropertyName("parallel_tool_calls")]
+        public bool? ParallelToolCalls { get; set; }
 
         /// <summary>
         /// 予測出力の構成。
@@ -167,6 +183,22 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// </summary>
         [JsonPropertyName("temperature")]
         public double? Temperature { get; set; }
+
+        /// <summary>
+        /// 呼び出すツールの制御。
+        /// "none": ツールを呼び出さない。
+        /// "auto": メッセージまたはツール呼び出しを選択。
+        /// "required": 1つ以上のツールを呼び出す。
+        /// {"type": "function", "function": {"name": "my_function"}}: 特定のツールを強制。
+        /// </summary>
+        [JsonPropertyName("tool_choice")]
+        public OpenAiChatToolChoiceBaseDto? ToolChoice { get; set; }
+
+        /// <summary>
+        /// ツールのリスト。
+        /// </summary>
+        [JsonPropertyName("tools")]
+        public List<OpenAiChatToolDto>? Tools { get; set; }
 
         /// <summary>
         /// 返すトップログ確率の数 (0 ~ 20)。

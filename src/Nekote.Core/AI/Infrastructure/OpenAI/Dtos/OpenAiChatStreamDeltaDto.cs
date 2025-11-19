@@ -14,7 +14,17 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         [JsonPropertyName("content")]
         public string? Content { get; set; }
 
-        // function_call, tool_calls は、このライブラリが現在ツール関連の操作をサポートしていないため省略されている。
+        /// <summary>
+        /// 関数呼び出し情報の増分部分 (非推奨: tool_calls に置き換えられた)。
+        /// </summary>
+        [JsonPropertyName("function_call")]
+        public OpenAiChatFunctionCallDto? FunctionCall { get; set; }
+
+        /// <summary>
+        /// ツール呼び出し情報の増分部分のリスト。
+        /// </summary>
+        [JsonPropertyName("tool_calls")]
+        public List<OpenAiChatToolCallDto>? ToolCalls { get; set; }
 
         /// <summary>
         /// モデルが生成を拒否した場合の理由。

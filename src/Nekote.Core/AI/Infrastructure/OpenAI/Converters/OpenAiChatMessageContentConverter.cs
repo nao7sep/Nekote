@@ -1,7 +1,8 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using Nekote.Core.AI.Infrastructure.OpenAI.Dtos;
 
-namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
+namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 {
     /// <summary>
     /// OpenAI の "content" プロパティをデシリアライズするカスタム コンバーター。
@@ -13,10 +14,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// <summary>
         /// JSON から OpenAiChatMessageContentBaseDto を読み取る。
         /// </summary>
-        public override OpenAiChatMessageContentBaseDto Read(
-            ref Utf8JsonReader reader,
-            Type typeToConvert,
-            JsonSerializerOptions options)
+        public override OpenAiChatMessageContentBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             switch (reader.TokenType)
             {
@@ -30,19 +28,20 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
                         ?? throw new JsonException("Cannot deserialize 'content' array. Deserialization returned null.");
                     return new OpenAiChatMessageContentArrayDto { Parts = parts };
 
+                // "content": null
+                case JsonTokenType.Null:
+                    return null;
+
                 default:
                     throw new JsonException(
-                        $"Cannot deserialize 'content'. Expected string or array, but got {reader.TokenType}.");
+                        $"Cannot deserialize 'content'. Expected string, array, or null, but got {reader.TokenType}.");
             }
         }
 
         /// <summary>
         /// OpenAiChatMessageContentBaseDto を JSON に書き込む。
         /// </summary>
-        public override void Write(
-            Utf8JsonWriter writer,
-            OpenAiChatMessageContentBaseDto value,
-            JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, OpenAiChatMessageContentBaseDto value, JsonSerializerOptions options)
         {
             switch (value)
             {
@@ -52,10 +51,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 
                 case OpenAiChatMessageContentArrayDto arrayContent:
                     JsonSerializer.Serialize(writer, arrayContent.Parts, options);
-                    break;
-
-                case null:
-                    writer.WriteNullValue();
                     break;
             }
         }

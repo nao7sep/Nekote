@@ -1,7 +1,8 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using Nekote.Core.AI.Infrastructure.OpenAI.Dtos;
 
-namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
+namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 {
     /// <summary>
     /// OpenAI の "input" プロパティをシリアライズ/デシリアライズするカスタム コンバーター。
@@ -13,10 +14,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// <summary>
         /// JSON から OpenAiEmbeddingInputBaseDto を読み取る。
         /// </summary>
-        public override OpenAiEmbeddingInputBaseDto Read(
-            ref Utf8JsonReader reader,
-            Type typeToConvert,
-            JsonSerializerOptions options)
+        public override OpenAiEmbeddingInputBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             switch (reader.TokenType)
             {
@@ -72,19 +70,20 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
                         }
                     }
 
+                // "input": null
+                case JsonTokenType.Null:
+                    return null;
+
                 default:
                     throw new JsonException(
-                        $"Cannot deserialize 'input'. Expected string or array, but got {reader.TokenType}.");
+                        $"Cannot deserialize 'input'. Expected string, array, or null, but got {reader.TokenType}.");
             }
         }
 
         /// <summary>
         /// OpenAiEmbeddingInputBaseDto を JSON に書き込む。
         /// </summary>
-        public override void Write(
-            Utf8JsonWriter writer,
-            OpenAiEmbeddingInputBaseDto value,
-            JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, OpenAiEmbeddingInputBaseDto value, JsonSerializerOptions options)
         {
             switch (value)
             {
@@ -119,10 +118,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
                         }
                     }
                     writer.WriteEndArray();
-                    break;
-
-                case null:
-                    writer.WriteNullValue();
                     break;
             }
         }

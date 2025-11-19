@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using Nekote.Core.AI.Infrastructure.OpenAI.Converters;
 
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {

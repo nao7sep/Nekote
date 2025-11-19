@@ -1,7 +1,8 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using Nekote.Core.AI.Infrastructure.OpenAI.Dtos;
 
-namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
+namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 {
     /// <summary>
     /// OpenAI の "tools" 配列要素をデシリアライズするカスタム コンバーター。
@@ -13,10 +14,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// <summary>
         /// JSON から <see cref="OpenAiChatToolBaseDto"/> を読み取る。
         /// </summary>
-        public override OpenAiChatToolBaseDto Read(
-            ref Utf8JsonReader reader,
-            Type typeToConvert,
-            JsonSerializerOptions options)
+        public override OpenAiChatToolBaseDto Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             using (var doc = JsonDocument.ParseValue(ref reader))
             {
@@ -43,10 +41,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// <summary>
         /// <see cref="OpenAiChatToolBaseDto"/> を JSON に書き込む。
         /// </summary>
-        public override void Write(
-            Utf8JsonWriter writer,
-            OpenAiChatToolBaseDto value,
-            JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, OpenAiChatToolBaseDto value, JsonSerializerOptions options)
         {
             switch (value)
             {
@@ -56,10 +51,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 
                 case OpenAiChatToolCustomDto customTool:
                     JsonSerializer.Serialize(writer, customTool, options);
-                    break;
-
-                case null:
-                    writer.WriteNullValue();
                     break;
             }
         }

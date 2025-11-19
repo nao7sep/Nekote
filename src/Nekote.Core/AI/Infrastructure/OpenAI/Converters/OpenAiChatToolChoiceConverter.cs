@@ -1,7 +1,8 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using Nekote.Core.AI.Infrastructure.OpenAI.Dtos;
 
-namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
+namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 {
     /// <summary>
     /// OpenAI の "tool_choice" プロパティをデシリアライズするカスタム コンバーター。
@@ -13,10 +14,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// <summary>
         /// JSON から <see cref="OpenAiChatToolChoiceBaseDto"/> を読み取る。
         /// </summary>
-        public override OpenAiChatToolChoiceBaseDto Read(
-            ref Utf8JsonReader reader,
-            Type typeToConvert,
-            JsonSerializerOptions options)
+        public override OpenAiChatToolChoiceBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             switch (reader.TokenType)
             {
@@ -49,19 +47,20 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
                         };
                     }
 
+                // "tool_choice": null
+                case JsonTokenType.Null:
+                    return null;
+
                 default:
                     throw new JsonException(
-                        $"Cannot deserialize 'tool_choice'. Expected string or object, but got {reader.TokenType}.");
+                        $"Cannot deserialize 'tool_choice'. Expected string, object, or null, but got {reader.TokenType}.");
             }
         }
 
         /// <summary>
         /// <see cref="OpenAiChatToolChoiceBaseDto"/> を JSON に書き込む。
         /// </summary>
-        public override void Write(
-            Utf8JsonWriter writer,
-            OpenAiChatToolChoiceBaseDto value,
-            JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, OpenAiChatToolChoiceBaseDto value, JsonSerializerOptions options)
         {
             switch (value)
             {
@@ -79,10 +78,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 
                 case OpenAiChatToolChoiceCustomDto customValue:
                     JsonSerializer.Serialize(writer, customValue, options);
-                    break;
-
-                case null:
-                    writer.WriteNullValue();
                     break;
             }
         }

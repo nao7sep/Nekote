@@ -1,7 +1,8 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using Nekote.Core.AI.Infrastructure.OpenAI.Dtos;
 
-namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
+namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 {
     /// <summary>
     /// OpenAI の "stop" プロパティをシリアライズ/デシリアライズするカスタム コンバーター。
@@ -13,10 +14,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// <summary>
         /// JSON から OpenAiChatStopBaseDto を読み取る。
         /// </summary>
-        public override OpenAiChatStopBaseDto? Read(
-            ref Utf8JsonReader reader,
-            Type typeToConvert,
-            JsonSerializerOptions options)
+        public override OpenAiChatStopBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             switch (reader.TokenType)
             {
@@ -43,10 +41,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// <summary>
         /// OpenAiChatStopBaseDto を JSON に書き込む。
         /// </summary>
-        public override void Write(
-            Utf8JsonWriter writer,
-            OpenAiChatStopBaseDto? value,
-            JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, OpenAiChatStopBaseDto? value, JsonSerializerOptions options)
         {
             switch (value)
             {
@@ -56,10 +51,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 
                 case OpenAiChatStopArrayDto arrayStop:
                     JsonSerializer.Serialize(writer, arrayStop.Sequences, options);
-                    break;
-
-                case null:
-                    writer.WriteNullValue();
                     break;
             }
         }

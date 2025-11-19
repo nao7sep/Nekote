@@ -4,21 +4,15 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// 許可ツールリスト内のツール定義。
+    /// カスタムツールのプロパティ。
     /// </summary>
-    public class OpenAiChatToolChoiceAllowedToolDefinitionDto
+    public class OpenAiChatToolCustomDefinitionDto
     {
         /// <summary>
-        /// ツールの種類 (例: "function")。
+        /// カスタムツールの種類 (常に "custom")。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }
-
-        /// <summary>
-        /// 関数の情報。
-        /// </summary>
-        [JsonPropertyName("function")]
-        public OpenAiChatToolChoiceFunctionDto? Function { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

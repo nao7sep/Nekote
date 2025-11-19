@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// 許可ツールの構成。
     /// </summary>
-    public class OpenAiChatToolChoiceAllowedToolsConfigDto
+    public class OpenAiChatToolChoiceAllowedConfigDto
     {
         /// <summary>
         /// モデルが使用できるツールを制約するモード。
@@ -22,7 +22,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// モデルが呼び出しを許可されるツール定義のリスト。
         /// </summary>
         [JsonPropertyName("tools")]
-        public List<OpenAiChatToolChoiceAllowedToolDefinitionDto>? Tools { get; set; }
+        public List<OpenAiChatToolChoiceAllowedItemDto>? Tools { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

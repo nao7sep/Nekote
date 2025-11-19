@@ -4,25 +4,24 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// "tool_choice" が関数ツールオブジェクトの場合の具象 DTO。
+    /// "tool_choice" が許可ツール制約オブジェクトの場合の具象 DTO。
     /// </summary>
     /// <remarks>
-    /// {"type": "function", "function": {"name": "my_function"}} のように指定することで、
-    /// 特定の関数の呼び出しを強制する。
+    /// モデルが使用できるツールを事前定義されたセットに制約する。
     /// </remarks>
-    public class OpenAiChatToolChoiceFunctionToolDto : OpenAiChatToolChoiceBaseDto
+    public class OpenAiChatToolChoiceAllowedDto : OpenAiChatToolChoiceBaseDto
     {
         /// <summary>
-        /// ツールの種類 (関数呼び出しの場合は常に "function")。
+        /// ツールの種類 (常に "allowed_tools")。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }
 
         /// <summary>
-        /// 関数の情報。
+        /// 許可ツールの構成。
         /// </summary>
-        [JsonPropertyName("function")]
-        public OpenAiChatToolChoiceFunctionDto? Function { get; set; }
+        [JsonPropertyName("allowed_tools")]
+        public OpenAiChatToolChoiceAllowedConfigDto? AllowedTools { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

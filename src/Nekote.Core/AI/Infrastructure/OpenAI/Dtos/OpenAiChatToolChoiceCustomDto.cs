@@ -17,13 +17,11 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         [JsonPropertyName("type")]
         public string? Type { get; set; }
 
-        /// <summary>
-        /// カスタムツールの情報。
-        /// </summary>
-        [JsonPropertyName("custom")]
-        public OpenAiChatToolChoiceCustomConfigDto? Custom { get; set; }
-
-        /// <summary>
+    /// <summary>
+    /// カスタムツールの情報。
+    /// </summary>
+    [JsonPropertyName("custom")]
+    public OpenAiChatToolChoiceCustomDefinitionDto? Custom { get; set; }        /// <summary>
         /// API から返される未知のフィールドを保持する。
         /// </summary>
         [JsonExtensionData]

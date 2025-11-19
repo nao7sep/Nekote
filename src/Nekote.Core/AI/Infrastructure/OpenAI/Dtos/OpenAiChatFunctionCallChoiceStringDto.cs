@@ -3,6 +3,7 @@
     /// <summary>
     /// 文字列形式の関数呼び出し選択 ("none", "auto")。
     /// </summary>
+    [Obsolete("This class is deprecated. Use ToolChoice instead.")]
     public class OpenAiChatFunctionCallChoiceStringDto : OpenAiChatFunctionCallChoiceBaseDto
     {
         /// <summary>

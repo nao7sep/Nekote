@@ -39,9 +39,9 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 
                         return typeValue switch
                         {
-                            "function" => JsonSerializer.Deserialize<OpenAiChatToolChoiceFunctionToolDto>(json, options)
+                            "function" => JsonSerializer.Deserialize<OpenAiChatToolChoiceFunctionDto>(json, options)
                                 ?? throw new JsonException("Cannot deserialize 'tool_choice' as function tool. Deserialization returned null."),
-                            "allowed_tools" => JsonSerializer.Deserialize<OpenAiChatToolChoiceAllowedToolsDto>(json, options)
+                            "allowed_tools" => JsonSerializer.Deserialize<OpenAiChatToolChoiceAllowedDto>(json, options)
                                 ?? throw new JsonException("Cannot deserialize 'tool_choice' as allowed tools. Deserialization returned null."),
                             "custom" => JsonSerializer.Deserialize<OpenAiChatToolChoiceCustomDto>(json, options)
                                 ?? throw new JsonException("Cannot deserialize 'tool_choice' as custom tool. Deserialization returned null."),
@@ -69,11 +69,11 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
                     writer.WriteStringValue(stringValue.Value);
                     break;
 
-                case OpenAiChatToolChoiceFunctionToolDto functionToolValue:
+                case OpenAiChatToolChoiceFunctionDto functionToolValue:
                     JsonSerializer.Serialize(writer, functionToolValue, options);
                     break;
 
-                case OpenAiChatToolChoiceAllowedToolsDto allowedToolsValue:
+                case OpenAiChatToolChoiceAllowedDto allowedToolsValue:
                     JsonSerializer.Serialize(writer, allowedToolsValue, options);
                     break;
 

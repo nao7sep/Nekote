@@ -10,7 +10,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// {"type": "function", "function": {"name": "my_function"}} のように指定することで、
     /// 特定の関数の呼び出しを強制する。
     /// </remarks>
-    public class OpenAiChatToolChoiceFunctionToolDto : OpenAiChatToolChoiceBaseDto
+    public class OpenAiChatToolChoiceFunctionDto : OpenAiChatToolChoiceBaseDto
     {
         /// <summary>
         /// ツールの種類 (関数呼び出しの場合は常に "function")。
@@ -22,7 +22,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// 関数の情報。
         /// </summary>
         [JsonPropertyName("function")]
-        public OpenAiChatToolChoiceFunctionDto? Function { get; set; }
+        public OpenAiChatToolChoiceFunctionSpecDto? Function { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

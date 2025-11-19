@@ -14,9 +14,17 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         [JsonPropertyName("contents")]
         public List<GeminiChatContentDto>? Contents { get; set; }
 
-        // tools と toolConfig は、このライブラリが現在ツール関連の操作をサポートしていないため省略されている。
-        // API からのレスポンスを解析する DTO ではデータの損失を防ぐためにこれらのフィールドをサポートするが、
-        // リクエスト DTO ではツール関連のデータを送信しないため含まれていない。
+        /// <summary>
+        /// モデルが次のレスポンスの生成に使用できる Tools のリスト。
+        /// </summary>
+        [JsonPropertyName("tools")]
+        public List<GeminiChatToolDto>? Tools { get; set; }
+
+        /// <summary>
+        /// リクエストで指定された Tool のツール構成。
+        /// </summary>
+        [JsonPropertyName("toolConfig")]
+        public GeminiChatToolConfigDto? ToolConfig { get; set; }
 
         /// <summary>
         /// 安全性設定のリスト。

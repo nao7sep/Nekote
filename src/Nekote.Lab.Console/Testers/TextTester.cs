@@ -18,10 +18,23 @@ namespace Nekote.Lab.Console.Testers
         /// <param name="testDurationMilliseconds">テストを実行する時間（ミリ秒）。</param>
         public void SpeedTestReformat(int testDurationMilliseconds)
         {
+            DisplayTestHeader();
+
             var sampleText = PrepareSampleText();
             DisplaySampleCharacteristics(sampleText);
+
             var reformattedSample = ExecuteAndDisplaySample(sampleText);
+
             RunPerformanceTest(sampleText, testDurationMilliseconds);
+        }
+
+        /// <summary>
+        /// テストのヘッダーを表示します。
+        /// </summary>
+        private void DisplayTestHeader()
+        {
+            System.Console.WriteLine();
+            System.Console.WriteLine("=== TextProcessor.Reformat Speed Test ===");
         }
 
         /// <summary>
@@ -72,10 +85,6 @@ namespace Nekote.Lab.Console.Testers
         /// <param name="sampleText">表示するサンプルテキスト。</param>
         private void DisplaySampleCharacteristics(string sampleText)
         {
-            // TextProcessor.Reformat の速度テストを開始します。
-            System.Console.WriteLine();
-            System.Console.WriteLine("=== TextProcessor.Reformat Speed Test ===");
-
             System.Console.WriteLine();
             System.Console.WriteLine("Sample Text Characteristics:");
             System.Console.WriteLine($"- Original length: {sampleText.Length} characters");
@@ -90,8 +99,17 @@ namespace Nekote.Lab.Console.Testers
         /// <returns>フォーマット済みのサンプルテキスト。</returns>
         private string ExecuteAndDisplaySample(string sampleText)
         {
-            // 1回だけ実行して結果を確認します。
             var reformattedSample = TextProcessor.Reformat(sampleText);
+            DisplayReformattedSample(reformattedSample);
+            return reformattedSample;
+        }
+
+        /// <summary>
+        /// フォーマット済みサンプルの結果を表示します。
+        /// </summary>
+        /// <param name="reformattedSample">フォーマット済みのサンプルテキスト。</param>
+        private void DisplayReformattedSample(string reformattedSample)
+        {
             System.Console.WriteLine();
             System.Console.WriteLine("Reformatted Result Preview (with [EOL] at line endings):");
             System.Console.WriteLine("--- Start ---");
@@ -106,8 +124,6 @@ namespace Nekote.Lab.Console.Testers
             System.Console.WriteLine("--- End ---");
             System.Console.WriteLine($"Reformatted length: {reformattedSample.Length} characters");
             System.Console.WriteLine($"Reformatted line count: {lines.Length}");
-
-            return reformattedSample;
         }
 
         /// <summary>
@@ -117,12 +133,31 @@ namespace Nekote.Lab.Console.Testers
         /// <param name="testDurationMilliseconds">テストを実行する時間（ミリ秒）。</param>
         private void RunPerformanceTest(string sampleText, int testDurationMilliseconds)
         {
-            var stopwatch = new Stopwatch();
+            DisplayPerformanceTestInfo(testDurationMilliseconds);
+            var result = ExecutePerformanceTest(sampleText, testDurationMilliseconds);
+            DisplayPerformanceResults(result, sampleText.Length, testDurationMilliseconds);
+        }
 
-            // 指定された時間だけテストを実行します。
+        /// <summary>
+        /// パフォーマンステストの情報を表示します。
+        /// </summary>
+        /// <param name="testDurationMilliseconds">テストを実行する時間（ミリ秒）。</param>
+        private void DisplayPerformanceTestInfo(int testDurationMilliseconds)
+        {
             System.Console.WriteLine();
             System.Console.WriteLine($"Running test for {testDurationMilliseconds} ms using a comprehensive edge case text...");
             System.Console.WriteLine("Starting speed test...");
+        }
+
+        /// <summary>
+        /// パフォーマンステストを実行します。
+        /// </summary>
+        /// <param name="sampleText">テストに使用するサンプルテキスト。</param>
+        /// <param name="testDurationMilliseconds">テストを実行する時間（ミリ秒）。</param>
+        /// <returns>パフォーマンステストの結果。</returns>
+        private PerformanceTestResult ExecutePerformanceTest(string sampleText, int testDurationMilliseconds)
+        {
+            var stopwatch = new Stopwatch();
             var testDuration = TimeSpan.FromMilliseconds(testDurationMilliseconds);
             var iterations = 0;
 
@@ -130,29 +165,56 @@ namespace Nekote.Lab.Console.Testers
 
             while (stopwatch.Elapsed < testDuration)
             {
-                // TextProcessor.Reformat メソッドを呼び出します。
                 _ = TextProcessor.Reformat(sampleText);
                 iterations++;
             }
 
             stopwatch.Stop();
 
-            // 結果をコンソールに出力します。
-            var totalMilliseconds = stopwatch.Elapsed.TotalMilliseconds;
-            // これは iterations が 0 になる可能性があるからではなく、ゼロ除算を防ぐための条件です。
-            var averageMilliseconds = iterations > 0 ? totalMilliseconds / iterations : 0;
+            return new PerformanceTestResult
+            {
+                TotalMilliseconds = stopwatch.Elapsed.TotalMilliseconds,
+                Iterations = iterations
+            };
+        }
+
+        /// <summary>
+        /// パフォーマンステストの結果を表示します。
+        /// </summary>
+        /// <param name="result">パフォーマンステストの結果。</param>
+        /// <param name="sampleTextLength">サンプルテキストの文字数。</param>
+        /// <param name="testDurationMilliseconds">テストを実行する時間（ミリ秒）。</param>
+        private void DisplayPerformanceResults(PerformanceTestResult result, int sampleTextLength, int testDurationMilliseconds)
+        {
+            var averageMilliseconds = result.Iterations > 0 ? result.TotalMilliseconds / result.Iterations : 0;
 
             System.Console.WriteLine();
             System.Console.WriteLine("=== Performance Results ===");
-            System.Console.WriteLine($"Total time: {totalMilliseconds:F2} ms ({testDurationMilliseconds} ms)");
-            System.Console.WriteLine($"Iterations: {iterations:N0}");
+            System.Console.WriteLine($"Total time: {result.TotalMilliseconds:F2} ms ({testDurationMilliseconds} ms)");
+            System.Console.WriteLine($"Iterations: {result.Iterations:N0}");
             System.Console.WriteLine($"Average time per iteration: {averageMilliseconds:F4} ms");
 
-            if (totalMilliseconds > 0)
+            if (result.TotalMilliseconds > 0)
             {
-                System.Console.WriteLine($"Operations per second: {iterations / (totalMilliseconds / 1000):F0}");
-                System.Console.WriteLine($"Throughput: {(long)sampleText.Length * iterations / (totalMilliseconds / 1000) / 1024 / 1024:F2} MB/s");
+                System.Console.WriteLine($"Operations per second: {result.Iterations / (result.TotalMilliseconds / 1000):F0}");
+                System.Console.WriteLine($"Throughput: {(long)sampleTextLength * result.Iterations / (result.TotalMilliseconds / 1000) / 1024 / 1024:F2} MB/s");
             }
+        }
+
+        /// <summary>
+        /// パフォーマンステストの結果を表すクラス。
+        /// </summary>
+        private class PerformanceTestResult
+        {
+            /// <summary>
+            /// 合計実行時間（ミリ秒）を取得または設定します。
+            /// </summary>
+            public double TotalMilliseconds { get; set; }
+
+            /// <summary>
+            /// 反復回数を取得または設定します。
+            /// </summary>
+            public int Iterations { get; set; }
         }
     }
 }

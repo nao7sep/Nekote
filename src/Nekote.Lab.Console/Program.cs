@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Nekote.Core.Assemblies;
 using Nekote.Lab.Console.Hosting;
 using Nekote.Lab.Console.Testers;
 
@@ -33,6 +34,11 @@ namespace Nekote.Lab.Console
 
                 // StringHelper.Reformat の速度テストを実行します（3000ミリ秒間）。
                 textTester.SpeedTestReformat(3000);
+
+                // AI DTO とコンバーターの使用状況を分析します。
+                var aiDirectoryPath = ExecutingAssemblyHelper.GetAbsolutePath(@"..\..\..\..\Nekote.Core\AI");
+                var aiDtoTester = new AiDtoTester(aiDirectoryPath);
+                aiDtoTester.AnalyzeDtoAndConverterUsage();
             }
             catch (Exception ex)
             {

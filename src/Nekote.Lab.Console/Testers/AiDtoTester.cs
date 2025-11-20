@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Nekote.Lab.Console.Testers
 {
@@ -93,7 +94,7 @@ namespace Nekote.Lab.Console.Testers
             // 全ての C# ファイルの内容を読み込みます。
             var allCSharpFilePaths = Directory.GetFiles(_aiDirectoryPath, "*.cs", SearchOption.AllDirectories);
             var allFileContents = allCSharpFilePaths
-                .Select(filePath => File.ReadAllText(filePath))
+                .Select(filePath => ReadFileWithoutComments(filePath))
                 .ToList();
 
             System.Console.WriteLine($"Searching through {allCSharpFilePaths.Length} C# files in {_aiDirectoryPath}");
@@ -128,6 +129,37 @@ namespace Nekote.Lab.Console.Testers
                 .Where(name => !string.IsNullOrWhiteSpace(name))
                 .Select(name => name!)
                 .ToList();
+        }
+
+        /// <summary>
+        /// ファイルの内容を読み込み、コメントを除去します。
+        /// 注: このメソッドは // コメントのみを処理します。/* */ 形式のコメントはコードベースに存在しないため対応していません。
+        /// </summary>
+        /// <param name="filePath">ファイルのパス。</param>
+        /// <returns>コメントを除去した内容。</returns>
+        private string ReadFileWithoutComments(string filePath)
+        {
+            var lines = File.ReadAllLines(filePath, Encoding.UTF8);
+            var processedLines = new List<string>();
+
+            foreach (var line in lines)
+            {
+                // // が見つかった場合、それ以降を除去します。
+                var commentIndex = line.IndexOf("//", StringComparison.Ordinal);
+
+                if (commentIndex != -1)
+                {
+                    // コメントより前の部分のみを保持します。
+                    processedLines.Add(line.Substring(0, commentIndex));
+                }
+                else
+                {
+                    // コメントがない場合は行全体を保持します。
+                    processedLines.Add(line);
+                }
+            }
+
+            return string.Join(Environment.NewLine, processedLines);
         }
 
         /// <summary>

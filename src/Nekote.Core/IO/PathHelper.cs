@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace Nekote.Core.IO
@@ -23,6 +24,27 @@ namespace Nekote.Core.IO
                 return path;
             }
             return path.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+        }
+
+        /// <summary>
+        /// アプリケーションのベースディレクトリを基準にして、相対パスを絶対パスに解決します。
+        /// </summary>
+        /// <param name="relativePath">変換する相対パス。</param>
+        /// <returns>解決された絶対パス。</returns>
+        /// <exception cref="ArgumentException">relativePath が null、空、または絶対パスの場合にスローされます。</exception>
+        public static string MapPath(string relativePath)
+        {
+            if (string.IsNullOrWhiteSpace(relativePath))
+            {
+                throw new ArgumentException("Relative path cannot be null or whitespace.", nameof(relativePath));
+            }
+
+            if (Path.IsPathFullyQualified(relativePath))
+            {
+                throw new ArgumentException("Path must be relative, not absolute.", nameof(relativePath));
+            }
+
+            return Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, relativePath));
         }
     }
 }

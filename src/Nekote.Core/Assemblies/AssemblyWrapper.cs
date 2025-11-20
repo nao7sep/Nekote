@@ -102,6 +102,8 @@ namespace Nekote.Core.Assemblies
 
         /// <summary>
         /// アセンブリのディレクトリを基準にして、相対パスを絶対パスに変換します。
+        /// 注: ほとんどの場合、<see cref="PathHelper.MapPath"/> を使用することを検討してください。
+        /// このメソッドは、特定のアセンブリの場所を基準にする必要がある場合にのみ使用してください。
         /// </summary>
         /// <param name="relativePath">変換する相対パス。</param>
         /// <returns>解決された絶対パス。</returns>

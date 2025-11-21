@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using Nekote.Core.AI.Infrastructure.OpenAI.Converters;
 
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
@@ -9,5 +10,10 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     [JsonConverter(typeof(OpenAiChatToolChoiceConverter))]
     public abstract class OpenAiChatToolChoiceBaseDto
     {
+        /// <summary>
+        /// API から返される未知のフィールドを保持する。
+        /// </summary>
+        [JsonExtensionData]
+        public Dictionary<string, JsonElement>? ExtensionData { get; set; }
     }
 }

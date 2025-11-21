@@ -19,11 +19,5 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }
-
-        /// <summary>
-        /// API から返される未知のフィールドを保持する。
-        /// </summary>
-        [JsonExtensionData]
-        public Dictionary<string, JsonElement>? ExtensionData { get; set; }
     }
 }

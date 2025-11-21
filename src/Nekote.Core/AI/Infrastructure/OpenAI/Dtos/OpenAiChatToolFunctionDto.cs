@@ -16,17 +16,5 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// </summary>
         [JsonPropertyName("function")]
         public OpenAiChatToolFunctionDefinitionDto? Function { get; set; }
-
-        /// <summary>
-        /// ツールの種類 (関数ツールの場合は常に "function")。
-        /// </summary>
-        [JsonPropertyName("type")]
-        public string? Type { get; set; }
-
-        /// <summary>
-        /// API から返される未知のフィールドを保持する。
-        /// </summary>
-        [JsonExtensionData]
-        public Dictionary<string, JsonElement>? ExtensionData { get; set; }
     }
 }

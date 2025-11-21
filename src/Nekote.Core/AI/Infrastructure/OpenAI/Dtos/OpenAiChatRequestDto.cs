@@ -135,7 +135,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// レスポンスフォーマットの指定。
         /// </summary>
         [JsonPropertyName("response_format")]
-        public OpenAiChatResponseFormatDto? ResponseFormat { get; set; }
+        public OpenAiChatResponseFormatBaseDto? ResponseFormat { get; set; }
 
         /// <summary>
         /// 安全性識別子。

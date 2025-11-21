@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// 許可ツールの構成。
     /// </summary>
-    public class OpenAiChatToolChoiceAllowedConfigDto
+    public class OpenAiChatToolChoiceAllowedDefinitionDto
     {
         /// <summary>
         /// モデルが使用できるツールを制約するモード。

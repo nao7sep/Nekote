@@ -15,10 +15,10 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Type { get; set; }
 
         /// <summary>
-        /// 関数の情報。
+        /// 関数の定義。
         /// </summary>
         [JsonPropertyName("function")]
-        public OpenAiChatToolChoiceFunctionSpecDto? Function { get; set; }
+        public OpenAiChatToolChoiceFunctionDefinitionDto? Function { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

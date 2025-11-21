@@ -15,7 +15,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// 許可ツールの構成。
         /// </summary>
         [JsonPropertyName("allowed_tools")]
-        public OpenAiChatToolChoiceAllowedConfigDto? AllowedTools { get; set; }
+        public OpenAiChatToolChoiceAllowedDefinitionDto? AllowedTools { get; set; }
 
         /// <summary>
         /// ツールの種類 (常に "allowed_tools")。

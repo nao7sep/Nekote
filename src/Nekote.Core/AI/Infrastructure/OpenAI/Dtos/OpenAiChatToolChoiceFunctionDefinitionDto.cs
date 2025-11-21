@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ツール選択における関数の指定。
+    /// ツール選択における関数の定義。
     /// </summary>
-    public class OpenAiChatToolChoiceFunctionSpecDto
+    public class OpenAiChatToolChoiceFunctionDefinitionDto
     {
         /// <summary>
         /// 呼び出す関数の名前。

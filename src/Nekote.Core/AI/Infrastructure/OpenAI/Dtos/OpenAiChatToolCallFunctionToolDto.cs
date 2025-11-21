@@ -13,17 +13,5 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// </summary>
         [JsonPropertyName("function")]
         public OpenAiChatToolCallFunctionDto? Function { get; set; }
-
-        /// <summary>
-        /// ツール呼び出しの ID。
-        /// </summary>
-        [JsonPropertyName("id")]
-        public string? Id { get; set; }
-
-        /// <summary>
-        /// ツールのタイプ (常に "function")。
-        /// </summary>
-        [JsonPropertyName("type")]
-        public string? Type { get; set; }
     }
 }

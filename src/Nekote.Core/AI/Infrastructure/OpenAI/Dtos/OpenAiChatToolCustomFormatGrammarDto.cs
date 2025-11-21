@@ -13,11 +13,5 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// </summary>
         [JsonPropertyName("grammar")]
         public OpenAiChatToolCustomGrammarDto? Grammar { get; set; }
-
-        /// <summary>
-        /// フォーマットのタイプ (常に "grammar")。
-        /// </summary>
-        [JsonPropertyName("type")]
-        public string? Type { get; set; }
     }
 }

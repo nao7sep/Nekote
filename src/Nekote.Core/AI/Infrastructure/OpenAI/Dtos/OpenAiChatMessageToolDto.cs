@@ -22,11 +22,5 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// </summary>
         [JsonPropertyName("tool_call_id")]
         public string? ToolCallId { get; set; }
-
-        /// <summary>
-        /// 参加者の名前 (省略可能)。同じ役割の参加者を区別するために使用される。
-        /// </summary>
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
     }
 }

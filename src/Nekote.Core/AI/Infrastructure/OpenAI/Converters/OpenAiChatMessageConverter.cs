@@ -45,7 +45,9 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                         return JsonSerializer.Deserialize<OpenAiChatMessageToolDto>(json, options);
 
                     case "function":
+#pragma warning disable CS0618 // 廃止された型の使用に関する警告を抑制します。
                         return JsonSerializer.Deserialize<OpenAiChatMessageFunctionDto>(json, options);
+#pragma warning restore CS0618
 
                     default:
                         throw new JsonException($"Cannot deserialize message. Unknown role: {roleValue}");
@@ -80,7 +82,9 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                     JsonSerializer.Serialize(writer, toolMessage, options);
                     break;
 
+#pragma warning disable CS0618 // 廃止された型の使用に関する警告を抑制します。
                 case OpenAiChatMessageFunctionDto functionMessage:
+#pragma warning restore CS0618
                     JsonSerializer.Serialize(writer, functionMessage, options);
                     break;
 

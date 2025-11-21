@@ -179,7 +179,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// ストリーミングレスポンスのオプション。
         /// </summary>
         [JsonPropertyName("stream_options")]
-        public OpenAiChatStreamOptionsDto? StreamOptions { get; set; }
+        public OpenAiChatStreamingOptionsDto? StreamOptions { get; set; }
 
         /// <summary>
         /// サンプリング温度 (0 ~ 2)。

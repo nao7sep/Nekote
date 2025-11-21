@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// ストリーミング時のツール呼び出し情報の増分部分。
     /// </summary>
-    public class OpenAiChatStreamToolCallDto
+    public class OpenAiChatStreamingToolCallDto
     {
         /// <summary>
         /// ツール呼び出し配列内のインデックス。
@@ -18,7 +18,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// 関数呼び出し情報の増分部分。
         /// </summary>
         [JsonPropertyName("function")]
-        public OpenAiChatStreamToolCallFunctionDto? Function { get; set; }
+        public OpenAiChatStreamingToolCallFunctionDto? Function { get; set; }
 
         /// <summary>
         /// ツール呼び出しの ID。

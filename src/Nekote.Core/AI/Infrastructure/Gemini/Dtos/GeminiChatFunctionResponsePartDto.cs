@@ -12,7 +12,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         /// インライン メディア バイト。
         /// </summary>
         [JsonPropertyName("inlineData")]
-        public GeminiChatFunctionResponseBlobDto? InlineData { get; set; }
+        public GeminiChatBlobDto? InlineData { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

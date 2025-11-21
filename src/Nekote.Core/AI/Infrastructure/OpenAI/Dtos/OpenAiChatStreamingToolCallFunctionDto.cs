@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// ストリーミング時のツール呼び出しにおける関数情報の増分部分。
     /// </summary>
-    public class OpenAiChatStreamToolCallFunctionDto
+    public class OpenAiChatStreamingToolCallFunctionDto
     {
         /// <summary>
         /// モデルによって JSON 形式で生成された関数を呼び出すための引数。

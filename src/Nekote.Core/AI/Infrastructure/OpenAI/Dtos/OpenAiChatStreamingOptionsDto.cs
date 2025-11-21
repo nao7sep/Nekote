@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// ストリーミングレスポンスのオプション DTO。
     /// </summary>
-    public class OpenAiChatStreamOptionsDto
+    public class OpenAiChatStreamingOptionsDto
     {
         /// <summary>
         /// ストリーム難読化を有効にするかどうか。

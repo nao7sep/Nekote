@@ -6,13 +6,13 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// <summary>
     /// OpenAI Chat API のストリーミングレスポンスチャンク DTO。
     /// </summary>
-    public class OpenAiChatStreamChunkDto
+    public class OpenAiChatStreamingChunkDto
     {
         /// <summary>
         /// ストリーミングチャンクの候補リスト。
         /// </summary>
         [JsonPropertyName("choices")]
-        public List<OpenAiChatStreamChoiceDto>? Choices { get; set; }
+        public List<OpenAiChatStreamingChoiceDto>? Choices { get; set; }
 
         /// <summary>
         /// レスポンスが作成された Unix タイムスタンプ。

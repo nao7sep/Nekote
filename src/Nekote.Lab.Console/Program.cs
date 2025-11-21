@@ -27,18 +27,18 @@ namespace Nekote.Lab.Console
                 var timeTester = host.Services.GetRequiredService<TimeTester>();
 
                 // 現在時刻の取得と表示のテストを実行します。
-                timeTester.DisplayCurrentTime();
+                // timeTester.DisplayCurrentTime();
 
                 // DI コンテナから TextTester のインスタンスを取得します。
                 var textTester = host.Services.GetRequiredService<TextTester>();
 
                 // StringHelper.Reformat の速度テストを実行します（3000ミリ秒間）。
-                textTester.SpeedTestReformat(3000);
+                // textTester.SpeedTestReformat(3000);
 
                 // AI DTO とコンバーターの使用状況を分析します。
                 var aiDirectoryPath = PathHelper.MapPath(@"..\..\..\..\Nekote.Core\AI");
                 var aiDtoTester = new AiDtoTester(aiDirectoryPath);
-                aiDtoTester.AnalyzeDtoAndConverterUsage();
+                // aiDtoTester.AnalyzeDtoAndConverterUsage();
             }
             catch (Exception ex)
             {

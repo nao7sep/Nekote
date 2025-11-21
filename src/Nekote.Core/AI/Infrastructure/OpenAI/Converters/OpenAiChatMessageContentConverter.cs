@@ -24,7 +24,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 
                 // "content": [ { "type": "text", ... } ]
                 case JsonTokenType.StartArray:
-                    return new OpenAiChatMessageContentArrayDto { Parts = JsonSerializer.Deserialize<List<OpenAiChatMessageContentPartDto>>(ref reader, options) };
+                    return new OpenAiChatMessageContentArrayDto { Parts = JsonSerializer.Deserialize<List<OpenAiChatMessageContentPartBaseDto>>(ref reader, options) };
 
                 // "content": null
                 case JsonTokenType.Null:

@@ -4,29 +4,18 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// OpenAI Chat API のメッセージ DTO (リクエスト/レスポンス共通部)。
+    /// アシスタントロールのメッセージ DTO。
     /// </summary>
-    public class OpenAiChatMessageDto
+    /// <remarks>
+    /// モデルからの応答を表す。
+    /// </remarks>
+    public class OpenAiChatMessageAssistantDto : OpenAiChatMessageBaseDto
     {
         /// <summary>
         /// メッセージの内容。
-        /// リクエスト送信時は常に単純な文字列 content を使用する。
-        /// レスポンス受信時は JsonConverter がこれを処理する。
         /// </summary>
         [JsonPropertyName("content")]
         public OpenAiChatMessageContentBaseDto? Content { get; set; }
-
-        /// <summary>
-        /// メッセージのロール ("system", "user", "assistant", "developer", "tool")。
-        /// </summary>
-        [JsonPropertyName("role")]
-        public string? Role { get; set; }
-
-        /// <summary>
-        /// このメッセージの送信者名。
-        /// </summary>
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
 
         /// <summary>
         /// オーディオ情報。
@@ -49,12 +38,6 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public List<OpenAiChatAnnotationDto>? Annotations { get; set; }
 
         /// <summary>
-        /// ツールメッセージの場合のツール呼び出し ID。
-        /// </summary>
-        [JsonPropertyName("tool_call_id")]
-        public string? ToolCallId { get; set; }
-
-        /// <summary>
         /// 関数呼び出し情報 (非推奨: tool_calls に置き換えられた)。
         /// </summary>
         [JsonPropertyName("function_call")]
@@ -68,9 +51,9 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public List<OpenAiChatToolCallBaseDto>? ToolCalls { get; set; }
 
         /// <summary>
-        /// API から返される未知のフィールドを保持する。
+        /// 参加者の名前 (省略可能)。同じ役割の参加者を区別するために使用される。
         /// </summary>
-        [JsonExtensionData]
-        public Dictionary<string, JsonElement>? ExtensionData { get; set; }
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
     }
 }

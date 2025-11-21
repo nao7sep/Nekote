@@ -12,7 +12,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// チャットメッセージのリスト。
         /// </summary>
         [JsonPropertyName("messages")]
-        public List<OpenAiChatMessageDto>? Messages { get; set; }
+        public List<OpenAiChatMessageBaseDto>? Messages { get; set; }
 
         /// <summary>
         /// 使用するモデルの識別子。

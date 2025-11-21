@@ -27,10 +27,10 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public OpenAiChatLogprobsDto? Logprobs { get; set; }
 
         /// <summary>
-        /// 生成されたメッセージ。
+        /// 選択によって生成されたメッセージ。
         /// </summary>
         [JsonPropertyName("message")]
-        public OpenAiChatMessageDto? Message { get; set; }
+        public OpenAiChatMessageBaseDto? Message { get; set; }
 
         /// <summary>
         /// API から返される未知のフィールドを保持する。

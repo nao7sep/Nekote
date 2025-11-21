@@ -8,6 +8,6 @@
         /// <summary>
         /// コンテンツパーツのリスト。
         /// </summary>
-        public List<OpenAiChatMessageContentPartDto>? Parts { get; set; }
+        public List<OpenAiChatMessageContentPartBaseDto>? Parts { get; set; }
     }
 }

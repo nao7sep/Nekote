@@ -29,11 +29,11 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 
                 switch (roleValue)
                 {
-                    case "system":
-                        return JsonSerializer.Deserialize<OpenAiChatMessageSystemDto>(json, options);
-
                     case "developer":
                         return JsonSerializer.Deserialize<OpenAiChatMessageDeveloperDto>(json, options);
+
+                    case "system":
+                        return JsonSerializer.Deserialize<OpenAiChatMessageSystemDto>(json, options);
 
                     case "user":
                         return JsonSerializer.Deserialize<OpenAiChatMessageUserDto>(json, options);
@@ -62,12 +62,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         {
             switch (value)
             {
-                case OpenAiChatMessageSystemDto systemMessage:
-                    JsonSerializer.Serialize(writer, systemMessage, options);
-                    break;
-
                 case OpenAiChatMessageDeveloperDto developerMessage:
                     JsonSerializer.Serialize(writer, developerMessage, options);
+                    break;
+
+                case OpenAiChatMessageSystemDto systemMessage:
+                    JsonSerializer.Serialize(writer, systemMessage, options);
                     break;
 
                 case OpenAiChatMessageUserDto userMessage:

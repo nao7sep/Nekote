@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using Nekote.Core.AI.Infrastructure.OpenAI.Dtos;
 
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 {
@@ -9,9 +10,9 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
     /// <remarks>
     /// "type" プロパティの値に基づいて適切な派生型にデシリアライズする。
     /// </remarks>
-    public class OpenAiChatResponseFormatConverter : JsonConverter<Dtos.OpenAiChatResponseFormatBaseDto>
+    public class OpenAiChatResponseFormatConverter : JsonConverter<OpenAiChatResponseFormatBaseDto>
     {
-        public override Dtos.OpenAiChatResponseFormatBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override OpenAiChatResponseFormatBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             using (var doc = JsonDocument.ParseValue(ref reader))
             {
@@ -27,13 +28,13 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                 switch (typeValue)
                 {
                     case "text":
-                        return JsonSerializer.Deserialize<Dtos.OpenAiChatResponseFormatTextDto>(json, options);
+                        return JsonSerializer.Deserialize<OpenAiChatResponseFormatTextDto>(json, options);
 
                     case "json_schema":
-                        return JsonSerializer.Deserialize<Dtos.OpenAiChatResponseFormatJsonSchemaDto>(json, options);
+                        return JsonSerializer.Deserialize<OpenAiChatResponseFormatJsonSchemaDto>(json, options);
 
                     case "json_object":
-                        return JsonSerializer.Deserialize<Dtos.OpenAiChatResponseFormatJsonObjectDto>(json, options);
+                        return JsonSerializer.Deserialize<OpenAiChatResponseFormatJsonObjectDto>(json, options);
 
                     default:
                         throw new JsonException($"Unknown response format type: {typeValue}");
@@ -41,19 +42,19 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
             }
         }
 
-        public override void Write(Utf8JsonWriter writer, Dtos.OpenAiChatResponseFormatBaseDto value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, OpenAiChatResponseFormatBaseDto? value, JsonSerializerOptions options)
         {
             switch (value)
             {
-                case Dtos.OpenAiChatResponseFormatTextDto textFormat:
+                case OpenAiChatResponseFormatTextDto textFormat:
                     JsonSerializer.Serialize(writer, textFormat, options);
                     break;
 
-                case Dtos.OpenAiChatResponseFormatJsonSchemaDto jsonSchemaFormat:
+                case OpenAiChatResponseFormatJsonSchemaDto jsonSchemaFormat:
                     JsonSerializer.Serialize(writer, jsonSchemaFormat, options);
                     break;
 
-                case Dtos.OpenAiChatResponseFormatJsonObjectDto jsonObjectFormat:
+                case OpenAiChatResponseFormatJsonObjectDto jsonObjectFormat:
                     JsonSerializer.Serialize(writer, jsonObjectFormat, options);
                     break;
 

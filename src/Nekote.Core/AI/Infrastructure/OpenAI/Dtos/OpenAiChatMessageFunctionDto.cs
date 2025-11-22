@@ -17,5 +17,11 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         /// </summary>
         [JsonPropertyName("content")]
         public string? Content { get; set; }
+
+        /// <summary>
+        /// 呼び出す関数の名前 (必須)。
+        /// </summary>
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
     }
 }

@@ -27,51 +27,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                     using (JsonDocument doc = JsonDocument.ParseValue(ref reader))
                     {
                         JsonElement root = doc.RootElement;
-
-                        if (root.GetArrayLength() == 0)
-                        {
-                            // 空配列は文字列配列として扱われる
-                            return new OpenAiEmbeddingInputStringArrayDto { Texts = new List<string>() };
-                        }
-
-                        JsonElement firstElement = root[0];
-
-                        // 最初の要素が文字列 → string[]
-                        if (firstElement.ValueKind == JsonValueKind.String)
-                        {
-                            var texts = new List<string>();
-                            foreach (JsonElement element in root.EnumerateArray())
-                            {
-                                // 配列内の個別要素が null の場合は例外をスローする。
-                                // 配列自体が null であれば防御的プログラミングで許容するが、
-                                // 配列内の要素が null であることは異常であり、データが破損している可能性が高い。
-                                // List<string?> にする必要はなく、このような状況は例外として扱う。
-                                string text = element.GetString() ?? throw new JsonException(
-                                    $"Cannot deserialize 'input' string array. Expected all elements to be strings, but got null or non-string value.");
-                                texts.Add(text);
-                            }
-                            return new OpenAiEmbeddingInputStringArrayDto { Texts = texts };
-                        }
-                        // 最初の要素が配列 → int[][]
-                        else if (firstElement.ValueKind == JsonValueKind.Array)
-                        {
-                            var tokenArrays = new List<int[]>();
-                            foreach (JsonElement arrayElement in root.EnumerateArray())
-                            {
-                                var tokens = new List<int>();
-                                foreach (JsonElement token in arrayElement.EnumerateArray())
-                                {
-                                    tokens.Add(token.GetInt32());
-                                }
-                                tokenArrays.Add(tokens.ToArray());
-                            }
-                            return new OpenAiEmbeddingInputTokenArrayDto { TokenArrays = tokenArrays };
-                        }
-                        else
-                        {
-                            throw new JsonException(
-                                $"Cannot deserialize 'input' array. Expected array of strings or array of token arrays, but got array of {firstElement.ValueKind}.");
-                        }
+                        return ParseArrayInput(root);
                     }
 
                 // "input": null
@@ -81,6 +37,57 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                 default:
                     throw new JsonException(
                         $"Cannot deserialize 'input'. Expected string, array, or null, but got {reader.TokenType}.");
+            }
+        }
+
+        /// <summary>
+        /// 配列形式の input を解析する。
+        /// </summary>
+        private static OpenAiEmbeddingInputBaseDto ParseArrayInput(JsonElement root)
+        {
+            if (root.GetArrayLength() == 0)
+            {
+                // 空配列は文字列配列として扱われる
+                return new OpenAiEmbeddingInputStringArrayDto { Texts = new List<string>() };
+            }
+
+            JsonElement firstElement = root[0];
+
+            // 最初の要素が文字列 → string[]
+            if (firstElement.ValueKind == JsonValueKind.String)
+            {
+                var texts = new List<string>();
+                foreach (JsonElement element in root.EnumerateArray())
+                {
+                    // 配列内の個別要素が null の場合は例外をスローする。
+                    // 配列自体が null であれば防御的プログラミングで許容するが、
+                    // 配列内の要素が null であることは異常であり、データが破損している可能性が高い。
+                    // List<string?> にする必要はなく、このような状況は例外として扱う。
+                    string text = element.GetString() ?? throw new JsonException(
+                        $"Cannot deserialize 'input' string array. Expected all elements to be strings, but got null or non-string value.");
+                    texts.Add(text);
+                }
+                return new OpenAiEmbeddingInputStringArrayDto { Texts = texts };
+            }
+            // 最初の要素が配列 → int[][]
+            else if (firstElement.ValueKind == JsonValueKind.Array)
+            {
+                var tokenArrays = new List<int[]>();
+                foreach (JsonElement arrayElement in root.EnumerateArray())
+                {
+                    var tokens = new List<int>();
+                    foreach (JsonElement token in arrayElement.EnumerateArray())
+                    {
+                        tokens.Add(token.GetInt32());
+                    }
+                    tokenArrays.Add(tokens.ToArray());
+                }
+                return new OpenAiEmbeddingInputTokenArrayDto { TokenArrays = tokenArrays };
+            }
+            else
+            {
+                throw new JsonException(
+                    $"Cannot deserialize 'input' array. Expected array of strings or array of token arrays, but got array of {firstElement.ValueKind}.");
             }
         }
 

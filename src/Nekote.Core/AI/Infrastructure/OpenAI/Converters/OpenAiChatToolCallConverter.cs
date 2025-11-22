@@ -16,41 +16,28 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         /// </summary>
         public override OpenAiChatToolCallBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (reader.TokenType == JsonTokenType.Null)
+            using (var doc = JsonDocument.ParseValue(ref reader))
             {
-                return null;
-            }
-
-            if (reader.TokenType != JsonTokenType.StartObject)
-            {
-                throw new JsonException(
-                    $"Cannot deserialize 'tool_calls' element. Expected object or null, but got {reader.TokenType}.");
-            }
-
-            using (JsonDocument document = JsonDocument.ParseValue(ref reader))
-            {
-                JsonElement root = document.RootElement;
-
-                if (root.TryGetProperty("type", out JsonElement typeElement))
+                var root = doc.RootElement;
+                if (!root.TryGetProperty("type", out var typeProperty))
                 {
-                    string? type = typeElement.GetString();
-
-                    switch (type)
-                    {
-                        case "function":
-                            return JsonSerializer.Deserialize<OpenAiChatToolCallFunctionToolDto>(root.GetRawText(), options);
-
-                        case "custom":
-                            return JsonSerializer.Deserialize<OpenAiChatToolCallCustomToolDto>(root.GetRawText(), options);
-
-                        default:
-                            throw new JsonException(
-                                $"Cannot deserialize 'tool_calls' element. Unknown type: '{type}'.");
-                    }
+                    throw new JsonException("Cannot deserialize 'tool_calls' element. Missing 'type' property.");
                 }
 
-                throw new JsonException(
-                    "Cannot deserialize 'tool_calls' element. Missing 'type' property.");
+                var typeValue = typeProperty.GetString();
+                var json = root.GetRawText();
+
+                switch (typeValue)
+                {
+                    case "function":
+                        return JsonSerializer.Deserialize<OpenAiChatToolCallFunctionToolDto>(json, options);
+
+                    case "custom":
+                        return JsonSerializer.Deserialize<OpenAiChatToolCallCustomToolDto>(json, options);
+
+                    default:
+                        throw new JsonException($"Cannot deserialize 'tool_calls' element. Unknown type: {typeValue}");
+                }
             }
         }
 

@@ -16,41 +16,28 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         /// </summary>
         public override OpenAiChatToolCustomFormatBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (reader.TokenType == JsonTokenType.Null)
+            using (var doc = JsonDocument.ParseValue(ref reader))
             {
-                return null;
-            }
-
-            if (reader.TokenType != JsonTokenType.StartObject)
-            {
-                throw new JsonException(
-                    $"Cannot deserialize 'format'. Expected object or null, but got {reader.TokenType}.");
-            }
-
-            using (JsonDocument document = JsonDocument.ParseValue(ref reader))
-            {
-                JsonElement root = document.RootElement;
-
-                if (root.TryGetProperty("type", out JsonElement typeElement))
+                var root = doc.RootElement;
+                if (!root.TryGetProperty("type", out var typeProperty))
                 {
-                    string? type = typeElement.GetString();
-
-                    switch (type)
-                    {
-                        case "text":
-                            return JsonSerializer.Deserialize<OpenAiChatToolCustomFormatTextDto>(root.GetRawText(), options);
-
-                        case "grammar":
-                            return JsonSerializer.Deserialize<OpenAiChatToolCustomFormatGrammarDto>(root.GetRawText(), options);
-
-                        default:
-                            throw new JsonException(
-                                $"Cannot deserialize 'format'. Unknown type: '{type}'.");
-                    }
+                    throw new JsonException("Cannot deserialize 'format'. Missing 'type' property.");
                 }
 
-                throw new JsonException(
-                    "Cannot deserialize 'format'. Missing 'type' property.");
+                var typeValue = typeProperty.GetString();
+                var json = root.GetRawText();
+
+                switch (typeValue)
+                {
+                    case "text":
+                        return JsonSerializer.Deserialize<OpenAiChatToolCustomFormatTextDto>(json, options);
+
+                    case "grammar":
+                        return JsonSerializer.Deserialize<OpenAiChatToolCustomFormatGrammarDto>(json, options);
+
+                    default:
+                        throw new JsonException($"Cannot deserialize 'format'. Unknown type: {typeValue}");
+                }
             }
         }
 

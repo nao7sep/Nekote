@@ -27,28 +27,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                     using (var doc = JsonDocument.ParseValue(ref reader))
                     {
                         var root = doc.RootElement;
-                        if (!root.TryGetProperty("type", out var typeProperty))
-                        {
-                            throw new JsonException("Cannot deserialize 'tool_choice' object. Missing 'type' property.");
-                        }
-
-                        var typeValue = typeProperty.GetString();
-                        var json = root.GetRawText();
-
-                        switch (typeValue)
-                        {
-                            case "function":
-                                return JsonSerializer.Deserialize<OpenAiChatToolChoiceFunctionDto>(json, options);
-
-                            case "custom":
-                                return JsonSerializer.Deserialize<OpenAiChatToolChoiceCustomDto>(json, options);
-
-                            case "allowed":
-                                return JsonSerializer.Deserialize<OpenAiChatToolChoiceAllowedDto>(json, options);
-
-                            default:
-                                throw new JsonException($"Cannot deserialize tool_choice. Unknown type: {typeValue}");
-                        }
+                        return ParseObjectChoice(root, options);
                     }
 
                 // "tool_choice": null
@@ -58,6 +37,35 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
                 default:
                     throw new JsonException(
                         $"Cannot deserialize 'tool_choice'. Expected string, object, or null, but got {reader.TokenType}.");
+            }
+        }
+
+        /// <summary>
+        /// オブジェクト形式の tool_choice を解析する。
+        /// </summary>
+        private static OpenAiChatToolChoiceBaseDto ParseObjectChoice(JsonElement root, JsonSerializerOptions options)
+        {
+            if (!root.TryGetProperty("type", out var typeProperty))
+            {
+                throw new JsonException("Cannot deserialize 'tool_choice' object. Missing 'type' property.");
+            }
+
+            var typeValue = typeProperty.GetString();
+            var json = root.GetRawText();
+
+            switch (typeValue)
+            {
+                case "function":
+                    return JsonSerializer.Deserialize<OpenAiChatToolChoiceFunctionDto>(json, options);
+
+                case "custom":
+                    return JsonSerializer.Deserialize<OpenAiChatToolChoiceCustomDto>(json, options);
+
+                case "allowed":
+                    return JsonSerializer.Deserialize<OpenAiChatToolChoiceAllowedDto>(json, options);
+
+                default:
+                    throw new JsonException($"Cannot deserialize tool_choice. Unknown type: {typeValue}");
             }
         }
 

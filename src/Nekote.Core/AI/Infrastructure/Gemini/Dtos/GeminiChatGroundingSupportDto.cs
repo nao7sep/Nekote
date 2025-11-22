@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// グラウンディング サポート DTO。
+    /// 回答と引用元の対応付け情報。
     /// </summary>
     public class GeminiChatGroundingSupportDto
     {

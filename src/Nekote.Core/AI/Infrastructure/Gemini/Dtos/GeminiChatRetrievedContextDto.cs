@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// ファイル検索ツールで取得されたコンテキストのグラウンディング チャンク DTO。
+    /// ファイル検索で取得されたコンテキストの情報チャンク。
     /// </summary>
     public class GeminiChatRetrievedContextDto
     {

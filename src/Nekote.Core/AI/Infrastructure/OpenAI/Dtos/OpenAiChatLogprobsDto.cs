@@ -4,18 +4,18 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ログ確率情報 DTO。
+    /// 対数確率の情報。
     /// </summary>
     public class OpenAiChatLogprobsDto
     {
         /// <summary>
-        /// トークンごとのログ確率情報のリスト。
+        /// トークンごとの対数確率のリスト。
         /// </summary>
         [JsonPropertyName("content")]
         public List<OpenAiChatLogprobContentDto>? Content { get; set; }
 
         /// <summary>
-        /// 拒否トークンのログ確率情報のリスト。
+        /// 拒否トークンの対数確率のリスト。
         /// </summary>
         [JsonPropertyName("refusal")]
         public List<OpenAiChatLogprobContentDto>? Refusal { get; set; }

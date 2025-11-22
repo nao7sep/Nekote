@@ -4,12 +4,12 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// 取得構成。
+    /// 情報取得の設定。
     /// </summary>
     public class GeminiChatRetrievalConfigDto
     {
         /// <summary>
-        /// ユーザーの現在地。
+        /// ユーザーの位置情報（緯度・経度）。
         /// </summary>
         [JsonPropertyName("latLng")]
         public GeminiChatLatLngDto? LatLng { get; set; }

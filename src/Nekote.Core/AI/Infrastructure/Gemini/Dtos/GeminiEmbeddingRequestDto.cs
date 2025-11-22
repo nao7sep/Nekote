@@ -4,18 +4,18 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Embedding API へのリクエストボディ DTO。
+    /// Gemini Embedding API のリクエストボディ。
     /// </summary>
     public class GeminiEmbeddingRequestDto
     {
         /// <summary>
-        /// エンベディングを生成するコンテンツ。
+        /// 埋め込みを生成するコンテンツ。
         /// </summary>
         [JsonPropertyName("content")]
         public GeminiEmbeddingContentDto? Content { get; set; }
 
         /// <summary>
-        /// エンベディングが使用されるオプションのタスクタイプ。
+        /// 埋め込みの使用目的を指定するタスクタイプ（省略可）。
         /// </summary>
         [JsonPropertyName("taskType")]
         public string? TaskType { get; set; }
@@ -27,7 +27,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public string? Title { get; set; }
 
         /// <summary>
-        /// 出力エンベディングのオプションの削減ディメンション。
+        /// 出力する埋め込みの次元数（省略可）。
         /// </summary>
         [JsonPropertyName("outputDimensionality")]
         public int? OutputDimensionality { get; set; }

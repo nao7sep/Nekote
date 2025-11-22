@@ -4,12 +4,12 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// 音声構成 DTO。
+    /// 音声の設定。
     /// </summary>
     public class GeminiChatVoiceConfigDto
     {
         /// <summary>
-        /// 事前構築済み音壷の構成。
+        /// 事前定義済み音声の設定。
         /// </summary>
         [JsonPropertyName("prebuiltVoiceConfig")]
         public GeminiChatPrebuiltVoiceConfigDto? PrebuiltVoiceConfig { get; set; }

@@ -45,19 +45,19 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public List<GeminiChatGroundingAttributionDto>? GroundingAttributions { get; set; }
 
         /// <summary>
-        /// 候補のグラウンディング メタデータ（出力専用）。
+        /// 根拠情報のメタデータ（出力専用）。
         /// </summary>
         [JsonPropertyName("groundingMetadata")]
         public GeminiChatGroundingMetadataDto? GroundingMetadata { get; set; }
 
         /// <summary>
-        /// 候補の平均ログ確率スコア（出力専用）。
+        /// 候補の平均対数確率（出力専用）。
         /// </summary>
         [JsonPropertyName("avgLogprobs")]
         public double? AvgLogprobs { get; set; }
 
         /// <summary>
-        /// レスポンス トークンと上位トークンの対数尤度スコア（出力専用）。
+        /// レスポンストークンと上位トークンの対数確率（出力専用）。
         /// </summary>
         [JsonPropertyName("logprobsResult")]
         public GeminiChatLogprobsResultDto? LogprobsResult { get; set; }

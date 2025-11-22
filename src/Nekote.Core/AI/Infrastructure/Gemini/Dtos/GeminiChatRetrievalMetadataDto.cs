@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// グラウンディング フローでの取得に関連するメタデータ DTO。
+    /// 情報取得に関連するメタデータ。
     /// </summary>
     public class GeminiChatRetrievalMetadataDto
     {

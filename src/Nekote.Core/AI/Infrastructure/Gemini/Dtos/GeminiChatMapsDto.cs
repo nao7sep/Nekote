@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Google マップのグラウンディング チャンク DTO。
+    /// Google マップからの情報チャンク。
     /// </summary>
     public class GeminiChatMapsDto
     {

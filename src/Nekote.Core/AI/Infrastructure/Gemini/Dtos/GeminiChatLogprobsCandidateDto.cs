@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// logprobs トークンとスコアの候補 DTO。
+    /// 対数確率とトークンの候補情報。
     /// </summary>
     public class GeminiChatLogprobsCandidateDto
     {
@@ -21,7 +21,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public int? TokenId { get; set; }
 
         /// <summary>
-        /// 候補者のログ確率。
+        /// 候補の対数確率。
         /// </summary>
         [JsonPropertyName("logProbability")]
         public double? LogProbability { get; set; }

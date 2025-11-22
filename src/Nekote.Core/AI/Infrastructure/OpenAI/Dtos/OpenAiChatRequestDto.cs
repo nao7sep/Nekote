@@ -56,7 +56,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public Dictionary<string, int>? LogitBias { get; set; }
 
         /// <summary>
-        /// ログ確率を返すかどうか。
+        /// 対数確率を返すかどうか。
         /// </summary>
         [JsonPropertyName("logprobs")]
         public bool? Logprobs { get; set; }
@@ -214,7 +214,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public List<OpenAiChatToolBaseDto>? Tools { get; set; }
 
         /// <summary>
-        /// 返すトップログ確率の数 (0 ~ 20)。
+        /// 返す上位候補の対数確率の数 (0 ~ 20)。
         /// </summary>
         [JsonPropertyName("top_logprobs")]
         public int? TopLogprobs { get; set; }

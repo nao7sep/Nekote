@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// ツールの詳細。
+    /// ツールの定義。
     /// </summary>
     public class GeminiChatToolDto
     {
@@ -15,43 +15,43 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public List<GeminiChatFunctionDeclarationDto>? FunctionDeclarations { get; set; }
 
         /// <summary>
-        /// Google 検索取得。
+        /// Google 検索による根拠付けの設定。
         /// </summary>
         [JsonPropertyName("googleSearchRetrieval")]
         public GeminiChatGoogleSearchRetrievalDto? GoogleSearchRetrieval { get; set; }
 
         /// <summary>
-        /// コード実行。
+        /// コード実行機能の設定。
         /// </summary>
         [JsonPropertyName("codeExecution")]
         public GeminiChatCodeExecutionDto? CodeExecution { get; set; }
 
         /// <summary>
-        /// Google 検索。
+        /// Google 検索機能の設定。
         /// </summary>
         [JsonPropertyName("googleSearch")]
         public GeminiChatGoogleSearchDto? GoogleSearch { get; set; }
 
         /// <summary>
-        /// コンピュータ使用。
+        /// コンピュータ操作機能の設定。
         /// </summary>
         [JsonPropertyName("computerUse")]
         public GeminiChatComputerUseDto? ComputerUse { get; set; }
 
         /// <summary>
-        /// URL コンテキスト。
+        /// URL コンテキスト機能の設定。
         /// </summary>
         [JsonPropertyName("urlContext")]
         public GeminiChatUrlContextDto? UrlContext { get; set; }
 
         /// <summary>
-        /// ファイル検索。
+        /// ファイル検索機能の設定。
         /// </summary>
         [JsonPropertyName("fileSearch")]
         public GeminiChatFileSearchDto? FileSearch { get; set; }
 
         /// <summary>
-        /// Google マップ。
+        /// Google マップ機能の設定。
         /// </summary>
         [JsonPropertyName("googleMaps")]
         public GeminiChatGoogleMapsDto? GoogleMaps { get; set; }

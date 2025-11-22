@@ -96,7 +96,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public double? FrequencyPenalty { get; set; }
 
         /// <summary>
-        /// logprobs を返すかどうか。
+        /// 対数確率を返すかどうか。
         /// </summary>
         [JsonPropertyName("responseLogprobs")]
         public bool? ResponseLogprobs { get; set; }

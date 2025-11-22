@@ -4,12 +4,12 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Google 検索取得。
+    /// Google 検索による根拠付けの設定。
     /// </summary>
     public class GeminiChatGoogleSearchRetrievalDto
     {
         /// <summary>
-        /// 動的取得構成。
+        /// 動的検索の設定。
         /// </summary>
         [JsonPropertyName("dynamicRetrievalConfig")]
         public GeminiChatDynamicRetrievalConfigDto? DynamicRetrievalConfig { get; set; }

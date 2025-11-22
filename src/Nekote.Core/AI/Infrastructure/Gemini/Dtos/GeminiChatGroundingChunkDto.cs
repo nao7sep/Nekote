@@ -4,24 +4,24 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// グラウンディング チャンク DTO。
+    /// 引用元の情報チャンク。
     /// </summary>
     public class GeminiChatGroundingChunkDto
     {
         /// <summary>
-        /// ウェブからのグラウンディング チャンク。
+        /// ウェブからの情報チャンク。
         /// </summary>
         [JsonPropertyName("web")]
         public GeminiChatWebDto? Web { get; set; }
 
         /// <summary>
-        /// ファイル検索ツールで取得されたコンテキストのグラウンディング チャンク。
+        /// ファイル検索で取得されたコンテキストの情報チャンク。
         /// </summary>
         [JsonPropertyName("retrievedContext")]
         public GeminiChatRetrievedContextDto? RetrievedContext { get; set; }
 
         /// <summary>
-        /// Google マップのグラウンディング チャンク。
+        /// Google マップからの情報チャンク。
         /// </summary>
         [JsonPropertyName("maps")]
         public GeminiChatMapsDto? Maps { get; set; }

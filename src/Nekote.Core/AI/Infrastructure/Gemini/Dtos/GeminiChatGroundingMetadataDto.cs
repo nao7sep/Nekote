@@ -4,18 +4,18 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// グラウンディングが有効になっている場合にクライアントに返されるメタデータ DTO。
+    /// 根拠情報のメタデータ。
     /// </summary>
     public class GeminiChatGroundingMetadataDto
     {
         /// <summary>
-        /// 指定されたグラウンディング ソースから取得されたサポート参照のリスト。
+        /// 引用元の情報チャンクのリスト。
         /// </summary>
         [JsonPropertyName("groundingChunks")]
         public List<GeminiChatGroundingChunkDto>? GroundingChunks { get; set; }
 
         /// <summary>
-        /// グラウンディング サポートのリスト。
+        /// 回答と引用元の対応付け情報のリスト。
         /// </summary>
         [JsonPropertyName("groundingSupports")]
         public List<GeminiChatGroundingSupportDto>? GroundingSupports { get; set; }
@@ -33,7 +33,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public GeminiChatSearchEntryPointDto? SearchEntryPoint { get; set; }
 
         /// <summary>
-        /// グラウンディング フローでの取得に関連するメタデータ。
+        /// 情報取得に関連するメタデータ。
         /// </summary>
         [JsonPropertyName("retrievalMetadata")]
         public GeminiChatRetrievalMetadataDto? RetrievalMetadata { get; set; }

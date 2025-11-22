@@ -15,7 +15,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public GeminiChatAttributionSourceIdDto? SourceId { get; set; }
 
         /// <summary>
-        /// この帰属を構成するグラウンディング ソース コンテンツ。
+        /// この帰属を構成する引用元のコンテンツ。
         /// </summary>
         [JsonPropertyName("content")]
         public GeminiChatContentDto? Content { get; set; }

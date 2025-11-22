@@ -4,12 +4,12 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Logprobs の結果 DTO。
+    /// 対数確率の結果。
     /// </summary>
     public class GeminiChatLogprobsResultDto
     {
         /// <summary>
-        /// 各デコード ステップでログ確率が最も高い候補のリスト。
+        /// 各ステップで確率が最も高い候補のリスト。
         /// </summary>
         [JsonPropertyName("topCandidates")]
         public List<GeminiChatTopCandidatesDto>? TopCandidates { get; set; }
@@ -21,7 +21,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public List<GeminiChatLogprobsCandidateDto>? ChosenCandidates { get; set; }
 
         /// <summary>
-        /// すべてのトークンのログ確率の合計。
+        /// 全トークンの対数確率の合計。
         /// </summary>
         [JsonPropertyName("logProbabilitySum")]
         public double? LogProbabilitySum { get; set; }

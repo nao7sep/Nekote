@@ -4,18 +4,18 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// 動的取得構成。
+    /// 動的検索の設定。
     /// </summary>
     public class GeminiChatDynamicRetrievalConfigDto
     {
         /// <summary>
-        /// 動的取得で使用される予測子のモード。
+        /// 動的検索のモード。
         /// </summary>
         [JsonPropertyName("mode")]
         public string? Mode { get; set; }
 
         /// <summary>
-        /// 動的取得で使用されるしきい値。
+        /// 検索を実行する信頼度のしきい値。
         /// </summary>
         [JsonPropertyName("dynamicThreshold")]
         public double? DynamicThreshold { get; set; }

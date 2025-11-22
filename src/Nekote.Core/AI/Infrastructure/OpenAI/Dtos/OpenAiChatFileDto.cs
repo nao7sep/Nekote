@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ファイル入力を表す DTO。
+    /// ファイル入力。
     /// </summary>
     public class OpenAiChatFileDto
     {

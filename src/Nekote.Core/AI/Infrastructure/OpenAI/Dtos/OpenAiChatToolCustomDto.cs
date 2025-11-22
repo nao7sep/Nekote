@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// "tools" がカスタムツールの場合の具象 DTO。
+    /// "tools" がカスタムツールの場合の具体的な DTO。
     /// </summary>
     /// <remarks>
     /// 指定された形式を使用して入力を処理するカスタムツール。

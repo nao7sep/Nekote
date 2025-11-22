@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// トークンごとのログ確率情報 DTO。
+    /// トークンごとの対数確率情報。
     /// </summary>
     public class OpenAiChatLogprobContentDto
     {
@@ -15,7 +15,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public List<int>? Bytes { get; set; }
 
         /// <summary>
-        /// ログ確率値。
+        /// 対数確率値。
         /// </summary>
         [JsonPropertyName("logprob")]
         public double? Logprob { get; set; }
@@ -27,7 +27,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Token { get; set; }
 
         /// <summary>
-        /// トップログ確率のリスト。
+        /// トップ対数確率のリスト。
         /// </summary>
         [JsonPropertyName("top_logprobs")]
         public List<OpenAiChatTopLogprobDto>? TopLogprobs { get; set; }

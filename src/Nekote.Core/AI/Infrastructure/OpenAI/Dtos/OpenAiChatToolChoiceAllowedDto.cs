@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// "tool_choice" が許可ツール制約オブジェクトの場合の具象 DTO。
+    /// "tool_choice" が許可ツール制約オブジェクトの場合の具体的な DTO。
     /// </summary>
     /// <remarks>
     /// モデルが使用できるツールを事前定義されたセットに制約する。

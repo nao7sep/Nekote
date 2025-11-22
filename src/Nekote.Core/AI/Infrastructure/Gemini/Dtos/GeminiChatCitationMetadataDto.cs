@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// コンテンツのソース帰属情報のコレクション DTO。
+    /// コンテンツのソース帰属情報のコレクション。
     /// </summary>
     public class GeminiChatCitationMetadataDto
     {

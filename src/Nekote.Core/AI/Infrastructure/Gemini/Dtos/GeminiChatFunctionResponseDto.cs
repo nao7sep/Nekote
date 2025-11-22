@@ -27,7 +27,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public JsonElement? Response { get; set; }
 
         /// <summary>
-        /// 関数レスポンスを構成する順序付き Parts。
+        /// 関数レスポンスを構成する順序付きパーツ。
         /// </summary>
         [JsonPropertyName("parts")]
         public List<GeminiChatFunctionResponsePartDto>? Parts { get; set; }

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// "tools" が関数ツールの場合の具象 DTO。
+    /// "tools" が関数ツールの場合の具体的な DTO。
     /// </summary>
     /// <remarks>
     /// レスポンスの生成に使用できる関数ツール。

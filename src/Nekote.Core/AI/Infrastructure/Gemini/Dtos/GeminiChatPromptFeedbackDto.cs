@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Chat API のプロンプトフィードバック DTO。
+    /// Gemini Chat API のプロンプトフィードバック。
     /// </summary>
     public class GeminiChatPromptFeedbackDto
     {

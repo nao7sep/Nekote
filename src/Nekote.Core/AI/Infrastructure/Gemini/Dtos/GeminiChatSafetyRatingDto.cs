@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Chat API の安全性評価 DTO。
+    /// Gemini Chat API の安全性評価。
     /// </summary>
     public class GeminiChatSafetyRatingDto
     {

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// 予測出力の構成 DTO。
+    /// 予測出力の構成。
     /// </summary>
     public class OpenAiChatPredictionDto
     {

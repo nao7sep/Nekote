@@ -1,7 +1,7 @@
 ﻿namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// "stop" が単純な文字列の場合の具象 DTO。
+    /// "stop" が単純な文字列の場合の具体的な DTO。
     /// </summary>
     public class OpenAiChatStopStringDto : OpenAiChatStopBaseDto
     {

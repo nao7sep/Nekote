@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// レスポンスのチャット補完メッセージ DTO。
+    /// レスポンスのチャット補完メッセージ。
     /// </summary>
     /// <remarks>
     /// モデルによって生成されたチャット補完メッセージ。

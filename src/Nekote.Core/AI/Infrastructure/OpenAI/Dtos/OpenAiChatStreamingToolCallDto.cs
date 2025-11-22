@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ストリーミング時のツール呼び出し情報の増分部分。
+    /// ストリーミング時のツール呼び出し情報の増分。
     /// </summary>
     public class OpenAiChatStreamingToolCallDto
     {
@@ -15,7 +15,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public int? Index { get; set; }
 
         /// <summary>
-        /// 関数呼び出し情報の増分部分。
+        /// 関数呼び出し情報の増分。
         /// </summary>
         [JsonPropertyName("function")]
         public OpenAiChatStreamingToolCallFunctionDto? Function { get; set; }

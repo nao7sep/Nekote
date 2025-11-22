@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ユーザーロールのメッセージ DTO。
+    /// ユーザーロールのメッセージ。
     /// </summary>
     /// <remarks>
     /// ユーザーからの入力を表す。

@@ -1,7 +1,7 @@
 ﻿namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// "tool_choice" が文字列の場合の具象 DTO。
+    /// "tool_choice" が文字列の場合の具体的な DTO。
     /// </summary>
     /// <remarks>
     /// "none": モデルはツールを呼び出さず、メッセージを生成する。

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ストリーミングレスポンスのオプション DTO。
+    /// ストリーミングレスポンスのオプション。
     /// </summary>
     public class OpenAiChatStreamingOptionsDto
     {

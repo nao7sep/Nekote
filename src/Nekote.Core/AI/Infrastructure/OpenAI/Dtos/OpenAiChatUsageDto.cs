@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// トークン使用量 DTO (最新 API 対応)。
+    /// トークン使用量。
     /// ストリーミングおよび非ストリーミングレスポンスで共有される。
     /// </summary>
     public class OpenAiChatUsageDto

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// デベロッパーロールのメッセージ DTO。
+    /// デベロッパーロールのメッセージ。
     /// </summary>
     /// <remarks>
     /// o1 モデル以降で system の代わりに使用される。

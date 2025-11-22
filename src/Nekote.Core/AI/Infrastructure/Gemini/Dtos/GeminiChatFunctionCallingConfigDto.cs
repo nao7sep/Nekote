@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// 関数呼び出しの構成。
+    /// 関数呼び出しの設定。
     /// </summary>
     public class GeminiChatFunctionCallingConfigDto
     {

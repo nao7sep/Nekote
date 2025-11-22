@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// スキーマ DTO (OpenAPI スキーマのサブセット)。
+    /// スキーマ (OpenAPI スキーマのサブセット)。
     /// </summary>
     public class GeminiChatSchemaDto
     {

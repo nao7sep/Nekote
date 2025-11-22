@@ -4,18 +4,18 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ストリーミングチャンクの差分 (delta) DTO。
+    /// ストリーミングチャンクの差分 (delta)。
     /// </summary>
     public class OpenAiChatStreamingDeltaDto
     {
         /// <summary>
-        /// メッセージ内容の増分部分。
+        /// メッセージ内容の増分。
         /// </summary>
         [JsonPropertyName("content")]
         public string? Content { get; set; }
 
         /// <summary>
-        /// 関数呼び出し情報の増分部分 (非推奨: tool_calls に置き換えられた)。
+        /// 関数呼び出し情報の増分 (非推奨: tool_calls に置き換えられた)。
         /// </summary>
         [JsonPropertyName("function_call")]
         [Obsolete("This field is deprecated. Use ToolCalls instead.")]
@@ -34,7 +34,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Role { get; set; }
 
         /// <summary>
-        /// ツール呼び出し情報の増分部分のリスト。
+        /// ツール呼び出し情報の増分のリスト。
         /// </summary>
         [JsonPropertyName("tool_calls")]
         public List<OpenAiChatStreamingToolCallDto>? ToolCalls { get; set; }

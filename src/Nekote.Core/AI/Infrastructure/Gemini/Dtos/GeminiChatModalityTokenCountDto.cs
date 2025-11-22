@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// 単一のモダリティのトークン カウント情報 DTO。
+    /// 単一のモダリティのトークン カウント情報。
     /// </summary>
     public class GeminiChatModalityTokenCountDto
     {

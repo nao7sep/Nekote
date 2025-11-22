@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// コンテンツ注釈 DTO (レスポンス解析用)。
+    /// コンテンツ注釈 (レスポンス解析用)。
     /// </summary>
     public class OpenAiChatAnnotationDto
     {

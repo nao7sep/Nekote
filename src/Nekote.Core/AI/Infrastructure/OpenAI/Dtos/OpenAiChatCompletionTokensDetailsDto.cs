@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// 完了トークンの内訳詳細 DTO。
+    /// 完了トークンの内訳詳細。
     /// </summary>
     public class OpenAiChatCompletionTokensDetailsDto
     {

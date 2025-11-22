@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ストリーミングレスポンスの "choice" オブジェクト DTO。
+    /// ストリーミングレスポンスの "choice" オブジェクト。
     /// </summary>
     public class OpenAiChatStreamingChoiceDto
     {
@@ -27,7 +27,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public int? Index { get; set; }
 
         /// <summary>
-        /// ログ確率情報。
+        /// 対数確率情報。
         /// </summary>
         [JsonPropertyName("logprobs")]
         public OpenAiChatLogprobsDto? Logprobs { get; set; }

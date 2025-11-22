@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// エンベディングレスポンスの "data" 配列内の単一エンベディング DTO。
+    /// エンベディングレスポンスの "data" 配列内の単一エンベディング。
     /// </summary>
     public class OpenAiEmbeddingDataDto
     {

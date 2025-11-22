@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// "prediction" 内の "content" 配列のコンテンツパート DTO。
+    /// "prediction" 内の "content" 配列のコンテンツパート。
     /// </summary>
     public class OpenAiChatPredictionContentPartDto
     {

@@ -4,12 +4,12 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Embedding API のエンベディング値 DTO。
+    /// Gemini Embedding API の埋め込み値。
     /// </summary>
     public class GeminiEmbeddingValuesDto
     {
         /// <summary>
-        /// エンベディングベクトル。
+        /// 埋め込みベクトル。
         /// </summary>
         [JsonPropertyName("values")]
         public float[]? Values { get; set; }

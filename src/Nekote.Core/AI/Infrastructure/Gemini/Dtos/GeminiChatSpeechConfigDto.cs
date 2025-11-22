@@ -4,18 +4,18 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// 音声生成の構成 DTO。
+    /// 音声生成の設定。
     /// </summary>
     public class GeminiChatSpeechConfigDto
     {
         /// <summary>
-        /// 音声の構成。
+        /// 音声の設定。
         /// </summary>
         [JsonPropertyName("voiceConfig")]
         public GeminiChatVoiceConfigDto? VoiceConfig { get; set; }
 
         /// <summary>
-        /// 複数話者の音声構成。
+        /// 複数話者の音声設定。
         /// </summary>
         [JsonPropertyName("multiSpeakerVoiceConfig")]
         public GeminiChatMultiSpeakerVoiceConfigDto? MultiSpeakerVoiceConfig { get; set; }

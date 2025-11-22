@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// 拒否タイプの content part DTO。
+    /// 拒否タイプのコンテンツパーツ。
     /// </summary>
     public class OpenAiChatMessageContentPartRefusalDto : OpenAiChatMessageContentPartBaseDto
     {

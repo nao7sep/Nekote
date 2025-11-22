@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Google マップの特定の場所の機能に関する回答を提供するソースのコレクション DTO。
+    /// Google マップの特定の場所の機能に関する回答を提供するソースのコレクション。
     /// </summary>
     public class GeminiChatPlaceAnswerSourcesDto
     {

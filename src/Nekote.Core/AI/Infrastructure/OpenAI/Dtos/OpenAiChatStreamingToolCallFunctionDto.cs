@@ -4,13 +4,13 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ストリーミング時のツール呼び出しにおける関数情報の増分部分。
+    /// ストリーミング時のツール呼び出しにおける関数情報の増分。
     /// </summary>
     public class OpenAiChatStreamingToolCallFunctionDto
     {
         /// <summary>
         /// モデルによって JSON 形式で生成された関数を呼び出すための引数。
-        /// モデルは常に有効な JSON を生成するとは限らず、関数スキーマで定義されていないパラメータを幻視する可能性がある。
+        /// モデルは常に有効な JSON を生成するとは限らず、関数スキーマで定義されていないパラメータを生成する可能性がある。
         /// </summary>
         [JsonPropertyName("arguments")]
         public string? Arguments { get; set; }

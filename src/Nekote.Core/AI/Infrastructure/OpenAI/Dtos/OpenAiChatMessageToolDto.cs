@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ツールロールのメッセージ DTO。
+    /// ツールロールのメッセージ。
     /// </summary>
     /// <remarks>
     /// ツール実行結果を表す。

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// セマンティック リトリーバーで取得された Chunk の識別子 DTO。
+    /// セマンティック リトリーバーで取得された Chunk の識別子。
     /// </summary>
     public class GeminiChatSemanticRetrieverChunkDto
     {

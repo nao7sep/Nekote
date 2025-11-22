@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// アトリビューションに貢献したソースの識別子 DTO。
+    /// アトリビューションに貢献したソースの識別子。
     /// </summary>
     public class GeminiChatAttributionSourceIdDto
     {

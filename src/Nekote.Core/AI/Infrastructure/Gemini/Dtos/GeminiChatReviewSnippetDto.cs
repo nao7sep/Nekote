@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Google マップの特定の場所の機能に関する質問に回答するユーザー レビューのスニペット DTO。
+    /// Google マップの特定の場所の機能に関する質問に回答するユーザー レビューのスニペット。
     /// </summary>
     public class GeminiChatReviewSnippetDto
     {

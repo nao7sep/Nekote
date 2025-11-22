@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// 思考機能の構成 DTO。
+    /// 思考機能の設定。
     /// </summary>
     public class GeminiChatThinkingConfigDto
     {

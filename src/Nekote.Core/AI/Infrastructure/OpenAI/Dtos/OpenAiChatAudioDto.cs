@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// メッセージのオーディオ情報 DTO。
+    /// メッセージのオーディオ情報。
     /// レスポンス受信時はすべてのフィールドが含まれる。
     /// リクエスト送信時は id のみを使用して以前のオーディオを参照する。
     /// </summary>

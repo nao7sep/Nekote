@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// 回答に貢献した情報源の帰属 DTO。
+    /// 回答に貢献した情報源の帰属。
     /// </summary>
     public class GeminiChatGroundingAttributionDto
     {

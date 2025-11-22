@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// 安全性設定 DTO。
+    /// 安全性設定。
     /// </summary>
     public class GeminiChatSafetySettingDto
     {

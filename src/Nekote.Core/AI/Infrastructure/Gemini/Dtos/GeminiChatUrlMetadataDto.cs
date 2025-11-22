@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// 単一の URL の取得のコンテキスト DTO。
+    /// 単一の URL の取得のコンテキスト。
     /// </summary>
     public class GeminiChatUrlMetadataDto
     {

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Embedding API のパート DTO。
+    /// Gemini Embedding API のパート。
     /// </summary>
     public class GeminiEmbeddingPartDto
     {

@@ -1,7 +1,7 @@
 ﻿namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// "content" が "parts" の配列の場合の具象 DTO。
+    /// "content" がコンテンツパーツの配列の場合の具体的な DTO。
     /// </summary>
     public class OpenAiChatMessageContentArrayDto : OpenAiChatMessageContentBaseDto
     {

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// ユーザーのおおよその位置情報パラメータ DTO。
+    /// ユーザーのおおよその位置情報パラメータ。
     /// </summary>
     public class OpenAiChatApproximateLocationDto
     {

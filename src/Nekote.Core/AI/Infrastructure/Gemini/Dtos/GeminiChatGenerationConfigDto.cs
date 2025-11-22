@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// 生成構成 DTO。
+    /// 生成の設定。
     /// </summary>
     public class GeminiChatGenerationConfigDto
     {
@@ -91,6 +91,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 
         /// <summary>
         /// 頻度ペナルティ。
+        /// 既に出現したトークンの繰り返しを抑制するためのパラメータ。
         /// </summary>
         [JsonPropertyName("frequencyPenalty")]
         public double? FrequencyPenalty { get; set; }
@@ -102,7 +103,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public bool? ResponseLogprobs { get; set; }
 
         /// <summary>
-        /// 返す logprobs の数。
+        /// 返す対数確率の数。
         /// </summary>
         [JsonPropertyName("logprobs")]
         public int? Logprobs { get; set; }
@@ -114,19 +115,19 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public bool? EnableEnhancedCivicAnswers { get; set; }
 
         /// <summary>
-        /// 音声生成の構成。
+        /// 音声生成の設定。
         /// </summary>
         [JsonPropertyName("speechConfig")]
         public GeminiChatSpeechConfigDto? SpeechConfig { get; set; }
 
         /// <summary>
-        /// 思考機能の構成。
+        /// 思考機能の設定。
         /// </summary>
         [JsonPropertyName("thinkingConfig")]
         public GeminiChatThinkingConfigDto? ThinkingConfig { get; set; }
 
         /// <summary>
-        /// 画像生成の構成。
+        /// 画像生成の設定。
         /// </summary>
         [JsonPropertyName("imageConfig")]
         public GeminiChatImageConfigDto? ImageConfig { get; set; }

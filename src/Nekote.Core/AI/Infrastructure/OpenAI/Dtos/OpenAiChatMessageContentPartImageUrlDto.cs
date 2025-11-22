@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// 画像 URL タイプの content part DTO。
+    /// 画像 URL タイプのコンテンツパーツ。
     /// </summary>
     public class OpenAiChatMessageContentPartImageUrlDto : OpenAiChatMessageContentPartBaseDto
     {

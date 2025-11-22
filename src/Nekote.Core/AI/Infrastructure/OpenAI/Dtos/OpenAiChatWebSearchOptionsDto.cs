@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// Web 検索オプション DTO。
+    /// Web 検索オプション。
     /// </summary>
     public class OpenAiChatWebSearchOptionsDto
     {

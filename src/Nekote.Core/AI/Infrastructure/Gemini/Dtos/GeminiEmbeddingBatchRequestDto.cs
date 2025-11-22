@@ -4,12 +4,12 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Batch Embedding API へのリクエストボディ DTO。
+    /// Gemini Batch Embedding API のリクエストボディ。
     /// </summary>
     public class GeminiEmbeddingBatchRequestDto
     {
         /// <summary>
-        /// バッチで処理されるエンベディングリクエストのリスト。
+        /// バッチで処理される埋め込みリクエストのリスト。
         /// </summary>
         [JsonPropertyName("requests")]
         public List<GeminiEmbeddingBatchRequestContentDto>? Requests { get; set; }

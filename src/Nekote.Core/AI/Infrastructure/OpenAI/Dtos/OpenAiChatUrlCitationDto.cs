@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// URL 引用情報 DTO。
+    /// URL 引用情報。
     /// </summary>
     public class OpenAiChatUrlCitationDto
     {

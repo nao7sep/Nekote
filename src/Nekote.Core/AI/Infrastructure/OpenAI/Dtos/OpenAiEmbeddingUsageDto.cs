@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// エンベディングリクエストのトークン使用量 DTO。
+    /// エンベディングリクエストのトークン使用量。
     /// </summary>
     public class OpenAiEmbeddingUsageDto
     {

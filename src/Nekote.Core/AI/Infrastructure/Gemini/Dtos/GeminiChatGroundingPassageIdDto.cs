@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// GroundingPassage 内のパートの識別子 DTO。
+    /// GroundingPassage 内のパートの識別子。
     /// </summary>
     public class GeminiChatGroundingPassageIdDto
     {

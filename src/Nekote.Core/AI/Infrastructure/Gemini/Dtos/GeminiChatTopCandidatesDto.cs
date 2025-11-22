@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// 各デコード ステップでログ確率が最も高い候補 DTO。
+    /// 各デコード ステップで対数確率が最も高い候補。
     /// </summary>
     public class GeminiChatTopCandidatesDto
     {

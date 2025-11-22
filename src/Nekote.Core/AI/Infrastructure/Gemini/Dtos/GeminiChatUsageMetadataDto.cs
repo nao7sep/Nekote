@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Chat API の使用量メタデータ DTO。
+    /// Gemini Chat API の使用量メタデータ。
     /// ストリーミングおよび非ストリーミングレスポンスで共有される。
     /// </summary>
     public class GeminiChatUsageMetadataDto

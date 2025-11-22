@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// 入力オーディオタイプの content part DTO。
+    /// 入力オーディオタイプのコンテンツパーツ。
     /// </summary>
     public class OpenAiChatMessageContentPartInputAudioDto : OpenAiChatMessageContentPartBaseDto
     {

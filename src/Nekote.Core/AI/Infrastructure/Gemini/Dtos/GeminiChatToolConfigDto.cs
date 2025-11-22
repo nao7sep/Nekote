@@ -4,18 +4,18 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// ツール構成。
+    /// ツールの設定。
     /// </summary>
     public class GeminiChatToolConfigDto
     {
         /// <summary>
-        /// 関数呼び出しの構成。
+        /// 関数呼び出しの設定。
         /// </summary>
         [JsonPropertyName("functionCallingConfig")]
         public GeminiChatFunctionCallingConfigDto? FunctionCallingConfig { get; set; }
 
         /// <summary>
-        /// 取得構成。
+        /// 情報取得の設定。
         /// </summary>
         [JsonPropertyName("retrievalConfig")]
         public GeminiChatRetrievalConfigDto? RetrievalConfig { get; set; }

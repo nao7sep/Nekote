@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Chat API へのリクエストボディ DTO。
+    /// Gemini Chat API のリクエストボディ。
     /// </summary>
     public class GeminiChatRequestDto
     {
@@ -21,7 +21,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public List<GeminiChatToolDto>? Tools { get; set; }
 
         /// <summary>
-        /// リクエストで指定された Tool のツール構成。
+        /// リクエストで指定されたツールの設定。
         /// </summary>
         [JsonPropertyName("toolConfig")]
         public GeminiChatToolConfigDto? ToolConfig { get; set; }
@@ -39,7 +39,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public GeminiChatContentDto? SystemInstruction { get; set; }
 
         /// <summary>
-        /// 生成の構成。
+        /// 生成の設定。
         /// </summary>
         [JsonPropertyName("generationConfig")]
         public GeminiChatGenerationConfigDto? GenerationConfig { get; set; }

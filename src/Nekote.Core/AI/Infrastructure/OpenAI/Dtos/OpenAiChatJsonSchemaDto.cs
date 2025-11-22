@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// JSON スキーマレスポンスフォーマットの構成 DTO。
+    /// JSON スキーマレスポンスフォーマットの構成。
     /// </summary>
     public class OpenAiChatJsonSchemaDto
     {

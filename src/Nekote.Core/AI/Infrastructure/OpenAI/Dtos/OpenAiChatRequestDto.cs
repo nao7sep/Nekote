@@ -28,6 +28,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 
         /// <summary>
         /// 頻度ペナルティ (-2.0 ~ 2.0)。
+        /// 既に出現したトークンの繰り返しを抑制するためのパラメータ。
         /// </summary>
         [JsonPropertyName("frequency_penalty")]
         public double? FrequencyPenalty { get; set; }
@@ -109,6 +110,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 
         /// <summary>
         /// 存在ペナルティ (-2.0 ~ 2.0)。
+        /// 新しいトピックへの言及を促すためのパラメータ。
         /// </summary>
         [JsonPropertyName("presence_penalty")]
         public double? PresencePenalty { get; set; }

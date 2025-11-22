@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// アシスタントロールのメッセージ DTO。
+    /// アシスタントロールのメッセージ。
     /// </summary>
     /// <remarks>
     /// モデルからの応答を表す。

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// JSON スキーマレスポンスフォーマット DTO。
+    /// JSON スキーマレスポンスフォーマット。
     /// </summary>
     /// <remarks>
     /// 構造化された JSON 応答を生成するために使用される。Structured Outputs について詳しく学ぶ。

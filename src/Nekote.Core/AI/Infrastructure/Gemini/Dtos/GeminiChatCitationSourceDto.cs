@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// 特定のレスポンスの一部に対するソースの引用 DTO。
+    /// 特定のレスポンスの一部に対するソースの引用。
     /// </summary>
     public class GeminiChatCitationSourceDto
     {

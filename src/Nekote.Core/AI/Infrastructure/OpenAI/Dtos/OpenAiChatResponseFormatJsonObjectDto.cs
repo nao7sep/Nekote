@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// JSON オブジェクトレスポンスフォーマット DTO。
+    /// JSON オブジェクトレスポンスフォーマット。
     /// </summary>
     /// <remarks>
     /// JSON 応答を生成する古い方法。json_schema をサポートするモデルには json_schema の使用が推奨される。

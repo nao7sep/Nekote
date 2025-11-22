@@ -12,6 +12,9 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
     /// </remarks>
     public class OpenAiChatResponseFormatConverter : JsonConverter<OpenAiChatResponseFormatBaseDto>
     {
+        /// <summary>
+        /// JSON から <see cref="OpenAiChatResponseFormatBaseDto"/> を読み取る。
+        /// </summary>
         public override OpenAiChatResponseFormatBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             using (var doc = JsonDocument.ParseValue(ref reader))
@@ -42,6 +45,9 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
             }
         }
 
+        /// <summary>
+        /// <see cref="OpenAiChatResponseFormatBaseDto"/> を JSON に書き込む。
+        /// </summary>
         public override void Write(Utf8JsonWriter writer, OpenAiChatResponseFormatBaseDto? value, JsonSerializerOptions options)
         {
             switch (value)

@@ -7,12 +7,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
     /// <summary>
     /// OpenAI の "input" プロパティをシリアライズ/デシリアライズするカスタム コンバーター。
     /// JSON の型 (string, array) に応じて、
-    /// OpenAiEmbeddingInputBaseDto の適切な派生クラスをインスタンス化する。
+    /// <see cref="OpenAiEmbeddingInputBaseDto"/> の適切な派生クラスをインスタンス化する。
     /// </summary>
     public class OpenAiEmbeddingInputConverter : JsonConverter<OpenAiEmbeddingInputBaseDto>
     {
         /// <summary>
-        /// JSON から OpenAiEmbeddingInputBaseDto を読み取る。
+        /// JSON から <see cref="OpenAiEmbeddingInputBaseDto"/> を読み取る。
         /// </summary>
         public override OpenAiEmbeddingInputBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -42,6 +42,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 
         // このメソッドは JsonElement から DTO インスタンスを直接構築するため、
         // 常に null でない値を返し、戻り値の型は null 非許容型となる。
+
         /// <summary>
         /// 配列形式の input を解析する。
         /// </summary>
@@ -94,7 +95,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         }
 
         /// <summary>
-        /// OpenAiEmbeddingInputBaseDto を JSON に書き込む。
+        /// <see cref="OpenAiEmbeddingInputBaseDto"/> を JSON に書き込む。
         /// </summary>
         public override void Write(Utf8JsonWriter writer, OpenAiEmbeddingInputBaseDto? value, JsonSerializerOptions options)
         {

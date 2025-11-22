@@ -7,12 +7,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
     /// <summary>
     /// OpenAI の "stop" プロパティをシリアライズ/デシリアライズするカスタム コンバーター。
     /// JSON の型 (string, array, null) に応じて、
-    /// OpenAiChatStopBaseDto の適切な派生クラスをインスタンス化する。
+    /// <see cref="OpenAiChatStopBaseDto"/> の適切な派生クラスをインスタンス化する。
     /// </summary>
     public class OpenAiChatStopConverter : JsonConverter<OpenAiChatStopBaseDto>
     {
         /// <summary>
-        /// JSON から OpenAiChatStopBaseDto を読み取る。
+        /// JSON から <see cref="OpenAiChatStopBaseDto"/> を読み取る。
         /// </summary>
         public override OpenAiChatStopBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -37,7 +37,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         }
 
         /// <summary>
-        /// OpenAiChatStopBaseDto を JSON に書き込む。
+        /// <see cref="OpenAiChatStopBaseDto"/> を JSON に書き込む。
         /// </summary>
         public override void Write(Utf8JsonWriter writer, OpenAiChatStopBaseDto? value, JsonSerializerOptions options)
         {

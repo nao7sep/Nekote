@@ -11,6 +11,9 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
     [Obsolete("This class is deprecated. Use ToolChoice instead.")]
     public class OpenAiChatFunctionCallChoiceConverter : JsonConverter<OpenAiChatFunctionCallChoiceBaseDto>
     {
+        /// <summary>
+        /// JSON から <see cref="OpenAiChatFunctionCallChoiceBaseDto"/> を読み取る。
+        /// </summary>
         public override OpenAiChatFunctionCallChoiceBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             switch (reader.TokenType)
@@ -30,6 +33,9 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
             }
         }
 
+        /// <summary>
+        /// <see cref="OpenAiChatFunctionCallChoiceBaseDto"/> を JSON に書き込む。
+        /// </summary>
         public override void Write(Utf8JsonWriter writer, OpenAiChatFunctionCallChoiceBaseDto? value, JsonSerializerOptions options)
         {
             switch (value)

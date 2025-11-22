@@ -7,12 +7,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
     /// <summary>
     /// OpenAI の "prediction" 内の "content" プロパティをシリアライズ/デシリアライズするカスタム コンバーター。
     /// JSON の型 (string, array) に応じて、
-    /// OpenAiChatPredictionContentBaseDto の適切な派生クラスをインスタンス化する。
+    /// <see cref="OpenAiChatPredictionContentBaseDto"/> の適切な派生クラスをインスタンス化する。
     /// </summary>
     public class OpenAiChatPredictionContentConverter : JsonConverter<OpenAiChatPredictionContentBaseDto>
     {
         /// <summary>
-        /// JSON から OpenAiChatPredictionContentBaseDto を読み取る。
+        /// JSON から <see cref="OpenAiChatPredictionContentBaseDto"/> を読み取る。
         /// </summary>
         public override OpenAiChatPredictionContentBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -37,7 +37,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         }
 
         /// <summary>
-        /// OpenAiChatPredictionContentBaseDto を JSON に書き込む。
+        /// <see cref="OpenAiChatPredictionContentBaseDto"/> を JSON に書き込む。
         /// </summary>
         public override void Write(Utf8JsonWriter writer, OpenAiChatPredictionContentBaseDto? value, JsonSerializerOptions options)
         {

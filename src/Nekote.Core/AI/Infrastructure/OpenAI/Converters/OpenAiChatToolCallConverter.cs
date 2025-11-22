@@ -7,12 +7,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
     /// <summary>
     /// OpenAI の "tool_calls" 配列要素をデシリアライズするカスタム コンバーター。
     /// JSON の "type" フィールドに応じて、
-    /// OpenAiChatToolCallBaseDto の適切な派生クラスをインスタンス化する。
+    /// <see cref="OpenAiChatToolCallBaseDto"/> の適切な派生クラスをインスタンス化する。
     /// </summary>
     public class OpenAiChatToolCallConverter : JsonConverter<OpenAiChatToolCallBaseDto>
     {
         /// <summary>
-        /// JSON から OpenAiChatToolCallBaseDto を読み取る。
+        /// JSON から <see cref="OpenAiChatToolCallBaseDto"/> を読み取る。
         /// </summary>
         public override OpenAiChatToolCallBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -42,7 +42,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         }
 
         /// <summary>
-        /// OpenAiChatToolCallBaseDto を JSON に書き込む。
+        /// <see cref="OpenAiChatToolCallBaseDto"/> を JSON に書き込む。
         /// </summary>
         public override void Write(Utf8JsonWriter writer, OpenAiChatToolCallBaseDto? value, JsonSerializerOptions options)
         {

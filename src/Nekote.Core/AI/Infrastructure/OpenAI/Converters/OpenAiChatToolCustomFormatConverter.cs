@@ -7,12 +7,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
     /// <summary>
     /// OpenAI の "format" プロパティをデシリアライズするカスタム コンバーター。
     /// JSON の "type" フィールドに応じて、
-    /// OpenAiChatToolCustomFormatBaseDto の適切な派生クラスをインスタンス化する。
+    /// <see cref="OpenAiChatToolCustomFormatBaseDto"/> の適切な派生クラスをインスタンス化する。
     /// </summary>
     public class OpenAiChatToolCustomFormatConverter : JsonConverter<OpenAiChatToolCustomFormatBaseDto>
     {
         /// <summary>
-        /// JSON から OpenAiChatToolCustomFormatBaseDto を読み取る。
+        /// JSON から <see cref="OpenAiChatToolCustomFormatBaseDto"/> を読み取る。
         /// </summary>
         public override OpenAiChatToolCustomFormatBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -42,7 +42,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         }
 
         /// <summary>
-        /// OpenAiChatToolCustomFormatBaseDto を JSON に書き込む。
+        /// <see cref="OpenAiChatToolCustomFormatBaseDto"/> を JSON に書き込む。
         /// </summary>
         public override void Write(Utf8JsonWriter writer, OpenAiChatToolCustomFormatBaseDto? value, JsonSerializerOptions options)
         {

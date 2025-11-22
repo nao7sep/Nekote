@@ -42,6 +42,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 
         // JsonSerializer.Deserialize は null を返す可能性があるため、
         // root 要素に有効なデータが含まれていることは分かっていても、このメソッドは null 許容型を返す。
+
         /// <summary>
         /// オブジェクト形式の tool_choice を解析する。
         /// </summary>

@@ -5,11 +5,9 @@ using Nekote.Core.AI.Infrastructure.OpenAI.Dtos;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 {
     /// <summary>
-    /// OpenAiChatResponseFormatBaseDto のポリモーフィック JSON コンバーター。
-    /// </summary>
-    /// <remarks>
+    /// <see cref="OpenAiChatResponseFormatBaseDto"/> のポリモーフィック JSON コンバーター。
     /// "type" プロパティの値に基づいて適切な派生型にデシリアライズする。
-    /// </remarks>
+    /// </summary>
     public class OpenAiChatResponseFormatConverter : JsonConverter<OpenAiChatResponseFormatBaseDto>
     {
         /// <summary>

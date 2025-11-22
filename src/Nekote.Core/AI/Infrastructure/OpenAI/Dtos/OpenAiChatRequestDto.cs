@@ -35,10 +35,12 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 
         /// <summary>
         /// 呼び出す関数の制御 (非推奨: tool_choice に置き換えられた)。
+        /// </summary>
+        /// <remarks>
         /// "none": 関数を呼び出さない。
         /// "auto": メッセージまたは関数呼び出しを選択。
         /// {"name": "my_function"}: 特定の関数を強制。
-        /// </summary>
+        /// </remarks>
         [JsonPropertyName("function_call")]
         [Obsolete("This field is deprecated. Use ToolChoice instead.")]
         public OpenAiChatFunctionCallChoiceBaseDto? FunctionCall { get; set; }

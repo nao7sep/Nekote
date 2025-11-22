@@ -40,12 +40,13 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
             }
         }
 
-        // このメソッドは JsonElement から DTO インスタンスを直接構築するため、
-        // 常に null でない値を返し、戻り値の型は null 非許容型となる。
-
         /// <summary>
         /// 配列形式の input を解析する。
         /// </summary>
+        /// <remarks>
+        /// このメソッドは JsonElement から DTO インスタンスを直接構築するため、
+        /// 常に null でない値を返し、戻り値の型は null 非許容型となる。
+        /// </remarks>
         private static OpenAiEmbeddingInputBaseDto ParseArrayInput(JsonElement root)
         {
             if (root.GetArrayLength() == 0)

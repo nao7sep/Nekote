@@ -27,6 +27,9 @@ namespace Nekote.Core.Text
             _normalize = normalize;
         }
 
+        /// <summary>
+        /// 2 つの文字列を自然順で比較します。
+        /// </summary>
         public override int Compare(string? left, string? right)
         {
             if (ReferenceEquals(left, right))
@@ -45,11 +48,17 @@ namespace Nekote.Core.Text
             return Compare(left.AsSpan(), right.AsSpan());
         }
 
+        /// <summary>
+        /// 2 つの文字列が自然順で等しいかどうかを判定します。
+        /// </summary>
         public override bool Equals(string? left, string? right)
         {
             return Compare(left, right) == 0;
         }
 
+        /// <summary>
+        /// 指定した文字列のハッシュコードを返します。
+        /// </summary>
         public override int GetHashCode(string text)
         {
             if (text is null)
@@ -165,6 +174,9 @@ namespace Nekote.Core.Text
             return leftReader.IsEndOfText == rightReader.IsEndOfText ? 0 : (leftReader.IsEndOfText ? -1 : 1);
         }
 
+        /// <summary>
+        /// 2 つの文字スパンが自然順で等しいかどうかを判定します。
+        /// </summary>
         public override bool Equals(ReadOnlySpan<char> left, ReadOnlySpan<char> right)
         {
             return Compare(left, right) == 0;

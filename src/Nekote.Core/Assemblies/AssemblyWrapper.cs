@@ -32,6 +32,7 @@ namespace Nekote.Core.Assemblies
                 // これをnullに正規化して、呼び出し元がnullチェックだけで済むようにします。
                 return StringHelper.NullIfWhiteSpace(_assembly?.Location);
             });
+
             _directoryPath = new Lazy<string?>(() =>
             {
                 // Locationがnullまたは空の場合、ディレクトリパスもnullです。
@@ -116,10 +117,12 @@ namespace Nekote.Core.Assemblies
             {
                 throw new InvalidOperationException("Assembly does not exist.");
             }
+
             if (string.IsNullOrWhiteSpace(relativePath))
             {
                 throw new ArgumentNullException(nameof(relativePath), "Relative path cannot be null or whitespace.");
             }
+
             if (Path.IsPathFullyQualified(relativePath))
             {
                 throw new ArgumentException("Input path must be relative, not absolute.", nameof(relativePath));
@@ -145,14 +148,13 @@ namespace Nekote.Core.Assemblies
             switch (format)
             {
                 case AssemblyDisplayFormat.TitleAndVersion:
-                {
                     if (string.IsNullOrWhiteSpace(Title) || Version is null)
                     {
                         return null;
                     }
                     var versionString = VersionHelper.ToString(Version);
                     return $"{Title} v{versionString}";
-                }
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(format), "The specified display format is not defined.");
             }

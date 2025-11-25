@@ -93,9 +93,11 @@ namespace Nekote.Core.Text.Processing
                 case InternalWhitespaceBehavior.Keep:
                     // 行内の空白文字をそのまま保持
                     return trimmedSpan.ToString();
+
                 case InternalWhitespaceBehavior.CollapseToOneSpace:
                     // 行内の連続する空白文字を単一のスペースに圧縮
                     return CollapseInternalWhitespace(trimmedSpan);
+
                 default:
                     throw new InvalidOperationException($"An undefined {nameof(InternalWhitespaceBehavior)} value was used.");
             }
@@ -158,10 +160,12 @@ namespace Nekote.Core.Text.Processing
                 case LeadingWhitespaceBehavior.Keep:
                     // 行頭の空白文字を保持（何もしない）
                     break;
+
                 case LeadingWhitespaceBehavior.Trim:
                     // 行頭の空白文字をトリム
                     result = result.TrimStart();
                     break;
+
                 default:
                     throw new InvalidOperationException($"An undefined {nameof(LeadingWhitespaceBehavior)} value was used.");
             }
@@ -172,10 +176,12 @@ namespace Nekote.Core.Text.Processing
                 case TrailingWhitespaceBehavior.Keep:
                     // 行末の空白文字を保持（何もしない）
                     break;
+
                 case TrailingWhitespaceBehavior.Trim:
                     // 行末の空白文字をトリム
                     result = result.TrimEnd();
                     break;
+
                 default:
                     throw new InvalidOperationException($"An undefined {nameof(TrailingWhitespaceBehavior)} value was used.");
             }

@@ -251,12 +251,14 @@ namespace Nekote.Core.Text.Processing
                                     // 最初の空行を返す。
                                     line = DequeuePendingLine();
                                     return true;
+
                                 case LeadingEmptyLineHandling.Ignore:
                                     // 先頭の空行はすべて無視する。
                                     _pendingLines.Clear();
                                     // 現在の非空行を直接返す。
                                     line = nextProcessedLine;
                                     return true;
+
                                 default:
                                     throw new InvalidOperationException($"Unsupported {nameof(LeadingEmptyLineHandling)} value: {_leadingEmptyLineHandling}.");
                             }
@@ -271,6 +273,7 @@ namespace Nekote.Core.Text.Processing
                                     _pendingLines.Enqueue((nextStart, nextLength));
                                     line = DequeuePendingLine();
                                     return true;
+
                                 case InterstitialEmptyLineHandling.CollapseToOne:
                                     // 複数の空行を1つにまとめる。
                                     _pendingLines.Clear();
@@ -278,11 +281,13 @@ namespace Nekote.Core.Text.Processing
                                     // 戻り値として単一の空行を返す。
                                     line = ReadOnlySpan<char>.Empty;
                                     return true;
+
                                 case InterstitialEmptyLineHandling.Ignore:
                                     // 中間の空行はすべて無視する。
                                     _pendingLines.Clear();
                                     line = nextProcessedLine;
                                     return true;
+
                                 default:
                                     throw new InvalidOperationException($"Unsupported {nameof(InterstitialEmptyLineHandling)} value: {_interstitialEmptyLineHandling}.");
                             }
@@ -300,10 +305,12 @@ namespace Nekote.Core.Text.Processing
                         case LeadingEmptyLineHandling.Keep:
                             line = DequeuePendingLine();
                             return true;
+
                         case LeadingEmptyLineHandling.Ignore:
                             _pendingLines.Clear();
                             line = default;
                             return false;
+
                         default:
                             throw new InvalidOperationException($"Unsupported {nameof(LeadingEmptyLineHandling)} value: {_leadingEmptyLineHandling}.");
                     }
@@ -316,10 +323,12 @@ namespace Nekote.Core.Text.Processing
                         case TrailingEmptyLineHandling.Keep:
                             line = DequeuePendingLine();
                             return true;
+
                         case TrailingEmptyLineHandling.Ignore:
                             _pendingLines.Clear();
                             line = default;
                             return false;
+
                         default:
                             throw new InvalidOperationException($"Unsupported {nameof(TrailingEmptyLineHandling)} value: {_trailingEmptyLineHandling}.");
                     }

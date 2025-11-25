@@ -20,6 +20,7 @@ namespace Nekote.Core.Time
             {
                 throw new ArgumentOutOfRangeException(nameof(format), format, "The specified format is not a valid DateTimeFormatKind value.");
             }
+
             var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
             return value.ToString(dateTimeFormatString, CultureInfo.InvariantCulture);
         }
@@ -36,10 +37,12 @@ namespace Nekote.Core.Time
             {
                 throw new ArgumentException("Value cannot be null, empty, or whitespace.", nameof(value));
             }
+
             if (!Enum.IsDefined<DateTimeFormatKind>(format))
             {
                 throw new ArgumentOutOfRangeException(nameof(format), format, "The specified format is not a valid DateTimeFormatKind value.");
             }
+
             var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
             var dateTimeStyles = GetDateTimeStyles(format);
             return DateTimeOffset.ParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles);
@@ -59,6 +62,7 @@ namespace Nekote.Core.Time
                 result = default;
                 return false;
             }
+
             var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
             var dateTimeStyles = GetDateTimeStyles(format);
             return DateTimeOffset.TryParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles, out result);
@@ -76,6 +80,7 @@ namespace Nekote.Core.Time
             {
                 throw new ArgumentOutOfRangeException(nameof(format), format, "The specified format is not a valid DateTimeFormatKind value.");
             }
+
             var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
             return value.ToString(dateTimeFormatString, CultureInfo.InvariantCulture);
         }
@@ -92,10 +97,12 @@ namespace Nekote.Core.Time
             {
                 throw new ArgumentException("Value cannot be null, empty, or whitespace.", nameof(value));
             }
+
             if (!Enum.IsDefined<DateTimeFormatKind>(format))
             {
                 throw new ArgumentOutOfRangeException(nameof(format), format, "The specified format is not a valid DateTimeFormatKind value.");
             }
+
             var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
             var dateTimeStyles = GetDateTimeStyles(format);
             return DateTime.ParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles);
@@ -115,6 +122,7 @@ namespace Nekote.Core.Time
                 result = default;
                 return false;
             }
+
             var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
             var dateTimeStyles = GetDateTimeStyles(format);
             return DateTime.TryParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles, out result);
@@ -134,6 +142,7 @@ namespace Nekote.Core.Time
                 case DateTimeFormatKind.DateUserFriendly:
                     var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
                     return value.ToString(dateTimeFormatString, CultureInfo.InvariantCulture);
+
                 default:
                     throw new ArgumentException($"The format '{format}' is not valid for DateOnly. Only DateSortable and DateUserFriendly formats are supported.", nameof(format));
             }
@@ -151,6 +160,7 @@ namespace Nekote.Core.Time
             {
                 throw new ArgumentException("Value cannot be null, empty, or whitespace.", nameof(value));
             }
+
             switch (format)
             {
                 case DateTimeFormatKind.DateSortable:
@@ -158,6 +168,7 @@ namespace Nekote.Core.Time
                     var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
                     var dateTimeStyles = GetDateTimeStyles(format);
                     return DateOnly.ParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles);
+
                 default:
                     throw new ArgumentException($"The format '{format}' is not valid for DateOnly. Only DateSortable and DateUserFriendly formats are supported.", nameof(format));
             }
@@ -177,6 +188,7 @@ namespace Nekote.Core.Time
                 result = default;
                 return false;
             }
+
             switch (format)
             {
                 case DateTimeFormatKind.DateSortable:
@@ -184,6 +196,7 @@ namespace Nekote.Core.Time
                     var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
                     var dateTimeStyles = GetDateTimeStyles(format);
                     return DateOnly.TryParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles, out result);
+
                 default:
                     result = default;
                     return false;
@@ -209,6 +222,7 @@ namespace Nekote.Core.Time
                 case DateTimeFormatKind.TimeUserFriendlyTicks:
                     var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
                     return value.ToString(dateTimeFormatString, CultureInfo.InvariantCulture);
+
                 default:
                     throw new ArgumentException($"The format '{format}' is not valid for TimeOnly. Only time-related formats are supported.", nameof(format));
             }
@@ -226,6 +240,7 @@ namespace Nekote.Core.Time
             {
                 throw new ArgumentException("Value cannot be null, empty, or whitespace.", nameof(value));
             }
+
             switch (format)
             {
                 case DateTimeFormatKind.TimeSortable:
@@ -238,6 +253,7 @@ namespace Nekote.Core.Time
                     var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
                     var dateTimeStyles = GetDateTimeStyles(format);
                     return TimeOnly.ParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles);
+
                 default:
                     throw new ArgumentException($"The format '{format}' is not valid for TimeOnly. Only time-related formats are supported.", nameof(format));
             }
@@ -257,6 +273,7 @@ namespace Nekote.Core.Time
                 result = default;
                 return false;
             }
+
             switch (format)
             {
                 case DateTimeFormatKind.TimeSortable:
@@ -269,6 +286,7 @@ namespace Nekote.Core.Time
                     var dateTimeFormatString = DateTimeFormats.GetFormatString(format);
                     var dateTimeStyles = GetDateTimeStyles(format);
                     return TimeOnly.TryParseExact(value, dateTimeFormatString, CultureInfo.InvariantCulture, dateTimeStyles, out result);
+
                 default:
                     result = default;
                     return false;

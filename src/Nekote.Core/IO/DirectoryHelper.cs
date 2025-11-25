@@ -29,7 +29,6 @@ namespace Nekote.Core.IO
             }
 
             var destDirectory = new DirectoryInfo(destPath);
-
             Directory.CreateDirectory(destDirectory.FullName);
             return CopyInternalAsync(sourceDirectory, destDirectory, overwrite, cancellationToken);
         }
@@ -79,7 +78,6 @@ namespace Nekote.Core.IO
 
             var destDirectory = new DirectoryInfo(destPath);
             Directory.CreateDirectory(destDirectory.FullName);
-
             return MoveInternalAsync(sourceDirectory, destDirectory, overwrite, cancellationToken);
         }
 

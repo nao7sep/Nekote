@@ -46,6 +46,7 @@ namespace Nekote.Core.Time
             {
                 throw new ArgumentException("Value cannot be null, empty, or whitespace.", nameof(value));
             }
+
             if (!Enum.IsDefined<TimeSpanFormatKind>(format))
             {
                 throw new ArgumentOutOfRangeException(nameof(format), format, "The specified format is not a valid TimeSpanFormatKind value.");

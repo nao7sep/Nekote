@@ -23,7 +23,7 @@ namespace Nekote.Lab.Console.Testers
             var sampleText = PrepareSampleText();
             DisplaySampleCharacteristics(sampleText);
 
-            var reformattedSample = ExecuteAndDisplaySample(sampleText);
+            ExecuteAndDisplaySample(sampleText);
 
             RunPerformanceTest(sampleText, testDurationMilliseconds);
         }
@@ -96,12 +96,10 @@ namespace Nekote.Lab.Console.Testers
         /// サンプルテキストを1回実行して結果をプレビュー表示します。
         /// </summary>
         /// <param name="sampleText">実行するサンプルテキスト。</param>
-        /// <returns>フォーマット済みのサンプルテキスト。</returns>
-        private string ExecuteAndDisplaySample(string sampleText)
+        private void ExecuteAndDisplaySample(string sampleText)
         {
             var reformattedSample = TextProcessor.Reformat(sampleText);
             DisplayReformattedSample(reformattedSample);
-            return reformattedSample;
         }
 
         /// <summary>

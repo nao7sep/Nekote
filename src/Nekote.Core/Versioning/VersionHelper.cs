@@ -22,13 +22,6 @@ namespace Nekote.Core.Versioning
         /// - セマンティックバージョニングに従い、ビルド番号が頻繁に更新される場合は minimumFieldCount を 3 に設定することを推奨します
         /// - 現在の実装では、リリース時にマイナーバージョンのみを更新し、「0.1」を最初のバージョンとして使用します
         /// </remarks>
-        /// <example>
-        /// <code>
-        /// ToString(new Version(1, 0, 0, 0), 2) // "1.0"
-        /// ToString(new Version(0, 1, 2, 0), 2) // "0.1.2"
-        /// ToString(new Version(1, 2, 0, 0), 3) // "1.2.0"
-        /// </code>
-        /// </example>
         public static string ToString(Version version, int minimumFieldCount = 2)
         {
             ArgumentNullException.ThrowIfNull(version);

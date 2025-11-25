@@ -176,10 +176,12 @@ namespace Nekote.Core.Text
             {
                 throw new ArgumentOutOfRangeException(nameof(startGraphemeIndex));
             }
+
             if (graphemeCount < 0 || startGraphemeIndex + graphemeCount > Count)
             {
                 throw new ArgumentOutOfRangeException(nameof(graphemeCount));
             }
+
             if (graphemeCount == 0)
             {
                 return ReadOnlySpan<char>.Empty;

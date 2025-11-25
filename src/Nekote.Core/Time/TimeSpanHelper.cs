@@ -52,7 +52,14 @@ namespace Nekote.Core.Time
             }
 
             var timeSpanFormatString = TimeSpanFormats.GetFormatString(format);
-            return TimeSpan.ParseExact(value, timeSpanFormatString, CultureInfo.InvariantCulture, TimeSpanStyles.None);
+            var result = TimeSpan.ParseExact(value, timeSpanFormatString, CultureInfo.InvariantCulture, TimeSpanStyles.None);
+
+            if (result.TotalDays >= 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), result, "TimeSpan must be less than 1 day (24 hours).");
+            }
+
+            return result;
         }
 
         /// <summary>

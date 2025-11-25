@@ -8,12 +8,6 @@ namespace Nekote.Core.Text.Processing
     /// 高度なテキスト処理機能を提供します。
     /// RawLineReader、LineProcessor、LineReaderを使用した複雑な行処理操作を含みます。
     /// </summary>
-    /// <remarks>
-    /// このクラスの多くのメソッドは内部的に <see cref="LineReader"/> を使用するため、
-    /// 入力テキストと同じサイズのバッファを割り当てます。
-    /// 大容量ファイルを処理する場合は、<see cref="RawLineReader"/> と <see cref="LineProcessor"/> を
-    /// 直接使用してストリーミング処理を実装することを検討してください。
-    /// </remarks>
     public static class TextProcessor
     {
         /// <summary>
@@ -203,11 +197,8 @@ namespace Nekote.Core.Text.Processing
 
         /// <summary>
         /// 指定された構成を使用して、テキストを再フォーマットします。
+        /// このメソッドは、中間的な文字列割り当てを回避するために <see cref="System.Text.StringBuilder"/> を使用して最適化されています。
         /// </summary>
-        /// <remarks>
-        /// このメソッドは内部的に <see cref="LineReader"/> を使用するため、入力テキストと同じサイズのバッファを割り当てます。
-        /// また、中間的な文字列割り当てを回避するために <see cref="System.Text.StringBuilder"/> を使用して最適化されています。
-        /// </remarks>
         /// <param name="text">再フォーマットするテキストを含むメモリ領域。</param>
         /// <param name="readerConfiguration">使用する行読み取り構成。</param>
         /// <param name="newlineSequence">使用する改行シーケンス。</param>

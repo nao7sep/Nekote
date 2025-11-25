@@ -137,25 +137,6 @@ namespace Nekote.Core.Text.Processing
             _interstitialEmptyLineHandling = interstitialEmptyLineHandling;
             _trailingEmptyLineHandling = trailingEmptyLineHandling;
 
-            // バッファはソーステキスト全体と同じサイズで割り当てられる。
-            // これは以下の理由により必要:
-            // 1. 処理済みの行はこのバッファに順次追記され、_totalCharsWritten で位置を追跡する
-            // 2. _pendingLines キューは複数の行のバッファ内位置 (Start, Length) を同時に保持する
-            // 3. ReadLine が返す ReadOnlySpan<char> はこのバッファを直接参照するため、
-            //    保留中または返却済みの行の内容はバッファ内で有効なまま保持される必要がある
-            // 4. 最悪の場合 (Passthrough 構成で全体が空行のシーケンスなど)、
-            //    テキスト全体をバッファに保持する必要がある
-            //
-            // 代替案として ArrayPool<char> を使用する設計も検討されたが、以下の理由により採用されなかった:
-            // - 先読みロジックを維持するには、保留中の行を string として保存する必要がある
-            // - ReadOnlySpan<char> を返す API を維持しながら ArrayPool を使用すると、
-            //   返された span の生存期間が次の ReadLine() 呼び出しまでに制限され、API が危険になる
-            // - 非常に長い行が出現した場合、バッファのサイズ調整（より大きなバッファの再レンタル）が必要になり、
-            //   実装が複雑化する
-            // - 小〜中規模のテキスト処理という想定用途では、全サイズバッファの割り当ては許容範囲内
-            //
-            // このクラスは小〜中規模のテキスト正規化 (ユーザー入力、Webフォームなど) を
-            // 想定しており、大容量ファイル処理には適さない。
             _buffer = new char[_rawLineReader.SourceText.Length];
             _totalCharsWritten = 0;
             _pendingLines = new Queue<(int Start, int Length)>();

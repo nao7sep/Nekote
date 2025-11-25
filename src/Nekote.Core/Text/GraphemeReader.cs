@@ -12,40 +12,31 @@ namespace Nekote.Core.Text
     /// </summary>
     public sealed class GraphemeReader : IReadOnlyList<string>
     {
-        private readonly ReadOnlyMemory<char> _source;
+        private readonly string _source;
         private readonly int[] _graphemeIndexes;
         private int _position;
 
         /// <summary>
         /// GraphemeReader クラスの新しいインスタンスを初期化します。
         /// </summary>
-        /// <param name="source">読み取る対象の文字列。</param>
+        /// <param name="source">読み取る対象の文字列。nullは許容されません。</param>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> が null です。</exception>
+        /// <remarks>
+        /// 注意: このコンストラクタは意図的に string 型を受け取ります。ReadOnlySpan<char> を受け取る方が
+        /// メモリ効率的ですが、StringInfo.ParseCombiningCharacters メソッドが現在 string 型のみを
+        /// サポートしているため、現時点では string を使用する必要があります。
+        /// </remarks>
         public GraphemeReader(string source)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-            _source = source.AsMemory();
-            _graphemeIndexes = ParseGraphemeBoundaries(source.AsSpan());
+            _source = source ?? throw new ArgumentNullException(nameof(source));
+            _graphemeIndexes = StringInfo.ParseCombiningCharacters(source);
             Position = 0;
         }
 
         /// <summary>
-        /// GraphemeReader クラスの新しいインスタンスを初期化します。
+        /// 読み取り対象の元の文字列を取得します。
         /// </summary>
-        /// <param name="source">読み取る対象の文字スパン。</param>
-        public GraphemeReader(ReadOnlySpan<char> source)
-        {
-            _source = source.ToArray().AsMemory();
-            _graphemeIndexes = ParseGraphemeBoundaries(source);
-            Position = 0;
-        }
-
-        /// <summary>
-        /// 読み取り対象の元の文字スパンを取得します。
-        /// </summary>
-        public ReadOnlySpan<char> Source => _source.Span;
+        public string Source => _source;
 
         /// <summary>
         /// 書記素クラスタ単位での文字列の長さを取得します。
@@ -198,7 +189,7 @@ namespace Nekote.Core.Text
             var endGraphemeIndex = startGraphemeIndex + graphemeCount;
             var charEndIndex = (endGraphemeIndex < Count) ? _graphemeIndexes[endGraphemeIndex] : _source.Length;
 
-            return _source.Span.Slice(charStartIndex, charEndIndex - charStartIndex);
+            return _source.AsSpan(charStartIndex, charEndIndex - charStartIndex);
         }
 
         /// <summary>
@@ -218,64 +209,25 @@ namespace Nekote.Core.Text
             return GetEnumerator();
         }
 
-        /// <summary>
-        /// 指定したインデックスの書記素クラスタを文字列として取得します。
-        /// </summary>
-        /// <param name="graphemeIndex">取得する書記素クラスタのインデックス。</param>
-        /// <returns>指定されたインデックスの書記素クラスタ。</returns>
         private string GetGraphemeAt(int graphemeIndex)
         {
             var startIndex = _graphemeIndexes[graphemeIndex];
             var length = GetGraphemeLength(graphemeIndex);
-            return _source.Span.Slice(startIndex, length).ToString();
+            return _source.Substring(startIndex, length);
         }
 
-        /// <summary>
-        /// 指定したインデックスの書記素クラスタをスパンとして取得します。
-        /// </summary>
-        /// <param name="graphemeIndex">取得する書記素クラスタのインデックス。</param>
-        /// <returns>指定されたインデックスの書記素クラスタを表すスパン。</returns>
         private ReadOnlySpan<char> GetGraphemeSpanAt(int graphemeIndex)
         {
             var startIndex = _graphemeIndexes[graphemeIndex];
             var length = GetGraphemeLength(graphemeIndex);
-            return _source.Span.Slice(startIndex, length);
+            return _source.AsSpan(startIndex, length);
         }
 
-        /// <summary>
-        /// 指定したインデックスの書記素クラスタの文字数（char単位の長さ）を取得します。
-        /// </summary>
-        /// <param name="graphemeIndex">書記素クラスタのインデックス。</param>
-        /// <returns>書記素クラスタの文字数。</returns>
         private int GetGraphemeLength(int graphemeIndex)
         {
             var startIndex = _graphemeIndexes[graphemeIndex];
             var nextIndex = (graphemeIndex + 1 < Count) ? _graphemeIndexes[graphemeIndex + 1] : _source.Length;
             return nextIndex - startIndex;
-        }
-
-        /// <summary>
-        /// 指定されたテキストスパンを解析し、書記素クラスタの境界位置（char単位のインデックス）の配列を生成します。
-        /// </summary>
-        /// <param name="text">解析対象のテキストスパン。</param>
-        /// <returns>書記素クラスタの開始位置を表すインデックスの配列。</returns>
-        private static int[] ParseGraphemeBoundaries(ReadOnlySpan<char> text)
-        {
-            if (text.IsEmpty)
-            {
-                return Array.Empty<int>();
-            }
-
-            var boundaries = new List<int>();
-            var textString = text.ToString();
-            var enumerator = StringInfo.GetTextElementEnumerator(textString);
-
-            while (enumerator.MoveNext())
-            {
-                boundaries.Add(enumerator.ElementIndex);
-            }
-
-            return boundaries.ToArray();
         }
     }
 }

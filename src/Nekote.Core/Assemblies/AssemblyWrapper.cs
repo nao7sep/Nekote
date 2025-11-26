@@ -107,11 +107,13 @@ namespace Nekote.Core.Assemblies
         /// このメソッドは、特定のアセンブリの場所を基準にする必要がある場合にのみ使用してください。
         /// </summary>
         /// <param name="relativePath">変換する相対パス。</param>
+        /// <param name="ensureWithinBase">パスがベースディレクトリ内に収まることを検証するかどうか。</param>
         /// <returns>解決された絶対パス。</returns>
         /// <exception cref="InvalidOperationException">アセンブリが存在しないか、ディレクトリパスを決定できない場合にスローされます。</exception>
         /// <exception cref="ArgumentNullException">`relativePath` が null または空の場合にスローされます。</exception>
-        /// <exception cref="ArgumentException">`relativePath` が絶対パスの場合にスローされます。</exception>
-        public string GetAbsolutePath(string relativePath)
+        /// <exception cref="ArgumentException">`relativePath` が絶対パスの場合、
+        /// またはパスがベースディレクトリ外に出る場合（ensureWithinBase が true の場合）にスローされます。</exception>
+        public string GetAbsolutePath(string relativePath, bool ensureWithinBase = false)
         {
             if (!Exists)
             {
@@ -134,7 +136,14 @@ namespace Nekote.Core.Assemblies
             }
 
             var normalizedRelativePath = PathHelper.NormalizeDirectorySeparators(relativePath);
-            return Path.GetFullPath(Path.Combine(DirectoryPath, normalizedRelativePath));
+            var absolutePath = Path.GetFullPath(Path.Combine(DirectoryPath, normalizedRelativePath));
+
+            if (ensureWithinBase)
+            {
+                PathHelper.EnsurePathWithinBase(DirectoryPath, absolutePath);
+            }
+
+            return absolutePath;
         }
 
         /// <summary>

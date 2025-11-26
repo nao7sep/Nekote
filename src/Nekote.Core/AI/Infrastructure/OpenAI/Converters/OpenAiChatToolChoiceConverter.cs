@@ -44,8 +44,9 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
         /// オブジェクト形式の tool_choice を解析する。
         /// </summary>
         /// <remarks>
-        /// JsonSerializer.Deserialize は null を返す可能性があるため、
-        /// root 要素に有効なデータが含まれていることは分かっていても、このメソッドは null 許容型を返す。
+        /// この時点で JSON 文字列は有効であることが保証されているため、
+        /// <see cref="JsonSerializer.Deserialize"/> が null を返すことはないが、
+        /// コンパイラーの警告を抑制するため、このメソッドは null 許容型を返す。
         /// </remarks>
         private static OpenAiChatToolChoiceBaseDto? ParseObjectChoice(JsonElement root, JsonSerializerOptions options)
         {

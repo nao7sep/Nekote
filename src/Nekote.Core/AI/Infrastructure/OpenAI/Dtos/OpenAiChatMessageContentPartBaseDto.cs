@@ -10,7 +10,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     public abstract class OpenAiChatMessageContentPartBaseDto
     {
         /// <summary>
-        /// パーツの種類 ("text", "image_url", "input_audio", "file", "refusal")。
+        /// パーツの種類（"text", "image_url", "input_audio", "file", "refusal"）。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }

@@ -15,7 +15,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public bool? Thought { get; set; }
 
         /// <summary>
-        /// 後続のリクエストで再利用できるように、思考の不透明な署名 (Base64 エンコード)。
+        /// 後続のリクエストで再利用できるように、思考の不透明な署名（Base64 エンコード）。
         /// </summary>
         [JsonPropertyName("thoughtSignature")]
         public string? ThoughtSignature { get; set; }

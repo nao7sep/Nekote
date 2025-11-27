@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// 関数ロールのメッセージ (非推奨: tool に置き換えられた)。
+    /// 関数ロールのメッセージ（非推奨: tool に置き換えられた）。
     /// </summary>
     /// <remarks>
     /// 関数実行結果を表す。
@@ -19,7 +19,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Content { get; set; }
 
         /// <summary>
-        /// 呼び出す関数の名前 (必須)。
+        /// 呼び出す関数の名前（必須）。
         /// </summary>
         [JsonPropertyName("name")]
         public string? Name { get; set; }

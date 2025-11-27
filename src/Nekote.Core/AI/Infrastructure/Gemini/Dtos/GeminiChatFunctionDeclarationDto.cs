@@ -33,7 +33,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public GeminiChatSchemaDto? Parameters { get; set; }
 
         /// <summary>
-        /// 関数のパラメータ (JSON スキーマ形式)。
+        /// 関数のパラメータ（JSON スキーマ形式）。
         /// </summary>
         [JsonPropertyName("parametersJsonSchema")]
         public JsonElement? ParametersJsonSchema { get; set; }
@@ -45,7 +45,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public GeminiChatSchemaDto? Response { get; set; }
 
         /// <summary>
-        /// 関数からの出力 (JSON スキーマ形式)。
+        /// 関数からの出力（JSON スキーマ形式）。
         /// </summary>
         [JsonPropertyName("responseJsonSchema")]
         public JsonElement? ResponseJsonSchema { get; set; }

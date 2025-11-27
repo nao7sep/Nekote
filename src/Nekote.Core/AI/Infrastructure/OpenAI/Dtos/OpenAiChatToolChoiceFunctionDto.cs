@@ -19,7 +19,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public OpenAiChatToolChoiceFunctionDefinitionDto? Function { get; set; }
 
         /// <summary>
-        /// ツールの種類 (関数呼び出しの場合は常に "function")。
+        /// ツールの種類（関数呼び出しの場合は常に "function"）。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }

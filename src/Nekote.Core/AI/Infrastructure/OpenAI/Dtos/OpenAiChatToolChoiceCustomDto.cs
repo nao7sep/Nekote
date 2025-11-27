@@ -18,7 +18,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public OpenAiChatToolChoiceCustomDefinitionDto? Custom { get; set; }
 
         /// <summary>
-        /// ツールの種類 (常に "custom")。
+        /// ツールの種類（常に "custom"）。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }

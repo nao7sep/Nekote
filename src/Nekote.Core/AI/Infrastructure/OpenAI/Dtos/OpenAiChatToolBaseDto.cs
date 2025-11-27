@@ -11,7 +11,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     public abstract class OpenAiChatToolBaseDto
     {
         /// <summary>
-        /// ツールの種類 ("function", "custom")。
+        /// ツールの種類（"function", "custom"）。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }

@@ -10,7 +10,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     public abstract class OpenAiChatMessageBaseDto
     {
         /// <summary>
-        /// メッセージのロール ("system", "user", "assistant", "developer", "tool", "function")。
+        /// メッセージのロール（"system", "user", "assistant", "developer", "tool", "function"）。
         /// </summary>
         [JsonPropertyName("role")]
         public string? Role { get; set; }

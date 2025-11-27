@@ -10,7 +10,7 @@ namespace Nekote.Core.IO
     public static class FileHelper
     {
         /// <summary>
-        /// ストリームのコピー操作で使用する既定のバッファサイズ。(80KB)
+        /// ストリームのコピー操作で使用する既定のバッファサイズ。（80KB）
         /// https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.copytoasync?view=net-9.0
         /// もっと複雑な処理に変更されたようだが、フォールバック先的な値は変わっていない。
         /// https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/IO/Stream.cs,a232bc2650f49aa3

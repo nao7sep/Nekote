@@ -9,7 +9,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
     public class GeminiChatPromptFeedbackDto
     {
         /// <summary>
-        /// ブロック理由 (プロンプトがブロックされた場合)。
+        /// ブロック理由（プロンプトがブロックされた場合）。
         /// </summary>
         [JsonPropertyName("blockReason")]
         public string? BlockReason { get; set; }

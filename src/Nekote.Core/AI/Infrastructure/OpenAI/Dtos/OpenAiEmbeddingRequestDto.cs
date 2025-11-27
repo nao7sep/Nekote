@@ -9,7 +9,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     public class OpenAiEmbeddingRequestDto
     {
         /// <summary>
-        /// エンベディングを生成する入力テキスト (文字列、文字列の配列、またはトークン配列の配列)。
+        /// エンベディングを生成する入力テキスト（文字列、文字列の配列、またはトークン配列の配列）。
         /// </summary>
         [JsonPropertyName("input")]
         public OpenAiEmbeddingInputBaseDto? Input { get; set; }
@@ -21,13 +21,13 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Model { get; set; }
 
         /// <summary>
-        /// 出力エンベディングの次元数 (text-embedding-3 以降のモデルでサポート)。
+        /// 出力エンベディングの次元数（text-embedding-3 以降のモデルでサポート）。
         /// </summary>
         [JsonPropertyName("dimensions")]
         public int? Dimensions { get; set; }
 
         /// <summary>
-        /// エンベディングを返す形式 ("float" または "base64")。
+        /// エンベディングを返す形式（"float" または "base64"）。
         /// </summary>
         [JsonPropertyName("encoding_format")]
         public string? EncodingFormat { get; set; }

@@ -15,7 +15,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Text { get; set; }
 
         /// <summary>
-        /// パーツの種類 (現在は "text" のみサポート)。
+        /// パーツの種類（現在は "text" のみサポート）。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }

@@ -21,7 +21,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public int? Index { get; set; }
 
         /// <summary>
-        /// オブジェクトの種類 (通常は "embedding")。
+        /// オブジェクトの種類（通常は "embedding"）。
         /// </summary>
         [JsonPropertyName("object")]
         public string? Object { get; set; }

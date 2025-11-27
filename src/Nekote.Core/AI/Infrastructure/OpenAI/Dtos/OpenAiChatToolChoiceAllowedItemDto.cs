@@ -9,7 +9,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     public class OpenAiChatToolChoiceAllowedItemDto
     {
         /// <summary>
-        /// ツールの種類 (例: "function")。
+        /// ツールの種類（例: "function"）。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }

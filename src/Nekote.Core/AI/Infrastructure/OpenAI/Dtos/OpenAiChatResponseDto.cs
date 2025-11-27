@@ -33,7 +33,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Model { get; set; }
 
         /// <summary>
-        /// オブジェクトの種類 (通常は "chat.completion")。
+        /// オブジェクトの種類（通常は "chat.completion"）。
         /// </summary>
         [JsonPropertyName("object")]
         public string? Object { get; set; }
@@ -45,7 +45,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? ServiceTier { get; set; }
 
         /// <summary>
-        /// システムフィンガープリント (非推奨)。
+        /// システムフィンガープリント（非推奨）。
         /// </summary>
         [JsonPropertyName("system_fingerprint")]
         [Obsolete("This field is deprecated.")]

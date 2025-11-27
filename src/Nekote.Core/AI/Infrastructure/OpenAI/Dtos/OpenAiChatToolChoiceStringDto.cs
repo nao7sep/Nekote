@@ -11,7 +11,7 @@
     public class OpenAiChatToolChoiceStringDto : OpenAiChatToolChoiceBaseDto
     {
         /// <summary>
-        /// ツール選択モード ("none", "auto", または "required")。
+        /// ツール選択モード（"none", "auto", または "required"）。
         /// </summary>
         public string? Value { get; set; }
     }

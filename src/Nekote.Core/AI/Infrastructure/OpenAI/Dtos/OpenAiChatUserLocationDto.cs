@@ -15,7 +15,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public OpenAiChatApproximateLocationDto? Approximate { get; set; }
 
         /// <summary>
-        /// 位置情報の種別 (常に "approximate")。
+        /// 位置情報の種別（常に "approximate"）。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }

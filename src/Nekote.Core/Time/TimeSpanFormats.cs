@@ -6,7 +6,7 @@ namespace Nekote.Core.Time
 {
     /// <summary>
     /// TimeSpanFormatKind に対応する書式文字列を管理します。
-    /// 注意: 1日未満 (24時間未満) の TimeSpan のみサポートします。
+    /// 注意: 1日未満（24時間未満）の TimeSpan のみサポートします。
     /// </summary>
     public static class TimeSpanFormats
     {

@@ -10,7 +10,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     public abstract class OpenAiChatResponseFormatBaseDto
     {
         /// <summary>
-        /// レスポンスフォーマットのタイプ ("text", "json_schema", "json_object")。
+        /// レスポンスフォーマットのタイプ（"text", "json_schema", "json_object"）。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }

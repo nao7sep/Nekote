@@ -16,7 +16,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public OpenAiChatPredictionContentBaseDto? Content { get; set; }
 
         /// <summary>
-        /// 予測のタイプ (現在は常に "content")。
+        /// 予測のタイプ（現在は常に "content"）。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }

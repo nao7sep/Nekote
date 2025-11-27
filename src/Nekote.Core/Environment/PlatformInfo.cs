@@ -87,12 +87,12 @@ namespace Nekote.Core.Environment
         // ========================================
 
         /// <summary>
-        /// Windows のパス区切り文字 (バックスラッシュ) を取得します。
+        /// Windows のパス区切り文字（バックスラッシュ）を取得します。
         /// </summary>
         public static char WindowsDirectorySeparator { get; } = '\\';
 
         /// <summary>
-        /// Unix 系システムのパス区切り文字 (スラッシュ) を取得します。
+        /// Unix 系システムのパス区切り文字（スラッシュ）を取得します。
         /// </summary>
         public static char UnixDirectorySeparator { get; } = '/';
 
@@ -150,7 +150,7 @@ namespace Nekote.Core.Environment
         public static string OSDescription { get; } = RuntimeInformation.OSDescription;
 
         /// <summary>
-        /// ランタイム識別子 (RID) を取得します。
+        /// ランタイム識別子（RID）を取得します。
         /// </summary>
         public static string RuntimeIdentifier { get; } = RuntimeInformation.RuntimeIdentifier;
 

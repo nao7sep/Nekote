@@ -9,7 +9,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     public class OpenAiEmbeddingResponseDto
     {
         /// <summary>
-        /// オブジェクトの種類 (通常は "list")。
+        /// オブジェクトの種類（通常は "list"）。
         /// </summary>
         [JsonPropertyName("object")]
         public string? Object { get; set; }

@@ -15,7 +15,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Definition { get; set; }
 
         /// <summary>
-        /// 文法定義の構文 ("lark" または "regex")。
+        /// 文法定義の構文（"lark" または "regex"）。
         /// </summary>
         [JsonPropertyName("syntax")]
         public string? Syntax { get; set; }

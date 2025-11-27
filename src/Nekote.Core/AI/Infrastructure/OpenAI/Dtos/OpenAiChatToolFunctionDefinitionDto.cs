@@ -21,13 +21,13 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Description { get; set; }
 
         /// <summary>
-        /// 関数のパラメータ (JSON スキーマ形式)。
+        /// 関数のパラメータ（JSON スキーマ形式）。
         /// </summary>
         [JsonPropertyName("parameters")]
         public JsonElement? Parameters { get; set; }
 
         /// <summary>
-        /// 厳格モード (パラメータスキーマに定義されたすべてのパラメータが必須となる)。
+        /// 厳格モード（パラメータスキーマに定義されたすべてのパラメータが必須となる）。
         /// </summary>
         [JsonPropertyName("strict")]
         public bool? Strict { get; set; }

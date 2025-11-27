@@ -21,7 +21,7 @@ namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
         public GeminiChatMultiSpeakerVoiceConfigDto? MultiSpeakerVoiceConfig { get; set; }
 
         /// <summary>
-        /// 言語コード (BCP 47 形式)。
+        /// 言語コード（BCP 47 形式）。
         /// </summary>
         [JsonPropertyName("languageCode")]
         public string? LanguageCode { get; set; }

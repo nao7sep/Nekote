@@ -109,22 +109,22 @@ namespace Nekote.Core.Time
         DateUserFriendly,
 
         /// <summary>
-        /// 人間が読みやすい時刻 (分まで): H:mm
+        /// 人間が読みやすい時刻（分まで）: H:mm
         /// </summary>
         TimeUserFriendlyMinutes,
 
         /// <summary>
-        /// 人間が読みやすい時刻 (秒まで): H:mm:ss
+        /// 人間が読みやすい時刻（秒まで）: H:mm:ss
         /// </summary>
         TimeUserFriendlySeconds,
 
         /// <summary>
-        /// 人間が読みやすい時刻 (ミリ秒まで): H:mm:ss.fff
+        /// 人間が読みやすい時刻（ミリ秒まで）: H:mm:ss.fff
         /// </summary>
         TimeUserFriendlyMilliseconds,
 
         /// <summary>
-        /// 人間が読みやすい時刻 (ティックまで): H:mm:ss.fffffff
+        /// 人間が読みやすい時刻（ティックまで）: H:mm:ss.fffffff
         /// </summary>
         TimeUserFriendlyTicks,
     }

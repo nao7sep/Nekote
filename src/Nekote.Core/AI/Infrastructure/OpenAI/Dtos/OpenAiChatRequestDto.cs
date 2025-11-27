@@ -27,14 +27,14 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public OpenAiChatAudioParametersDto? Audio { get; set; }
 
         /// <summary>
-        /// 頻度ペナルティ (-2.0 ~ 2.0)。
+        /// 頻度ペナルティ（-2.0 ~ 2.0）。
         /// 既に出現したトークンの繰り返しを抑制するためのパラメータ。
         /// </summary>
         [JsonPropertyName("frequency_penalty")]
         public double? FrequencyPenalty { get; set; }
 
         /// <summary>
-        /// 呼び出す関数の制御 (非推奨: tool_choice に置き換えられた)。
+        /// 呼び出す関数の制御（非推奨: tool_choice に置き換えられた）。
         /// </summary>
         /// <remarks>
         /// "none": 関数を呼び出さない。
@@ -46,7 +46,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public OpenAiChatFunctionCallChoiceBaseDto? FunctionCall { get; set; }
 
         /// <summary>
-        /// 関数のリスト (非推奨: tools に置き換えられた)。
+        /// 関数のリスト（非推奨: tools に置き換えられた）。
         /// </summary>
         [JsonPropertyName("functions")]
         [Obsolete("This field is deprecated. Use Tools instead.")]
@@ -65,13 +65,13 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public bool? Logprobs { get; set; }
 
         /// <summary>
-        /// 生成可能な最大トークン数 (推論トークンを含む)。
+        /// 生成可能な最大トークン数（推論トークンを含む）。
         /// </summary>
         [JsonPropertyName("max_completion_tokens")]
         public int? MaxCompletionTokens { get; set; }
 
         /// <summary>
-        /// 生成可能な最大トークン数 (非推奨)。
+        /// 生成可能な最大トークン数（非推奨）。
         /// </summary>
         /// <remarks>
         /// このフィールドは非推奨となり、max_completion_tokens に置き換えられた。
@@ -81,7 +81,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public int? MaxTokens { get; set; }
 
         /// <summary>
-        /// メタデータのキーバリューペア (最大16個)。
+        /// メタデータのキーバリューペア（最大16個）。
         /// </summary>
         [JsonPropertyName("metadata")]
         public Dictionary<string, string>? Metadata { get; set; }
@@ -111,7 +111,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public OpenAiChatPredictionDto? Prediction { get; set; }
 
         /// <summary>
-        /// 存在ペナルティ (-2.0 ~ 2.0)。
+        /// 存在ペナルティ（-2.0 ~ 2.0）。
         /// 新しいトピックへの言及を促すためのパラメータ。
         /// </summary>
         [JsonPropertyName("presence_penalty")]
@@ -148,7 +148,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? SafetyIdentifier { get; set; }
 
         /// <summary>
-        /// 決定論的サンプリングのシード値 (非推奨)。
+        /// 決定論的サンプリングのシード値（非推奨）。
         /// </summary>
         [JsonPropertyName("seed")]
         [Obsolete("This field is deprecated.")]
@@ -161,14 +161,14 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? ServiceTier { get; set; }
 
         /// <summary>
-        /// 生成停止シーケンス (最大4個)。
+        /// 生成停止シーケンス（最大4個）。
         /// リクエスト送信時は単一の文字列または文字列の配列を使用する。
         /// </summary>
         [JsonPropertyName("stop")]
         public OpenAiChatStopBaseDto? Stop { get; set; }
 
         /// <summary>
-        /// 出力を保存するかどうか (デフォルト: false)。
+        /// 出力を保存するかどうか（デフォルト: false）。
         /// </summary>
         [JsonPropertyName("store")]
         public bool? Store { get; set; }
@@ -186,7 +186,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public OpenAiChatStreamingOptionsDto? StreamOptions { get; set; }
 
         /// <summary>
-        /// サンプリング温度 (0 ~ 2)。
+        /// サンプリング温度（0 ~ 2）。
         /// </summary>
         [JsonPropertyName("temperature")]
         public double? Temperature { get; set; }
@@ -218,19 +218,19 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public List<OpenAiChatToolBaseDto>? Tools { get; set; }
 
         /// <summary>
-        /// 返す上位候補の対数確率の数 (0 ~ 20)。
+        /// 返す上位候補の対数確率の数（0 ~ 20）。
         /// </summary>
         [JsonPropertyName("top_logprobs")]
         public int? TopLogprobs { get; set; }
 
         /// <summary>
-        /// Nucleus サンプリングの確率質量 (0 ~ 1)。
+        /// Nucleus サンプリングの確率質量（0 ~ 1）。
         /// </summary>
         [JsonPropertyName("top_p")]
         public double? TopP { get; set; }
 
         /// <summary>
-        /// エンドユーザーの識別子 (非推奨)。
+        /// エンドユーザーの識別子（非推奨）。
         /// </summary>
         /// <remarks>
         /// このフィールドは非推奨となり、safety_identifier と prompt_cache_key に置き換えられた。
@@ -240,7 +240,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? User { get; set; }
 
         /// <summary>
-        /// レスポンスの冗長性レベル (例: "low", "medium", "high")。
+        /// レスポンスの冗長性レベル（例: "low", "medium", "high"）。
         /// </summary>
         [JsonPropertyName("verbosity")]
         public string? Verbosity { get; set; }

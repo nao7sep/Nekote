@@ -15,7 +15,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Content { get; set; }
 
         /// <summary>
-        /// 関数呼び出し情報の増分 (非推奨: tool_calls に置き換えられた)。
+        /// 関数呼び出し情報の増分（非推奨: tool_calls に置き換えられた）。
         /// </summary>
         [JsonPropertyName("function_call")]
         [Obsolete("This field is deprecated. Use ToolCalls instead.")]
@@ -28,7 +28,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Refusal { get; set; }
 
         /// <summary>
-        /// メッセージのロール (最初のチャンクでのみ返される)。
+        /// メッセージのロール（最初のチャンクでのみ返される）。
         /// </summary>
         [JsonPropertyName("role")]
         public string? Role { get; set; }

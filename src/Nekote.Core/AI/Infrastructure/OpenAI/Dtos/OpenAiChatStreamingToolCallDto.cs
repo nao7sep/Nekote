@@ -27,7 +27,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Id { get; set; }
 
         /// <summary>
-        /// ツールのタイプ (現在は "function" のみサポート)。
+        /// ツールのタイプ（現在は "function" のみサポート）。
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; set; }

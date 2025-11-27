@@ -65,7 +65,12 @@ namespace Nekote.Core.IO
         /// パス文字列内のパス区切り文字を、現在の環境のプライマリ区切り文字に正規化します。
         /// </summary>
         /// <param name="path">正規化するパス文字列。</param>
-        /// <returns>正規化されたパス文字列。入力が null または空の場合は、入力をそのまま返します。</returns>
+        /// <returns>正規化されたパス文字列。</returns>
+        /// <exception cref="ArgumentException">path が null、空、または空白文字のみの場合にスローされます。</exception>
+        /// <remarks>
+        /// 注: <see cref="Path.GetFullPath"/> を使用する場合、このメソッドを呼び出す必要はありません。
+        /// <see cref="Path.GetFullPath"/> は自動的にパス区切り文字を正規化します。
+        /// </remarks>
         /// <example>
         /// Windows 環境では `some/path` は `some\\path` になります。
         /// Linux 環境では `some\\path` は `some/path` になります。
@@ -74,9 +79,39 @@ namespace Nekote.Core.IO
         {
             if (string.IsNullOrWhiteSpace(path))
             {
-                return path;
+                throw new ArgumentException("Path cannot be null or whitespace.", nameof(path));
             }
-            return path.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+
+            return path.Replace(PlatformInfo.AltDirectorySeparator, PlatformInfo.DirectorySeparator);
+        }
+
+        /// <summary>
+        /// パス文字列内のパス区切り文字を、指定されたプラットフォームの区切り文字に正規化します。
+        /// </summary>
+        /// <param name="path">正規化するパス文字列。</param>
+        /// <param name="useWindowsSeparator">true の場合は Windows 形式 (\\)、false の場合は Unix 形式 (/) に正規化します。</param>
+        /// <returns>正規化されたパス文字列。</returns>
+        /// <exception cref="ArgumentException">path が null、空、または空白文字のみの場合にスローされます。</exception>
+        /// <remarks>
+        /// 注: <see cref="Path.GetFullPath"/> を使用する場合、現在のプラットフォームの形式に正規化するだけであれば、このメソッドを呼び出す必要はありません。
+        /// このメソッドは、特定のプラットフォーム形式を強制する必要がある場合（例: URL や設定ファイル用に Unix 形式を使用）に使用してください。
+        /// </remarks>
+        public static string NormalizeDirectorySeparators(string path, bool useWindowsSeparator)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentException("Path cannot be null or whitespace.", nameof(path));
+            }
+
+            char targetSeparator = useWindowsSeparator
+                ? PlatformInfo.WindowsDirectorySeparator
+                : PlatformInfo.UnixDirectorySeparator;
+
+            char sourceSeparator = useWindowsSeparator
+                ? PlatformInfo.UnixDirectorySeparator
+                : PlatformInfo.WindowsDirectorySeparator;
+
+            return path.Replace(sourceSeparator, targetSeparator);
         }
 
         /// <summary>

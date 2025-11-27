@@ -135,8 +135,7 @@ namespace Nekote.Core.Assemblies
                 throw new InvalidOperationException("Could not determine the directory path for the assembly.");
             }
 
-            var normalizedRelativePath = PathHelper.NormalizeDirectorySeparators(relativePath);
-            var absolutePath = Path.GetFullPath(Path.Combine(DirectoryPath, normalizedRelativePath));
+            var absolutePath = Path.GetFullPath(Path.Combine(DirectoryPath, relativePath));
 
             if (ensureWithinBase)
             {

@@ -83,6 +83,40 @@ namespace Nekote.Core.Environment
         public static string NewLine { get; } = System.Environment.NewLine;
 
         // ========================================
+        // パス区切り文字
+        // ========================================
+
+        /// <summary>
+        /// Windows のパス区切り文字 (バックスラッシュ) を取得します。
+        /// </summary>
+        public static char WindowsDirectorySeparator { get; } = '\\';
+
+        /// <summary>
+        /// Unix 系システムのパス区切り文字 (スラッシュ) を取得します。
+        /// </summary>
+        public static char UnixDirectorySeparator { get; } = '/';
+
+        /// <summary>
+        /// 現在のプラットフォームのパス区切り文字を取得します。
+        /// </summary>
+        /// <remarks>
+        /// Windows では '\\'、Unix 系システムでは '/' を返します。
+        /// </remarks>
+        public static char DirectorySeparator { get; } =
+            IsWindows ? WindowsDirectorySeparator : UnixDirectorySeparator;
+
+        /// <summary>
+        /// 現在のプラットフォームの代替パス区切り文字を取得します。
+        /// </summary>
+        /// <remarks>
+        /// Windows では '/'、Unix 系システムでは '\\' を返します。
+        /// 注: <see cref="Path.AltDirectorySeparatorChar"/> は全てのプラットフォームで '/' を返すため、
+        /// プラットフォーム間でパス文字列を正しく正規化するには、このプロパティを使用する必要があります。
+        /// </remarks>
+        public static char AltDirectorySeparator { get; } =
+            IsWindows ? UnixDirectorySeparator : WindowsDirectorySeparator;
+
+        // ========================================
         // アーキテクチャ
         // ========================================
 

@@ -3,21 +3,17 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Nekote.Core.Randomization.DependencyInjection
 {
     /// <summary>
-    /// IServiceCollection に IRandomProvider 関連のサービスを登録するための拡張メソッドを提供します。
-    ///
-    /// System.Random はスレッドセーフではないため、このライブラリの他のプロバイダー（SystemClock, SystemGuidProvider）と
-    /// 同様にシングルトンとして安全に登録するためには、スレッドセーフなラッパーが必要です。
-    /// SystemRandomProvider は、内部でロックを使用してスレッドセーフ性を保証します。
-    ///
-    /// .NET 6以降で利用可能な Random.Shared はスレッドセーフですが、シード値を指定できないという制約があります。
-    /// テストの決定性を確保するためにはシード値の指定が不可欠であるため、このライブラリでは Random.Shared を直接使用せず、
-    /// シード可能な独自のスレッドセーフな実装を提供します。これにより、アプリケーションの要求とテストの要求の両方を満たします。
+    /// <see cref="IServiceCollection"/> に <see cref="IRandomProvider"/> 関連のサービスを登録するための拡張メソッドを提供します。
+    /// <see cref="SystemRandomProvider"/> は、シード値が指定されていない場合は高性能な <see cref="Random.Shared"/> を使用し、
+    /// シード値が指定されている場合は決定論的な乱数列を生成します。
+    /// 本番環境では、シード値を指定しないオーバーロードを使用してください。
     /// </summary>
     public static class RandomProviderServiceCollectionExtensions
     {
         /// <summary>
-        /// スレッドセーフな IRandomProvider サービスをシングルトンとして DI コンテナに登録します。
-        /// このオーバーロードは、時間に依存したデフォルトのシードを使用します。
+        /// スレッドセーフな <see cref="IRandomProvider"/> サービスをシングルトンとして DI コンテナに登録します。
+        /// 内部で <see cref="Random.Shared"/> を使用するため、高性能でロックが不要です。
+        /// 本番環境ではこのメソッドを使用してください。
         /// </summary>
         /// <param name="services">サービスコレクション。</param>
         /// <returns>チェイン用のサービスコレクション。</returns>
@@ -28,8 +24,11 @@ namespace Nekote.Core.Randomization.DependencyInjection
         }
 
         /// <summary>
-        /// 指定されたシードを使用して、スレッドセーフな IRandomProvider サービスをシングルトンとして DI コンテナに登録します。
-        /// これにより、決定論的な乱数系列が生成されるため、テストに役立ちます。
+        /// 指定されたシードを使用して、スレッドセーフな <see cref="IRandomProvider"/> サービスをシングルトンとして DI コンテナに登録します。
+        /// 警告: このメソッドはテスト専用です。本番環境では絶対に使用しないでください。
+        /// シード付きシングルトンは、アプリケーション全体が毎回同じ「ランダム」な動作を示し、
+        /// 正しい動作が損なわれます。また、ロックによるパフォーマンスの低下も発生します。
+        /// テストでは、各テストケース内で個別にインスタンスを作成することを推奨します。
         /// </summary>
         /// <param name="services">サービスコレクション。</param>
         /// <param name="seed">擬似乱数系列の開始値を計算するために使用する数値。</param>

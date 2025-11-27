@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Nekote.Core.Environment;
 
 namespace Nekote.Core.Text
 {
@@ -99,7 +100,7 @@ namespace Nekote.Core.Text
             {
                 NewlineSequence.Lf => "\n",
                 NewlineSequence.CrLf => "\r\n",
-                NewlineSequence.PlatformDefault => Environment.NewLine,
+                NewlineSequence.PlatformDefault => PlatformInfo.NewLine,
                 _ => throw new ArgumentOutOfRangeException(nameof(sequence), sequence, "Invalid NewlineSequence value."),
             };
             return string.Join(newline, lines);

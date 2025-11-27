@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Nekote.Core.Environment;
 
 namespace Nekote.Lab.Console.Testers
 {
@@ -159,7 +160,7 @@ namespace Nekote.Lab.Console.Testers
                 }
             }
 
-            return string.Join(Environment.NewLine, processedLines);
+            return string.Join(PlatformInfo.NewLine, processedLines);
         }
 
         /// <summary>

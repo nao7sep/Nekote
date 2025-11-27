@@ -72,6 +72,16 @@ namespace Nekote.Core.Environment
         public static StringComparison PathComparison { get; } =
             IsFileSystemCaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
 
+        /// <summary>
+        /// 現在のプラットフォームの改行シーケンスを取得します。
+        /// </summary>
+        /// <remarks>
+        /// Windows では "\r\n" (CRLF)、Unix 系システムでは "\n" (LF) を返します。
+        /// このプロパティは <see cref="System.Environment.NewLine"/> と同じ値を返しますが、
+        /// プラットフォーム固有の情報を一元管理するために提供されています。
+        /// </remarks>
+        public static string NewLine { get; } = System.Environment.NewLine;
+
         // ========================================
         // アーキテクチャ
         // ========================================

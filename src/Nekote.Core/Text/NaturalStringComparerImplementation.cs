@@ -10,6 +10,7 @@ namespace Nekote.Core.Text
     internal sealed class NaturalStringComparerImplementation : NaturalStringComparer
     {
         private readonly StringComparer _baseComparer;
+        private readonly StringComparison _stringComparison;
         private readonly bool _normalize;
 
         /// <summary>
@@ -24,6 +25,7 @@ namespace Nekote.Core.Text
                 throw new ArgumentNullException(nameof(baseComparer));
             }
             _baseComparer = baseComparer;
+            _stringComparison = StringComparerHelper.ToStringComparison(baseComparer);
             _normalize = normalize;
         }
 
@@ -80,8 +82,8 @@ namespace Nekote.Core.Text
         /// 2. 文字列を「数値チャンク」と「非数値チャンク」に分割します。
         /// 3. 対応するチャンク同士を比較します。
         ///    - 両方が数値チャンクの場合、数値として比較します（例: 2は10より小さい）。
-        ///    - 両方が非数値チャンクの場合、指定された基本コンパレータ（_baseComparer）を使用して文字列として比較します。
-        /// 4. チャンクの種類が異なる場合（例: 数字と文字）、比較を基本コンパレータに委ね、一貫した順序付けを保証します。
+        ///    - 両方が非数値チャンクの場合、<see cref="StringComparison"/>を使用してスパンとして直接比較します（文字列の割り当てを回避）。
+        /// 4. チャンクの種類が異なる場合（例: 数字と文字）、残りの部分をスパンとして比較し、一貫した順序付けを保証します。
         /// 5. 非数値チャンクの比較では、一方がもう一方の接頭辞であるケースを正しく処理します。
         ///    （例: "file"と"file.txt"）共通部分を比較した後、残りの部分の比較を続行します。
         /// </remarks>
@@ -148,7 +150,7 @@ namespace Nekote.Core.Text
 
                     var leftCommonPrefix = leftReader.Slice(leftStartPosition, minGraphemeCount);
                     var rightCommonPrefix = rightReader.Slice(rightStartPosition, minGraphemeCount);
-                    var result = _baseComparer.Compare(leftCommonPrefix.ToString(), rightCommonPrefix.ToString());
+                    var result = leftCommonPrefix.CompareTo(rightCommonPrefix, _stringComparison);
                     if (result != 0) return result;
 
                     // 共通接頭辞が等しい場合、リーダーの位置を共通部分の末尾まで進めて、
@@ -168,7 +170,7 @@ namespace Nekote.Core.Text
                     // アルゴリズムの堅牢性が保たれます。
                     var leftRemainder = leftReader.Slice(leftReader.Position, leftReader.Count - leftReader.Position);
                     var rightRemainder = rightReader.Slice(rightReader.Position, rightReader.Count - rightReader.Position);
-                    return _baseComparer.Compare(leftRemainder.ToString(), rightRemainder.ToString());
+                    return leftRemainder.CompareTo(rightRemainder, _stringComparison);
                 }
             }
 

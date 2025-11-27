@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nekote.Core.Environment;
 using Nekote.Core.Text;
 using Nekote.Core.Text.Processing;
 using Xunit;
@@ -99,7 +100,7 @@ namespace Nekote.Core.Tests.Text
             // 1つの空文字列だけを持つシーケンスを結合すると空文字列になる
             Assert.Empty(StringHelper.JoinLines(new[] { "" }));
             // 2つの空文字列を結合すると、間に改行が1つ入る
-            Assert.Equal(Environment.NewLine, StringHelper.JoinLines(new[] { "", "" }));
+            Assert.Equal(PlatformInfo.NewLine, StringHelper.JoinLines(new[] { "", "" }));
         }
 
         /// <summary>

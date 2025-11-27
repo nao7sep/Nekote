@@ -11,10 +11,10 @@ namespace Nekote.Core.Versioning
         /// バージョン情報を、指定された最小フィールド数と、0より大きい最下位のフィールドに基づいて文字列に変換します。
         /// </summary>
         /// <param name="version">変換する System.Version オブジェクト。</param>
-        /// <param name="minimumFieldCount">出力に含める最小フィールド数。1から4の間でなければなりません。既定値は 2 です。</param>
+        /// <param name="minimumFieldCount">出力に含める最小フィールド数。2から4の間でなければなりません。既定値は 2 です。</param>
         /// <returns>バージョン番号の文字列表現。</returns>
         /// <exception cref="ArgumentNullException">version が null の場合にスローされます。</exception>
-        /// <exception cref="ArgumentOutOfRangeException">minimumFieldCount が 1 未満または 4 を超える場合にスローされます。</exception>
+        /// <exception cref="ArgumentOutOfRangeException">minimumFieldCount が 2 未満または 4 を超える場合にスローされます。</exception>
         /// <remarks>
         /// このメソッドの設計思想：
         /// - メジャーとマイナーバージョンは常に表示されるべきです（例：「1.0」は意味のあるバージョン文字列ですが、「1」だけでは不十分）
@@ -25,7 +25,7 @@ namespace Nekote.Core.Versioning
         public static string ToString(Version version, int minimumFieldCount = 2)
         {
             ArgumentNullException.ThrowIfNull(version);
-            ArgumentOutOfRangeException.ThrowIfLessThan(minimumFieldCount, 1);
+            ArgumentOutOfRangeException.ThrowIfLessThan(minimumFieldCount, 2);
             ArgumentOutOfRangeException.ThrowIfGreaterThan(minimumFieldCount, 4);
 
             var significantFieldCount = version switch

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
 {
     /// <summary>
-    /// 関数の定義 (非推奨: tools に置き換えられた)。
+    /// 関数の定義（非推奨: tools に置き換えられた）。
     /// </summary>
     [Obsolete("This class is deprecated. Use Tools instead.")]
     public class OpenAiChatFunctionDto
@@ -22,7 +22,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Description { get; set; }
 
         /// <summary>
-        /// 関数のパラメータ (JSON スキーマ形式)。
+        /// 関数のパラメータ（JSON スキーマ形式）。
         /// </summary>
         [JsonPropertyName("parameters")]
         public JsonElement? Parameters { get; set; }

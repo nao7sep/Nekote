@@ -68,7 +68,7 @@ namespace Nekote.Core.Tests.Text
             Assert.Equal(2, reader.Position);
             Assert.Equal("c", reader.Peek());
 
-            // Position は Count (テキストの終端) に設定できます
+            // Position は Count（テキストの終端）に設定できます
             reader.Position = 3;
             Assert.Equal(3, reader.Position);
             Assert.True(reader.IsEndOfText);

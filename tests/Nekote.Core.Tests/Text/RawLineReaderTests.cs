@@ -62,7 +62,7 @@ namespace Nekote.Core.Tests.Text
         [Theory]
         [InlineData("line1\nline2\nline3", 3)] // LF形式 (Unix/Linux)
         [InlineData("line1\r\nline2\r\nline3", 3)] // CRLF形式 (Windows)
-        [InlineData("line1\rline2\rline3", 3)] // CR形式 (古いMac)
+        [InlineData("line1\rline2\rline3", 3)] // CR形式（古いMac）
         [InlineData("line1\r\nline2\nline3\rline4", 4)] // 混在形式
         [InlineData("line1\n\nline3", 3)] // 空行を含む
         public void ReadLine_WithVariousNewlines_ShouldReadCorrectLines(string source, int expectedLines)

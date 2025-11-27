@@ -4,12 +4,12 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Gemini Chat API のコンテンツ (リクエスト/レスポンス共通部)。
+    /// Gemini Chat API のコンテンツ（リクエスト/レスポンス共通部）。
     /// </summary>
     public class GeminiChatContentDto
     {
         /// <summary>
-        /// コンテンツのロール ("user" または "model")。
+        /// コンテンツのロール（"user" または "model"）。
         /// </summary>
         [JsonPropertyName("role")]
         public string? Role { get; set; }

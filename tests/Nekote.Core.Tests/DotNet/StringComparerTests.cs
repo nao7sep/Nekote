@@ -50,8 +50,8 @@ namespace Nekote.Core.Tests.DotNet
                 $"Ordinal substring: '{fileName1Prefix}' > '{fileName2Prefix}' ('f'>'F'), Result: {prefixOrdinal}");
 
             // この現象により比較結果の解釈が複雑になる:
-            // InvariantCulture: "file1.txt" < "File2.txt" (数値 '1' < '2' が決定要因)
-            // Ordinal: "file1.txt" > "File2.txt" (文字 'f' > 'F' が決定要因)
+            // InvariantCulture: "file1.txt" < "File2.txt"（数値 '1' < '2' が決定要因）
+            // Ordinal: "file1.txt" > "File2.txt"（文字 'f' > 'F' が決定要因）
             // 同じ文字列ペアでも比較方法により結果が逆転し、何が決定要因かが不明確
 
             // InvariantCultureは「Ordinal + 文化的理解（特殊なラテン文字や絵文字など）」として

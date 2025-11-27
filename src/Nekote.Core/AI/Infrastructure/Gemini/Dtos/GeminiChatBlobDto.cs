@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Nekote.Core.AI.Infrastructure.Gemini.Dtos
 {
     /// <summary>
-    /// Blob (未加工のメディア バイト)。
+    /// Blob（未加工のメディア バイト）。
     /// </summary>
     public class GeminiChatBlobDto
     {

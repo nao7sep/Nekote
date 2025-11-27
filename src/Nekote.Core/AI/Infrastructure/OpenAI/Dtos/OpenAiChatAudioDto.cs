@@ -18,19 +18,19 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? Id { get; set; }
 
         /// <summary>
-        /// モデルが生成した Base64 エンコードされたオーディオバイト (レスポンスのみ)。
+        /// モデルが生成した Base64 エンコードされたオーディオバイト（レスポンスのみ）。
         /// </summary>
         [JsonPropertyName("data")]
         public string? Data { get; set; }
 
         /// <summary>
-        /// このオーディオがサーバー上でアクセス不可になる Unix タイムスタンプ (秒) (レスポンスのみ)。
+        /// このオーディオがサーバー上でアクセス不可になる Unix タイムスタンプ（秒）（レスポンスのみ）。
         /// </summary>
         [JsonPropertyName("expires_at")]
         public long? ExpiresAt { get; set; }
 
         /// <summary>
-        /// モデルが生成したオーディオのトランスクリプト (レスポンスのみ)。
+        /// モデルが生成したオーディオのトランスクリプト（レスポンスのみ）。
         /// </summary>
         [JsonPropertyName("transcript")]
         public string? Transcript { get; set; }

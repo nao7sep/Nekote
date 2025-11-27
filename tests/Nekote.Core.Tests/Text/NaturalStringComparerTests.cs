@@ -467,8 +467,8 @@ namespace Nekote.Core.Tests.Text
 
             // é の2つの表現：合成済み文字 vs 基底文字+結合文字
             // これらは視覚的に同じ "filé1.txt" ですが、内部的なバイト表現は異なります。
-            string composed = "filé1.txt";               // U+00E9 (合成済み)
-            string decomposed = "file\u0301" + "1.txt";      // e + U+0301 (結合アクセント)
+            string composed = "filé1.txt";               // U+00E9（合成済み）
+            string decomposed = "file\u0301" + "1.txt";      // e + U+0301（結合アクセント）
 
             // Act
             var ordinalResult = ordinalComparer.Compare(composed, decomposed);

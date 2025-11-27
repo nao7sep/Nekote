@@ -5,7 +5,7 @@ using Nekote.Core.AI.Infrastructure.OpenAI.Dtos;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 {
     /// <summary>
-    /// 関数呼び出し選択のための JSON コンバーター (非推奨: tool_choice に置き換えられた)。
+    /// 関数呼び出し選択のための JSON コンバーター（非推奨: tool_choice に置き換えられた）。
     /// 文字列またはオブジェクトを適切な型に変換する。
     /// </summary>
     [Obsolete("This class is deprecated. Use ToolChoice instead.")]

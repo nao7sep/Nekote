@@ -6,7 +6,7 @@ namespace Nekote.Core.Assemblies
     public enum AssemblyDisplayFormat
     {
         /// <summary>
-        /// アセンブリのタイトルとバージョン (例: "Nekote Core v1.0")。
+        /// アセンブリのタイトルとバージョン（例: "Nekote Core v1.0"）。
         /// </summary>
         TitleAndVersion,
     }

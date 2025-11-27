@@ -87,7 +87,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public Dictionary<string, string>? Metadata { get; set; }
 
         /// <summary>
-        /// 出力モダリティ (例: ["text", "audio"])。
+        /// 出力モダリティ（例: ["text", "audio"]）。
         /// </summary>
         [JsonPropertyName("modalities")]
         public List<string>? Modalities { get; set; }
@@ -124,13 +124,13 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public string? PromptCacheKey { get; set; }
 
         /// <summary>
-        /// プロンプトキャッシュの保持期間 (例: "24h")。
+        /// プロンプトキャッシュの保持期間（例: "24h"）。
         /// </summary>
         [JsonPropertyName("prompt_cache_retention")]
         public string? PromptCacheRetention { get; set; }
 
         /// <summary>
-        /// 推論努力のレベル (例: "low", "medium", "high")。
+        /// 推論努力のレベル（例: "low", "medium", "high"）。
         /// </summary>
         [JsonPropertyName("reasoning_effort")]
         public string? ReasoningEffort { get; set; }
@@ -155,7 +155,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public int? Seed { get; set; }
 
         /// <summary>
-        /// サービス層 (例: "auto", "default", "flex", "priority")。
+        /// サービス層（例: "auto", "default", "flex", "priority"）。
         /// </summary>
         [JsonPropertyName("service_tier")]
         public string? ServiceTier { get; set; }

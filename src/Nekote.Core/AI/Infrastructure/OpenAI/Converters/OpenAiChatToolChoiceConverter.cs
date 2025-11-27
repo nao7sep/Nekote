@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 {
     /// <summary>
     /// OpenAI の "tool_choice" プロパティをデシリアライズするカスタム コンバーター。
-    /// JSON の型 (string, object) に応じて、
+    /// JSON の型（string, object）に応じて、
     /// <see cref="OpenAiChatToolChoiceBaseDto"/> の適切な派生クラスをインスタンス化する。
     /// </summary>
     public class OpenAiChatToolChoiceConverter : JsonConverter<OpenAiChatToolChoiceBaseDto>

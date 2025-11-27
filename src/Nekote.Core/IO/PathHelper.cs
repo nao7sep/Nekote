@@ -89,7 +89,7 @@ namespace Nekote.Core.IO
         /// パス文字列内のパス区切り文字を、指定されたプラットフォームの区切り文字に正規化します。
         /// </summary>
         /// <param name="path">正規化するパス文字列。</param>
-        /// <param name="useWindowsSeparator">true の場合は Windows 形式 (\\)、false の場合は Unix 形式 (/) に正規化します。</param>
+        /// <param name="useWindowsSeparator">true の場合は Windows 形式（\\）、false の場合は Unix 形式（/）に正規化します。</param>
         /// <returns>正規化されたパス文字列。</returns>
         /// <exception cref="ArgumentException">path が null、空、または空白文字のみの場合にスローされます。</exception>
         /// <remarks>

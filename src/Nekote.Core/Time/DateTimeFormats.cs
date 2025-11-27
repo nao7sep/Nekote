@@ -24,8 +24,8 @@ namespace Nekote.Core.Time
             [DateTimeFormatKind.TimeSortableTicks] = "HHmmss'-'fffffff",
 
             // この書式は、分かりやすさを重視し、異なるカルチャの標準を組み合わせています。
-            // 区切り文字は.NETのInvariantCultureの短い日付パターン("MM/dd/yyyy")に倣いスラッシュ(/)を、
-            // 要素の順序は国際標準のISO 8601("yyyy-MM-dd")に倣い年・月・日としています。
+            // 区切り文字は.NETのInvariantCultureの短い日付パターン（"MM/dd/yyyy"）にならいスラッシュ（/）を、
+            // 要素の順序は国際標準のISO 8601（"yyyy-MM-dd"）にならい年・月・日としています。
             // 年が先頭にあることで順序が直感的に分かり、月日のゼロ埋めを省略できます。
             // .NETの標準書式については下記を参照してください：
             // https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings

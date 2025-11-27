@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 {
     /// <summary>
     /// OpenAI の "stop" プロパティをシリアライズ/デシリアライズするカスタム コンバーター。
-    /// JSON の型 (string, array, null) に応じて、
+    /// JSON の型（string, array, null）に応じて、
     /// <see cref="OpenAiChatStopBaseDto"/> の適切な派生クラスをインスタンス化する。
     /// </summary>
     public class OpenAiChatStopConverter : JsonConverter<OpenAiChatStopBaseDto>

@@ -9,7 +9,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     public class OpenAiChatJsonSchemaDto
     {
         /// <summary>
-        /// レスポンスフォーマットの名前 (a-z, A-Z, 0-9, アンダースコア、ダッシュのみ、最大64文字)。
+        /// レスポンスフォーマットの名前（a-z, A-Z, 0-9, アンダースコア、ダッシュのみ、最大64文字）。
         /// </summary>
         [JsonPropertyName("name")]
         public string? Name { get; set; }

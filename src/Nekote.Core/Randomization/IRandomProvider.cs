@@ -47,7 +47,7 @@ namespace Nekote.Core.Randomization
         /// </summary>
         float NextSingle();
 
-        // Sample() メソッドは、System.Random の 'protected virtual' メンバーであり、直接の公開使用ではなく、
+        // Sample()メソッドは、System.Random の 'protected virtual' メンバーであり、直接の公開使用ではなく、
         // 派生クラスでのオーバーライドを目的としているため、このインターフェースでは定義されていません。
 
         /// <summary>

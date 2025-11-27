@@ -5,8 +5,8 @@ using Nekote.Core.AI.Infrastructure.OpenAI.Dtos;
 namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 {
     /// <summary>
-    /// OpenAI の "content" プロパティをデシリアライズするカスタム コンバーター。
-    /// JSON の型 (string, array, null) に応じて、
+    /// OpenAI の "content" プロパティをシリアライズ/デシリアライズするカスタム コンバーター。
+    /// JSON の型（string, array, null）に応じて、
     /// <see cref="OpenAiChatMessageContentBaseDto"/> の適切な派生クラスをインスタンス化する。
     /// </summary>
     public class OpenAiChatMessageContentConverter : JsonConverter<OpenAiChatMessageContentBaseDto>

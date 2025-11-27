@@ -6,7 +6,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Converters
 {
     /// <summary>
     /// OpenAI の "input" プロパティをシリアライズ/デシリアライズするカスタム コンバーター。
-    /// JSON の型 (string, array) に応じて、
+    /// JSON の型（string, array）に応じて、
     /// <see cref="OpenAiEmbeddingInputBaseDto"/> の適切な派生クラスをインスタンス化する。
     /// </summary>
     public class OpenAiEmbeddingInputConverter : JsonConverter<OpenAiEmbeddingInputBaseDto>

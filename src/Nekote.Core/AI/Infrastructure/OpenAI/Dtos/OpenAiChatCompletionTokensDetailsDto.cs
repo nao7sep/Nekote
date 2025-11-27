@@ -21,7 +21,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
         public int? AudioTokens { get; set; }
 
         /// <summary>
-        /// 推論 (reasoning) に使用されたトークン数。
+        /// 推論（reasoning）に使用されたトークン数。
         /// </summary>
         [JsonPropertyName("reasoning_tokens")]
         public int? ReasoningTokens { get; set; }

@@ -8,7 +8,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     /// </summary>
     /// <remarks>
     /// モデルによって生成されたチャット補完メッセージ。
-    /// リクエストメッセージ (OpenAiChatMessage*Dto) とは構造が異なる。
+    /// リクエストメッセージ（OpenAiChatMessage*Dto）とは構造が異なる。
     /// </remarks>
     public class OpenAiChatResponseMessageDto
     {

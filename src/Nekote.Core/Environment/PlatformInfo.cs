@@ -76,7 +76,7 @@ namespace Nekote.Core.Environment
         /// 現在のプラットフォームの改行シーケンスを取得します。
         /// </summary>
         /// <remarks>
-        /// Windows では "\r\n" (CRLF)、Unix 系システムでは "\n" (LF) を返します。
+        /// Windows では "\r\n"（CRLF）、Unix 系システムでは "\n"（LF）を返します。
         /// このプロパティは <see cref="System.Environment.NewLine"/> と同じ値を返しますが、
         /// プラットフォーム固有の情報を一元管理するために提供されています。
         /// </remarks>

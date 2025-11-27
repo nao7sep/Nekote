@@ -9,7 +9,7 @@ namespace Nekote.Core.AI.Infrastructure.OpenAI.Dtos
     public class OpenAiChatChoiceDto
     {
         /// <summary>
-        /// 補完が終了した理由 ("stop", "length", "content_filter" など)。
+        /// 補完が終了した理由（"stop", "length", "content_filter" など）。
         /// </summary>
         [JsonPropertyName("finish_reason")]
         public string? FinishReason { get; set; }

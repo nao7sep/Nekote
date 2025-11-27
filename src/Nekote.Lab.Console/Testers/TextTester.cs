@@ -66,7 +66,7 @@ namespace Nekote.Lab.Console.Testers
             stringBuilder.Append("        Deep indentation preserved").Append("    \n"); // 末尾に空白
             stringBuilder.Append("  \r\n"); // 空白のみの行
             stringBuilder.Append("  \t  \n"); // 空白とタブのみの行
-            stringBuilder.Append("\u2003\u2003\r"); // Unicode 空白 (EM SPACE) のみの行
+            stringBuilder.Append("\u2003\u2003\r"); // Unicode 空白（EM SPACE）のみの行
             stringBuilder.Append("    \n"); // 空白のみの行
             stringBuilder.Append("Multiple empty lines above (whitespace-only lines count as empty).\r\n");
             stringBuilder.Append("Line with\ttabs\tinside\ttext.\n");

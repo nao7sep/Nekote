@@ -17,7 +17,7 @@ namespace Nekote.Core.Tests.DotNet
         [Fact]
         public void StringComparison_DemonstratesCounterIntuitiveInvariantCultureBehavior()
         {
-            // ASCII表では 'F'(70) < 'f'(102) であり、数値では '1' < '2' である
+            // ASCII表では 'F'（70） < 'f'（102） であり、数値では '1' < '2' である
             // 理論的には：
             // - 大文字小文字を区別する比較では File2.txt < file1.txt ('F' < 'f')
             // - 大文字小文字を区別しない比較では file1.txt < File2.txt ('1' < '2')

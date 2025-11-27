@@ -41,6 +41,11 @@ namespace Nekote.Core.Text
         /// </summary>
         /// <param name="value">確認する文字列スパン。</param>
         /// <returns>空の場合は true、それ以外の場合は false。</returns>
+        /// <remarks>
+        /// 注: このメソッドは <see cref="ReadOnlySpan{T}.IsEmpty"/> プロパティの単純なラッパーですが、
+        /// <see cref="IsWhiteSpace(ReadOnlySpan{char})"/> とペアで使用するために意図的に提供されています。
+        /// これにより、一貫したAPI設計と使いやすさが向上します。
+        /// </remarks>
         public static bool IsEmpty(ReadOnlySpan<char> value)
         {
             // 空の場合 true を返します。

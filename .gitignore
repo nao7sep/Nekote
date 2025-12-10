@@ -1,0 +1,29 @@
+﻿# Build output directories
+bin/
+
+# Build output directories
+obj/
+
+# Visual Studio cache and options directory
+.vs/
+
+# Visual Studio Code settings directory
+.vscode/
+
+# JetBrains Rider settings directory
+.idea/
+
+# Visual Studio solution user options
+*.suo
+
+# Visual Studio project user options
+*.user
+
+# Windows thumbnail cache
+Thumbs.db
+
+# Windows folder configuration
+Desktop.ini
+
+# macOS directory metadata
+.DS_Store

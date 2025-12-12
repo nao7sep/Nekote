@@ -5,6 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
+    <!-- Set explicitly for consistency with other projects in this solution -->
+    <RootNamespace>Nekote</RootNamespace>
+
     <!-- Assembly Information -->
     <AssemblyTitle>Nekote</AssemblyTitle>
     <Product>Nekote</Product>

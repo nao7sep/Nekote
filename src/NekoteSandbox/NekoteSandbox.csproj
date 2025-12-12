@@ -5,9 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
+    <!-- Explicitly set to use dots in namespace paths while keeping folder names dot-free -->
+    <RootNamespace>Nekote.Sandbox</RootNamespace>
+
     <!-- Assembly Information -->
-    <AssemblyTitle>NekoteSandbox</AssemblyTitle>
-    <Product>NekoteSandbox</Product>
+    <AssemblyTitle>Nekote Sandbox</AssemblyTitle>
+    <Product>Nekote</Product>
     <Description>Interactive application for testing and demonstrating Nekote library features</Description>
 
     <!-- Version Information -->

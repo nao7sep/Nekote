@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NekoteTests", "tests\NekoteTests\NekoteTests.csproj", "{F4C4612D-B90D-4334-852D-1E8D11A4F132}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NekoteSandbox", "tests\NekoteSandbox\NekoteSandbox.csproj", "{A750D0A3-67E8-4877-8D33-7EA3CCD69FBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NekoteSandbox", "src\NekoteSandbox\NekoteSandbox.csproj", "{A750D0A3-67E8-4877-8D33-7EA3CCD69FBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +66,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C84DE18B-96DD-48A9-B294-A6651D753E56} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{F4C4612D-B90D-4334-852D-1E8D11A4F132} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
-		{A750D0A3-67E8-4877-8D33-7EA3CCD69FBF} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+		{A750D0A3-67E8-4877-8D33-7EA3CCD69FBF} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal

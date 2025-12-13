@@ -16,12 +16,10 @@ Text processing utilities for parsing, escaping, and pattern matching.
 ### Text Parsing (Complete)
 - **LineParser.cs** - Convert between text and line arrays, properly handling all line endings (\r\n, \n, \r)
 - **ParagraphParser.cs** - Split text into paragraphs by blank lines
-- Useful for document processing, markdown, logs, and any text with paragraph structure
+- **SectionParser.cs** - Parse INI-style sections with [name] or @name markers, supports comments (# and //)
+- Useful for document processing, markdown, logs, configuration files, and any text with paragraph or section structure
 
 ## Planned Segments
-
-### Text Parsing
-- **SectionParser.cs** - Parse semantic sections with configurable markers (e.g., @AI, @TODO, custom prefixes)
 
 ### Text Matching
 - **TextMatcher.cs** - Pattern matching (contains, regex, wildcard)

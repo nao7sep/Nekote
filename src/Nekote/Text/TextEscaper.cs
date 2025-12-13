@@ -52,8 +52,8 @@ public static class TextEscaper
     }
 
     /// <summary>
-    /// Escapes text for key-value file format. Line breaks become literal \n,
-    /// backslashes become \\, carriage returns become \r, and tabs become \t.
+    /// Escapes text for key-value file format. Line breaks become literal \n, backslashes become \\,
+    /// carriage returns become \r, and tabs become \t.
     /// </summary>
     private static string EscapeKeyValue(string text)
     {
@@ -85,8 +85,8 @@ public static class TextEscaper
     }
 
     /// <summary>
-    /// Unescapes text from key-value file format. Literal \n becomes line breaks,
-    /// \\ becomes backslash, \r becomes carriage return, and \t becomes tab.
+    /// Unescapes text from key-value file format. Literal \n becomes line breaks, \\ becomes backslash,
+    /// \r becomes carriage return, and \t becomes tab.
     /// </summary>
     private static string UnescapeKeyValue(string escapedText)
     {
@@ -134,9 +134,8 @@ public static class TextEscaper
     }
 
     /// <summary>
-    /// Escapes text for CSV format following RFC 4180. Values containing commas,
-    /// double quotes, or line breaks are wrapped in double quotes with internal
-    /// quotes doubled.
+    /// Escapes text for CSV format following RFC 4180. Values containing commas, double quotes, or line breaks
+    /// are wrapped in double quotes with internal quotes doubled.
     /// </summary>
     private static string EscapeCsv(string text)
     {
@@ -163,8 +162,7 @@ public static class TextEscaper
     }
 
     /// <summary>
-    /// Unescapes text from CSV format. Removes surrounding quotes and converts
-    /// doubled quotes back to single quotes.
+    /// Unescapes text from CSV format. Removes surrounding quotes and converts doubled quotes back to single quotes.
     /// </summary>
     private static string UnescapeCsv(string escapedText)
     {
@@ -194,9 +192,8 @@ public static class TextEscaper
     }
 
     /// <summary>
-    /// Escapes text for URL query strings using percent encoding.
-    /// Unreserved characters (A-Z, a-z, 0-9, -, _, ., ~) are not encoded.
-    /// All other characters become %XX hex values.
+    /// Escapes text for URL query strings using percent encoding. Unreserved characters (A-Z, a-z, 0-9, -, _, ., ~)
+    /// are not encoded. All other characters become %XX hex values.
     /// </summary>
     private static string EscapeUrl(string text)
     {
@@ -224,8 +221,7 @@ public static class TextEscaper
     }
 
     /// <summary>
-    /// Unescapes text from URL percent encoding. Converts %XX sequences back
-    /// to their original characters.
+    /// Unescapes text from URL percent encoding. Converts %XX sequences back to their original characters.
     /// </summary>
     private static string UnescapeUrl(string escapedText)
     {

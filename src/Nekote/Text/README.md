@@ -2,22 +2,18 @@
 
 Text processing utilities for parsing, escaping, and pattern matching.
 
-## Files in this Namespace
+## Current Segments
 
-### Text Escaping
-- **EscapeMode.cs** - Defines escape strategies (KeyValue, Csv, Url, Html)
-- **TextEscaper.cs** - Static methods for escaping and unescaping text
+### Text Escaping (Complete)
+- **EscapeMode.cs** - Enum defining escape strategies: KeyValue, CSV, URL, HTML
+- **TextEscaper.cs** - Static escape/unescape methods for all four modes
 
-### Future Additions
-- **KeyValueParser.cs** - Parse Key:Value format files (depends on TextEscaper)
-- **KeyValueWriter.cs** - Write Key:Value format files
+## Planned Segments
+
+### Text Parsing
+- **KeyValueParser.cs** / **KeyValueWriter.cs** - Parse and write Key:Value format files
 - **ParagraphParser.cs** - Split text into paragraphs by blank lines
-- **SectionParser.cs** - Parse semantic sections with markers
-- **TextMatcher.cs** - Pattern matching utilities (contains, regex, wildcard)
+- **SectionParser.cs** - Parse semantic sections with markers (e.g., @AI sections)
 
-## Purpose
-
-This namespace provides text processing utilities that are:
-- Complex enough to benefit from well-tested implementations
-- General enough to be useful across multiple applications
-- Difficult to generate correctly with edge cases
+### Text Matching
+- **TextMatcher.cs** - Pattern matching (contains, regex, wildcard)

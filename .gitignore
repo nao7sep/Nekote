@@ -27,3 +27,7 @@ Desktop.ini
 
 # macOS directory metadata
 .DS_Store
+
+# AI context files - Some AI assistants require a local copy of the playbook
+# within the working repository for proper context during development sessions
+PLAYBOOK.md

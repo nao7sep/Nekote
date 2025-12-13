@@ -218,6 +218,56 @@ public class TextEscaperTests
         Assert.Equal("test%2", result);
     }
 
+    [Fact]
+    public void Escape_Url_Emoji_HandlesCorrectly()
+    {
+        var input = "Hello 🌍 World";
+        var result = TextEscaper.Escape(input, EscapeMode.Url);
+        Assert.Equal("Hello%20%F0%9F%8C%8D%20World", result);
+    }
+
+    [Fact]
+    public void Unescape_Url_Emoji_HandlesCorrectly()
+    {
+        var input = "Hello%20%F0%9F%8C%8D%20World";
+        var result = TextEscaper.Unescape(input, EscapeMode.Url);
+        Assert.Equal("Hello 🌍 World", result);
+    }
+
+    [Fact]
+    public void Escape_Url_NonAscii_HandlesCorrectly()
+    {
+        var input = "café";
+        var result = TextEscaper.Escape(input, EscapeMode.Url);
+        Assert.Equal("caf%C3%A9", result);
+    }
+
+    [Fact]
+    public void Unescape_Url_NonAscii_HandlesCorrectly()
+    {
+        var input = "caf%C3%A9";
+        var result = TextEscaper.Unescape(input, EscapeMode.Url);
+        Assert.Equal("café", result);
+    }
+
+    [Fact]
+    public void Unescape_Url_MixedEncodedAndNonAscii_HandlesCorrectly()
+    {
+        // This tests the critical bug fix: passing already-decoded non-ASCII chars
+        var input = "café%20test";  // "café" is not encoded, but space is
+        var result = TextEscaper.Unescape(input, EscapeMode.Url);
+        Assert.Equal("café test", result);
+    }
+
+    [Fact]
+    public void Escape_Unescape_Url_ComplexUnicode_RoundTrip()
+    {
+        var original = "Hello 🌍 café 日本語 test";
+        var escaped = TextEscaper.Escape(original, EscapeMode.Url);
+        var unescaped = TextEscaper.Unescape(escaped, EscapeMode.Url);
+        Assert.Equal(original, unescaped);
+    }
+
     #endregion
 
     #region HTML Mode Tests
@@ -278,6 +328,28 @@ public class TextEscaperTests
     {
         var result = TextEscaper.Unescape("test &amp", EscapeMode.Html);
         Assert.Equal("test &amp", result);
+    }
+
+    [Fact]
+    public void Unescape_Html_Apos_HandlesCorrectly()
+    {
+        var result = TextEscaper.Unescape("it&apos;s", EscapeMode.Html);
+        Assert.Equal("it's", result);
+    }
+
+    [Fact]
+    public void Unescape_Html_Nbsp_HandlesCorrectly()
+    {
+        var result = TextEscaper.Unescape("hello&nbsp;world", EscapeMode.Html);
+        Assert.Equal("hello\u00A0world", result);
+    }
+
+    [Fact]
+    public void Unescape_Html_AllStandardEntities_HandlesCorrectly()
+    {
+        var input = "&amp;&lt;&gt;&quot;&#39;&apos;&nbsp;";
+        var result = TextEscaper.Unescape(input, EscapeMode.Html);
+        Assert.Equal("&<>\"''\u00A0", result);
     }
 
     #endregion

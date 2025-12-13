@@ -8,10 +8,14 @@ Text processing utilities for parsing, escaping, and pattern matching.
 - **EscapeMode.cs** - Enum defining escape strategies: KeyValue, CSV, URL, HTML
 - **TextEscaper.cs** - Static escape/unescape methods for all four modes
 
+### Key-Value Parsing (Complete)
+- **KeyValueParser.cs** - Parse "key: value" format to Dictionary<string, string>
+- **KeyValueWriter.cs** - Write Dictionary<string, string> to "key: value" format
+- Simple INI-like configuration storage without sections, supports comments (#) and multi-line values
+
 ## Planned Segments
 
 ### Text Parsing
-- **KeyValueParser.cs** / **KeyValueWriter.cs** - Parse and write Key:Value format files
 - **ParagraphParser.cs** - Split text into paragraphs by blank lines
 - **SectionParser.cs** - Parse semantic sections with markers (e.g., @AI sections)
 

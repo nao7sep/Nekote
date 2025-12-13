@@ -193,26 +193,29 @@ public static class TextEscaper
 
     /// <summary>
     /// Escapes text for URL query strings using percent encoding. Unreserved characters (A-Z, a-z, 0-9, -, _, ., ~)
-    /// are not encoded. All other characters become %XX hex values.
+    /// are not encoded. All other characters become %XX hex values. Properly handles surrogate pairs (emojis).
     /// </summary>
     private static string EscapeUrl(string text)
     {
         var result = new StringBuilder(text.Length + 16);
+        Span<byte> bytes = stackalloc byte[4]; // Max UTF-8 bytes per character
 
-        foreach (char c in text)
+        // Use Rune to properly handle surrogate pairs (emojis)
+        foreach (Rune rune in text.EnumerateRunes())
         {
-            if (IsUnreservedUrlChar(c))
+            // Check if it's a simple ASCII unreserved character
+            if (rune.IsAscii && IsUnreservedUrlChar((char)rune.Value))
             {
-                result.Append(c);
+                result.Append((char)rune.Value);
             }
             else
             {
                 // Convert to UTF-8 bytes and percent-encode each byte
-                byte[] bytes = Encoding.UTF8.GetBytes(new[] { c });
-                foreach (byte b in bytes)
+                int byteCount = rune.EncodeToUtf8(bytes);
+                for (int i = 0; i < byteCount; i++)
                 {
                     result.Append('%');
-                    result.Append(b.ToString("X2"));
+                    result.Append(bytes[i].ToString("X2"));
                 }
             }
         }
@@ -222,6 +225,7 @@ public static class TextEscaper
 
     /// <summary>
     /// Unescapes text from URL percent encoding. Converts %XX sequences back to their original characters.
+    /// Properly handles non-ASCII characters that are already decoded.
     /// </summary>
     private static string UnescapeUrl(string escapedText)
     {
@@ -240,14 +244,17 @@ public static class TextEscaper
                 }
                 else
                 {
-                    // Invalid hex sequence, treat % as literal
-                    bytes.Add((byte)escapedText[i]);
+                    // Invalid hex sequence, treat % as literal - encode it properly
+                    byte[] charBytes = Encoding.UTF8.GetBytes(new[] { escapedText[i] });
+                    bytes.AddRange(charBytes);
                     i++;
                 }
             }
             else
             {
-                bytes.Add((byte)escapedText[i]);
+                // Non-escaped character - encode it properly to UTF-8 bytes
+                byte[] charBytes = Encoding.UTF8.GetBytes(new[] { escapedText[i] });
+                bytes.AddRange(charBytes);
                 i++;
             }
         }
@@ -325,6 +332,8 @@ public static class TextEscaper
                         "&gt;" => ">",
                         "&quot;" => "\"",
                         "&#39;" => "'",
+                        "&apos;" => "'",
+                        "&nbsp;" => "\u00A0",
                         _ => null
                     };
 

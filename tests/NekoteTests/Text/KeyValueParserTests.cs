@@ -85,6 +85,28 @@ public class KeyValueParserTests
     }
 
     [Fact]
+    public void Parse_SlashCommentLines_SkipsComments()
+    {
+        var input = "// This is a comment\nkey1: value1\n// Another comment\nkey2: value2";
+        var result = KeyValueParser.Parse(input);
+
+        Assert.Equal(2, result.Count);
+        Assert.Equal("value1", result["key1"]);
+        Assert.Equal("value2", result["key2"]);
+    }
+
+    [Fact]
+    public void Parse_MixedComments_SkipsBothTypes()
+    {
+        var input = "# Hash comment\nkey1: value1\n// Slash comment\nkey2: value2";
+        var result = KeyValueParser.Parse(input);
+
+        Assert.Equal(2, result.Count);
+        Assert.Equal("value1", result["key1"]);
+        Assert.Equal("value2", result["key2"]);
+    }
+
+    [Fact]
     public void Parse_MissingColon_ThrowsArgumentException()
     {
         var input = "invalid line without colon";

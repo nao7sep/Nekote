@@ -173,6 +173,30 @@ public class KeyValueWriterTests
     }
 
     [Fact]
+    public void Write_KeyStartingWithSlashSlash_ThrowsArgumentException()
+    {
+        var data = new Dictionary<string, string> { ["//comment"] = "value" };
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        Assert.Contains("starts with '//'", ex.Message);
+    }
+
+    [Fact]
+    public void Write_KeyContainingBracket_ThrowsArgumentException()
+    {
+        var data = new Dictionary<string, string> { ["[section]"] = "value" };
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        Assert.Contains("section marker characters", ex.Message);
+    }
+
+    [Fact]
+    public void Write_KeyContainingAtSign_ThrowsArgumentException()
+    {
+        var data = new Dictionary<string, string> { ["@key"] = "value" };
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        Assert.Contains("section marker characters", ex.Message);
+    }
+
+    [Fact]
     public void Write_EmptyKey_ThrowsArgumentException()
     {
         var data = new Dictionary<string, string> { [""] = "value" };

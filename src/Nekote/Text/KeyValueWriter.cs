@@ -13,7 +13,7 @@ public static class KeyValueWriter
     /// <param name="data">The dictionary to write.</param>
     /// <param name="sortKeys">If true, keys are sorted alphabetically. Default is false.</param>
     /// <returns>Key:Value format text.</returns>
-    /// <exception cref="ArgumentException">Thrown when a key contains invalid characters (':', '\n', '\r') or starts with '#'.</exception>
+    /// <exception cref="ArgumentException">Thrown when a key contains invalid characters (':', '\n', '\r', '[', ']', '@') or starts with '#' or '//'.</exception>
     public static string Write(Dictionary<string, string> data, bool sortKeys = false)
     {
         if (data == null || data.Count == 0)
@@ -35,6 +35,12 @@ public static class KeyValueWriter
 
             if (key.TrimStart().StartsWith('#'))
                 throw new ArgumentException($"Key '{key}' starts with '#'. Keys cannot start with a hash as it denotes a comment.");
+
+            if (key.TrimStart().StartsWith("//"))
+                throw new ArgumentException($"Key '{key}' starts with '//'. Keys cannot start with double slashes as they denote a comment.");
+
+            if (key.Contains('[') || key.Contains(']') || key.Contains('@'))
+                throw new ArgumentException($"Key '{key}' contains section marker characters ('[', ']', or '@'). Keys cannot contain these characters as they denote section boundaries.");
 
             string value = data[key];
             string escapedValue = TextEscaper.Escape(value, EscapeMode.KeyValue);

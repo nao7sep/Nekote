@@ -6,7 +6,7 @@
 public static class KeyValueParser
 {
     /// <summary>
-    /// Parses Key:Value format text into a dictionary. Empty lines and lines starting with # are ignored.
+    /// Parses Key:Value format text into a dictionary. Empty lines and lines starting with # or // are ignored.
     /// </summary>
     /// <param name="text">The text to parse in Key:Value format.</param>
     /// <returns>A dictionary of key-value pairs with unescaped values.</returns>
@@ -24,7 +24,7 @@ public static class KeyValueParser
             var line = lines[i].Trim();
 
             // Skip empty lines and comments
-            if (string.IsNullOrEmpty(line) || line.StartsWith('#'))
+            if (string.IsNullOrEmpty(line) || line.StartsWith('#') || line.StartsWith("//"))
                 continue;
 
             // Find first colon

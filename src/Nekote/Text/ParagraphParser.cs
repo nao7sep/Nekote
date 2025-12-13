@@ -19,12 +19,7 @@ public static class ParagraphParser
             return Array.Empty<string>();
 
         newLine ??= Environment.NewLine;
-        
-        // Normalize CRLF to LF to ensure consistent splitting
-        // This prevents \r\n from being split into "line\r", "", "line" where the empty string triggers a paragraph break
-        var normalizedText = text.Replace("\r\n", "\n");
-        var lines = normalizedText.Split('\n');
-        
+        var lines = LineParser.ToLines(text);
         var paragraphs = new List<string>();
         var currentParagraph = new List<string>();
 

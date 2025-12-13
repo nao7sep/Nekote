@@ -14,6 +14,7 @@ Text processing utilities for parsing, escaping, and pattern matching.
 - Simple INI-like configuration storage without sections, supports comments (#) and multi-line values
 
 ### Text Parsing (Complete)
+- **LineParser.cs** - Convert between text and line arrays, properly handling all line endings (\r\n, \n, \r)
 - **ParagraphParser.cs** - Split text into paragraphs by blank lines
 - Useful for document processing, markdown, logs, and any text with paragraph structure
 

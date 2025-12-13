@@ -17,7 +17,7 @@ public static class KeyValueParser
             return new Dictionary<string, string>();
 
         var result = new Dictionary<string, string>();
-        var lines = text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        var lines = LineParser.ToLines(text);
 
         for (int i = 0; i < lines.Length; i++)
         {

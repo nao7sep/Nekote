@@ -139,4 +139,44 @@ public class KeyValueWriterTests
             Assert.Equal(kvp.Value, parsed[kvp.Key]);
         }
     }
+
+    [Fact]
+    public void Write_KeyWithColon_ThrowsArgumentException()
+    {
+        var data = new Dictionary<string, string> { ["key:sub"] = "value" };
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        Assert.Contains("contains invalid character ':'", ex.Message);
+    }
+
+    [Fact]
+    public void Write_KeyWithNewline_ThrowsArgumentException()
+    {
+        var data = new Dictionary<string, string> { ["key\nline"] = "value" };
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        Assert.Contains("contains line breaks", ex.Message);
+    }
+
+    [Fact]
+    public void Write_KeyStartingWithHash_ThrowsArgumentException()
+    {
+        var data = new Dictionary<string, string> { ["#comment"] = "value" };
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        Assert.Contains("starts with '#'", ex.Message);
+    }
+
+    [Fact]
+    public void Write_KeyStartingWithSpaceAndHash_ThrowsArgumentException()
+    {
+        var data = new Dictionary<string, string> { ["  #comment"] = "value" };
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        Assert.Contains("starts with '#'", ex.Message);
+    }
+
+    [Fact]
+    public void Write_EmptyKey_ThrowsArgumentException()
+    {
+        var data = new Dictionary<string, string> { [""] = "value" };
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        Assert.Contains("null or whitespace", ex.Message);
+    }
 }

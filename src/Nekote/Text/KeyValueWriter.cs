@@ -13,6 +13,7 @@ public static class KeyValueWriter
     /// <param name="data">The dictionary to write.</param>
     /// <param name="sortKeys">If true, keys are sorted alphabetically. Default is false.</param>
     /// <returns>Key:Value format text.</returns>
+    /// <exception cref="ArgumentException">Thrown when a key contains invalid characters (':', '\n', '\r') or starts with '#'.</exception>
     public static string Write(Dictionary<string, string> data, bool sortKeys = false)
     {
         if (data == null || data.Count == 0)
@@ -23,6 +24,18 @@ public static class KeyValueWriter
 
         foreach (var key in keys)
         {
+            if (string.IsNullOrWhiteSpace(key))
+                throw new ArgumentException($"Key cannot be null or whitespace.");
+
+            if (key.Contains(':'))
+                throw new ArgumentException($"Key '{key}' contains invalid character ':'. Keys cannot contain colons.");
+
+            if (key.Contains('\n') || key.Contains('\r'))
+                throw new ArgumentException($"Key '{key}' contains line breaks. Keys cannot contain newlines.");
+
+            if (key.TrimStart().StartsWith('#'))
+                throw new ArgumentException($"Key '{key}' starts with '#'. Keys cannot start with a hash as it denotes a comment.");
+
             string value = data[key];
             string escapedValue = TextEscaper.Escape(value, EscapeMode.KeyValue);
             result.AppendLine($"{key}: {escapedValue}");

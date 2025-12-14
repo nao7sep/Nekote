@@ -348,5 +348,108 @@ retries: 3";
     }
 
     #endregion
-}
 
+    #region Mixed Marker Style Tests
+
+    [Fact]
+    public void Parse_MixedStyles_IniBracketsAndAtPrefix()
+    {
+        var input = @"[Section1]
+key1: value1
+
+@Section2
+key2: value2";
+
+        var result = SectionParser.Parse(input);
+
+        Assert.Equal(2, result.Length);
+        Assert.Equal(SectionMarkerStyle.IniBrackets, result[0].Marker);
+        Assert.Equal("Section1", result[0].Name);
+        Assert.Equal("value1", result[0].KeyValues["key1"]);
+
+        Assert.Equal(SectionMarkerStyle.AtPrefix, result[1].Marker);
+        Assert.Equal("Section2", result[1].Name);
+        Assert.Equal("value2", result[1].KeyValues["key2"]);
+    }
+
+    [Fact]
+    public void Parse_MixedStyles_WithPreamble()
+    {
+        var input = @"preamble: value
+
+[IniSection]
+inikey: inivalue
+
+@AtSection
+atkey: atvalue";
+
+        var result = SectionParser.Parse(input);
+
+        Assert.Equal(3, result.Length);
+        Assert.Equal(SectionMarkerStyle.None, result[0].Marker);
+        Assert.Equal("", result[0].Name);
+        Assert.Equal("value", result[0].KeyValues["preamble"]);
+
+        Assert.Equal(SectionMarkerStyle.IniBrackets, result[1].Marker);
+        Assert.Equal("IniSection", result[1].Name);
+
+        Assert.Equal(SectionMarkerStyle.AtPrefix, result[2].Marker);
+        Assert.Equal("AtSection", result[2].Name);
+    }
+
+    [Fact]
+    public void Parse_MixedStyles_AlternatingPatterns()
+    {
+        var input = @"@First
+key1: value1
+
+[Second]
+key2: value2
+
+@Third
+key3: value3
+
+[Fourth]
+key4: value4";
+
+        var result = SectionParser.Parse(input);
+
+        Assert.Equal(4, result.Length);
+        Assert.Equal(SectionMarkerStyle.AtPrefix, result[0].Marker);
+        Assert.Equal("First", result[0].Name);
+
+        Assert.Equal(SectionMarkerStyle.IniBrackets, result[1].Marker);
+        Assert.Equal("Second", result[1].Name);
+
+        Assert.Equal(SectionMarkerStyle.AtPrefix, result[2].Marker);
+        Assert.Equal("Third", result[2].Name);
+
+        Assert.Equal(SectionMarkerStyle.IniBrackets, result[3].Marker);
+        Assert.Equal("Fourth", result[3].Name);
+    }
+
+    [Fact]
+    public void Parse_MarkerProperty_ReflectsActualMarkerUsed()
+    {
+        var input = @"unmarked: value
+
+[bracketed]
+key1: value1
+
+@prefixed
+key2: value2";
+
+        var result = SectionParser.Parse(input);
+
+        // Unmarked section has None marker
+        Assert.Equal(SectionMarkerStyle.None, result[0].Marker);
+
+        // INI bracket section
+        Assert.Equal(SectionMarkerStyle.IniBrackets, result[1].Marker);
+
+        // At-prefix section
+        Assert.Equal(SectionMarkerStyle.AtPrefix, result[2].Marker);
+    }
+
+    #endregion
+}

@@ -224,4 +224,41 @@ path: C:\\Users\\Test\\Documents
         Assert.Single(result);
         Assert.Equal("value", result["key"]);
     }
+
+    [Fact]
+    public void Parse_CaseInsensitiveKeys_TreatsSameKeyDifferentCase()
+    {
+        // Keys are case-insensitive, so "Key" and "key" are the same
+        var input = "Key: value1\nkey: value2";
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueParser.Parse(input));
+        Assert.Contains("duplicate key", ex.Message);
+    }
+
+    [Fact]
+    public void Parse_CaseInsensitiveKeys_Lookup()
+    {
+        // Can lookup keys with different casing
+        var input = "Host: localhost\nPort: 5432";
+        var result = KeyValueParser.Parse(input);
+
+        Assert.Equal("localhost", result["Host"]);
+        Assert.Equal("localhost", result["host"]);
+        Assert.Equal("localhost", result["HOST"]);
+        Assert.Equal("5432", result["Port"]);
+        Assert.Equal("5432", result["port"]);
+    }
+
+    [Fact]
+    public void Parse_CaseInsensitiveKeys_MixedCase()
+    {
+        // Last occurrence wins when keys differ only in case
+        var input = "dataBase: value1";
+        var result = KeyValueParser.Parse(input);
+
+        // Can be accessed with any casing
+        Assert.Equal("value1", result["dataBase"]);
+        Assert.Equal("value1", result["database"]);
+        Assert.Equal("value1", result["DATABASE"]);
+        Assert.Equal("value1", result["DataBase"]);
+    }
 }

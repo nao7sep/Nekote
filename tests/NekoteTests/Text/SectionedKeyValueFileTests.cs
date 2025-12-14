@@ -431,4 +431,171 @@ Port: 5432";
         ini.SetValue("Section", "Key", string.Empty);
         Assert.Equal(string.Empty, ini.GetString("Section", "Key"));
     }
+
+    // Case-insensitivity tests
+
+    [Fact]
+    public void Parse_CaseInsensitiveSections_MergesDifferentCase()
+    {
+        var input = @"[Database]
+Host: localhost
+
+[database]
+Port: 5432
+
+[DATABASE]
+Name: mydb";
+
+        var ini = SectionedKeyValueFile.Parse(input);
+
+        // All three should be treated as same section
+        Assert.True(ini.HasSection("Database"));
+        Assert.True(ini.HasSection("database"));
+        Assert.True(ini.HasSection("DATABASE"));
+
+        // All keys should be in the same section
+        Assert.Equal("localhost", ini.GetString("Database", "Host"));
+        Assert.Equal(5432, ini.GetInt32("database", "Port"));
+        Assert.Equal("mydb", ini.GetString("DATABASE", "Name"));
+    }
+
+    [Fact]
+    public void Parse_CaseInsensitiveKeys_ThrowsDuplicate()
+    {
+        // Keys that differ only in case are duplicates
+        var input = @"[Database]
+Host: first
+host: second
+HOST: third";
+
+        var ex = Assert.Throws<ArgumentException>(() => SectionedKeyValueFile.Parse(input));
+        Assert.Contains("duplicate key", ex.Message);
+    }
+
+    [Fact]
+    public void GetString_CaseInsensitiveSection_AnyCase()
+    {
+        var ini = new SectionedKeyValueFile();
+        ini.SetValue("Database", "Host", "localhost");
+
+        // Can access with any casing
+        Assert.Equal("localhost", ini.GetString("database", "Host"));
+        Assert.Equal("localhost", ini.GetString("DATABASE", "Host"));
+        Assert.Equal("localhost", ini.GetString("DataBase", "Host"));
+    }
+
+    [Fact]
+    public void GetString_CaseInsensitiveKey_AnyCase()
+    {
+        var ini = new SectionedKeyValueFile();
+        ini.SetValue("Database", "Host", "localhost");
+
+        // Can access with any key casing
+        Assert.Equal("localhost", ini.GetString("Database", "host"));
+        Assert.Equal("localhost", ini.GetString("Database", "HOST"));
+        Assert.Equal("localhost", ini.GetString("Database", "HoSt"));
+    }
+
+    [Fact]
+    public void HasSection_CaseInsensitive()
+    {
+        var ini = new SectionedKeyValueFile();
+        ini.SetValue("Database", "Host", "localhost");
+
+        Assert.True(ini.HasSection("Database"));
+        Assert.True(ini.HasSection("database"));
+        Assert.True(ini.HasSection("DATABASE"));
+        Assert.True(ini.HasSection("DaTaBaSe"));
+    }
+
+    [Fact]
+    public void SetValue_CaseInsensitiveSectionAndKey_UpdatesSameEntry()
+    {
+        var ini = new SectionedKeyValueFile();
+        ini.SetValue("Database", "Host", "localhost");
+        ini.SetValue("database", "HOST", "remotehost");
+
+        // Should have updated the same entry
+        Assert.Equal("remotehost", ini.GetString("Database", "Host"));
+        Assert.Equal("remotehost", ini.GetString("database", "host"));
+    }
+
+    [Fact]
+    public void RemoveSection_CaseInsensitive()
+    {
+        var ini = new SectionedKeyValueFile();
+        ini.SetValue("Database", "Host", "localhost");
+
+        ini.RemoveSection("database");  // Different case
+
+        Assert.False(ini.HasSection("Database"));
+        Assert.False(ini.HasSection("database"));
+    }
+
+    [Fact]
+    public void RemoveValue_CaseInsensitive()
+    {
+        var ini = new SectionedKeyValueFile();
+        ini.SetValue("Database", "Host", "localhost");
+
+        ini.RemoveValue("database", "HOST");  // Both different case
+
+        Assert.Equal("", ini.GetString("Database", "Host"));
+    }
+
+    // Mixed marker style tests
+
+    [Fact]
+    public void Parse_MixedMarkerStyles_ParsesBoth()
+    {
+        var input = @"[IniBracketSection]
+Key1: Value1
+
+@AtPrefixSection
+Key2: Value2";
+
+        var ini = SectionedKeyValueFile.Parse(input);
+
+        Assert.True(ini.HasSection("IniBracketSection"));
+        Assert.True(ini.HasSection("AtPrefixSection"));
+        Assert.Equal("Value1", ini.GetString("IniBracketSection", "Key1"));
+        Assert.Equal("Value2", ini.GetString("AtPrefixSection", "Key2"));
+    }
+
+    [Fact]
+    public void Parse_MixedMarkersWithPreamble_ParsesAll()
+    {
+        var input = @"GlobalKey: GlobalValue
+
+[Section1]
+Key1: Value1
+
+@Section2
+Key2: Value2";
+
+        var ini = SectionedKeyValueFile.Parse(input);
+
+        Assert.Equal("GlobalValue", ini.GetString("", "GlobalKey"));
+        Assert.Equal("Value1", ini.GetString("Section1", "Key1"));
+        Assert.Equal("Value2", ini.GetString("Section2", "Key2"));
+    }
+
+    [Fact]
+    public void Parse_AutoDetectsBothStyles_RoundTripsWithOutputStyle()
+    {
+        var input = @"[Database]
+Host: localhost
+
+@Features
+AutoSave: true";
+
+        var ini = SectionedKeyValueFile.Parse(input, outputMarkerStyle: SectionMarkerStyle.AtPrefix);
+        var output = ini.ToString();
+
+        // Output should use @ style for both (output marker style)
+        Assert.Contains("@Database", output);
+        Assert.Contains("@Features", output);
+        Assert.DoesNotContain("[Database]", output);
+        Assert.DoesNotContain("[Features]", output);
+    }
 }

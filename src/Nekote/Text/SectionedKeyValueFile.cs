@@ -61,7 +61,19 @@ public class SectionedKeyValueFile
 
         foreach (var section in sections)
         {
-            file._sections[section.Name] = section.KeyValues;
+            // Merge duplicate sections (standard INI behavior)
+            if (file._sections.TryGetValue(section.Name, out var existing))
+            {
+                // Add or overwrite keys from this section
+                foreach (var (key, value) in section.KeyValues)
+                {
+                    existing[key] = value;
+                }
+            }
+            else
+            {
+                file._sections[section.Name] = section.KeyValues;
+            }
         }
 
         return file;

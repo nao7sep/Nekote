@@ -185,7 +185,7 @@ public class KeyValueWriterTests
     {
         var data = new Dictionary<string, string> { ["[section]"] = "value" };
         var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
-        Assert.Contains("section marker characters", ex.Message);
+        Assert.Contains("starts with '['", ex.Message);
     }
 
     [Fact]
@@ -193,7 +193,7 @@ public class KeyValueWriterTests
     {
         var data = new Dictionary<string, string> { ["@key"] = "value" };
         var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
-        Assert.Contains("section marker characters", ex.Message);
+        Assert.Contains("starts with '@'", ex.Message);
     }
 
     [Fact]

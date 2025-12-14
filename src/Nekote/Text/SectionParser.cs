@@ -135,6 +135,13 @@ public static class SectionParser
         };
     }
 
+    /// <summary>
+    /// Tries to parse a line as an INI-style [section] marker.
+    /// </summary>
+    /// <remarks>
+    /// Does not support comments on the same line as section headers.
+    /// "[Section] # comment" will not be recognized as a section marker.
+    /// </remarks>
     private static string? TryParseIniBrackets(string line)
     {
         if (!line.StartsWith('[') || !line.EndsWith(']'))
@@ -146,6 +153,13 @@ public static class SectionParser
         return line.Substring(1, line.Length - 2).Trim();
     }
 
+    /// <summary>
+    /// Tries to parse a line as an @-prefix section marker.
+    /// </summary>
+    /// <remarks>
+    /// Does not support comments on the same line as section headers.
+    /// "@Section # comment" will not be recognized as a section marker.
+    /// </remarks>
     private static string? TryParseAtPrefix(string line)
     {
         if (!line.StartsWith('@'))

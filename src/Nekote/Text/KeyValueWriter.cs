@@ -11,16 +11,16 @@ public static class KeyValueWriter
     /// Writes a dictionary to Key:Value format text. Values are escaped for multi-line content.
     /// </summary>
     /// <param name="data">The dictionary to write.</param>
-    /// <param name="sortKeys">If true, keys are sorted alphabetically. Default is false.</param>
+    /// <param name="sortKeys">If true, keys are sorted alphabetically using ordinal comparison. Default is false.</param>
     /// <returns>Key:Value format text.</returns>
-    /// <exception cref="ArgumentException">Thrown when a key contains invalid characters (':', '\n', '\r', '[', ']', '@') or starts with '#' or '//'.</exception>
+    /// <exception cref="ArgumentException">Thrown when a key contains invalid characters (':', '\n', '\r') or starts with '#', '//', '[', or '@'.</exception>
     public static string Write(Dictionary<string, string> data, bool sortKeys = false)
     {
         if (data == null || data.Count == 0)
             return string.Empty;
 
         var result = new StringBuilder();
-        var keys = sortKeys ? data.Keys.OrderBy(k => k).ToList() : data.Keys.ToList();
+        var keys = sortKeys ? data.Keys.OrderBy(k => k, StringComparer.Ordinal).ToList() : data.Keys.ToList();
 
         foreach (var key in keys)
         {
@@ -39,8 +39,12 @@ public static class KeyValueWriter
             if (key.TrimStart().StartsWith("//"))
                 throw new ArgumentException($"Key '{key}' starts with '//'. Keys cannot start with double slashes as they denote a comment.");
 
-            if (key.Contains('[') || key.Contains(']') || key.Contains('@'))
-                throw new ArgumentException($"Key '{key}' contains section marker characters ('[', ']', or '@'). Keys cannot contain these characters as they denote section boundaries.");
+            // Only reject keys that would be ambiguous with section markers (starting with [ or @)
+            if (key.TrimStart().StartsWith('['))
+                throw new ArgumentException($"Key '{key}' starts with '['. Keys cannot start with an opening bracket as it denotes a section marker.");
+
+            if (key.TrimStart().StartsWith('@'))
+                throw new ArgumentException($"Key '{key}' starts with '@'. Keys cannot start with at-sign as it denotes a section marker.");
 
             string value = data[key];
             string escapedValue = TextEscaper.Escape(value, EscapeMode.KeyValue);

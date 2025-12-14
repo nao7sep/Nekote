@@ -1,4 +1,6 @@
-﻿namespace Nekote.Text;
+﻿using System.Text;
+
+namespace Nekote.Text;
 
 /// <summary>
 /// Parses text in Key:Value format into a dictionary. Values are automatically unescaped using KeyValue mode.
@@ -52,11 +54,12 @@ public static class KeyValueParser
     /// Parses Key:Value format text from a file into a dictionary.
     /// </summary>
     /// <param name="filePath">The path to the file to parse.</param>
+    /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A dictionary of key-value pairs with unescaped values.</returns>
-    public static async Task<Dictionary<string, string>> ParseFileAsync(string filePath, CancellationToken cancellationToken = default)
+    public static async Task<Dictionary<string, string>> ParseFileAsync(string filePath, Encoding? encoding = null, CancellationToken cancellationToken = default)
     {
-        string text = await File.ReadAllTextAsync(filePath, cancellationToken);
+        string text = await File.ReadAllTextAsync(filePath, encoding ?? TextEncoding.Utf8NoBom, cancellationToken);
         return Parse(text);
     }
 }

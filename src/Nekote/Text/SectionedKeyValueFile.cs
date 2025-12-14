@@ -1,4 +1,6 @@
-﻿namespace Nekote.Text;
+﻿using System.Text;
+
+namespace Nekote.Text;
 
 /// <summary>
 /// Represents a sectioned key-value file format with typed value access.
@@ -38,10 +40,11 @@ public class SectionedKeyValueFile
     /// </summary>
     /// <param name="path">Path to the file.</param>
     /// <param name="markerStyle">Section marker style (default: IniBrackets).</param>
+    /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>
     /// <returns>Loaded SectionedKeyValueFile instance.</returns>
-    public static SectionedKeyValueFile Load(string path, SectionMarkerStyle markerStyle = SectionMarkerStyle.IniBrackets)
+    public static SectionedKeyValueFile Load(string path, SectionMarkerStyle markerStyle = SectionMarkerStyle.IniBrackets, Encoding? encoding = null)
     {
-        var text = File.ReadAllText(path);
+        var text = File.ReadAllText(path, encoding ?? TextEncoding.Utf8NoBom);
         return Parse(text, markerStyle);
     }
 
@@ -67,10 +70,12 @@ public class SectionedKeyValueFile
     /// <summary>
     /// Saves the file to the specified path.
     /// </summary>
-    public void Save(string path)
+    /// <param name="path">Path to save the file.</param>
+    /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>
+    public void Save(string path, Encoding? encoding = null)
     {
         var content = ToString();
-        File.WriteAllText(path, content);
+        File.WriteAllText(path, content, encoding ?? TextEncoding.Utf8NoBom);
     }
 
     /// <summary>

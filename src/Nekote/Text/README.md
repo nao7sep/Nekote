@@ -21,8 +21,14 @@ Text processing utilities for parsing, escaping, and pattern matching.
 
 ### Typed String Conversion
 - **TypedStringConverter.cs** - Culture-safe string↔type conversion (enforces InvariantCulture for portable config files)
-- Converts between nullable strings and Int32, Int64, Double, Decimal, Bool, DateTime, Guid
+- Converts between nullable strings and Int32, Int64, Double, Decimal, Bool, DateTime, Guid, TimeSpan, DateTimeOffset, Enum<T>, Uri, Version
 - Rejects locale-specific formats (e.g., "1,5" German decimal) to ensure cross-platform compatibility
+
+### Text Encoding
+- **TextEncoding.cs** - Cached encoding instances for file operations
+- Provides Utf8NoBom (recommended default), Utf8WithBom, Utf16, Utf32
+- UTF-8 without BOM is the cross-platform standard (BOM breaks Unix tools, shebangs, parsers)
+- All file operations in this namespace accept optional encoding parameter with Utf8NoBom as default
 
 ### Sectioned Key-Value Files
 - **SectionParser.cs** - Parse sections with [name] (IniBrackets) or @name (AtPrefix) markers

@@ -56,10 +56,11 @@ public static class KeyValueWriter
     /// <param name="filePath">The path to the file to write.</param>
     /// <param name="data">The dictionary to write.</param>
     /// <param name="sortKeys">If true, keys are sorted alphabetically. Default is false.</param>
+    /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
-    public static async Task WriteFileAsync(string filePath, Dictionary<string, string> data, bool sortKeys = false, CancellationToken cancellationToken = default)
+    public static async Task WriteFileAsync(string filePath, Dictionary<string, string> data, bool sortKeys = false, Encoding? encoding = null, CancellationToken cancellationToken = default)
     {
         string text = Write(data, sortKeys);
-        await File.WriteAllTextAsync(filePath, text, cancellationToken);
+        await File.WriteAllTextAsync(filePath, text, encoding ?? TextEncoding.Utf8NoBom, cancellationToken);
     }
 }

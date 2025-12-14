@@ -1,4 +1,6 @@
-﻿namespace Nekote.Text;
+﻿using System.Text;
+
+namespace Nekote.Text;
 
 /// <summary>
 /// Parses text into paragraphs by splitting on blank lines (lines containing only whitespace or completely empty).
@@ -58,11 +60,12 @@ public static class ParagraphParser
     /// <param name="filePath">The path to the file to parse.</param>
     /// <param name="trimParagraphs">If true, each paragraph is trimmed of leading/trailing whitespace. Default is true.</param>
     /// <param name="newLine">The newline sequence to use when joining lines within paragraphs. Default is Environment.NewLine.</param>
+    /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>An array of paragraphs.</returns>
-    public static async Task<string[]> ParseFileAsync(string filePath, bool trimParagraphs = true, string? newLine = null, CancellationToken cancellationToken = default)
+    public static async Task<string[]> ParseFileAsync(string filePath, bool trimParagraphs = true, string? newLine = null, Encoding? encoding = null, CancellationToken cancellationToken = default)
     {
-        string text = await File.ReadAllTextAsync(filePath, cancellationToken);
+        string text = await File.ReadAllTextAsync(filePath, encoding ?? TextEncoding.Utf8NoBom, cancellationToken);
         return Parse(text, trimParagraphs, newLine);
     }
 }

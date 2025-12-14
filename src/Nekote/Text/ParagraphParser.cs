@@ -12,10 +12,9 @@ public static class ParagraphParser
     /// Leading and trailing blank lines are ignored.
     /// </summary>
     /// <param name="text">The text to split into paragraphs.</param>
-    /// <param name="trimParagraphs">If true, each paragraph is trimmed of leading/trailing whitespace. Default is true.</param>
     /// <param name="newLine">The newline sequence to use when joining lines within paragraphs. Default is Environment.NewLine.</param>
     /// <returns>An array of paragraphs. Returns empty array if input is null or whitespace.</returns>
-    public static string[] Parse(string text, bool trimParagraphs = true, string? newLine = null)
+    public static string[] Parse(string text, string? newLine = null)
     {
         if (string.IsNullOrWhiteSpace(text))
             return Array.Empty<string>();
@@ -33,7 +32,7 @@ public static class ParagraphParser
                 if (currentParagraph.Count > 0)
                 {
                     var paragraph = string.Join(newLine, currentParagraph);
-                    paragraphs.Add(trimParagraphs ? paragraph.Trim() : paragraph);
+                    paragraphs.Add(paragraph);
                     currentParagraph.Clear();
                 }
             }
@@ -48,7 +47,7 @@ public static class ParagraphParser
         if (currentParagraph.Count > 0)
         {
             var paragraph = string.Join(newLine, currentParagraph);
-            paragraphs.Add(trimParagraphs ? paragraph.Trim() : paragraph);
+            paragraphs.Add(paragraph);
         }
 
         return paragraphs.ToArray();
@@ -58,14 +57,13 @@ public static class ParagraphParser
     /// Splits text from a file into paragraphs by blank lines.
     /// </summary>
     /// <param name="filePath">The path to the file to parse.</param>
-    /// <param name="trimParagraphs">If true, each paragraph is trimmed of leading/trailing whitespace. Default is true.</param>
     /// <param name="newLine">The newline sequence to use when joining lines within paragraphs. Default is Environment.NewLine.</param>
     /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>An array of paragraphs.</returns>
-    public static async Task<string[]> ParseFileAsync(string filePath, bool trimParagraphs = true, string? newLine = null, Encoding? encoding = null, CancellationToken cancellationToken = default)
+    public static async Task<string[]> ParseFileAsync(string filePath, string? newLine = null, Encoding? encoding = null, CancellationToken cancellationToken = default)
     {
         string text = await File.ReadAllTextAsync(filePath, encoding ?? TextEncoding.Utf8NoBom, cancellationToken);
-        return Parse(text, trimParagraphs, newLine);
+        return Parse(text, newLine);
     }
 }

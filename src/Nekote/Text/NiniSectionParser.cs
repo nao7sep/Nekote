@@ -19,7 +19,7 @@ public static class NiniSectionParser
             return Array.Empty<NiniSection>();
 
         // Split into paragraphs - natural boundaries separated by blank lines
-        var paragraphs = ParagraphParser.Parse(text, trimParagraphs: false);
+        var paragraphs = ParagraphParser.Parse(text);
         var sections = new List<NiniSection>();
 
         foreach (var paragraph in paragraphs)

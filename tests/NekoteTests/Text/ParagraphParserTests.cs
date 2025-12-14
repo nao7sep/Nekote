@@ -138,21 +138,10 @@ public class ParagraphParserTests
     }
 
     [Fact]
-    public void Parse_TrimTrue_TrimsEachParagraph()
+    public void Parse_PreservesWhitespace()
     {
         var input = "  Paragraph 1  \n\n  Paragraph 2  ";
-        var result = ParagraphParser.Parse(input, trimParagraphs: true);
-
-        Assert.Equal(2, result.Length);
-        Assert.Equal("Paragraph 1", result[0]);
-        Assert.Equal("Paragraph 2", result[1]);
-    }
-
-    [Fact]
-    public void Parse_TrimFalse_PreservesWhitespace()
-    {
-        var input = "  Paragraph 1  \n\n  Paragraph 2  ";
-        var result = ParagraphParser.Parse(input, trimParagraphs: false);
+        var result = ParagraphParser.Parse(input);
 
         Assert.Equal(2, result.Length);
         Assert.Equal("  Paragraph 1  ", result[0]);

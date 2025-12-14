@@ -268,6 +268,32 @@ public class TextEscaperTests
         Assert.Equal(original, unescaped);
     }
 
+    [Fact]
+    public void Unescape_Url_LiteralSurrogatePair_HandlesCorrectly()
+    {
+        // "Hello 🌍 World" where 🌍 is literal (not percent encoded)
+        // 🌍 is \uD83C\uDF4D (actually \uD83C\uDF0D for Earth Globe Europe-Africa, but any surrogate pair works)
+        
+        string input = "Hello 🌍 World";
+        string expected = "Hello 🌍 World";
+        
+        string? result = TextEscaper.Unescape(input, EscapeMode.Url);
+        
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    public void Unescape_Url_MixedLiteralAndEscaped_HandlesCorrectly()
+    {
+        // "Hello 🌍 %20World"
+        string input = "Hello 🌍 %20World";
+        string expected = "Hello 🌍  World"; // Note double space (one from literal, one from %20)
+        
+        string? result = TextEscaper.Unescape(input, EscapeMode.Url);
+        
+        Assert.Equal(expected, result);
+    }
+
     #endregion
 
     #region HTML Mode Tests

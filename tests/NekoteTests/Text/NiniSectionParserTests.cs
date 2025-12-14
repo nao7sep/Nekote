@@ -270,7 +270,7 @@ key3: value3";
     {
         var input = "[Unclosed\nkey: value";
 
-        // [Unclosed is not a valid NiniSection marker, treated as content
+        // [Unclosed is not a valid section marker, treated as content
         // NiniKeyValueParser will reject it as invalid key:value format
         Assert.Throws<ArgumentException>(() => NiniSectionParser.Parse(input));
     }
@@ -280,7 +280,7 @@ key3: value3";
     {
         var input = "@\nkey: value";
 
-        // @ alone (too short) is not a valid NiniSection marker, treated as content
+        // @ alone (too short) is not a valid section marker, treated as content
         // NiniKeyValueParser will reject it as invalid key:value format
         Assert.Throws<ArgumentException>(() => NiniSectionParser.Parse(input));
     }

@@ -1,15 +1,15 @@
 namespace Nekote.Text;
 
 /// <summary>
-/// Parses text into NINI sections with INI-style ([NiniSection]) or at-prefix (@NiniSection) markers.
-/// NINI NiniSection content is parsed as key:value pairs.
+/// Parses text into NINI sections with INI-style ([Section]) or at-prefix (@Section) markers.
+/// Section content is parsed as key:value pairs.
 /// </summary>
 public static class NiniSectionParser
 {
     /// <summary>
     /// Parses text into NINI sections. Supports both [INI-style] and @at-prefix markers automatically.
     /// Text is split into paragraphs (by blank lines). Each paragraph may optionally
-    /// have a NiniSection marker as its first line, which labels the keys in that paragraph.
+    /// have a section marker as its first line, which labels the keys in that paragraph.
     /// </summary>
     /// <param name="text">The text to parse.</param>
     /// <returns>Array of sections. Paragraphs without markers have Marker=None and Name="".</returns>
@@ -34,13 +34,13 @@ public static class NiniSectionParser
             IEnumerable<string> contentLines;
             if (markerStyle != NiniSectionMarkerStyle.None)
             {
-                // First line is a NiniSection marker - this paragraph defines that NiniSection
+                // First line is a section marker - this paragraph defines that section
                 // Content is the rest of the paragraph (after the marker line)
                 contentLines = lines.Skip(1);
             }
             else
             {
-                // No NiniSection marker - entire paragraph is content
+                // No section marker - entire paragraph is content
                 sectionName = "";
                 contentLines = lines;
             }
@@ -48,7 +48,7 @@ public static class NiniSectionParser
             // Parse content as key-value pairs
             var keyValues = NiniKeyValueParser.Parse(contentLines);
 
-            // Add NiniSection if it has content OR if it's an explicitly marked NiniSection
+            // Add section if it has content OR if it's explicitly marked
             if (keyValues.Count > 0 || markerStyle != NiniSectionMarkerStyle.None)
             {
                 sections.Add(new NiniSection
@@ -64,27 +64,27 @@ public static class NiniSectionParser
     }
 
     /// <summary>
-    /// Gets a NiniSection by name from parsed sections.
+    /// Gets a section by name from parsed sections.
     /// </summary>
     /// <param name="sections">The array of parsed sections.</param>
-    /// <param name="name">The NiniSection name to find.</param>
-    /// <returns>The NiniSection if found, null otherwise.</returns>
+    /// <param name="name">The section name to find.</param>
+    /// <returns>The section if found, null otherwise.</returns>
     public static NiniSection? GetSection(NiniSection[] sections, string name)
     {
         return sections.FirstOrDefault(s => s.Name == name);
     }
 
     /// <summary>
-    /// Tries to parse a line as a NiniSection marker. Supports both [INI-style] and @at-prefix markers.
+    /// Tries to parse a line as a section marker. Supports both [INI-style] and @at-prefix markers.
     /// Line must start at column 0 (no leading whitespace).
     /// </summary>
-    /// <returns>Tuple of (marker style, NiniSection name). Returns (None, null) if not a marker.</returns>
+    /// <returns>Tuple of (marker style, section name). Returns (None, null) if not a marker.</returns>
     private static (NiniSectionMarkerStyle style, string? name) TryParseSectionMarker(string line)
     {
         if (string.IsNullOrWhiteSpace(line))
             return (NiniSectionMarkerStyle.None, null);
 
-        // NiniSection markers must start at column 0
+        // Section markers must start at column 0
         if (char.IsWhiteSpace(line[0]))
             return (NiniSectionMarkerStyle.None, null);
 
@@ -102,11 +102,11 @@ public static class NiniSectionParser
     }
 
     /// <summary>
-    /// Tries to parse a line as an INI-style [NiniSection] marker.
+    /// Tries to parse a line as an INI-style [Section] marker.
     /// </summary>
     /// <remarks>
-    /// Does not support comments on the same line as NiniSection headers.
-    /// "[NiniSection] # comment" will not be recognized as a NiniSection marker.
+    /// Does not support comments on the same line as section headers.
+    /// "[Section] # comment" will not be recognized as a section marker.
     /// </remarks>
     private static string? TryParseIniBrackets(string line)
     {
@@ -116,23 +116,23 @@ public static class NiniSectionParser
         // Extract everything between brackets
         string sectionName = line.Substring(1, line.Length - 2);
 
-        // Empty or whitespace-only NiniSection names in explicit markers are syntax errors
+        // Empty or whitespace-only section names in explicit markers are syntax errors
         // (Preamble is implicit, not marked with "[]")
         if (string.IsNullOrWhiteSpace(sectionName))
-            throw new ArgumentException("NiniSection name cannot be empty or whitespace-only. Use content without NiniSection markers for preamble.", nameof(sectionName));
+            throw new ArgumentException("Section name cannot be empty or whitespace-only. Use content without section markers for preamble.", nameof(sectionName));
 
-        // Validate NiniSection name has no leading/trailing whitespace
-        StringValidator.ValidateNoLeadingOrTrailingWhitespace(sectionName, "NiniSection name");
+        // Validate section name has no leading/trailing whitespace
+        StringValidator.ValidateNoLeadingOrTrailingWhitespace(sectionName, "section name");
 
         return sectionName;
     }
 
     /// <summary>
-    /// Tries to parse a line as an @-prefix NiniSection marker.
+    /// Tries to parse a line as an @-prefix section marker.
     /// </summary>
     /// <remarks>
-    /// Does not support comments on the same line as NiniSection headers.
-    /// "@NiniSection # comment" will not be recognized as a NiniSection marker.
+    /// Does not support comments on the same line as section headers.
+    /// "@Section # comment" will not be recognized as a section marker.
     /// </remarks>
     private static string? TryParseAtPrefix(string line)
     {
@@ -142,13 +142,13 @@ public static class NiniSectionParser
         // Extract everything after @
         string sectionName = line.Substring(1);
 
-        // Empty or whitespace-only NiniSection names in explicit markers are syntax errors
+        // Empty or whitespace-only section names in explicit markers are syntax errors
         // (Preamble is implicit, not marked with "@")
         if (string.IsNullOrWhiteSpace(sectionName))
-            throw new ArgumentException("NiniSection name cannot be empty or whitespace-only. Use content without NiniSection markers for preamble.", nameof(sectionName));
+            throw new ArgumentException("Section name cannot be empty or whitespace-only. Use content without section markers for preamble.", nameof(sectionName));
 
-        // Validate NiniSection name has no leading/trailing whitespace
-        StringValidator.ValidateNoLeadingOrTrailingWhitespace(sectionName, "NiniSection name");
+        // Validate section name has no leading/trailing whitespace
+        StringValidator.ValidateNoLeadingOrTrailingWhitespace(sectionName, "section name");
 
         return sectionName;
     }

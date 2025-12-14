@@ -3,16 +3,16 @@ using System.Text;
 namespace Nekote.Text;
 
 /// <summary>
-/// Parses text in NINI Key:Value format into a dictionary. Values are automatically unescaped using KeyValue mode.
+/// Parses NINI format text into a dictionary. Values are automatically unescaped.
 /// </summary>
 public static class NiniKeyValueParser
 {
     /// <summary>
-    /// Parses NINI Key:Value format text into a dictionary. Empty lines and lines starting with # or // are ignored.
+    /// Parses NINI format text into a dictionary. Empty lines and lines starting with # or // are ignored.
     /// </summary>
-    /// <param name="text">The text to parse in NINI Key:Value format.</param>
+    /// <param name="text">The text to parse.</param>
     /// <returns>A dictionary of key-value pairs with unescaped values.</returns>
-    /// <exception cref="ArgumentException">Thrown when a line is not in valid NINI Key:Value format.</exception>
+    /// <exception cref="ArgumentException">Thrown when a line is not in valid key:value format.</exception>
     public static Dictionary<string, string> Parse(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
@@ -23,11 +23,11 @@ public static class NiniKeyValueParser
     }
 
     /// <summary>
-    /// Parses NINI Key:Value format lines into a dictionary. Empty lines and lines starting with # or // are ignored.
+    /// Parses NINI format lines into a dictionary. Empty lines and lines starting with # or // are ignored.
     /// </summary>
-    /// <param name="lines">The lines to parse in NINI Key:Value format.</param>
+    /// <param name="lines">The lines to parse.</param>
     /// <returns>A dictionary of key-value pairs with unescaped values.</returns>
-    /// <exception cref="ArgumentException">Thrown when a line is not in valid NINI Key:Value format.</exception>
+    /// <exception cref="ArgumentException">Thrown when a line is not in valid key:value format.</exception>
     public static Dictionary<string, string> Parse(IEnumerable<string> lines)
     {
         if (lines == null)
@@ -47,7 +47,7 @@ public static class NiniKeyValueParser
             // Find first colon
             int colonIndex = line.IndexOf(':');
             if (colonIndex == -1)
-                throw new ArgumentException($"Line {lineNumber} is not in valid NINI Key:Value format (missing colon): {line}");
+                throw new ArgumentException($"Line {lineNumber} is not in valid key:value format (missing colon): {line}");
 
             if (colonIndex == 0)
                 throw new ArgumentException($"Line {lineNumber} has empty key: {line}");
@@ -72,7 +72,7 @@ public static class NiniKeyValueParser
     }
 
     /// <summary>
-    /// Parses NINI Key:Value format text from a file into a dictionary.
+    /// Parses a NINI format file into a dictionary.
     /// </summary>
     /// <param name="filePath">The path to the file to parse.</param>
     /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>

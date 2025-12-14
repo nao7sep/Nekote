@@ -3,7 +3,7 @@ using System.Text;
 namespace Nekote.Text;
 
 /// <summary>
-/// Represents a NINI file format with typed value access.
+/// Represents a NINI file with typed value access.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -36,7 +36,7 @@ public class NiniFile
     }
 
     /// <summary>
-    /// Loads a NINI file from the specified path.
+    /// Loads a file in NINI format from the specified path.
     /// Supports both [INI-style] and @at-prefix section markers automatically.
     /// </summary>
     /// <param name="path">Path to the file.</param>
@@ -50,7 +50,7 @@ public class NiniFile
     }
 
     /// <summary>
-    /// Parses a NINI file from a string.
+    /// Parses NINI format text from a string.
     /// Supports both [INI-style] and @at-prefix section markers automatically.
     /// </summary>
     /// <param name="content">File content.</param>

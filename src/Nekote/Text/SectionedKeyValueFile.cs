@@ -24,7 +24,7 @@ namespace Nekote.Text;
 /// </remarks>
 public class SectionedKeyValueFile
 {
-    private readonly Dictionary<string, Dictionary<string, string>> _sections = new();
+    private readonly Dictionary<string, Dictionary<string, string>> _sections = new(StringComparer.OrdinalIgnoreCase);
     private readonly SectionMarkerStyle _markerStyle;
 
     /// <summary>
@@ -171,7 +171,7 @@ public class SectionedKeyValueFile
     {
         if (!_sections.TryGetValue(name, out var section))
         {
-            section = new Dictionary<string, string>();
+            section = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             _sections[name] = section;
         }
         return section;

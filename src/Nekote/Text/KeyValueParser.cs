@@ -31,9 +31,9 @@ public static class KeyValueParser
     public static Dictionary<string, string> Parse(IEnumerable<string> lines)
     {
         if (lines == null)
-            return new Dictionary<string, string>();
+            return new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-        var result = new Dictionary<string, string>();
+        var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         int lineNumber = 0;
 
         foreach (var line in lines)

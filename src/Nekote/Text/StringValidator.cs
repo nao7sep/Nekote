@@ -31,7 +31,7 @@ public static class StringValidator
     /// </summary>
     /// <param name="key">The key to validate.</param>
     /// <exception cref="ArgumentException">Thrown when the key contains invalid characters or patterns.</exception>
-    public static void ValidateKey(string key)
+    public static void ValidateKeyValueFileKey(string key)
     {
         if (string.IsNullOrWhiteSpace(key))
             throw new ArgumentException("Key cannot be null or whitespace.", nameof(key));
@@ -56,24 +56,5 @@ public static class StringValidator
 
         if (trimmedKey.StartsWith('@'))
             throw new ArgumentException($"Key '{key}' starts with '@'. Keys cannot start with at-sign as it denotes a section marker.", nameof(key));
-    }
-
-    /// <summary>
-    /// Validates that a section name is suitable for use in sectioned text formats.
-    /// Section names must not be empty or contain only whitespace, and must not have
-    /// leading or trailing whitespace.
-    /// </summary>
-    /// <param name="sectionName">The section name to validate.</param>
-    /// <exception cref="ArgumentException">Thrown when the section name is invalid.</exception>
-    public static void ValidateSectionName(string sectionName)
-    {
-        // Empty section name is valid (represents preamble/content before first section)
-        if (sectionName == "")
-            return;
-
-        if (string.IsNullOrWhiteSpace(sectionName))
-            throw new ArgumentException("Section name cannot be whitespace only.", nameof(sectionName));
-
-        ValidateNoLeadingOrTrailingWhitespace(sectionName, "Section name");
     }
 }

@@ -93,158 +93,111 @@ public class StringValidatorTests
 
     #endregion
 
-    #region ValidateKey Tests
+    #region ValidateKeyValueFileKey Tests
 
     [Fact]
-    public void ValidateKey_ValidKey_DoesNotThrow()
+    public void ValidateKeyValueFileKeyValueFileKey_ValidKey_DoesNotThrow()
     {
-        StringValidator.ValidateKey("validkey");
-        StringValidator.ValidateKey("valid-key");
-        StringValidator.ValidateKey("valid_key");
-        StringValidator.ValidateKey("ValidKey123");
+        StringValidator.ValidateKeyValueFileKey("validkey");
+        StringValidator.ValidateKeyValueFileKey("valid-key");
+        StringValidator.ValidateKeyValueFileKey("valid_key");
+        StringValidator.ValidateKeyValueFileKey("ValidKey123");
     }
 
     [Fact]
-    public void ValidateKey_NullKey_Throws()
+    public void ValidateKeyValueFileKey_NullKey_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKey(null!));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey(null!));
         Assert.Contains("cannot be null or whitespace", ex.Message);
     }
 
     [Fact]
-    public void ValidateKey_EmptyKey_Throws()
+    public void ValidateKeyValueFileKey_EmptyKey_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKey(""));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey(""));
         Assert.Contains("cannot be null or whitespace", ex.Message);
     }
 
     [Fact]
-    public void ValidateKey_WhitespaceOnlyKey_Throws()
+    public void ValidateKeyValueFileKey_WhitespaceOnlyKey_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKey("   "));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("   "));
         Assert.Contains("cannot be null or whitespace", ex.Message);
     }
 
     [Fact]
-    public void ValidateKey_LeadingWhitespace_Throws()
+    public void ValidateKeyValueFileKey_LeadingWhitespace_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKey(" key"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey(" key"));
         Assert.Contains("cannot start with whitespace", ex.Message);
     }
 
     [Fact]
-    public void ValidateKey_TrailingWhitespace_Throws()
+    public void ValidateKeyValueFileKey_TrailingWhitespace_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKey("key "));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("key "));
         Assert.Contains("cannot end with whitespace", ex.Message);
     }
 
     [Fact]
-    public void ValidateKey_ContainsColon_Throws()
+    public void ValidateKeyValueFileKey_ContainsColon_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKey("key:value"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("key:value"));
         Assert.Contains("contains invalid character ':'", ex.Message);
     }
 
     [Fact]
-    public void ValidateKey_ContainsNewline_Throws()
+    public void ValidateKeyValueFileKey_ContainsNewline_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKey("key\nvalue"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("key\nvalue"));
         Assert.Contains("contains line breaks", ex.Message);
     }
 
     [Fact]
-    public void ValidateKey_ContainsCarriageReturn_Throws()
+    public void ValidateKeyValueFileKey_ContainsCarriageReturn_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKey("key\rvalue"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("key\rvalue"));
         Assert.Contains("contains line breaks", ex.Message);
     }
 
     [Fact]
-    public void ValidateKey_StartsWithHash_Throws()
+    public void ValidateKeyValueFileKey_StartsWithHash_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKey("#comment"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("#comment"));
         Assert.Contains("starts with '#'", ex.Message);
     }
 
     [Fact]
-    public void ValidateKey_StartsWithDoubleSlash_Throws()
+    public void ValidateKeyValueFileKey_StartsWithDoubleSlash_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKey("//comment"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("//comment"));
         Assert.Contains("starts with '//'", ex.Message);
     }
 
     [Fact]
-    public void ValidateKey_StartsWithBracket_Throws()
+    public void ValidateKeyValueFileKey_StartsWithBracket_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKey("[section]"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("[section]"));
         Assert.Contains("starts with '['", ex.Message);
     }
 
     [Fact]
-    public void ValidateKey_StartsWithAtSign_Throws()
+    public void ValidateKeyValueFileKey_StartsWithAtSign_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKey("@section"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("@section"));
         Assert.Contains("starts with '@'", ex.Message);
     }
 
     [Fact]
-    public void ValidateKey_ContainsHashNotAtStart_DoesNotThrow()
+    public void ValidateKeyValueFileKey_ContainsHashNotAtStart_DoesNotThrow()
     {
-        StringValidator.ValidateKey("key#value");
+        StringValidator.ValidateKeyValueFileKey("key#value");
     }
 
     [Fact]
-    public void ValidateKey_ContainsSlashesNotAtStart_DoesNotThrow()
+    public void ValidateKeyValueFileKey_ContainsSlashesNotAtStart_DoesNotThrow()
     {
-        StringValidator.ValidateKey("key//value");
-    }
-
-    #endregion
-
-    #region ValidateSectionName Tests
-
-    [Fact]
-    public void ValidateSectionName_ValidName_DoesNotThrow()
-    {
-        StringValidator.ValidateSectionName("Section");
-        StringValidator.ValidateSectionName("Section Name");
-        StringValidator.ValidateSectionName("Section-123");
-    }
-
-    [Fact]
-    public void ValidateSectionName_EmptyString_DoesNotThrow()
-    {
-        // Empty string is valid (represents preamble)
-        StringValidator.ValidateSectionName("");
-    }
-
-    [Fact]
-    public void ValidateSectionName_WhitespaceOnly_Throws()
-    {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateSectionName("   "));
-        Assert.Contains("cannot be whitespace only", ex.Message);
-    }
-
-    [Fact]
-    public void ValidateSectionName_LeadingWhitespace_Throws()
-    {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateSectionName(" Section"));
-        Assert.Contains("cannot start with whitespace", ex.Message);
-    }
-
-    [Fact]
-    public void ValidateSectionName_TrailingWhitespace_Throws()
-    {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateSectionName("Section "));
-        Assert.Contains("cannot end with whitespace", ex.Message);
-    }
-
-    [Fact]
-    public void ValidateSectionName_InternalWhitespace_DoesNotThrow()
-    {
-        StringValidator.ValidateSectionName("Section Name");
-        StringValidator.ValidateSectionName("Multi Word Section");
+        StringValidator.ValidateKeyValueFileKey("key//value");
     }
 
     #endregion

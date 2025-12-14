@@ -53,11 +53,10 @@ public class KeyValueParserTests
     }
 
     [Fact]
-    public void Parse_LineIndentationAndValueSpaces_ParsesCorrectly()
+    public void Parse_ValueWithSpaces_ParsesCorrectly()
     {
-        // Line indentation is OK (trimmed), and value can have spaces
-        // But key itself must not have leading/trailing whitespace
-        var input = "  key:  value with spaces  ";
+        // Value can have spaces (value portion is trimmed)
+        var input = "key:  value with spaces  ";
         var result = KeyValueParser.Parse(input);
 
         Assert.Single(result);
@@ -179,28 +178,49 @@ path: C:\\Users\\Test\\Documents
     [Fact]
     public void Parse_KeyWithTrailingWhitespaceBeforeColon_Throws()
     {
-        // After line trimming, key extracted is "key " (trailing space)
+        // Key extracted is "key " (trailing space before colon)
         var input = "key : value";
         var ex = Assert.Throws<ArgumentException>(() => KeyValueParser.Parse(input));
         Assert.Contains("cannot end with whitespace", ex.Message);
     }
 
     [Fact]
-    public void Parse_KeyWithBothWhitespace_ThrowsForFirst()
+    public void Parse_KeyWithLeadingWhitespace_Throws()
     {
-        // Not possible to have leading whitespace in key after line trim
-        // Can only have trailing: " key " gets trimmed to "key " on line level, but that gives trailing only
-        var input = "key : value";
+        // Line starting with whitespace means key has leading whitespace
+        var input = " key: value";
         var ex = Assert.Throws<ArgumentException>(() => KeyValueParser.Parse(input));
-        Assert.Contains("cannot end with whitespace", ex.Message);
+        Assert.Contains("cannot start with whitespace", ex.Message);
     }
 
     [Fact]
-    public void Parse_IndentedLineWithValidKey_ParsesCorrectly()
+    public void Parse_IndentedLine_Throws()
     {
-        // Line-level indentation is OK, but key itself must not have leading/trailing whitespace
+        // Line-level indentation is NOT supported - keys must start at column 0
         var input = "    key: value";
-        var result = KeyValueParser.Parse(input);
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueParser.Parse(input));
+        Assert.Contains("cannot start with whitespace", ex.Message);
+    }
+
+    [Fact]
+    public void Parse_IEnumerableLines_ParsesCorrectly()
+    {
+        // Test IEnumerable<string> overload with List<string>
+        var lines = new List<string> { "key1: value1", "key2: value2" };
+        var result = KeyValueParser.Parse(lines);
+
+        Assert.Equal(2, result.Count);
+        Assert.Equal("value1", result["key1"]);
+        Assert.Equal("value2", result["key2"]);
+    }
+
+    [Fact]
+    public void Parse_IEnumerableLinesWithComments_SkipsComments()
+    {
+        // Test IEnumerable<string> overload with LINQ query
+        var lines = new[] { "# comment", "key: value", "// comment2" }.Where(l => l != null);
+        var result = KeyValueParser.Parse(lines);
+
         Assert.Single(result);
         Assert.Equal("value", result["key"]);
     }

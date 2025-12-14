@@ -25,7 +25,7 @@ public static class KeyValueWriter
         foreach (var key in keys)
         {
             // Validate key using centralized validator
-            StringValidator.ValidateKey(key);
+            StringValidator.ValidateKeyValueFileKey(key);
 
             string? value = data[key];
 

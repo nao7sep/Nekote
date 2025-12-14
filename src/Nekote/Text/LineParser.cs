@@ -77,6 +77,21 @@ public static class LineParser
     }
 
     /// <summary>
+    /// Joins lines into a single text string using the specified line ending.
+    /// </summary>
+    /// <param name="lines">The lines to join.</param>
+    /// <param name="newLine">The line ending to use. Default is Environment.NewLine.</param>
+    /// <returns>The joined text. Returns empty string if lines is null.</returns>
+    public static string FromLines(IEnumerable<string>? lines, string? newLine = null)
+    {
+        if (lines == null)
+            return string.Empty;
+
+        newLine ??= Environment.NewLine;
+        return string.Join(newLine, lines);
+    }
+
+    /// <summary>
     /// Counts the number of lines in text, properly handling all line ending conventions.
     /// </summary>
     /// <param name="text">The text to count lines in.</param>
@@ -132,6 +147,20 @@ public static class LineParser
     /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     public static async Task FromLinesToFileAsync(string filePath, string[] lines, string? newLine = null, Encoding? encoding = null, CancellationToken cancellationToken = default)
+    {
+        string text = FromLines(lines, newLine);
+        await File.WriteAllTextAsync(filePath, text, encoding ?? TextEncoding.Utf8NoBom, cancellationToken);
+    }
+
+    /// <summary>
+    /// Writes lines to a file using the specified line ending.
+    /// </summary>
+    /// <param name="filePath">The path to the file to write.</param>
+    /// <param name="lines">The lines to write.</param>
+    /// <param name="newLine">The line ending to use. Default is Environment.NewLine.</param>
+    /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
+    public static async Task FromLinesToFileAsync(string filePath, IEnumerable<string> lines, string? newLine = null, Encoding? encoding = null, CancellationToken cancellationToken = default)
     {
         string text = FromLines(lines, newLine);
         await File.WriteAllTextAsync(filePath, text, encoding ?? TextEncoding.Utf8NoBom, cancellationToken);

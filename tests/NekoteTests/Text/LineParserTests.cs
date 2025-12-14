@@ -182,7 +182,23 @@ public class LineParserTests
         var result = LineParser.FromLines(lines, "\n");
         Assert.Equal("line1\n\nline3", result);
     }
+    [Fact]
+    public void FromLines_IEnumerable_JoinsCorrectly()
+    {
+        // Test IEnumerable<string> overload with List<string>
+        var lines = new List<string> { "line1", "line2", "line3" };
+        var result = LineParser.FromLines(lines);
+        Assert.Equal($"line1{Environment.NewLine}line2{Environment.NewLine}line3", result);
+    }
 
+    [Fact]
+    public void FromLines_IEnumerableWithCustomNewline_JoinsCorrectly()
+    {
+        // Test IEnumerable<string> overload with LINQ query
+        var lines = new[] { "a", "b", "c" }.Where(x => x != "skip");
+        var result = LineParser.FromLines(lines, "|");
+        Assert.Equal("a|b|c", result);
+    }
     #endregion
 
     #region CountLines Tests

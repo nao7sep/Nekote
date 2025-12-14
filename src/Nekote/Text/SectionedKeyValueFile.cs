@@ -56,7 +56,7 @@ public class SectionedKeyValueFile
     /// <returns>Parsed SectionedKeyValueFile instance.</returns>
     public static SectionedKeyValueFile Parse(string content, SectionMarkerStyle markerStyle = SectionMarkerStyle.IniBrackets)
     {
-        var sections = SectionParser.Parse(content, markerStyle);
+        var sections = SectionParser.Parse(content);
         var file = new SectionedKeyValueFile(markerStyle);
 
         foreach (var section in sections)

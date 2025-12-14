@@ -1,108 +1,64 @@
 ﻿namespace Nekote.Text;
 
 /// <summary>
-/// Defines how section markers are formatted in text.
-/// </summary>
-public enum SectionMarkerStyle
-{
-    /// <summary>
-    /// INI-style brackets: [SectionName]
-    /// </summary>
-    IniBrackets,
-
-    /// <summary>
-    /// At-prefix style: @SectionName
-    /// </summary>
-    AtPrefix
-}
-
-/// <summary>
-/// Represents a parsed section with its name, line number, and key-value content.
-/// </summary>
-public record Section
-{
-    /// <summary>
-    /// The section name. Empty string for content before the first section marker.
-    /// </summary>
-    public required string Name { get; init; }
-
-    /// <summary>
-    /// The line number where this section starts (1-based).
-    /// </summary>
-    public required int StartLine { get; init; }
-
-    /// <summary>
-    /// The key-value pairs in this section. Empty dictionary if section has no content.
-    /// </summary>
-    public required Dictionary<string, string> KeyValues { get; init; }
-}
-
-/// <summary>
 /// Parses text into sections with INI-style ([section]) or at-prefix (@section) markers.
 /// Section content is parsed as key:value pairs.
 /// </summary>
 public static class SectionParser
 {
     /// <summary>
-    /// Parses text into sections using the specified marker style.
+    /// Parses text into sections. Supports both [INI-style] and @at-prefix markers automatically.
+    /// Text is split into paragraphs (by blank lines). Each paragraph may optionally
+    /// have a section marker as its first line, which labels the keys in that paragraph.
     /// </summary>
     /// <param name="text">The text to parse.</param>
-    /// <param name="markerStyle">The section marker style to use.</param>
-    /// <returns>Array of sections. Content before first marker appears as section with Name="".</returns>
-    public static Section[] Parse(string text, SectionMarkerStyle markerStyle = SectionMarkerStyle.IniBrackets)
+    /// <returns>Array of sections. Paragraphs without markers have Marker=None and Name="".</returns>
+    public static Section[] Parse(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
             return Array.Empty<Section>();
 
-        var lines = LineParser.ToLines(text);
+        // Split into paragraphs - natural boundaries separated by blank lines
+        var paragraphs = ParagraphParser.Parse(text, trimParagraphs: false);
         var sections = new List<Section>();
-        var currentSectionName = "";
-        var currentSectionStartLine = 1;
-        var currentSectionLines = new List<string>();
 
-        for (int i = 0; i < lines.Length; i++)
+        foreach (var paragraph in paragraphs)
         {
-            var line = lines[i].Trim();
+            var lines = LineParser.ToLines(paragraph);
+            if (lines.Length == 0)
+                continue;
 
-            // Try to parse as section marker
-            string? sectionName = TryParseSectionMarker(line, markerStyle);
+            var firstLine = lines[0];
+            var (markerStyle, sectionName) = TryParseSectionMarker(firstLine);
 
-            if (sectionName != null)
+            IEnumerable<string> contentLines;
+            if (markerStyle != SectionMarkerStyle.None)
             {
-                // Save previous section if it has any lines
-                if (currentSectionLines.Count > 0 || sections.Count > 0 || currentSectionName != "")
-                {
-                    var sectionContent = string.Join(Environment.NewLine, currentSectionLines);
-                    var keyValues = KeyValueParser.Parse(sectionContent);
-                    sections.Add(new Section
-                    {
-                        Name = currentSectionName,
-                        StartLine = currentSectionStartLine,
-                        KeyValues = keyValues
-                    });
-                }
-
-                // Start new section
-                currentSectionName = sectionName;
-                currentSectionStartLine = i + 1;
-                currentSectionLines.Clear();
+                // First line is a section marker - this paragraph defines that section
+                // Content is the rest of the paragraph (after the marker line)
+                contentLines = lines.Skip(1);
             }
             else
             {
-                // Add to current section content
-                currentSectionLines.Add(lines[i]);
+                // No section marker - entire paragraph is content
+                sectionName = "";
+                contentLines = lines;
+            }
+
+            // Parse content as key-value pairs
+            var keyValues = KeyValueParser.Parse(contentLines);
+
+            // Add section if it has content OR if it's an explicitly marked section
+            if (keyValues.Count > 0 || markerStyle != SectionMarkerStyle.None)
+            {
+                sections.Add(new Section
+                {
+                    Marker = markerStyle,
+                    Name = sectionName ?? "",
+                    KeyValues = keyValues
+                });
             }
         }
-
-        // Add final section
-        var finalContent = string.Join(Environment.NewLine, currentSectionLines);
-        var finalKeyValues = KeyValueParser.Parse(finalContent);
-        sections.Add(new Section
-        {
-            Name = currentSectionName,
-            StartLine = currentSectionStartLine,
-            KeyValues = finalKeyValues
-        });
 
         return sections.ToArray();
     }
@@ -119,20 +75,30 @@ public static class SectionParser
     }
 
     /// <summary>
-    /// Tries to parse a line as a section marker.
+    /// Tries to parse a line as a section marker. Supports both [INI-style] and @at-prefix markers.
+    /// Line must start at column 0 (no leading whitespace).
     /// </summary>
-    /// <returns>Section name if line is a marker, null otherwise.</returns>
-    private static string? TryParseSectionMarker(string line, SectionMarkerStyle style)
+    /// <returns>Tuple of (marker style, section name). Returns (None, null) if not a marker.</returns>
+    private static (SectionMarkerStyle style, string? name) TryParseSectionMarker(string line)
     {
         if (string.IsNullOrWhiteSpace(line))
-            return null;
+            return (SectionMarkerStyle.None, null);
 
-        return style switch
-        {
-            SectionMarkerStyle.IniBrackets => TryParseIniBrackets(line),
-            SectionMarkerStyle.AtPrefix => TryParseAtPrefix(line),
-            _ => null
-        };
+        // Section markers must start at column 0
+        if (char.IsWhiteSpace(line[0]))
+            return (SectionMarkerStyle.None, null);
+
+        // Try INI brackets first
+        string? name = TryParseIniBrackets(line);
+        if (name != null)
+            return (SectionMarkerStyle.IniBrackets, name);
+
+        // Try at-prefix
+        name = TryParseAtPrefix(line);
+        if (name != null)
+            return (SectionMarkerStyle.AtPrefix, name);
+
+        return (SectionMarkerStyle.None, null);
     }
 
     /// <summary>
@@ -156,7 +122,7 @@ public static class SectionParser
             throw new ArgumentException("Section name cannot be empty or whitespace-only. Use content without section markers for preamble.", nameof(sectionName));
 
         // Validate section name has no leading/trailing whitespace
-        StringValidator.ValidateSectionName(sectionName);
+        StringValidator.ValidateNoLeadingOrTrailingWhitespace(sectionName, "Section name");
 
         return sectionName;
     }
@@ -182,7 +148,7 @@ public static class SectionParser
             throw new ArgumentException("Section name cannot be empty or whitespace-only. Use content without section markers for preamble.", nameof(sectionName));
 
         // Validate section name has no leading/trailing whitespace
-        StringValidator.ValidateSectionName(sectionName);
+        StringValidator.ValidateNoLeadingOrTrailingWhitespace(sectionName, "Section name");
 
         return sectionName;
     }

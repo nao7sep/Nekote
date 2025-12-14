@@ -1,4 +1,4 @@
-﻿using Nekote.Text;
+using Nekote.Text;
 
 namespace Nekote.Tests.Text;
 
@@ -9,7 +9,7 @@ public class SectionParserTests
     [Fact]
     public void Parse_IniBrackets_EmptyString_ReturnsEmptyArray()
     {
-        var result = SectionParser.Parse("", SectionMarkerStyle.IniBrackets);
+        var result = SectionParser.Parse("");
         Assert.Empty(result);
     }
 
@@ -17,9 +17,10 @@ public class SectionParserTests
     public void Parse_IniBrackets_NoSections_ReturnsPreamble()
     {
         var input = "key1: value1\nkey2: value2";
-        var result = SectionParser.Parse(input, SectionMarkerStyle.IniBrackets);
+        var result = SectionParser.Parse(input);
 
         Assert.Single(result);
+        Assert.Equal(SectionMarkerStyle.None, result[0].Marker);
         Assert.Equal("", result[0].Name);
         Assert.Equal(2, result[0].KeyValues.Count);
         Assert.Equal("value1", result[0].KeyValues["key1"]);
@@ -30,9 +31,10 @@ public class SectionParserTests
     public void Parse_IniBrackets_SingleSection_ParsesCorrectly()
     {
         var input = "[Section1]\nkey1: value1\nkey2: value2";
-        var result = SectionParser.Parse(input, SectionMarkerStyle.IniBrackets);
+        var result = SectionParser.Parse(input);
 
         Assert.Single(result);
+        Assert.Equal(SectionMarkerStyle.IniBrackets, result[0].Marker);
         Assert.Equal("Section1", result[0].Name);
         Assert.Equal(2, result[0].KeyValues.Count);
         Assert.Equal("value1", result[0].KeyValues["key1"]);
@@ -48,7 +50,7 @@ model: gpt-4
 [Gemini]
 key: AIza-xyz
 model: gemini-pro";
-        var result = SectionParser.Parse(input, SectionMarkerStyle.IniBrackets);
+        var result = SectionParser.Parse(input);
 
         Assert.Equal(2, result.Length);
         Assert.Equal("OpenAI", result[0].Name);
@@ -64,7 +66,7 @@ model: gemini-pro";
 
 [Section1]
 key1: value1";
-        var result = SectionParser.Parse(input, SectionMarkerStyle.IniBrackets);
+        var result = SectionParser.Parse(input);
 
         Assert.Equal(2, result.Length);
         Assert.Equal("", result[0].Name);
@@ -77,7 +79,7 @@ key1: value1";
     public void Parse_IniBrackets_EmptySection_PreservesSection()
     {
         var input = "[Section1]\n\n[Section2]\nkey: value";
-        var result = SectionParser.Parse(input, SectionMarkerStyle.IniBrackets);
+        var result = SectionParser.Parse(input);
 
         Assert.Equal(2, result.Length);
         Assert.Equal("Section1", result[0].Name);
@@ -90,17 +92,17 @@ key1: value1";
     public void Parse_IniBrackets_WithComments_SkipsComments()
     {
         var input = @"# This is a comment
+
 [Section1]
 // Another comment
 key: value";
-        var result = SectionParser.Parse(input, SectionMarkerStyle.IniBrackets);
+        var result = SectionParser.Parse(input);
 
-        Assert.Equal(2, result.Length);
-        Assert.Equal("", result[0].Name);  // Preamble (comment only)
-        Assert.Empty(result[0].KeyValues);
-        Assert.Equal("Section1", result[1].Name);
-        Assert.Single(result[1].KeyValues);
-        Assert.Equal("value", result[1].KeyValues["key"]);
+        // Comment-only preamble creates no section (no keys, no explicit marker)
+        Assert.Single(result);
+        Assert.Equal("Section1", result[0].Name);
+        Assert.Single(result[0].KeyValues);
+        Assert.Equal("value", result[0].KeyValues["key"]);
     }
 
     [Fact]
@@ -108,21 +110,23 @@ key: value";
     {
         // Internal spaces are fine - only leading/trailing are problematic
         var input = "[Section Name]\nkey: value";
-        var result = SectionParser.Parse(input, SectionMarkerStyle.IniBrackets);
+        var result = SectionParser.Parse(input);
 
         Assert.Single(result);
         Assert.Equal("Section Name", result[0].Name);
     }
 
     [Fact]
-    public void Parse_IniBrackets_TracksStartLine()
+    public void Parse_IniBrackets_PreambleAndSection_ParsesCorrectly()
     {
         var input = "key: value\n\n[Section1]\nkey1: value1";
-        var result = SectionParser.Parse(input, SectionMarkerStyle.IniBrackets);
+        var result = SectionParser.Parse(input);
 
         Assert.Equal(2, result.Length);
-        Assert.Equal(1, result[0].StartLine);  // Preamble starts at line 1
-        Assert.Equal(3, result[1].StartLine);  // Section1 marker is at line 3
+        Assert.Equal("", result[0].Name);
+        Assert.Equal("value", result[0].KeyValues["key"]);
+        Assert.Equal("Section1", result[1].Name);
+        Assert.Equal("value1", result[1].KeyValues["key1"]);
     }
 
     #endregion
@@ -132,7 +136,7 @@ key: value";
     [Fact]
     public void Parse_AtPrefix_EmptyString_ReturnsEmptyArray()
     {
-        var result = SectionParser.Parse("", SectionMarkerStyle.AtPrefix);
+        var result = SectionParser.Parse("");
         Assert.Empty(result);
     }
 
@@ -140,9 +144,10 @@ key: value";
     public void Parse_AtPrefix_SingleSection_ParsesCorrectly()
     {
         var input = "@Section1\nkey1: value1\nkey2: value2";
-        var result = SectionParser.Parse(input, SectionMarkerStyle.AtPrefix);
+        var result = SectionParser.Parse(input);
 
         Assert.Single(result);
+        Assert.Equal(SectionMarkerStyle.AtPrefix, result[0].Marker);
         Assert.Equal("Section1", result[0].Name);
         Assert.Equal(2, result[0].KeyValues.Count);
     }
@@ -156,7 +161,7 @@ model: gpt-4
 
 @Gemini
 key: AIza-xyz";
-        var result = SectionParser.Parse(input, SectionMarkerStyle.AtPrefix);
+        var result = SectionParser.Parse(input);
 
         Assert.Equal(2, result.Length);
         Assert.Equal("OpenAI", result[0].Name);
@@ -167,7 +172,7 @@ key: AIza-xyz";
     public void Parse_AtPrefix_WithPreamble_ParsesCorrectly()
     {
         var input = "intro: text\n\n@Section1\nkey: value";
-        var result = SectionParser.Parse(input, SectionMarkerStyle.AtPrefix);
+        var result = SectionParser.Parse(input);
 
         Assert.Equal(2, result.Length);
         Assert.Equal("", result[0].Name);
@@ -180,10 +185,32 @@ key: AIza-xyz";
     {
         // Internal spaces are fine - only leading/trailing are problematic
         var input = "@Section Name\nkey: value";
-        var result = SectionParser.Parse(input, SectionMarkerStyle.AtPrefix);
+        var result = SectionParser.Parse(input);
 
         Assert.Single(result);
         Assert.Equal("Section Name", result[0].Name);
+    }
+
+    [Fact]
+    public void Parse_MixedMarkerStyles_ParsesCorrectly()
+    {
+        // Both [bracket] and @at-prefix markers can coexist
+        var input = @"[IniSection]
+key1: value1
+
+@AtSection
+key2: value2
+
+key3: value3";
+        var result = SectionParser.Parse(input);
+
+        Assert.Equal(3, result.Length);
+        Assert.Equal(SectionMarkerStyle.IniBrackets, result[0].Marker);
+        Assert.Equal("IniSection", result[0].Name);
+        Assert.Equal(SectionMarkerStyle.AtPrefix, result[1].Marker);
+        Assert.Equal("AtSection", result[1].Name);
+        Assert.Equal(SectionMarkerStyle.None, result[2].Marker);
+        Assert.Equal("", result[2].Name);
     }
 
     #endregion
@@ -193,7 +220,7 @@ key: AIza-xyz";
     [Fact]
     public void GetSection_FindsExistingSection()
     {
-        var input = "[Section1]\nkey1: value1\n[Section2]\nkey2: value2";
+        var input = "[Section1]\nkey1: value1\n\n[Section2]\nkey2: value2";
         var sections = SectionParser.Parse(input);
 
         var section = SectionParser.GetSection(sections, "Section2");
@@ -217,7 +244,7 @@ key: AIza-xyz";
     [Fact]
     public void GetSection_Preamble_FindsByEmptyString()
     {
-        var input = "key: value\n[Section1]\nkey1: value1";
+        var input = "key: value\n\n[Section1]\nkey1: value1";
         var sections = SectionParser.Parse(input);
 
         var section = SectionParser.GetSection(sections, "");
@@ -245,7 +272,7 @@ key: AIza-xyz";
 
         // [Unclosed is not a valid section marker, treated as content
         // KeyValueParser will reject it as invalid key:value format
-        Assert.Throws<ArgumentException>(() => SectionParser.Parse(input, SectionMarkerStyle.IniBrackets));
+        Assert.Throws<ArgumentException>(() => SectionParser.Parse(input));
     }
 
     [Fact]
@@ -255,7 +282,7 @@ key: AIza-xyz";
 
         // @ alone (too short) is not a valid section marker, treated as content
         // KeyValueParser will reject it as invalid key:value format
-        Assert.Throws<ArgumentException>(() => SectionParser.Parse(input, SectionMarkerStyle.AtPrefix));
+        Assert.Throws<ArgumentException>(() => SectionParser.Parse(input));
     }
 
     [Fact]
@@ -276,7 +303,7 @@ model: gemini-pro
 [Settings]
 timeout: 30
 retries: 3";
-        var result = SectionParser.Parse(input, SectionMarkerStyle.IniBrackets);
+        var result = SectionParser.Parse(input);
 
         Assert.Equal(4, result.Length);
         Assert.Equal("", result[0].Name);
@@ -292,7 +319,7 @@ retries: 3";
     public void Parse_IniBrackets_EmptySectionName_Throws()
     {
         var input = "[]\nkey: value";
-        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input, SectionMarkerStyle.IniBrackets));
+        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input));
         Assert.Contains("cannot be empty", ex.Message);
     }
 
@@ -300,7 +327,7 @@ retries: 3";
     public void Parse_IniBrackets_WhitespaceOnlySectionName_Throws()
     {
         var input = "[   ]\nkey: value";
-        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input, SectionMarkerStyle.IniBrackets));
+        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input));
         Assert.Contains("cannot be empty", ex.Message);
     }
 
@@ -308,7 +335,7 @@ retries: 3";
     public void Parse_AtPrefix_EmptySectionName_Throws()
     {
         var input = "@\nkey: value";
-        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input, SectionMarkerStyle.AtPrefix));
+        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input));
         Assert.Contains("cannot be empty", ex.Message);
     }
 
@@ -316,9 +343,10 @@ retries: 3";
     public void Parse_AtPrefix_WhitespaceOnlySectionName_Throws()
     {
         var input = "@   \nkey: value";
-        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input, SectionMarkerStyle.AtPrefix));
+        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input));
         Assert.Contains("cannot be empty", ex.Message);
     }
 
     #endregion
 }
+

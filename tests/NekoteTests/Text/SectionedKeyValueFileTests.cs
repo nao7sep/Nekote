@@ -60,7 +60,7 @@ Port: 5432";
     // ToString and Save tests
 
     [Fact]
-    public void ToString_ProducesValidIniFormat()
+    public void ToString_ProducesValidFormat()
     {
         var ini = new SectionedKeyValueFile();
         ini.SetValue("Database", "Host", "localhost");
@@ -69,10 +69,10 @@ Port: 5432";
 
         var result = ini.ToString();
 
-        Assert.Contains("[Database]", result);
+        Assert.Contains("@Database", result);
         Assert.Contains("Host: localhost", result);
         Assert.Contains("Port: 5432", result);
-        Assert.Contains("[Features]", result);
+        Assert.Contains("@Features", result);
         Assert.Contains("AutoSave: true", result);
     }
 

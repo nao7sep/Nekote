@@ -30,34 +30,36 @@ public class SectionedKeyValueFile
     /// <summary>
     /// Creates a new empty SectionedKeyValueFile with the specified marker style.
     /// </summary>
-    public SectionedKeyValueFile(SectionMarkerStyle markerStyle = SectionMarkerStyle.IniBrackets)
+    public SectionedKeyValueFile(SectionMarkerStyle markerStyle = SectionMarkerStyle.AtPrefix)
     {
         _markerStyle = markerStyle;
     }
 
     /// <summary>
     /// Loads a sectioned key-value file from the specified path.
+    /// Supports both [INI-style] and @at-prefix section markers automatically.
     /// </summary>
     /// <param name="path">Path to the file.</param>
-    /// <param name="markerStyle">Section marker style (default: IniBrackets).</param>
     /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>
+    /// <param name="outputMarkerStyle">Marker style for output when saved (default: AtPrefix).</param>
     /// <returns>Loaded SectionedKeyValueFile instance.</returns>
-    public static SectionedKeyValueFile Load(string path, SectionMarkerStyle markerStyle = SectionMarkerStyle.IniBrackets, Encoding? encoding = null)
+    public static SectionedKeyValueFile Load(string path, Encoding? encoding = null, SectionMarkerStyle outputMarkerStyle = SectionMarkerStyle.AtPrefix)
     {
         var text = File.ReadAllText(path, encoding ?? TextEncoding.Utf8NoBom);
-        return Parse(text, markerStyle);
+        return Parse(text, outputMarkerStyle);
     }
 
     /// <summary>
     /// Parses a sectioned key-value file from a string.
+    /// Supports both [INI-style] and @at-prefix section markers automatically.
     /// </summary>
     /// <param name="content">File content.</param>
-    /// <param name="markerStyle">Section marker style (default: IniBrackets).</param>
+    /// <param name="outputMarkerStyle">Marker style for output when saved (default: AtPrefix).</param>
     /// <returns>Parsed SectionedKeyValueFile instance.</returns>
-    public static SectionedKeyValueFile Parse(string content, SectionMarkerStyle markerStyle = SectionMarkerStyle.IniBrackets)
+    public static SectionedKeyValueFile Parse(string content, SectionMarkerStyle outputMarkerStyle = SectionMarkerStyle.AtPrefix)
     {
         var sections = SectionParser.Parse(content);
-        var file = new SectionedKeyValueFile(markerStyle);
+        var file = new SectionedKeyValueFile(outputMarkerStyle);
 
         foreach (var section in sections)
         {
@@ -95,23 +97,20 @@ public class SectionedKeyValueFile
     /// </summary>
     public override string ToString()
     {
-        var sb = new System.Text.StringBuilder();
+        var paragraphs = new List<string>();
 
         // 1. Write preamble (keys without section) first
         if (_sections.TryGetValue("", out var preamble) && preamble.Count > 0)
         {
-            var kvText = KeyValueWriter.Write(preamble);
-            if (!string.IsNullOrEmpty(kvText))
-            {
-                sb.AppendLine(kvText);
-                sb.AppendLine();
-            }
+            paragraphs.Add(KeyValueWriter.Write(preamble));
         }
 
         // 2. Write named sections
         foreach (var (sectionName, keyValues) in _sections)
         {
             if (sectionName == "") continue; // Already handled
+
+            var sb = new StringBuilder();
 
             // Write section marker
             if (_markerStyle == SectionMarkerStyle.IniBrackets)
@@ -122,16 +121,13 @@ public class SectionedKeyValueFile
             // Write key-value pairs
             var kvText = KeyValueWriter.Write(keyValues);
             if (!string.IsNullOrEmpty(kvText))
-            {
-                sb.AppendLine(kvText);
-            }
+                sb.Append(kvText);
 
-            // Blank line between sections
-            if (keyValues.Count > 0)
-                sb.AppendLine();
+            paragraphs.Add(sb.ToString().TrimEnd());
         }
 
-        return sb.ToString().TrimEnd();
+        // Join paragraphs with blank lines
+        return string.Join("\n\n", paragraphs);
     }
 
     // Section access

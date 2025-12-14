@@ -11,13 +11,13 @@ Text processing utilities for parsing, escaping, and pattern matching.
 - Security-focused: whitespace at boundaries can be used as attack vectors (homograph attacks, "key " vs "key")
 
 ### Text Escaping
-- **EscapeMode.cs** - Enum defining escape strategies: KeyValue, CSV, URL, HTML
+- **EscapeMode.cs** - Enum defining escape strategies: NiniValue, CSV, URL, HTML
 - **TextEscaper.cs** - Static escape/unescape methods for all four modes
 - Handles special characters, surrogate pairs (emoji), and culture-independent encoding
 
-### Key-Value Parsing
-- **KeyValueParser.cs** - Parse "key: value" format to Dictionary<string, string>
-- **KeyValueWriter.cs** - Write Dictionary<string, string> to "key: value" format
+### Nini Key-Value Parsing
+- **NiniKeyValueParser.cs** - Parse "key: value" format to Dictionary<string, string>
+- **NiniKeyValueWriter.cs** - Write Dictionary<string, string> to "key: value" format
 - Supports # and // comments, uses TextEscaper for multi-line values
 
 ### Line and Paragraph Parsing
@@ -36,9 +36,11 @@ Text processing utilities for parsing, escaping, and pattern matching.
 - UTF-8 without BOM is the cross-platform standard (BOM breaks Unix tools, shebangs, parsers)
 - All file operations in this namespace accept optional encoding parameter with Utf8NoBom as default
 
-### Sectioned Key-Value Files
-- **SectionParser.cs** - Parse sections with [name] (IniBrackets) or @name (AtPrefix) markers
-- **SectionedKeyValueFile.cs** - High-level API for sectioned key-value files with typed getters/setters
+### Nini Sectioned Key-Value Files
+- **NiniSectionParser.cs** - Parse sections with [name] (IniBrackets) or @name (AtPrefix) markers
+- **NiniFile.cs** - High-level API for sectioned key-value files with typed getters/setters
+- **NiniSection.cs** - Represents a parsed section
+- **NiniSectionMarkerStyle.cs** - Enum for section marker styles
 - Line-based format: key:value pairs organized into sections, # and // comments, escaped values via TextEscaper
 - Not INI-compatible: different syntax (key:value not key=value), different comment markers, includes escaping
 

@@ -435,4 +435,97 @@ public class TextEscaperTests
     }
 
     #endregion
+
+    #region Surrogate Pair Tests
+
+    private const string Emoji = "😀"; // U+1F600, UTF-16: \uD83D\uDE00
+    private const string TextWithEmoji = "Hello " + Emoji + " World";
+
+    [Fact]
+    public void EscapeHtml_PreservesSurrogatePairs()
+    {
+        // EscapeHtml iterates by char. 
+        // If it sees high surrogate, it appends. If it sees low, it appends.
+        // It only replaces & < > " '
+        var escaped = TextEscaper.Escape(TextWithEmoji, EscapeMode.Html);
+        Assert.Equal(TextWithEmoji, escaped);
+        
+        var mixed = "<b>" + Emoji + "</b>";
+        var escapedMixed = TextEscaper.Escape(mixed, EscapeMode.Html);
+        Assert.Equal("&lt;b&gt;" + Emoji + "&lt;/b&gt;", escapedMixed);
+    }
+
+    [Fact]
+    public void EscapeNiniValue_PreservesSurrogatePairs()
+    {
+        // Uses char iteration, escapes \ \n \r \t
+        var escaped = TextEscaper.Escape(TextWithEmoji, EscapeMode.NiniValue);
+        Assert.Equal(TextWithEmoji, escaped);
+    }
+
+    [Fact]
+    public void EscapeCsv_PreservesSurrogatePairs()
+    {
+        // Uses char iteration, escapes " , \n \r
+        var escaped = TextEscaper.Escape(TextWithEmoji, EscapeMode.Csv);
+        Assert.Equal(TextWithEmoji, escaped);
+        
+        var quoted = "Hello, " + Emoji;
+        var escapedQuoted = TextEscaper.Escape(quoted, EscapeMode.Csv);
+        Assert.Equal("\"Hello, " + Emoji + "\"", escapedQuoted);
+    }
+
+    [Fact]
+    public void EscapeUrl_UsesRuneForCorrectUtf8Encoding()
+    {
+        // URL encoding MUST encode the codepoint, not the surrogates individually.
+        // 😀 (U+1F600) -> UTF-8: F0 9F 98 80
+        // Expected: %F0%9F%98%80
+        
+        var escaped = TextEscaper.Escape(Emoji, EscapeMode.Url);
+        Assert.Equal("%F0%9F%98%80", escaped);
+    }
+
+    [Fact]
+    public void UnescapeUrl_HandlesSurrogatePairs()
+    {
+        // Case 1: URL-encoded emoji
+        var encoded = "Hello%20%F0%9F%98%80";
+        var decoded = TextEscaper.Unescape(encoded, EscapeMode.Url);
+        Assert.Equal("Hello " + Emoji, decoded);
+
+        // Case 2: Raw emoji in URL string (loose input)
+        // If the input string already contains the surrogate pair, it should be preserved
+        // even though UnescapeUrl iterates and rebuilds the byte array.
+        var raw = "Hello " + Emoji;
+        var decodedRaw = TextEscaper.Unescape(raw, EscapeMode.Url);
+        Assert.Equal("Hello " + Emoji, decodedRaw);
+    }
+
+    [Fact]
+    public void EscapeUrl_InvalidLoneSurrogates_ReplacedWithReplacementChar()
+    {
+        // A lone high surrogate is invalid in Unicode scalar values.
+        // URL encoding (via Rune) should replace it with U+FFFD (Replacement Character).
+        // U+FFFD in UTF-8 is EF BF BD, so URL encoded it is %EF%BF%BD
+        
+        string invalidInput = "\uD83D"; // Lone high surrogate
+        string? result = TextEscaper.Escape(invalidInput, EscapeMode.Url);
+        
+        Assert.Equal("%EF%BF%BD", result);
+    }
+
+    [Fact]
+    public void UnescapeUrl_InvalidLoneSurrogates_ReplacedWithReplacementChar()
+    {
+        // A lone high surrogate in the input (not percent encoded)
+        // Rune decoding should detect it as invalid and replace with U+FFFD
+        
+        string invalidInput = "\uD83D"; // Lone high surrogate
+        string? result = TextEscaper.Unescape(invalidInput, EscapeMode.Url);
+        
+        Assert.Equal("\uFFFD", result);
+    }
+
+    #endregion
 }

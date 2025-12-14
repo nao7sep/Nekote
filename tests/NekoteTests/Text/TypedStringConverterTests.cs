@@ -25,6 +25,7 @@ public class TypedStringConverterTests
     [InlineData("abc", 42, 42)]
     [InlineData("12.5", 42, 42)]  // Decimal point not allowed for Int32
     [InlineData("1,000", 42, 42)]  // Comma not allowed in InvariantCulture
+    [InlineData("😀", 42, 42)]    // Emoji is not a number
     public void ToInt32_InvalidValues_ReturnsDefault(string? input, int defaultValue, int expected)
     {
         var result = TypedStringConverter.ToInt32(input, defaultValue);

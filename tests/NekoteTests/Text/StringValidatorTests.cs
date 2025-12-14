@@ -201,5 +201,19 @@ public class StringValidatorTests
     }
 
     #endregion
+
+    #region Surrogate Pair Tests
+
+    [Fact]
+    public void StringValidator_HandlesSurrogatePairsInKeys()
+    {
+        // Keys can contain emojis, just not control chars
+        const string Emoji = "😀";
+        string key = "Key" + Emoji;
+        var exception = Record.Exception(() => StringValidator.ValidateNiniKey(key));
+        Assert.Null(exception);
+    }
+
+    #endregion
 }
 

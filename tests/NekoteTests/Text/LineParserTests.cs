@@ -285,4 +285,38 @@ public class LineParserTests
     }
 
     #endregion
+
+    #region Surrogate Pair Tests
+
+    [Fact]
+    public void LineParser_PreservesSurrogatePairs()
+    {
+        const string Emoji = "😀";
+        const string TextWithEmoji = "Hello " + Emoji + " World";
+
+        var lines = LineParser.ToLines(TextWithEmoji);
+        Assert.Single(lines);
+        Assert.Equal(TextWithEmoji, lines[0]);
+        
+        var multiLine = "Line1 " + Emoji + "\nLine2";
+        var parsed = LineParser.ToLines(multiLine);
+        Assert.Equal(2, parsed.Length);
+        Assert.Equal("Line1 " + Emoji, parsed[0]);
+    }
+
+    [Fact]
+    public void LineParser_PassesThroughLoneSurrogates()
+    {
+        // LineParser should not try to fix or validate Unicode, just split lines.
+        // A lone surrogate \uD83D should be preserved.
+        string invalidUtf16 = "Line1\uD83D\nLine2";
+        
+        var lines = LineParser.ToLines(invalidUtf16);
+        
+        Assert.Equal(2, lines.Length);
+        Assert.Equal("Line1\uD83D", lines[0]);
+        Assert.Equal("Line2", lines[1]);
+    }
+
+    #endregion
 }

@@ -18,6 +18,9 @@ public static class StringValidator
         if (string.IsNullOrEmpty(value))
             return;
 
+        // Note: char.IsWhiteSpace() is SAFE here. All Unicode whitespace characters are in the
+        // Basic Multilingual Plane (BMP) - none require surrogate pairs. This includes all common
+        // whitespace (space, tab, newlines) and even exotic ones (U+2000-U+200A, U+3000, etc.).
         if (char.IsWhiteSpace(value[0]))
             throw new ArgumentException($"{parameterName} cannot start with whitespace. Leading whitespace can cause ambiguity in text formats.", parameterName);
 
@@ -38,6 +41,10 @@ public static class StringValidator
 
         ValidateNoLeadingOrTrailingWhitespace(key, "Key");
 
+        // Note: All checks below are SAFE with char-based string methods. We're looking for
+        // specific ASCII characters (: \n \r # / [ @) that never appear in surrogate pairs.
+        // String.Contains() and String.StartsWith() correctly handle surrogate pairs in the
+        // parts we're NOT checking, so emoji and other non-BMP characters pass through safely.
         if (key.Contains(':'))
             throw new ArgumentException($"Key '{key}' contains invalid character ':'. Keys cannot contain colons.", nameof(key));
 

@@ -22,6 +22,9 @@ public static class LineParser
         var lines = new List<string>();
         var currentLine = new System.Text.StringBuilder();
 
+        // Note: char-by-char iteration is SAFE here. Line endings (\r, \n) are ASCII characters
+        // that never appear in surrogate pairs. We only check for these specific characters,
+        // and StringBuilder.Append(char) correctly preserves surrogate pairs in the content.
         for (int i = 0; i < text.Length; i++)
         {
             char c = text[i];

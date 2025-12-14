@@ -206,7 +206,12 @@ public static class TextEscaper
         var result = new StringBuilder(text.Length + 16);
         Span<byte> bytes = stackalloc byte[4]; // Max UTF-8 bytes per character
 
-        // Use Rune to properly handle surrogate pairs (emojis)
+        // IMPORTANT: Rune enumeration is REQUIRED here for correct URL encoding.
+        // URLs must encode each Unicode codepoint (not UTF-16 code units) to UTF-8 bytes.
+        // Emojis and other characters outside BMP are surrogate pairs in UTF-16 but single
+        // codepoints in Unicode. Using char iteration would incorrectly encode each surrogate
+        // separately, producing invalid URL encoding. This is one of the rare cases where
+        // the performance cost of Rune enumeration is justified by correctness requirements.
         foreach (Rune rune in text.EnumerateRunes())
         {
             // Check if it's a simple ASCII unreserved character
@@ -236,6 +241,7 @@ public static class TextEscaper
     private static string UnescapeUrl(string escapedText)
     {
         var bytes = new List<byte>();
+        Span<byte> runeBytes = stackalloc byte[4]; // Reusable buffer for UTF-8 encoding
         var i = 0;
 
         while (i < escapedText.Length)
@@ -269,10 +275,26 @@ public static class TextEscaper
             }
             else
             {
-                // Non-escaped character - encode it properly to UTF-8 bytes
-                byte[] charBytes = Encoding.UTF8.GetBytes(new[] { escapedText[i] });
-                bytes.AddRange(charBytes);
-                i++;
+                // Non-escaped character - may be a surrogate pair (emoji, etc.)
+                // Must use Rune to avoid corrupting surrogate pairs into replacement characters
+                if (!Rune.TryGetRuneAt(escapedText, i, out Rune rune))
+                {
+                    // Invalid/lone surrogate - emit UTF-8 replacement character U+FFFD
+                    bytes.Add(0xEF);
+                    bytes.Add(0xBF);
+                    bytes.Add(0xBD);
+                    i++;
+                }
+                else
+                {
+                    // Valid codepoint - encode to UTF-8
+                    int bytesWritten = rune.EncodeToUtf8(runeBytes);
+                    for (int k = 0; k < bytesWritten; k++)
+                    {
+                        bytes.Add(runeBytes[k]);
+                    }
+                    i += rune.Utf16SequenceLength;
+                }
             }
         }
 

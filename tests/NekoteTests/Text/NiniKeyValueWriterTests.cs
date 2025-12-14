@@ -1,21 +1,21 @@
-﻿using Nekote.Text;
+using Nekote.Text;
 
 namespace Nekote.Tests.Text;
 
-public class KeyValueWriterTests
+public class NiniKeyValueWriterTests
 {
     [Fact]
     public void Write_EmptyDictionary_ReturnsEmptyString()
     {
         var data = new Dictionary<string, string>();
-        var result = KeyValueWriter.Write(data);
+        var result = NiniKeyValueWriter.Write(data);
         Assert.Equal(string.Empty, result);
     }
 
     [Fact]
     public void Write_NullDictionary_ReturnsEmptyString()
     {
-        var result = KeyValueWriter.Write(null!);
+        var result = NiniKeyValueWriter.Write(null!);
         Assert.Equal(string.Empty, result);
     }
 
@@ -27,7 +27,7 @@ public class KeyValueWriterTests
             ["key1"] = "value1",
             ["key2"] = "value2"
         };
-        var result = KeyValueWriter.Write(data);
+        var result = NiniKeyValueWriter.Write(data);
 
         Assert.Contains("key1: value1", result);
         Assert.Contains("key2: value2", result);
@@ -40,7 +40,7 @@ public class KeyValueWriterTests
         {
             ["description"] = "Line 1\nLine 2\nLine 3"
         };
-        var result = KeyValueWriter.Write(data);
+        var result = NiniKeyValueWriter.Write(data);
 
         Assert.Contains("description: Line 1\\nLine 2\\nLine 3", result);
     }
@@ -52,7 +52,7 @@ public class KeyValueWriterTests
         {
             ["key"] = ""
         };
-        var result = KeyValueWriter.Write(data);
+        var result = NiniKeyValueWriter.Write(data);
 
         Assert.Contains("key: ", result);
     }
@@ -64,7 +64,7 @@ public class KeyValueWriterTests
         {
             ["path"] = "C:\\Users\\Name"
         };
-        var result = KeyValueWriter.Write(data);
+        var result = NiniKeyValueWriter.Write(data);
 
         Assert.Contains("path: C:\\\\Users\\\\Name", result);
     }
@@ -78,7 +78,7 @@ public class KeyValueWriterTests
             ["apple"] = "first",
             ["middle"] = "mid"
         };
-        var result = KeyValueWriter.Write(data, sortKeys: true);
+        var result = NiniKeyValueWriter.Write(data, sortKeys: true);
 
         var lines = result.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         Assert.Equal("apple: first", lines[0]);
@@ -95,7 +95,7 @@ public class KeyValueWriterTests
             ["first"] = "1",
             ["second"] = "2"
         };
-        var result = KeyValueWriter.Write(data, sortKeys: false);
+        var result = NiniKeyValueWriter.Write(data, sortKeys: false);
 
         // Dictionary doesn't guarantee order, but we can verify all are present
         Assert.Contains("third: 3", result);
@@ -112,7 +112,7 @@ public class KeyValueWriterTests
             ["description"] = "Test\nwith\nmultiple\nlines",
             ["path"] = "C:\\Windows\\System32"
         };
-        var result = KeyValueWriter.Write(data);
+        var result = NiniKeyValueWriter.Write(data);
 
         Assert.Contains("openai-key: sk-proj-abc123", result);
         Assert.Contains("description: Test\\nwith\\nmultiple\\nlines", result);
@@ -130,8 +130,8 @@ public class KeyValueWriterTests
             ["key4"] = ""
         };
 
-        var written = KeyValueWriter.Write(original);
-        var parsed = KeyValueParser.Parse(written);
+        var written = NiniKeyValueWriter.Write(original);
+        var parsed = NiniKeyValueParser.Parse(written);
 
         Assert.Equal(original.Count, parsed.Count);
         foreach (var kvp in original)
@@ -144,7 +144,7 @@ public class KeyValueWriterTests
     public void Write_KeyWithColon_ThrowsArgumentException()
     {
         var data = new Dictionary<string, string> { ["key:sub"] = "value" };
-        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        var ex = Assert.Throws<ArgumentException>(() => NiniKeyValueWriter.Write(data));
         Assert.Contains("contains invalid character ':'", ex.Message);
     }
 
@@ -152,7 +152,7 @@ public class KeyValueWriterTests
     public void Write_KeyWithNewline_ThrowsArgumentException()
     {
         var data = new Dictionary<string, string> { ["key\nline"] = "value" };
-        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        var ex = Assert.Throws<ArgumentException>(() => NiniKeyValueWriter.Write(data));
         Assert.Contains("contains line breaks", ex.Message);
     }
 
@@ -160,7 +160,7 @@ public class KeyValueWriterTests
     public void Write_KeyStartingWithHash_ThrowsArgumentException()
     {
         var data = new Dictionary<string, string> { ["#comment"] = "value" };
-        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        var ex = Assert.Throws<ArgumentException>(() => NiniKeyValueWriter.Write(data));
         Assert.Contains("starts with '#'", ex.Message);
     }
 
@@ -169,7 +169,7 @@ public class KeyValueWriterTests
     {
         // Leading whitespace is caught first by validator
         var data = new Dictionary<string, string> { ["  #comment"] = "value" };
-        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        var ex = Assert.Throws<ArgumentException>(() => NiniKeyValueWriter.Write(data));
         Assert.Contains("cannot start with whitespace", ex.Message);
     }
 
@@ -177,7 +177,7 @@ public class KeyValueWriterTests
     public void Write_KeyStartingWithSlashSlash_ThrowsArgumentException()
     {
         var data = new Dictionary<string, string> { ["//comment"] = "value" };
-        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        var ex = Assert.Throws<ArgumentException>(() => NiniKeyValueWriter.Write(data));
         Assert.Contains("starts with '//'", ex.Message);
     }
 
@@ -185,7 +185,7 @@ public class KeyValueWriterTests
     public void Write_KeyContainingBracket_ThrowsArgumentException()
     {
         var data = new Dictionary<string, string> { ["[section]"] = "value" };
-        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        var ex = Assert.Throws<ArgumentException>(() => NiniKeyValueWriter.Write(data));
         Assert.Contains("starts with '['", ex.Message);
     }
 
@@ -193,7 +193,7 @@ public class KeyValueWriterTests
     public void Write_KeyContainingAtSign_ThrowsArgumentException()
     {
         var data = new Dictionary<string, string> { ["@key"] = "value" };
-        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        var ex = Assert.Throws<ArgumentException>(() => NiniKeyValueWriter.Write(data));
         Assert.Contains("starts with '@'", ex.Message);
     }
 
@@ -201,7 +201,7 @@ public class KeyValueWriterTests
     public void Write_EmptyKey_ThrowsArgumentException()
     {
         var data = new Dictionary<string, string> { [""] = "value" };
-        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        var ex = Assert.Throws<ArgumentException>(() => NiniKeyValueWriter.Write(data));
         Assert.Contains("null or whitespace", ex.Message);
     }
 
@@ -209,7 +209,7 @@ public class KeyValueWriterTests
     public void Write_KeyWithLeadingWhitespace_ThrowsArgumentException()
     {
         var data = new Dictionary<string, string> { [" key"] = "value" };
-        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        var ex = Assert.Throws<ArgumentException>(() => NiniKeyValueWriter.Write(data));
         Assert.Contains("cannot start with whitespace", ex.Message);
     }
 
@@ -217,7 +217,7 @@ public class KeyValueWriterTests
     public void Write_KeyWithTrailingWhitespace_ThrowsArgumentException()
     {
         var data = new Dictionary<string, string> { ["key "] = "value" };
-        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        var ex = Assert.Throws<ArgumentException>(() => NiniKeyValueWriter.Write(data));
         Assert.Contains("cannot end with whitespace", ex.Message);
     }
 
@@ -225,8 +225,11 @@ public class KeyValueWriterTests
     public void Write_NullValue_ThrowsArgumentException()
     {
         var data = new Dictionary<string, string> { ["key"] = null! };
-        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        var ex = Assert.Throws<ArgumentException>(() => NiniKeyValueWriter.Write(data));
         Assert.Contains("cannot be null", ex.Message);
         Assert.Contains("Use string.Empty", ex.Message);
     }
 }
+
+
+

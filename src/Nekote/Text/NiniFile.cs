@@ -1,9 +1,9 @@
-﻿using System.Text;
+using System.Text;
 
 namespace Nekote.Text;
 
 /// <summary>
-/// Represents a sectioned key-value file format with typed value access.
+/// Represents a NINI file format with typed value access.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -15,51 +15,51 @@ namespace Nekote.Text;
 /// <para>
 /// Example usage:
 /// <code>
-/// var file = SectionedKeyValueFile.Load("config.txt");
+/// var file = NiniFile.Load("config.txt");
 /// int port = file.GetInt32("Database", "Port", defaultValue: 5432);
 /// file.SetValue("Database", "Host", "localhost");
 /// file.Save("config.txt");
 /// </code>
 /// </para>
 /// </remarks>
-public class SectionedKeyValueFile
+public class NiniFile
 {
     private readonly Dictionary<string, Dictionary<string, string>> _sections = new(StringComparer.OrdinalIgnoreCase);
-    private readonly SectionMarkerStyle _markerStyle;
+    private readonly NiniSectionMarkerStyle _markerStyle;
 
     /// <summary>
-    /// Creates a new empty SectionedKeyValueFile with the specified marker style.
+    /// Creates a new empty NiniFile with the specified marker style.
     /// </summary>
-    public SectionedKeyValueFile(SectionMarkerStyle markerStyle = SectionMarkerStyle.AtPrefix)
+    public NiniFile(NiniSectionMarkerStyle markerStyle = NiniSectionMarkerStyle.AtPrefix)
     {
         _markerStyle = markerStyle;
     }
 
     /// <summary>
-    /// Loads a sectioned key-value file from the specified path.
+    /// Loads a NINI file from the specified path.
     /// Supports both [INI-style] and @at-prefix section markers automatically.
     /// </summary>
     /// <param name="path">Path to the file.</param>
     /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>
     /// <param name="outputMarkerStyle">Marker style for output when saved (default: AtPrefix).</param>
-    /// <returns>Loaded SectionedKeyValueFile instance.</returns>
-    public static SectionedKeyValueFile Load(string path, Encoding? encoding = null, SectionMarkerStyle outputMarkerStyle = SectionMarkerStyle.AtPrefix)
+    /// <returns>Loaded NiniFile instance.</returns>
+    public static NiniFile Load(string path, Encoding? encoding = null, NiniSectionMarkerStyle outputMarkerStyle = NiniSectionMarkerStyle.AtPrefix)
     {
         var text = File.ReadAllText(path, encoding ?? TextEncoding.Utf8NoBom);
         return Parse(text, outputMarkerStyle);
     }
 
     /// <summary>
-    /// Parses a sectioned key-value file from a string.
+    /// Parses a NINI file from a string.
     /// Supports both [INI-style] and @at-prefix section markers automatically.
     /// </summary>
     /// <param name="content">File content.</param>
     /// <param name="outputMarkerStyle">Marker style for output when saved (default: AtPrefix).</param>
-    /// <returns>Parsed SectionedKeyValueFile instance.</returns>
-    public static SectionedKeyValueFile Parse(string content, SectionMarkerStyle outputMarkerStyle = SectionMarkerStyle.AtPrefix)
+    /// <returns>Parsed NiniFile instance.</returns>
+    public static NiniFile Parse(string content, NiniSectionMarkerStyle outputMarkerStyle = NiniSectionMarkerStyle.AtPrefix)
     {
-        var sections = SectionParser.Parse(content);
-        var file = new SectionedKeyValueFile(outputMarkerStyle);
+        var sections = NiniSectionParser.Parse(content);
+        var file = new NiniFile(outputMarkerStyle);
 
         foreach (var section in sections)
         {
@@ -102,7 +102,7 @@ public class SectionedKeyValueFile
         // 1. Write preamble (keys without section) first
         if (_sections.TryGetValue("", out var preamble) && preamble.Count > 0)
         {
-            paragraphs.Add(KeyValueWriter.Write(preamble));
+            paragraphs.Add(NiniKeyValueWriter.Write(preamble));
         }
 
         // 2. Write named sections
@@ -113,13 +113,13 @@ public class SectionedKeyValueFile
             var sb = new StringBuilder();
 
             // Write section marker
-            if (_markerStyle == SectionMarkerStyle.IniBrackets)
+            if (_markerStyle == NiniSectionMarkerStyle.IniBrackets)
                 sb.AppendLine($"[{sectionName}]");
             else
                 sb.AppendLine($"@{sectionName}");
 
             // Write key-value pairs
-            var kvText = KeyValueWriter.Write(keyValues);
+            var kvText = NiniKeyValueWriter.Write(keyValues);
             if (!string.IsNullOrEmpty(kvText))
                 sb.Append(kvText);
 
@@ -455,3 +455,4 @@ public class SectionedKeyValueFile
         EnsureSection(section)[key] = TypedStringConverter.FromVersion(value);
     }
 }
+

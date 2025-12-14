@@ -2,14 +2,14 @@ using Nekote.Text;
 
 namespace Nekote.Tests.Text;
 
-public class SectionParserTests
+public class NiniSectionParserTests
 {
     #region INI Brackets Style Tests
 
     [Fact]
     public void Parse_IniBrackets_EmptyString_ReturnsEmptyArray()
     {
-        var result = SectionParser.Parse("");
+        var result = NiniSectionParser.Parse("");
         Assert.Empty(result);
     }
 
@@ -17,10 +17,10 @@ public class SectionParserTests
     public void Parse_IniBrackets_NoSections_ReturnsPreamble()
     {
         var input = "key1: value1\nkey2: value2";
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Single(result);
-        Assert.Equal(SectionMarkerStyle.None, result[0].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.None, result[0].Marker);
         Assert.Equal("", result[0].Name);
         Assert.Equal(2, result[0].KeyValues.Count);
         Assert.Equal("value1", result[0].KeyValues["key1"]);
@@ -31,10 +31,10 @@ public class SectionParserTests
     public void Parse_IniBrackets_SingleSection_ParsesCorrectly()
     {
         var input = "[Section1]\nkey1: value1\nkey2: value2";
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Single(result);
-        Assert.Equal(SectionMarkerStyle.IniBrackets, result[0].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.IniBrackets, result[0].Marker);
         Assert.Equal("Section1", result[0].Name);
         Assert.Equal(2, result[0].KeyValues.Count);
         Assert.Equal("value1", result[0].KeyValues["key1"]);
@@ -50,7 +50,7 @@ model: gpt-4
 [Gemini]
 key: AIza-xyz
 model: gemini-pro";
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Equal(2, result.Length);
         Assert.Equal("OpenAI", result[0].Name);
@@ -66,7 +66,7 @@ model: gemini-pro";
 
 [Section1]
 key1: value1";
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Equal(2, result.Length);
         Assert.Equal("", result[0].Name);
@@ -79,7 +79,7 @@ key1: value1";
     public void Parse_IniBrackets_EmptySection_PreservesSection()
     {
         var input = "[Section1]\n\n[Section2]\nkey: value";
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Equal(2, result.Length);
         Assert.Equal("Section1", result[0].Name);
@@ -96,9 +96,9 @@ key1: value1";
 [Section1]
 // Another comment
 key: value";
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
-        // Comment-only preamble creates no section (no keys, no explicit marker)
+        // Comment-only preamble creates no NiniSection (no keys, no explicit marker)
         Assert.Single(result);
         Assert.Equal("Section1", result[0].Name);
         Assert.Single(result[0].KeyValues);
@@ -109,18 +109,18 @@ key: value";
     public void Parse_IniBrackets_SectionNameWithInternalSpaces_ParsesCorrectly()
     {
         // Internal spaces are fine - only leading/trailing are problematic
-        var input = "[Section Name]\nkey: value";
-        var result = SectionParser.Parse(input);
+        var input = "[NiniSection Name]\nkey: value";
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Single(result);
-        Assert.Equal("Section Name", result[0].Name);
+        Assert.Equal("NiniSection Name", result[0].Name);
     }
 
     [Fact]
     public void Parse_IniBrackets_PreambleAndSection_ParsesCorrectly()
     {
         var input = "key: value\n\n[Section1]\nkey1: value1";
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Equal(2, result.Length);
         Assert.Equal("", result[0].Name);
@@ -136,7 +136,7 @@ key: value";
     [Fact]
     public void Parse_AtPrefix_EmptyString_ReturnsEmptyArray()
     {
-        var result = SectionParser.Parse("");
+        var result = NiniSectionParser.Parse("");
         Assert.Empty(result);
     }
 
@@ -144,10 +144,10 @@ key: value";
     public void Parse_AtPrefix_SingleSection_ParsesCorrectly()
     {
         var input = "@Section1\nkey1: value1\nkey2: value2";
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Single(result);
-        Assert.Equal(SectionMarkerStyle.AtPrefix, result[0].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.AtPrefix, result[0].Marker);
         Assert.Equal("Section1", result[0].Name);
         Assert.Equal(2, result[0].KeyValues.Count);
     }
@@ -161,7 +161,7 @@ model: gpt-4
 
 @Gemini
 key: AIza-xyz";
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Equal(2, result.Length);
         Assert.Equal("OpenAI", result[0].Name);
@@ -172,7 +172,7 @@ key: AIza-xyz";
     public void Parse_AtPrefix_WithPreamble_ParsesCorrectly()
     {
         var input = "intro: text\n\n@Section1\nkey: value";
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Equal(2, result.Length);
         Assert.Equal("", result[0].Name);
@@ -184,11 +184,11 @@ key: AIza-xyz";
     public void Parse_AtPrefix_SectionNameWithInternalSpaces_ParsesCorrectly()
     {
         // Internal spaces are fine - only leading/trailing are problematic
-        var input = "@Section Name\nkey: value";
-        var result = SectionParser.Parse(input);
+        var input = "@NiniSection Name\nkey: value";
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Single(result);
-        Assert.Equal("Section Name", result[0].Name);
+        Assert.Equal("NiniSection Name", result[0].Name);
     }
 
     [Fact]
@@ -202,14 +202,14 @@ key1: value1
 key2: value2
 
 key3: value3";
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Equal(3, result.Length);
-        Assert.Equal(SectionMarkerStyle.IniBrackets, result[0].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.IniBrackets, result[0].Marker);
         Assert.Equal("IniSection", result[0].Name);
-        Assert.Equal(SectionMarkerStyle.AtPrefix, result[1].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.AtPrefix, result[1].Marker);
         Assert.Equal("AtSection", result[1].Name);
-        Assert.Equal(SectionMarkerStyle.None, result[2].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.None, result[2].Marker);
         Assert.Equal("", result[2].Name);
     }
 
@@ -221,37 +221,37 @@ key3: value3";
     public void GetSection_FindsExistingSection()
     {
         var input = "[Section1]\nkey1: value1\n\n[Section2]\nkey2: value2";
-        var sections = SectionParser.Parse(input);
+        var sections = NiniSectionParser.Parse(input);
 
-        var section = SectionParser.GetSection(sections, "Section2");
+        var NiniSection = NiniSectionParser.GetSection(sections, "Section2");
 
-        Assert.NotNull(section);
-        Assert.Equal("Section2", section.Name);
-        Assert.Equal("value2", section.KeyValues["key2"]);
+        Assert.NotNull(NiniSection);
+        Assert.Equal("Section2", NiniSection.Name);
+        Assert.Equal("value2", NiniSection.KeyValues["key2"]);
     }
 
     [Fact]
     public void GetSection_MissingSection_ReturnsNull()
     {
         var input = "[Section1]\nkey1: value1";
-        var sections = SectionParser.Parse(input);
+        var sections = NiniSectionParser.Parse(input);
 
-        var section = SectionParser.GetSection(sections, "NonExistent");
+        var NiniSection = NiniSectionParser.GetSection(sections, "NonExistent");
 
-        Assert.Null(section);
+        Assert.Null(NiniSection);
     }
 
     [Fact]
     public void GetSection_Preamble_FindsByEmptyString()
     {
         var input = "key: value\n\n[Section1]\nkey1: value1";
-        var sections = SectionParser.Parse(input);
+        var sections = NiniSectionParser.Parse(input);
 
-        var section = SectionParser.GetSection(sections, "");
+        var NiniSection = NiniSectionParser.GetSection(sections, "");
 
-        Assert.NotNull(section);
-        Assert.Equal("", section.Name);
-        Assert.Equal("value", section.KeyValues["key"]);
+        Assert.NotNull(NiniSection);
+        Assert.Equal("", NiniSection.Name);
+        Assert.Equal("value", NiniSection.KeyValues["key"]);
     }
 
     #endregion
@@ -261,7 +261,7 @@ key3: value3";
     [Fact]
     public void Parse_OnlyWhitespace_ReturnsEmptyArray()
     {
-        var result = SectionParser.Parse("   \n\n   ");
+        var result = NiniSectionParser.Parse("   \n\n   ");
         Assert.Empty(result);
     }
 
@@ -270,9 +270,9 @@ key3: value3";
     {
         var input = "[Unclosed\nkey: value";
 
-        // [Unclosed is not a valid section marker, treated as content
-        // KeyValueParser will reject it as invalid key:value format
-        Assert.Throws<ArgumentException>(() => SectionParser.Parse(input));
+        // [Unclosed is not a valid NiniSection marker, treated as content
+        // NiniKeyValueParser will reject it as invalid key:value format
+        Assert.Throws<ArgumentException>(() => NiniSectionParser.Parse(input));
     }
 
     [Fact]
@@ -280,9 +280,9 @@ key3: value3";
     {
         var input = "@\nkey: value";
 
-        // @ alone (too short) is not a valid section marker, treated as content
-        // KeyValueParser will reject it as invalid key:value format
-        Assert.Throws<ArgumentException>(() => SectionParser.Parse(input));
+        // @ alone (too short) is not a valid NiniSection marker, treated as content
+        // NiniKeyValueParser will reject it as invalid key:value format
+        Assert.Throws<ArgumentException>(() => NiniSectionParser.Parse(input));
     }
 
     [Fact]
@@ -303,7 +303,7 @@ model: gemini-pro
 [Settings]
 timeout: 30
 retries: 3";
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Equal(4, result.Length);
         Assert.Equal("", result[0].Name);
@@ -319,7 +319,7 @@ retries: 3";
     public void Parse_IniBrackets_EmptySectionName_Throws()
     {
         var input = "[]\nkey: value";
-        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input));
+        var ex = Assert.Throws<ArgumentException>(() => NiniSectionParser.Parse(input));
         Assert.Contains("cannot be empty", ex.Message);
     }
 
@@ -327,7 +327,7 @@ retries: 3";
     public void Parse_IniBrackets_WhitespaceOnlySectionName_Throws()
     {
         var input = "[   ]\nkey: value";
-        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input));
+        var ex = Assert.Throws<ArgumentException>(() => NiniSectionParser.Parse(input));
         Assert.Contains("cannot be empty", ex.Message);
     }
 
@@ -335,7 +335,7 @@ retries: 3";
     public void Parse_AtPrefix_EmptySectionName_Throws()
     {
         var input = "@\nkey: value";
-        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input));
+        var ex = Assert.Throws<ArgumentException>(() => NiniSectionParser.Parse(input));
         Assert.Contains("cannot be empty", ex.Message);
     }
 
@@ -343,7 +343,7 @@ retries: 3";
     public void Parse_AtPrefix_WhitespaceOnlySectionName_Throws()
     {
         var input = "@   \nkey: value";
-        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input));
+        var ex = Assert.Throws<ArgumentException>(() => NiniSectionParser.Parse(input));
         Assert.Contains("cannot be empty", ex.Message);
     }
 
@@ -360,14 +360,14 @@ key1: value1
 @Section2
 key2: value2";
 
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Equal(2, result.Length);
-        Assert.Equal(SectionMarkerStyle.IniBrackets, result[0].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.IniBrackets, result[0].Marker);
         Assert.Equal("Section1", result[0].Name);
         Assert.Equal("value1", result[0].KeyValues["key1"]);
 
-        Assert.Equal(SectionMarkerStyle.AtPrefix, result[1].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.AtPrefix, result[1].Marker);
         Assert.Equal("Section2", result[1].Name);
         Assert.Equal("value2", result[1].KeyValues["key2"]);
     }
@@ -383,17 +383,17 @@ inikey: inivalue
 @AtSection
 atkey: atvalue";
 
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Equal(3, result.Length);
-        Assert.Equal(SectionMarkerStyle.None, result[0].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.None, result[0].Marker);
         Assert.Equal("", result[0].Name);
         Assert.Equal("value", result[0].KeyValues["preamble"]);
 
-        Assert.Equal(SectionMarkerStyle.IniBrackets, result[1].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.IniBrackets, result[1].Marker);
         Assert.Equal("IniSection", result[1].Name);
 
-        Assert.Equal(SectionMarkerStyle.AtPrefix, result[2].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.AtPrefix, result[2].Marker);
         Assert.Equal("AtSection", result[2].Name);
     }
 
@@ -412,19 +412,19 @@ key3: value3
 [Fourth]
 key4: value4";
 
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
         Assert.Equal(4, result.Length);
-        Assert.Equal(SectionMarkerStyle.AtPrefix, result[0].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.AtPrefix, result[0].Marker);
         Assert.Equal("First", result[0].Name);
 
-        Assert.Equal(SectionMarkerStyle.IniBrackets, result[1].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.IniBrackets, result[1].Marker);
         Assert.Equal("Second", result[1].Name);
 
-        Assert.Equal(SectionMarkerStyle.AtPrefix, result[2].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.AtPrefix, result[2].Marker);
         Assert.Equal("Third", result[2].Name);
 
-        Assert.Equal(SectionMarkerStyle.IniBrackets, result[3].Marker);
+        Assert.Equal(NiniSectionMarkerStyle.IniBrackets, result[3].Marker);
         Assert.Equal("Fourth", result[3].Name);
     }
 
@@ -439,17 +439,18 @@ key1: value1
 @prefixed
 key2: value2";
 
-        var result = SectionParser.Parse(input);
+        var result = NiniSectionParser.Parse(input);
 
-        // Unmarked section has None marker
-        Assert.Equal(SectionMarkerStyle.None, result[0].Marker);
+        // Unmarked NiniSection has None marker
+        Assert.Equal(NiniSectionMarkerStyle.None, result[0].Marker);
 
-        // INI bracket section
-        Assert.Equal(SectionMarkerStyle.IniBrackets, result[1].Marker);
+        // INI bracket NiniSection
+        Assert.Equal(NiniSectionMarkerStyle.IniBrackets, result[1].Marker);
 
-        // At-prefix section
-        Assert.Equal(SectionMarkerStyle.AtPrefix, result[2].Marker);
+        // At-prefix NiniSection
+        Assert.Equal(NiniSectionMarkerStyle.AtPrefix, result[2].Marker);
     }
 
     #endregion
 }
+

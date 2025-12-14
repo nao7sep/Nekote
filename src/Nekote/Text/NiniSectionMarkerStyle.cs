@@ -1,9 +1,9 @@
-﻿namespace Nekote.Text;
+namespace Nekote.Text;
 
 /// <summary>
-/// Defines how section markers are formatted in text.
+/// Defines how NINI section markers are formatted in text.
 /// </summary>
-public enum SectionMarkerStyle
+public enum NiniSectionMarkerStyle
 {
     /// <summary>
     /// No section marker - paragraph contains only key-value pairs.
@@ -20,3 +20,4 @@ public enum SectionMarkerStyle
     /// </summary>
     AtPrefix
 }
+

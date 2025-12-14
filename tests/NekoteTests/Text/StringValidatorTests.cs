@@ -1,4 +1,4 @@
-﻿using Nekote.Text;
+using Nekote.Text;
 
 namespace Nekote.Tests.Text;
 
@@ -93,112 +93,113 @@ public class StringValidatorTests
 
     #endregion
 
-    #region ValidateKeyValueFileKey Tests
+    #region ValidateNiniKey Tests
 
     [Fact]
-    public void ValidateKeyValueFileKeyValueFileKey_ValidKey_DoesNotThrow()
+    public void ValidateNiniKeyValueFileKey_ValidKey_DoesNotThrow()
     {
-        StringValidator.ValidateKeyValueFileKey("validkey");
-        StringValidator.ValidateKeyValueFileKey("valid-key");
-        StringValidator.ValidateKeyValueFileKey("valid_key");
-        StringValidator.ValidateKeyValueFileKey("ValidKey123");
+        StringValidator.ValidateNiniKey("validkey");
+        StringValidator.ValidateNiniKey("valid-key");
+        StringValidator.ValidateNiniKey("valid_key");
+        StringValidator.ValidateNiniKey("ValidKey123");
     }
 
     [Fact]
-    public void ValidateKeyValueFileKey_NullKey_Throws()
+    public void ValidateNiniKey_NullKey_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey(null!));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateNiniKey(null!));
         Assert.Contains("cannot be null or whitespace", ex.Message);
     }
 
     [Fact]
-    public void ValidateKeyValueFileKey_EmptyKey_Throws()
+    public void ValidateNiniKey_EmptyKey_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey(""));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateNiniKey(""));
         Assert.Contains("cannot be null or whitespace", ex.Message);
     }
 
     [Fact]
-    public void ValidateKeyValueFileKey_WhitespaceOnlyKey_Throws()
+    public void ValidateNiniKey_WhitespaceOnlyKey_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("   "));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateNiniKey("   "));
         Assert.Contains("cannot be null or whitespace", ex.Message);
     }
 
     [Fact]
-    public void ValidateKeyValueFileKey_LeadingWhitespace_Throws()
+    public void ValidateNiniKey_LeadingWhitespace_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey(" key"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateNiniKey(" key"));
         Assert.Contains("cannot start with whitespace", ex.Message);
     }
 
     [Fact]
-    public void ValidateKeyValueFileKey_TrailingWhitespace_Throws()
+    public void ValidateNiniKey_TrailingWhitespace_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("key "));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateNiniKey("key "));
         Assert.Contains("cannot end with whitespace", ex.Message);
     }
 
     [Fact]
-    public void ValidateKeyValueFileKey_ContainsColon_Throws()
+    public void ValidateNiniKey_ContainsColon_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("key:value"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateNiniKey("key:value"));
         Assert.Contains("contains invalid character ':'", ex.Message);
     }
 
     [Fact]
-    public void ValidateKeyValueFileKey_ContainsNewline_Throws()
+    public void ValidateNiniKey_ContainsNewline_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("key\nvalue"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateNiniKey("key\nvalue"));
         Assert.Contains("contains line breaks", ex.Message);
     }
 
     [Fact]
-    public void ValidateKeyValueFileKey_ContainsCarriageReturn_Throws()
+    public void ValidateNiniKey_ContainsCarriageReturn_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("key\rvalue"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateNiniKey("key\rvalue"));
         Assert.Contains("contains line breaks", ex.Message);
     }
 
     [Fact]
-    public void ValidateKeyValueFileKey_StartsWithHash_Throws()
+    public void ValidateNiniKey_StartsWithHash_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("#comment"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateNiniKey("#comment"));
         Assert.Contains("starts with '#'", ex.Message);
     }
 
     [Fact]
-    public void ValidateKeyValueFileKey_StartsWithDoubleSlash_Throws()
+    public void ValidateNiniKey_StartsWithDoubleSlash_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("//comment"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateNiniKey("//comment"));
         Assert.Contains("starts with '//'", ex.Message);
     }
 
     [Fact]
-    public void ValidateKeyValueFileKey_StartsWithBracket_Throws()
+    public void ValidateNiniKey_StartsWithBracket_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("[section]"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateNiniKey("[section]"));
         Assert.Contains("starts with '['", ex.Message);
     }
 
     [Fact]
-    public void ValidateKeyValueFileKey_StartsWithAtSign_Throws()
+    public void ValidateNiniKey_StartsWithAtSign_Throws()
     {
-        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateKeyValueFileKey("@section"));
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateNiniKey("@section"));
         Assert.Contains("starts with '@'", ex.Message);
     }
 
     [Fact]
-    public void ValidateKeyValueFileKey_ContainsHashNotAtStart_DoesNotThrow()
+    public void ValidateNiniKey_ContainsHashNotAtStart_DoesNotThrow()
     {
-        StringValidator.ValidateKeyValueFileKey("key#value");
+        StringValidator.ValidateNiniKey("key#value");
     }
 
     [Fact]
-    public void ValidateKeyValueFileKey_ContainsSlashesNotAtStart_DoesNotThrow()
+    public void ValidateNiniKey_ContainsSlashesNotAtStart_DoesNotThrow()
     {
-        StringValidator.ValidateKeyValueFileKey("key//value");
+        StringValidator.ValidateNiniKey("key//value");
     }
 
     #endregion
 }
+

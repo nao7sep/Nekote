@@ -1,14 +1,14 @@
-﻿namespace Nekote.Text;
+namespace Nekote.Text;
 
 /// <summary>
-/// Represents a parsed section with its marker style, name, and key-value content.
+/// Represents a parsed NINI section with its marker style, name, and key-value content.
 /// </summary>
-public record Section
+public record NiniSection
 {
     /// <summary>
     /// The marker style used for this section. If None, this section has no explicit marker.
     /// </summary>
-    public required SectionMarkerStyle Marker { get; init; }
+    public required NiniSectionMarkerStyle Marker { get; init; }
 
     /// <summary>
     /// The section name. Empty string when Marker is None (unmarked key-value pairs).
@@ -20,3 +20,4 @@ public record Section
     /// </summary>
     public required Dictionary<string, string> KeyValues { get; init; }
 }
+

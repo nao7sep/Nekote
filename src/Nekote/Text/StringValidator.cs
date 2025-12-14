@@ -1,4 +1,4 @@
-﻿namespace Nekote.Text;
+namespace Nekote.Text;
 
 /// <summary>
 /// Provides validation methods for strings used in structured text formats.
@@ -31,7 +31,7 @@ public static class StringValidator
     /// </summary>
     /// <param name="key">The key to validate.</param>
     /// <exception cref="ArgumentException">Thrown when the key contains invalid characters or patterns.</exception>
-    public static void ValidateKeyValueFileKey(string key)
+    public static void ValidateNiniKey(string key)
     {
         if (string.IsNullOrWhiteSpace(key))
             throw new ArgumentException("Key cannot be null or whitespace.", nameof(key));
@@ -58,3 +58,4 @@ public static class StringValidator
             throw new ArgumentException($"Key '{key}' starts with '@'. Keys cannot start with at-sign as it denotes a section marker.", nameof(key));
     }
 }
+

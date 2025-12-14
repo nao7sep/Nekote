@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Nekote.Text;
 
 namespace NekoteTests.Text;
@@ -28,7 +28,7 @@ public class TextEncodingTests
         var tempFile = Path.GetTempFileName();
         try
         {
-            var file = new SectionedKeyValueFile();
+            var file = new NiniFile();
             file.SetValue("Section1", "Key1", "Value with 日本語 and emoji 🎉");
             file.Save(tempFile);
 
@@ -39,7 +39,7 @@ public class TextEncodingTests
             Assert.False(bytes.Length >= 3 && bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF);
 
             // Should load correctly
-            var loaded = SectionedKeyValueFile.Load(tempFile);
+            var loaded = NiniFile.Load(tempFile);
             Assert.Equal("Value with 日本語 and emoji 🎉", loaded.GetString("Section1", "Key1"));
         }
         finally
@@ -54,7 +54,7 @@ public class TextEncodingTests
         var tempFile = Path.GetTempFileName();
         try
         {
-            var file = new SectionedKeyValueFile();
+            var file = new NiniFile();
             file.SetValue("Section1", "Key1", "Value with 日本語");
             file.Save(tempFile, TextEncoding.Utf8WithBom);
 
@@ -68,7 +68,7 @@ public class TextEncodingTests
             Assert.Equal(0xBF, bytes[2]);
 
             // Should load correctly (File.ReadAllText handles BOM automatically)
-            var loaded = SectionedKeyValueFile.Load(tempFile, encoding: TextEncoding.Utf8WithBom);
+            var loaded = NiniFile.Load(tempFile, encoding: TextEncoding.Utf8WithBom);
             Assert.Equal("Value with 日本語", loaded.GetString("Section1", "Key1"));
         }
         finally
@@ -85,7 +85,7 @@ public class TextEncodingTests
         {
             await File.WriteAllTextAsync(tempFile, "Key: Value with 日本語\n", TextEncoding.Utf8NoBom);
 
-            var result = await KeyValueParser.ParseFileAsync(tempFile);
+            var result = await NiniKeyValueParser.ParseFileAsync(tempFile);
 
             Assert.Equal("Value with 日本語", result["Key"]);
         }
@@ -161,3 +161,4 @@ public class TextEncodingTests
         }
     }
 }
+

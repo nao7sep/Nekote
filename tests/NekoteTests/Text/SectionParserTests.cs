@@ -104,9 +104,10 @@ key: value";
     }
 
     [Fact]
-    public void Parse_IniBrackets_SectionNameWithSpaces_TrimsSpaces()
+    public void Parse_IniBrackets_SectionNameWithInternalSpaces_ParsesCorrectly()
     {
-        var input = "[  Section Name  ]\nkey: value";
+        // Internal spaces are fine - only leading/trailing are problematic
+        var input = "[Section Name]\nkey: value";
         var result = SectionParser.Parse(input, SectionMarkerStyle.IniBrackets);
 
         Assert.Single(result);
@@ -175,9 +176,10 @@ key: AIza-xyz";
     }
 
     [Fact]
-    public void Parse_AtPrefix_SectionNameWithSpaces_TrimsSpaces()
+    public void Parse_AtPrefix_SectionNameWithInternalSpaces_ParsesCorrectly()
     {
-        var input = "@  Section Name  \nkey: value";
+        // Internal spaces are fine - only leading/trailing are problematic
+        var input = "@Section Name\nkey: value";
         var result = SectionParser.Parse(input, SectionMarkerStyle.AtPrefix);
 
         Assert.Single(result);
@@ -284,6 +286,38 @@ retries: 3";
         Assert.Equal("Gemini", result[2].Name);
         Assert.Equal("Settings", result[3].Name);
         Assert.Equal("30", result[3].KeyValues["timeout"]);
+    }
+
+    [Fact]
+    public void Parse_IniBrackets_EmptySectionName_Throws()
+    {
+        var input = "[]\nkey: value";
+        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input, SectionMarkerStyle.IniBrackets));
+        Assert.Contains("cannot be empty", ex.Message);
+    }
+
+    [Fact]
+    public void Parse_IniBrackets_WhitespaceOnlySectionName_Throws()
+    {
+        var input = "[   ]\nkey: value";
+        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input, SectionMarkerStyle.IniBrackets));
+        Assert.Contains("cannot be empty", ex.Message);
+    }
+
+    [Fact]
+    public void Parse_AtPrefix_EmptySectionName_Throws()
+    {
+        var input = "@\nkey: value";
+        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input, SectionMarkerStyle.AtPrefix));
+        Assert.Contains("cannot be empty", ex.Message);
+    }
+
+    [Fact]
+    public void Parse_AtPrefix_WhitespaceOnlySectionName_Throws()
+    {
+        var input = "@   \nkey: value";
+        var ex = Assert.Throws<ArgumentException>(() => SectionParser.Parse(input, SectionMarkerStyle.AtPrefix));
+        Assert.Contains("cannot be empty", ex.Message);
     }
 
     #endregion

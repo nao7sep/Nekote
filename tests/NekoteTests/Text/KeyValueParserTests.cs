@@ -53,9 +53,11 @@ public class KeyValueParserTests
     }
 
     [Fact]
-    public void Parse_WhitespaceAroundKeyValue_TrimsBoth()
+    public void Parse_LineIndentationAndValueSpaces_ParsesCorrectly()
     {
-        var input = "  key  :  value with spaces  ";
+        // Line indentation is OK (trimmed), and value can have spaces
+        // But key itself must not have leading/trailing whitespace
+        var input = "  key:  value with spaces  ";
         var result = KeyValueParser.Parse(input);
 
         Assert.Single(result);
@@ -172,5 +174,34 @@ path: C:\\Users\\Test\\Documents
         Assert.Equal("AIza-xyz789", result["gemini-key"]);
         Assert.Equal("This is a test\nwith multiple lines\nand tabs:\there", result["description"]);
         Assert.Equal("C:\\Users\\Test\\Documents", result["path"]);
+    }
+
+    [Fact]
+    public void Parse_KeyWithTrailingWhitespaceBeforeColon_Throws()
+    {
+        // After line trimming, key extracted is "key " (trailing space)
+        var input = "key : value";
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueParser.Parse(input));
+        Assert.Contains("cannot end with whitespace", ex.Message);
+    }
+
+    [Fact]
+    public void Parse_KeyWithBothWhitespace_ThrowsForFirst()
+    {
+        // Not possible to have leading whitespace in key after line trim
+        // Can only have trailing: " key " gets trimmed to "key " on line level, but that gives trailing only
+        var input = "key : value";
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueParser.Parse(input));
+        Assert.Contains("cannot end with whitespace", ex.Message);
+    }
+
+    [Fact]
+    public void Parse_IndentedLineWithValidKey_ParsesCorrectly()
+    {
+        // Line-level indentation is OK, but key itself must not have leading/trailing whitespace
+        var input = "    key: value";
+        var result = KeyValueParser.Parse(input);
+        Assert.Single(result);
+        Assert.Equal("value", result["key"]);
     }
 }

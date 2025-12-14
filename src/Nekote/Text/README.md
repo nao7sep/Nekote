@@ -4,6 +4,12 @@ Text processing utilities for parsing, escaping, and pattern matching.
 
 ## Current Segments
 
+### String Validation
+- **StringValidator.cs** - Validates strings for use in structured text formats
+- Ensures keys and section names don't have leading/trailing whitespace (prevents ambiguity and attacks)
+- Validates keys don't contain format-breaking characters (colons, newlines, comment markers, section markers)
+- Security-focused: whitespace at boundaries can be used as attack vectors (homograph attacks, "key " vs "key")
+
 ### Text Escaping
 - **EscapeMode.cs** - Enum defining escape strategies: KeyValue, CSV, URL, HTML
 - **TextEscaper.cs** - Static escape/unescape methods for all four modes

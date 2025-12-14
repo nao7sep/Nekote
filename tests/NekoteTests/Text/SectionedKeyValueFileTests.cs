@@ -18,7 +18,7 @@ AutoSave: true
 Timeout: 30.5";
 
         var ini = SectionedKeyValueFile.Parse(input);
-        
+
         Assert.True(ini.HasSection("Database"));
         Assert.True(ini.HasSection("Features"));
         Assert.Equal("localhost", ini.GetString("Database", "Host"));
@@ -37,7 +37,7 @@ GlobalKey: GlobalValue
 Key1: Value1";
 
         var ini = SectionedKeyValueFile.Parse(input);
-        
+
         Assert.True(ini.HasSection(""));  // Preamble
         Assert.True(ini.HasSection("Section1"));
         Assert.Equal("GlobalValue", ini.GetString("", "GlobalKey"));
@@ -52,7 +52,7 @@ Host: localhost
 Port: 5432";
 
         var ini = SectionedKeyValueFile.Parse(input, SectionMarkerStyle.AtPrefix);
-        
+
         Assert.True(ini.HasSection("Database"));
         Assert.Equal("localhost", ini.GetString("Database", "Host"));
     }
@@ -66,9 +66,9 @@ Port: 5432";
         ini.SetValue("Database", "Host", "localhost");
         ini.SetInt32("Database", "Port", 5432);
         ini.SetBool("Features", "AutoSave", true);
-        
+
         var result = ini.ToString();
-        
+
         Assert.Contains("[Database]", result);
         Assert.Contains("Host: localhost", result);
         Assert.Contains("Port: 5432", result);
@@ -81,9 +81,9 @@ Port: 5432";
     {
         var ini = new SectionedKeyValueFile(SectionMarkerStyle.AtPrefix);
         ini.SetValue("Database", "Host", "localhost");
-        
+
         var result = ini.ToString();
-        
+
         Assert.Contains("@Database", result);
         Assert.DoesNotContain("[Database]", result);
     }
@@ -96,10 +96,10 @@ Port: 5432";
         original.SetInt32("Section1", "IntKey", 123);
         original.SetDouble("Section2", "DoubleKey", 3.14);
         original.SetBool("Section2", "BoolKey", true);
-        
+
         var text = original.ToString();
         var restored = SectionedKeyValueFile.Parse(text);
-        
+
         Assert.Equal("Value1", restored.GetString("Section1", "Key1"));
         Assert.Equal(123, restored.GetInt32("Section1", "IntKey"));
         Assert.Equal(3.14, restored.GetDouble("Section2", "DoubleKey"), precision: 2);
@@ -113,9 +113,9 @@ Port: 5432";
     {
         var ini = new SectionedKeyValueFile();
         ini.SetValue("Section1", "Key1", "Value1");
-        
+
         var section = ini["Section1"];
-        
+
         Assert.Equal("Value1", section["Key1"]);
     }
 
@@ -123,7 +123,7 @@ Port: 5432";
     public void Indexer_NonExistingSection_ThrowsException()
     {
         var ini = new SectionedKeyValueFile();
-        
+
         Assert.Throws<KeyNotFoundException>(() => ini["NonExisting"]);
     }
 
@@ -132,9 +132,9 @@ Port: 5432";
     {
         var ini = new SectionedKeyValueFile();
         ini.SetValue("Section1", "Key1", "Value1");
-        
+
         var found = ini.TryGetSection("Section1", out var section);
-        
+
         Assert.True(found);
         Assert.NotNull(section);
         Assert.Equal("Value1", section["Key1"]);
@@ -144,9 +144,9 @@ Port: 5432";
     public void TryGetSection_NonExistingSection_ReturnsFalse()
     {
         var ini = new SectionedKeyValueFile();
-        
+
         var found = ini.TryGetSection("NonExisting", out var section);
-        
+
         Assert.False(found);
         Assert.Null(section);
     }
@@ -157,9 +157,9 @@ Port: 5432";
         var ini = new SectionedKeyValueFile();
         ini.SetValue("Section1", "Key", "Value");
         ini.SetValue("Section2", "Key", "Value");
-        
+
         var names = ini.GetSectionNames().ToList();
-        
+
         Assert.Equal(2, names.Count);
         Assert.Contains("Section1", names);
         Assert.Contains("Section2", names);
@@ -170,9 +170,9 @@ Port: 5432";
     {
         var ini = new SectionedKeyValueFile();
         ini.SetValue("Section1", "Key", "Value");
-        
+
         ini.RemoveSection("Section1");
-        
+
         Assert.False(ini.HasSection("Section1"));
     }
 
@@ -183,9 +183,9 @@ Port: 5432";
     {
         var ini = new SectionedKeyValueFile();
         ini.SetValue("Section1", "Key1", "Value1");
-        
+
         var result = ini.GetString("Section1", "Key1");
-        
+
         Assert.Equal("Value1", result);
     }
 
@@ -193,9 +193,9 @@ Port: 5432";
     public void GetString_NonExistingKey_ReturnsDefault()
     {
         var ini = new SectionedKeyValueFile();
-        
+
         var result = ini.GetString("Section1", "Key1", "DefaultValue");
-        
+
         Assert.Equal("DefaultValue", result);
     }
 
@@ -203,9 +203,9 @@ Port: 5432";
     public void GetString_NonExistingSection_ReturnsDefault()
     {
         var ini = new SectionedKeyValueFile();
-        
+
         var result = ini.GetString("NonExisting", "Key1", "DefaultValue");
-        
+
         Assert.Equal("DefaultValue", result);
     }
 
@@ -214,9 +214,9 @@ Port: 5432";
     {
         var ini = new SectionedKeyValueFile();
         ini.SetValue("Section1", "Key1", "Value1");
-        
+
         ini.RemoveValue("Section1", "Key1");
-        
+
         Assert.Equal("", ini.GetString("Section1", "Key1"));
     }
 
@@ -227,9 +227,9 @@ Port: 5432";
     {
         var ini = new SectionedKeyValueFile();
         ini.SetInt32("Section1", "Port", 5432);
-        
+
         var result = ini.GetInt32("Section1", "Port");
-        
+
         Assert.Equal(5432, result);
     }
 
@@ -238,9 +238,9 @@ Port: 5432";
     {
         var ini = new SectionedKeyValueFile();
         ini.SetValue("Section1", "Port", "NotANumber");
-        
+
         var result = ini.GetInt32("Section1", "Port", defaultValue: 9999);
-        
+
         Assert.Equal(9999, result);
     }
 
@@ -248,9 +248,9 @@ Port: 5432";
     public void GetInt32_NonExistingKey_ReturnsDefault()
     {
         var ini = new SectionedKeyValueFile();
-        
+
         var result = ini.GetInt32("Section1", "Port", defaultValue: 8080);
-        
+
         Assert.Equal(8080, result);
     }
 
@@ -261,9 +261,9 @@ Port: 5432";
     {
         var ini = new SectionedKeyValueFile();
         ini.SetDouble("Section1", "Timeout", 30.5);
-        
+
         var result = ini.GetDouble("Section1", "Timeout");
-        
+
         Assert.Equal(30.5, result, precision: 1);
     }
 
@@ -271,9 +271,9 @@ Port: 5432";
     public void GetDouble_UsesInvariantCulture_DecimalPoint()
     {
         var ini = SectionedKeyValueFile.Parse("[Section1]\nTimeout: 30.5");
-        
+
         var result = ini.GetDouble("Section1", "Timeout");
-        
+
         Assert.Equal(30.5, result, precision: 1);
     }
 
@@ -282,9 +282,9 @@ Port: 5432";
     {
         var ini = new SectionedKeyValueFile();
         ini.SetDouble("Section1", "Timeout", 30.5);
-        
+
         var text = ini.ToString();
-        
+
         Assert.Contains("30.5", text);  // Decimal point, not comma
         Assert.DoesNotContain("30,5", text);  // German format not used
     }
@@ -296,9 +296,9 @@ Port: 5432";
     {
         var ini = new SectionedKeyValueFile();
         ini.SetBool("Section1", "Enabled", true);
-        
+
         var result = ini.GetBool("Section1", "Enabled");
-        
+
         Assert.True(result);
     }
 
@@ -307,9 +307,9 @@ Port: 5432";
     {
         var ini = new SectionedKeyValueFile();
         ini.SetValue("Section1", "Enabled", "NotABool");
-        
+
         var result = ini.GetBool("Section1", "Enabled", defaultValue: true);
-        
+
         Assert.True(result);
     }
 
@@ -321,9 +321,9 @@ Port: 5432";
         var expected = new DateTime(2025, 12, 14, 15, 30, 0, DateTimeKind.Utc);
         var ini = new SectionedKeyValueFile();
         ini.SetDateTime("Section1", "LastSync", expected);
-        
+
         var result = ini.GetDateTime("Section1", "LastSync");
-        
+
         Assert.Equal(expected.Year, result.Year);
         Assert.Equal(expected.Month, result.Month);
         Assert.Equal(expected.Day, result.Day);
@@ -337,9 +337,9 @@ Port: 5432";
         var ini = new SectionedKeyValueFile();
         var dateTime = new DateTime(2025, 12, 14, 15, 30, 0, DateTimeKind.Utc);
         ini.SetDateTime("Section1", "LastSync", dateTime);
-        
+
         var text = ini.ToString();
-        
+
         Assert.Contains("2025-12-14", text);  // ISO 8601 date format
     }
 
@@ -351,9 +351,9 @@ Port: 5432";
         var expected = Guid.NewGuid();
         var ini = new SectionedKeyValueFile();
         ini.SetGuid("Section1", "Id", expected);
-        
+
         var result = ini.GetGuid("Section1", "Id");
-        
+
         Assert.Equal(expected, result);
     }
 
@@ -368,10 +368,10 @@ Port: 5432";
             var original = new SectionedKeyValueFile();
             original.SetValue("Section1", "Key1", "Value1");
             original.SetInt32("Section1", "IntKey", 123);
-            
+
             original.Save(tempFile);
             var loaded = SectionedKeyValueFile.Load(tempFile);
-            
+
             Assert.Equal("Value1", loaded.GetString("Section1", "Key1"));
             Assert.Equal(123, loaded.GetInt32("Section1", "IntKey"));
         }
@@ -387,31 +387,48 @@ Port: 5432";
     public void ComplexScenario_MultipleTypesAndSections()
     {
         var ini = new SectionedKeyValueFile();
-        
+
         // Database section
         ini.SetValue("Database", "Host", "localhost");
         ini.SetInt32("Database", "Port", 5432);
         ini.SetValue("Database", "Name", "mydb");
-        
+
         // Features section
         ini.SetBool("Features", "AutoSave", true);
         ini.SetDouble("Features", "SaveInterval", 5.5);
         ini.SetInt32("Features", "MaxBackups", 10);
-        
+
         // Metadata section
         ini.SetDateTime("Metadata", "Created", new DateTime(2025, 12, 14, 0, 0, 0, DateTimeKind.Utc));
         ini.SetGuid("Metadata", "Id", Guid.Parse("12345678-1234-1234-1234-123456789abc"));
-        
+
         // Verify all values
         Assert.Equal("localhost", ini.GetString("Database", "Host"));
         Assert.Equal(5432, ini.GetInt32("Database", "Port"));
         Assert.Equal("mydb", ini.GetString("Database", "Name"));
-        
+
         Assert.True(ini.GetBool("Features", "AutoSave"));
         Assert.Equal(5.5, ini.GetDouble("Features", "SaveInterval"), precision: 1);
         Assert.Equal(10, ini.GetInt32("Features", "MaxBackups"));
-        
+
         Assert.Equal(2025, ini.GetDateTime("Metadata", "Created").Year);
         Assert.Equal(Guid.Parse("12345678-1234-1234-1234-123456789abc"), ini.GetGuid("Metadata", "Id"));
+    }
+
+    [Fact]
+    public void SetValue_NullValue_ThrowsArgumentNullException()
+    {
+        var ini = new SectionedKeyValueFile();
+        var ex = Assert.Throws<ArgumentNullException>(() => ini.SetValue("Section", "Key", null!));
+        Assert.Contains("cannot be null", ex.Message);
+        Assert.Contains("Use string.Empty", ex.Message);
+    }
+
+    [Fact]
+    public void SetValue_EmptyValue_Works()
+    {
+        var ini = new SectionedKeyValueFile();
+        ini.SetValue("Section", "Key", string.Empty);
+        Assert.Equal(string.Empty, ini.GetString("Section", "Key"));
     }
 }

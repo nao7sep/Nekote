@@ -10,13 +10,16 @@ public static class TextEscaper
     /// <summary>
     /// Escapes text according to the specified mode.
     /// </summary>
-    /// <param name="text">The text to escape. Null values are treated as empty strings.</param>
+    /// <param name="text">The text to escape. Null input returns null.</param>
     /// <param name="mode">The escaping strategy to use.</param>
-    /// <returns>The escaped text.</returns>
+    /// <returns>The escaped text, or null if input is null.</returns>
     /// <exception cref="NotImplementedException">Thrown when the specified mode is not yet implemented.</exception>
-    public static string Escape(string? text, EscapeMode mode)
+    public static string? Escape(string? text, EscapeMode mode)
     {
-        if (string.IsNullOrEmpty(text))
+        if (text == null)
+            return null;
+
+        if (text.Length == 0)
             return string.Empty;
 
         return mode switch
@@ -32,13 +35,16 @@ public static class TextEscaper
     /// <summary>
     /// Unescapes text according to the specified mode.
     /// </summary>
-    /// <param name="escapedText">The escaped text to decode. Null values are treated as empty strings.</param>
+    /// <param name="escapedText">The escaped text to decode. Null input returns null.</param>
     /// <param name="mode">The escaping strategy that was used.</param>
-    /// <returns>The unescaped original text.</returns>
+    /// <returns>The unescaped original text, or null if input is null.</returns>
     /// <exception cref="NotImplementedException">Thrown when the specified mode is not yet implemented.</exception>
-    public static string Unescape(string? escapedText, EscapeMode mode)
+    public static string? Unescape(string? escapedText, EscapeMode mode)
     {
-        if (string.IsNullOrEmpty(escapedText))
+        if (escapedText == null)
+            return null;
+
+        if (escapedText.Length == 0)
             return string.Empty;
 
         return mode switch
@@ -234,17 +240,28 @@ public static class TextEscaper
 
         while (i < escapedText.Length)
         {
-            if (escapedText[i] == '%' && i + 2 < escapedText.Length)
+            if (escapedText[i] == '%')
             {
-                string hex = escapedText.Substring(i + 1, 2);
-                if (byte.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out byte b))
+                // Check if we have enough characters for a complete %XX sequence
+                if (i + 2 < escapedText.Length)
                 {
-                    bytes.Add(b);
-                    i += 3;
+                    string hex = escapedText.Substring(i + 1, 2);
+                    if (byte.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out byte b))
+                    {
+                        bytes.Add(b);
+                        i += 3;
+                    }
+                    else
+                    {
+                        // Invalid hex sequence, treat % as literal - encode it properly
+                        byte[] charBytes = Encoding.UTF8.GetBytes(new[] { escapedText[i] });
+                        bytes.AddRange(charBytes);
+                        i++;
+                    }
                 }
                 else
                 {
-                    // Invalid hex sequence, treat % as literal - encode it properly
+                    // Incomplete sequence at end (e.g., "test%2" or "test%"), treat % as literal
                     byte[] charBytes = Encoding.UTF8.GetBytes(new[] { escapedText[i] });
                     bytes.AddRange(charBytes);
                     i++;

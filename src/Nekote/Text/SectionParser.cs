@@ -147,10 +147,18 @@ public static class SectionParser
         if (!line.StartsWith('[') || !line.EndsWith(']'))
             return null;
 
-        if (line.Length < 3) // Must have at least [x]
-            return null;
+        // Extract everything between brackets
+        string sectionName = line.Substring(1, line.Length - 2);
 
-        return line.Substring(1, line.Length - 2).Trim();
+        // Empty or whitespace-only section names in explicit markers are syntax errors
+        // (Preamble is implicit, not marked with "[]")
+        if (string.IsNullOrWhiteSpace(sectionName))
+            throw new ArgumentException("Section name cannot be empty or whitespace-only. Use content without section markers for preamble.", nameof(sectionName));
+
+        // Validate section name has no leading/trailing whitespace
+        StringValidator.ValidateSectionName(sectionName);
+
+        return sectionName;
     }
 
     /// <summary>
@@ -165,9 +173,17 @@ public static class SectionParser
         if (!line.StartsWith('@'))
             return null;
 
-        if (line.Length < 2) // Must have at least @x
-            return null;
+        // Extract everything after @
+        string sectionName = line.Substring(1);
 
-        return line.Substring(1).Trim();
+        // Empty or whitespace-only section names in explicit markers are syntax errors
+        // (Preamble is implicit, not marked with "@")
+        if (string.IsNullOrWhiteSpace(sectionName))
+            throw new ArgumentException("Section name cannot be empty or whitespace-only. Use content without section markers for preamble.", nameof(sectionName));
+
+        // Validate section name has no leading/trailing whitespace
+        StringValidator.ValidateSectionName(sectionName);
+
+        return sectionName;
     }
 }

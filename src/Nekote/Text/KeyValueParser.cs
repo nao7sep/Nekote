@@ -37,9 +37,15 @@ public static class KeyValueParser
             if (colonIndex == 0)
                 throw new ArgumentException($"Line {i + 1} has empty key: {line}");
 
-            string key = line.Substring(0, colonIndex).Trim();
+            // Extract key WITHOUT trimming, so we can validate it doesn't have leading/trailing whitespace
+            string key = line.Substring(0, colonIndex);
+
+            // Validate key has no leading/trailing whitespace (security and clarity)
+            // This checks the extracted key BEFORE any trimming
+            StringValidator.ValidateKey(key);
+
             string escapedValue = colonIndex + 1 < line.Length ? line.Substring(colonIndex + 1).Trim() : string.Empty;
-            string unescapedValue = TextEscaper.Unescape(escapedValue, EscapeMode.KeyValue);
+            string unescapedValue = TextEscaper.Unescape(escapedValue, EscapeMode.KeyValue) ?? string.Empty;
 
             if (result.ContainsKey(key))
                 throw new ArgumentException($"Line {i + 1} has duplicate key: {key}");

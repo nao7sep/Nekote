@@ -167,9 +167,10 @@ public class KeyValueWriterTests
     [Fact]
     public void Write_KeyStartingWithSpaceAndHash_ThrowsArgumentException()
     {
+        // Leading whitespace is caught first by validator
         var data = new Dictionary<string, string> { ["  #comment"] = "value" };
         var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
-        Assert.Contains("starts with '#'", ex.Message);
+        Assert.Contains("cannot start with whitespace", ex.Message);
     }
 
     [Fact]
@@ -202,5 +203,30 @@ public class KeyValueWriterTests
         var data = new Dictionary<string, string> { [""] = "value" };
         var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
         Assert.Contains("null or whitespace", ex.Message);
+    }
+
+    [Fact]
+    public void Write_KeyWithLeadingWhitespace_ThrowsArgumentException()
+    {
+        var data = new Dictionary<string, string> { [" key"] = "value" };
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        Assert.Contains("cannot start with whitespace", ex.Message);
+    }
+
+    [Fact]
+    public void Write_KeyWithTrailingWhitespace_ThrowsArgumentException()
+    {
+        var data = new Dictionary<string, string> { ["key "] = "value" };
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        Assert.Contains("cannot end with whitespace", ex.Message);
+    }
+
+    [Fact]
+    public void Write_NullValue_ThrowsArgumentException()
+    {
+        var data = new Dictionary<string, string> { ["key"] = null! };
+        var ex = Assert.Throws<ArgumentException>(() => KeyValueWriter.Write(data));
+        Assert.Contains("cannot be null", ex.Message);
+        Assert.Contains("Use string.Empty", ex.Message);
     }
 }

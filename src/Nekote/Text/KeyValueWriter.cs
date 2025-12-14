@@ -24,30 +24,17 @@ public static class KeyValueWriter
 
         foreach (var key in keys)
         {
-            if (string.IsNullOrWhiteSpace(key))
-                throw new ArgumentException($"Key cannot be null or whitespace.");
+            // Validate key using centralized validator
+            StringValidator.ValidateKey(key);
 
-            if (key.Contains(':'))
-                throw new ArgumentException($"Key '{key}' contains invalid character ':'. Keys cannot contain colons.");
+            string? value = data[key];
 
-            if (key.Contains('\n') || key.Contains('\r'))
-                throw new ArgumentException($"Key '{key}' contains line breaks. Keys cannot contain newlines.");
+            // Reject null values explicitly - the format cannot distinguish between null and empty string
+            // (both would be serialized as "key: "), so we require explicit empty string instead
+            if (value == null)
+                throw new ArgumentException($"Value for key '{key}' cannot be null. Use string.Empty for empty values.");
 
-            if (key.TrimStart().StartsWith('#'))
-                throw new ArgumentException($"Key '{key}' starts with '#'. Keys cannot start with a hash as it denotes a comment.");
-
-            if (key.TrimStart().StartsWith("//"))
-                throw new ArgumentException($"Key '{key}' starts with '//'. Keys cannot start with double slashes as they denote a comment.");
-
-            // Only reject keys that would be ambiguous with section markers (starting with [ or @)
-            if (key.TrimStart().StartsWith('['))
-                throw new ArgumentException($"Key '{key}' starts with '['. Keys cannot start with an opening bracket as it denotes a section marker.");
-
-            if (key.TrimStart().StartsWith('@'))
-                throw new ArgumentException($"Key '{key}' starts with '@'. Keys cannot start with at-sign as it denotes a section marker.");
-
-            string value = data[key];
-            string escapedValue = TextEscaper.Escape(value, EscapeMode.KeyValue);
+            string escapedValue = TextEscaper.Escape(value, EscapeMode.KeyValue)!; // value is non-null here
             result.AppendLine($"{key}: {escapedValue}");
         }
 

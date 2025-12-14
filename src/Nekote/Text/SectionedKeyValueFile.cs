@@ -203,8 +203,19 @@ public class SectionedKeyValueFile
     /// Sets a string value for the specified section and key.
     /// Creates the section if it does not exist.
     /// </summary>
+    /// <param name="section">The section name.</param>
+    /// <param name="key">The key name.</param>
+    /// <param name="value">The value to set. Cannot be null (use string.Empty for empty values).</param>
+    /// <exception cref="ArgumentNullException">Thrown when value is null.</exception>
+    /// <remarks>
+    /// The file format cannot distinguish between null and empty string (both serialize as "key: "),
+    /// so null values are explicitly rejected to avoid ambiguity.
+    /// </remarks>
     public void SetValue(string section, string key, string value)
     {
+        if (value == null)
+            throw new ArgumentNullException(nameof(value), "Value cannot be null. The file format cannot distinguish between null and empty string. Use string.Empty for empty values.");
+
         EnsureSection(section)[key] = value;
     }
 

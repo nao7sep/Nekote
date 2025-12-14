@@ -357,17 +357,55 @@ public class TextEscaperTests
     #region General Tests
 
     [Fact]
-    public void Escape_NullInput_ReturnsEmptyString()
+    public void Escape_NullInput_ReturnsNull()
     {
         var result = TextEscaper.Escape(null, EscapeMode.KeyValue);
+        Assert.Null(result);
+    }
+
+    [Fact]
+    public void Unescape_NullInput_ReturnsNull()
+    {
+        var result = TextEscaper.Unescape(null, EscapeMode.KeyValue);
+        Assert.Null(result);
+    }
+
+    [Fact]
+    public void Escape_EmptyInput_ReturnsEmptyString()
+    {
+        var result = TextEscaper.Escape("", EscapeMode.KeyValue);
         Assert.Equal(string.Empty, result);
     }
 
     [Fact]
-    public void Unescape_NullInput_ReturnsEmptyString()
+    public void Unescape_EmptyInput_ReturnsEmptyString()
     {
-        var result = TextEscaper.Unescape(null, EscapeMode.KeyValue);
+        var result = TextEscaper.Unescape("", EscapeMode.KeyValue);
         Assert.Equal(string.Empty, result);
+    }
+
+    [Fact]
+    public void Unescape_Url_TrailingPercentOnly_TreatsAsLiteral()
+    {
+        var result = TextEscaper.Unescape("test%", EscapeMode.Url);
+        Assert.Equal("test%", result);
+    }
+
+    [Fact]
+    public void Unescape_Url_TrailingIncompleteSequence_TreatsAsLiteral()
+    {
+        var result = TextEscaper.Unescape("test%2", EscapeMode.Url);
+        Assert.Equal("test%2", result);
+    }
+
+    [Fact]
+    public void Escape_Unescape_Url_TrailingIncomplete_RoundTrip()
+    {
+        // If someone has literal "test%2" in their data, it should round-trip
+        var original = "test%2";
+        var escaped = TextEscaper.Escape(original, EscapeMode.Url);
+        var unescaped = TextEscaper.Unescape(escaped, EscapeMode.Url);
+        Assert.Equal(original, unescaped);
     }
 
     #endregion

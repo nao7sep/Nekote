@@ -1,4 +1,4 @@
-﻿# Nekote.Text
+# Nekote.Text
 
 Text processing utilities for parsing, escaping, and pattern matching.
 

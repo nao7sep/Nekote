@@ -97,16 +97,27 @@ public class SectionedKeyValueFile
     {
         var sb = new System.Text.StringBuilder();
 
+        // 1. Write preamble (keys without section) first
+        if (_sections.TryGetValue("", out var preamble) && preamble.Count > 0)
+        {
+            var kvText = KeyValueWriter.Write(preamble);
+            if (!string.IsNullOrEmpty(kvText))
+            {
+                sb.AppendLine(kvText);
+                sb.AppendLine();
+            }
+        }
+
+        // 2. Write named sections
         foreach (var (sectionName, keyValues) in _sections)
         {
-            // Write section marker (except for preamble)
-            if (sectionName != "")
-            {
-                if (_markerStyle == SectionMarkerStyle.IniBrackets)
-                    sb.AppendLine($"[{sectionName}]");
-                else
-                    sb.AppendLine($"@{sectionName}");
-            }
+            if (sectionName == "") continue; // Already handled
+
+            // Write section marker
+            if (_markerStyle == SectionMarkerStyle.IniBrackets)
+                sb.AppendLine($"[{sectionName}]");
+            else
+                sb.AppendLine($"@{sectionName}");
 
             // Write key-value pairs
             var kvText = KeyValueWriter.Write(keyValues);
@@ -116,7 +127,7 @@ public class SectionedKeyValueFile
             }
 
             // Blank line between sections
-            if (sectionName != "" || keyValues.Count > 0)
+            if (keyValues.Count > 0)
                 sb.AppendLine();
         }
 

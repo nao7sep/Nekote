@@ -60,7 +60,7 @@ public static class KeyValueParser
             StringValidator.ValidateKeyValueFileKey(key);
 
             string escapedValue = colonIndex + 1 < line.Length ? line.Substring(colonIndex + 1).Trim() : string.Empty;
-            string unescapedValue = TextEscaper.Unescape(escapedValue, EscapeMode.KeyValue) ?? string.Empty;
+            string unescapedValue = TextEscaper.Unescape(escapedValue, EscapeMode.NiniValue) ?? string.Empty;
 
             if (result.ContainsKey(key))
                 throw new ArgumentException($"Line {lineNumber} has duplicate key: {key}");

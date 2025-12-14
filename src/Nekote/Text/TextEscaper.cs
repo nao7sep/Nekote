@@ -24,7 +24,7 @@ public static class TextEscaper
 
         return mode switch
         {
-            EscapeMode.KeyValue => EscapeKeyValue(text),
+            EscapeMode.NiniValue => EscapeNiniValue(text),
             EscapeMode.Csv => EscapeCsv(text),
             EscapeMode.Url => EscapeUrl(text),
             EscapeMode.Html => EscapeHtml(text),
@@ -49,7 +49,7 @@ public static class TextEscaper
 
         return mode switch
         {
-            EscapeMode.KeyValue => UnescapeKeyValue(escapedText),
+            EscapeMode.NiniValue => UnescapeNiniValue(escapedText),
             EscapeMode.Csv => UnescapeCsv(escapedText),
             EscapeMode.Url => UnescapeUrl(escapedText),
             EscapeMode.Html => UnescapeHtml(escapedText),
@@ -58,10 +58,10 @@ public static class TextEscaper
     }
 
     /// <summary>
-    /// Escapes text for key-value file format. Line breaks become literal \n, backslashes become \\,
+    /// Escapes text for NINI value format. Line breaks become literal \n, backslashes become \\,
     /// carriage returns become \r, and tabs become \t.
     /// </summary>
-    private static string EscapeKeyValue(string text)
+    private static string EscapeNiniValue(string text)
     {
         var result = new StringBuilder(text.Length + 16);
 
@@ -91,10 +91,10 @@ public static class TextEscaper
     }
 
     /// <summary>
-    /// Unescapes text from key-value file format. Literal \n becomes line breaks, \\ becomes backslash,
+    /// Unescapes text from NINI value format. Literal \n becomes line breaks, \\ becomes backslash,
     /// \r becomes carriage return, and \t becomes tab.
     /// </summary>
-    private static string UnescapeKeyValue(string escapedText)
+    private static string UnescapeNiniValue(string escapedText)
     {
         var result = new StringBuilder(escapedText.Length);
         var i = 0;

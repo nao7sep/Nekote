@@ -1,10 +1,10 @@
-﻿using Nekote.Text;
+using Nekote.Text;
 
 namespace Nekote.Tests.Text;
 
 public class TextEscaperTests
 {
-    #region KeyValue Mode Tests
+    #region NiniValue Mode Tests
 
     [Theory]
     [InlineData("", "")]
@@ -15,9 +15,9 @@ public class TextEscaperTests
     [InlineData("Mixed\\nContent", "Mixed\\\\nContent")]
     [InlineData("Tab\there", "Tab\\there")]
     [InlineData("Windows\r\nLine", "Windows\\r\\nLine")]
-    public void Escape_KeyValue_ProducesCorrectOutput(string input, string expected)
+    public void Escape_NiniValue_ProducesCorrectOutput(string input, string expected)
     {
-        var result = TextEscaper.Escape(input, EscapeMode.KeyValue);
+        var result = TextEscaper.Escape(input, EscapeMode.NiniValue);
         Assert.Equal(expected, result);
     }
 
@@ -30,9 +30,9 @@ public class TextEscaperTests
     [InlineData("Mixed\\\\nContent", "Mixed\\nContent")]
     [InlineData("Tab\\there", "Tab\there")]
     [InlineData("Windows\\r\\nLine", "Windows\r\nLine")]
-    public void Unescape_KeyValue_ProducesCorrectOutput(string input, string expected)
+    public void Unescape_NiniValue_ProducesCorrectOutput(string input, string expected)
     {
-        var result = TextEscaper.Unescape(input, EscapeMode.KeyValue);
+        var result = TextEscaper.Unescape(input, EscapeMode.NiniValue);
         Assert.Equal(expected, result);
     }
 
@@ -45,24 +45,24 @@ public class TextEscaperTests
     [InlineData("\n\n\n")]
     [InlineData("\\\\\\")]
     [InlineData("")]
-    public void Escape_Unescape_KeyValue_RoundTrip(string original)
+    public void Escape_Unescape_NiniValue_RoundTrip(string original)
     {
-        var escaped = TextEscaper.Escape(original, EscapeMode.KeyValue);
-        var unescaped = TextEscaper.Unescape(escaped, EscapeMode.KeyValue);
+        var escaped = TextEscaper.Escape(original, EscapeMode.NiniValue);
+        var unescaped = TextEscaper.Unescape(escaped, EscapeMode.NiniValue);
         Assert.Equal(original, unescaped);
     }
 
     [Fact]
-    public void Unescape_KeyValue_UnknownEscapeSequence_KeepsBackslash()
+    public void Unescape_NiniValue_UnknownEscapeSequence_KeepsBackslash()
     {
-        var result = TextEscaper.Unescape("Hello\\xWorld", EscapeMode.KeyValue);
+        var result = TextEscaper.Unescape("Hello\\xWorld", EscapeMode.NiniValue);
         Assert.Equal("Hello\\xWorld", result);
     }
 
     [Fact]
-    public void Unescape_KeyValue_TrailingBackslash_KeepsBackslash()
+    public void Unescape_NiniValue_TrailingBackslash_KeepsBackslash()
     {
-        var result = TextEscaper.Unescape("trailing\\", EscapeMode.KeyValue);
+        var result = TextEscaper.Unescape("trailing\\", EscapeMode.NiniValue);
         Assert.Equal("trailing\\", result);
     }
 
@@ -70,28 +70,28 @@ public class TextEscaperTests
     [InlineData("  leading spaces")]
     [InlineData("trailing spaces  ")]
     [InlineData("  both  ")]
-    public void Escape_Unescape_KeyValue_PreservesWhitespace(string original)
+    public void Escape_Unescape_NiniValue_PreservesWhitespace(string original)
     {
-        var escaped = TextEscaper.Escape(original, EscapeMode.KeyValue);
-        var unescaped = TextEscaper.Unescape(escaped, EscapeMode.KeyValue);
+        var escaped = TextEscaper.Escape(original, EscapeMode.NiniValue);
+        var unescaped = TextEscaper.Unescape(escaped, EscapeMode.NiniValue);
         Assert.Equal(original, unescaped);
     }
 
     [Fact]
-    public void Escape_KeyValue_MultilineTextWithEmptyLines()
+    public void Escape_NiniValue_MultilineTextWithEmptyLines()
     {
         var input = "Line 1\n\nLine 3\n\n\nLine 6";
         var expected = "Line 1\\n\\nLine 3\\n\\n\\nLine 6";
-        var result = TextEscaper.Escape(input, EscapeMode.KeyValue);
+        var result = TextEscaper.Escape(input, EscapeMode.NiniValue);
         Assert.Equal(expected, result);
     }
 
     [Fact]
-    public void Escape_KeyValue_ComplexMixedContent()
+    public void Escape_NiniValue_ComplexMixedContent()
     {
         var input = "First line\n\tIndented with tab\nPath: C:\\Users\\Name\nEnd";
         var expected = "First line\\n\\tIndented with tab\\nPath: C:\\\\Users\\\\Name\\nEnd";
-        var result = TextEscaper.Escape(input, EscapeMode.KeyValue);
+        var result = TextEscaper.Escape(input, EscapeMode.NiniValue);
         Assert.Equal(expected, result);
     }
 
@@ -359,28 +359,28 @@ public class TextEscaperTests
     [Fact]
     public void Escape_NullInput_ReturnsNull()
     {
-        var result = TextEscaper.Escape(null, EscapeMode.KeyValue);
+        var result = TextEscaper.Escape(null, EscapeMode.NiniValue);
         Assert.Null(result);
     }
 
     [Fact]
     public void Unescape_NullInput_ReturnsNull()
     {
-        var result = TextEscaper.Unescape(null, EscapeMode.KeyValue);
+        var result = TextEscaper.Unescape(null, EscapeMode.NiniValue);
         Assert.Null(result);
     }
 
     [Fact]
     public void Escape_EmptyInput_ReturnsEmptyString()
     {
-        var result = TextEscaper.Escape("", EscapeMode.KeyValue);
+        var result = TextEscaper.Escape("", EscapeMode.NiniValue);
         Assert.Equal(string.Empty, result);
     }
 
     [Fact]
     public void Unescape_EmptyInput_ReturnsEmptyString()
     {
-        var result = TextEscaper.Unescape("", EscapeMode.KeyValue);
+        var result = TextEscaper.Unescape("", EscapeMode.NiniValue);
         Assert.Equal(string.Empty, result);
     }
 

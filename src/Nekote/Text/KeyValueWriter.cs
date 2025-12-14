@@ -34,7 +34,7 @@ public static class KeyValueWriter
             if (value == null)
                 throw new ArgumentException($"Value for key '{key}' cannot be null. Use string.Empty for empty values.");
 
-            string escapedValue = TextEscaper.Escape(value, EscapeMode.KeyValue)!; // value is non-null here
+            string escapedValue = TextEscaper.Escape(value, EscapeMode.NiniValue)!; // value is non-null here
             result.AppendLine($"{key}: {escapedValue}");
         }
 

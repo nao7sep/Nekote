@@ -6,10 +6,10 @@
 public enum EscapeMode
 {
     /// <summary>
-    /// Key-value file format escaping. Line breaks become literal \n, backslashes become \\.
-    /// Used for embedding multi-line text in key-value configuration files.
+    /// NINI value escaping. Line breaks become literal \n, backslashes become \\.
+    /// Used for embedding multi-line text in NINI format values.
     /// </summary>
-    KeyValue,
+    NiniValue,
 
     /// <summary>
     /// CSV format escaping following RFC 4180. Values containing commas, quotes, or line breaks

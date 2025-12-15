@@ -27,7 +27,7 @@ public class NiniFile
     private readonly Dictionary<string, Dictionary<string, string>> _sections = new(StringComparer.OrdinalIgnoreCase);
     private readonly NiniSectionMarkerStyle _markerStyle;
 
-    private const string EmptySectionComment = "# (empty section)";
+    private static readonly string EmptySectionComment = "# (empty section)";
 
     /// <summary>
     /// Creates a new empty NiniFile with the specified marker style.

@@ -254,6 +254,20 @@ key3: value3";
         Assert.Equal("value", NiniSection.KeyValues["key"]);
     }
 
+    [Fact]
+    public void GetSection_FindsSectionCaseInsensitively()
+    {
+        var input = "[MySection]\nkey: value";
+        var sections = NiniSectionParser.Parse(input);
+
+        // Should find "MySection" even if we ask for "mysection"
+        var section = NiniSectionParser.GetSection(sections, "mysection");
+
+        Assert.NotNull(section);
+        Assert.Equal("MySection", section.Name);
+        Assert.Equal("value", section.KeyValues["key"]);
+    }
+
     #endregion
 
     #region Edge Cases

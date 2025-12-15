@@ -20,7 +20,7 @@ public static class NiniKeyValueWriter
             return string.Empty;
 
         var result = new StringBuilder();
-        var keys = sortKeys ? data.Keys.OrderBy(k => k, StringComparer.Ordinal).ToList() : data.Keys.ToList();
+        var keys = sortKeys ? data.Keys.OrderBy(k => k, StringComparer.OrdinalIgnoreCase).ToList() : data.Keys.ToList();
 
         foreach (var key in keys)
         {

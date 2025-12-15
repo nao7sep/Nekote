@@ -229,6 +229,25 @@ public class NiniKeyValueWriterTests
         Assert.Contains("cannot be null", ex.Message);
         Assert.Contains("Use string.Empty", ex.Message);
     }
+
+    [Fact]
+    public void Write_WithSortKeys_SortsCaseInsensitively()
+    {
+        var data = new Dictionary<string, string>
+        {
+            ["Banana"] = "fruit",
+            ["apple"] = "fruit",
+            ["Cherry"] = "fruit"
+        };
+        var result = NiniKeyValueWriter.Write(data, sortKeys: true);
+
+        var lines = result.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Expected Order (OrdinalIgnoreCase): apple, Banana, Cherry
+        Assert.Equal("apple: fruit", lines[0]);
+        Assert.Equal("Banana: fruit", lines[1]);
+        Assert.Equal("Cherry: fruit", lines[2]);
+    }
 }
 
 

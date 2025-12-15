@@ -71,7 +71,7 @@ public static class NiniSectionParser
     /// <returns>The section if found, null otherwise.</returns>
     public static NiniSection? GetSection(NiniSection[] sections, string name)
     {
-        return sections.FirstOrDefault(s => s.Name == name);
+        return sections.FirstOrDefault(s => s.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
     }
 
     /// <summary>

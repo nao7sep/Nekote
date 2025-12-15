@@ -112,8 +112,7 @@ public class NiniFile
         // 1. Write preamble (keys without section) first
         if (_sections.TryGetValue("", out var preamble) && preamble.Count > 0)
         {
-            // NiniKeyValueWriter.Write ends with newline, so we trim it to avoid extra spacing
-            paragraphs.Add(NiniKeyValueWriter.Write(preamble, sortKeys: false, newLine: newLine).TrimEnd());
+            paragraphs.Add(NiniKeyValueWriter.Write(preamble, sortKeys: false, newLine: newLine));
         }
 
         // 2. Write named sections
@@ -121,27 +120,27 @@ public class NiniFile
         {
             if (sectionName == "") continue; // Already handled
 
-            var sb = new StringBuilder();
+            var sectionParts = new List<string>();
 
             // Write section marker
             if (_markerStyle == NiniSectionMarkerStyle.IniBrackets)
-                sb.Append($"[{sectionName}]{newLine}");
+                sectionParts.Add($"[{sectionName}]");
             else
-                sb.Append($"@{sectionName}{newLine}");
+                sectionParts.Add($"@{sectionName}");
 
             // Write key-value pairs
             var kvText = NiniKeyValueWriter.Write(keyValues, sortKeys: false, newLine: newLine);
             if (!string.IsNullOrEmpty(kvText))
             {
-                sb.Append(kvText);
+                sectionParts.Add(kvText);
             }
             else
             {
                 // Empty section - append comment
-                sb.Append($"{EmptySectionComment}{newLine}");
+                sectionParts.Add(EmptySectionComment);
             }
 
-            paragraphs.Add(sb.ToString().TrimEnd());
+            paragraphs.Add(string.Join(newLine, sectionParts));
         }
 
         // Join paragraphs with blank lines (double newline)

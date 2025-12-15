@@ -267,7 +267,7 @@ NINI accepts all line ending styles:
 - **Classic Mac**: `\r` (CR)
 - **Mixed**: Files with mixed line endings are handled correctly
 
-Line endings in the file are normalized during parsing and are **not preserved**. When saving, the library uses the marker style specified by the user.
+Line endings in the file are normalized during parsing and are **not preserved**. When saving, the library uses the newline sequence and marker style specified by the user.
 
 ## 8. Data Types
 

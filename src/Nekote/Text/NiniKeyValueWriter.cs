@@ -21,7 +21,7 @@ public static class NiniKeyValueWriter
             return string.Empty;
 
         newLine ??= Environment.NewLine;
-        var result = new StringBuilder();
+        var lines = new List<string>(data.Count);
         var keys = sortKeys ? data.Keys.OrderBy(k => k, StringComparer.OrdinalIgnoreCase).ToList() : data.Keys.ToList();
 
         foreach (var key in keys)
@@ -37,10 +37,10 @@ public static class NiniKeyValueWriter
                 throw new ArgumentException($"Value for key '{key}' cannot be null. Use string.Empty for empty values.");
 
             string escapedValue = TextEscaper.Escape(value, EscapeMode.NiniValue)!; // value is non-null here
-            result.Append($"{key}: {escapedValue}{newLine}");
+            lines.Add($"{key}: {escapedValue}");
         }
 
-        return result.ToString();
+        return string.Join(newLine, lines);
     }
 
     /// <summary>

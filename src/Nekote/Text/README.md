@@ -51,7 +51,32 @@ Text processing utilities for parsing, escaping, and pattern matching.
   - Offers strongly-typed accessors (`GetInt32`, `GetBool`, etc.) backed by `TypedStringConverter`.
   - Manages file formatting, including preamble, sections, comments, and configurable newlines.
 
-## Planned Segments
+---
 
-### Text Matching
-- **TextMatcher.cs** - Pattern matching (contains, regex, wildcard).
+## Considered but Not Implemented
+
+This section documents features that were analyzed but deliberately excluded from Nekote.Text to maintain focus on general-purpose text processing utilities.
+
+### TextMatcher - Pattern Matching Wrapper
+
+**Rejected:** A wrapper for pattern matching (contains, regex, wildcard) that operates on isolated strings.
+
+**Reasoning:**
+- Provides no value over built-in .NET methods (`String.Contains`, `String.StartsWith`, `Regex.IsMatch`)
+- Real-world use cases (email filtering, rule engines, content classification) require field-aware matching where patterns are applied to specific properties (e.g., "From starts with X" AND "Subject contains Y")
+- Proper solution requires boolean composition (AND/OR/NOT), priority handling, and action execution - this belongs in a comprehensive rule engine system (future `Nekote.Rules` namespace), not as isolated text utilities
+- Creating a thin wrapper would produce an API that doesn't solve actual problems and forces awkward workarounds
+
+**Conclusion:** When rule-based filtering is needed, implement a proper rule engine with conditions, composition, and actions rather than string-only pattern matching.
+
+### SectionParser - Custom Semantic Markers
+
+**Rejected:** A parser for text with application-specific semantic markers (e.g., `@ AI-generated content @` in taskKiller).
+
+**Reasoning:**
+- The `@ ... @` marker pattern was designed as a workaround for embedding AI responses in plaintext notes for a specific application
+- Not a general-purpose pattern - no identified use cases beyond the original application's constraints
+- `NiniSectionParser` already handles standard sectioned formats (`[Section]` and `@Section` markers) for configuration files
+- Application-specific text parsing logic belongs in application code, not in a general-purpose library
+
+**Conclusion:** Nekote.Text is complete for general-purpose text processing. Domain-specific parsing belongs in application codebases.

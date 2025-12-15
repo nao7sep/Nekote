@@ -106,6 +106,32 @@ Port: 5432";
         Assert.True(restored.GetBool("Section2", "BoolKey"));
     }
 
+    [Fact]
+    public void ToString_CustomNewLine_UsesSpecifiedNewLine()
+    {
+        var ini = new NiniFile(NiniSectionMarkerStyle.AtPrefix);
+        ini.SetValue("Section1", "Key1", "Value1");
+        ini.SetValue("Section2", "Key2", "Value2");
+
+        var newLine = "NEWLINE"; // Use a visible marker to be sure
+        var result = ini.ToString(newLine);
+
+        Assert.Contains($"@Section1{newLine}", result);
+        Assert.Contains($"Key1: Value1{newLine}", result);
+        // Sections separated by double newline
+        Assert.Contains($"{newLine}{newLine}@Section2", result);
+    }
+
+    [Fact]
+    public void ToString_EmptySection_AppendsComment()
+    {
+        var ini = NiniFile.Parse("@EmptySection");
+        var result = ini.ToString();
+
+        Assert.Contains("@EmptySection", result);
+        Assert.Contains("# (empty section)", result);
+    }
+
     // Section access tests
 
     [Fact]
@@ -217,7 +243,7 @@ Port: 5432";
 
         ini.RemoveValue("Section1", "Key1");
 
-        Assert.Equal("", ini.GetString("Section1", "Key1"));
+        Assert.Null(ini.GetString("Section1", "Key1"));
     }
 
     // Int32 typed access tests
@@ -540,7 +566,7 @@ HOST: third";
 
         ini.RemoveValue("database", "HOST");  // Both different case
 
-        Assert.Equal("", ini.GetString("Database", "Host"));
+        Assert.Null(ini.GetString("Database", "Host"));
     }
 
     // Mixed marker style tests

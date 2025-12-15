@@ -14,7 +14,7 @@ public static class ParagraphParser
     /// <param name="text">The text to split into paragraphs.</param>
     /// <param name="newLine">The newline sequence to use when joining lines within paragraphs. Default is Environment.NewLine.</param>
     /// <returns>An array of paragraphs. Returns empty array if input is null or whitespace.</returns>
-    public static string[] Parse(string text, string? newLine = null)
+    public static string[] Parse(string? text, string? newLine = null)
     {
         if (string.IsNullOrWhiteSpace(text))
             return Array.Empty<string>();

@@ -27,6 +27,8 @@ public class NiniFile
     private readonly Dictionary<string, Dictionary<string, string>> _sections = new(StringComparer.OrdinalIgnoreCase);
     private readonly NiniSectionMarkerStyle _markerStyle;
 
+    private const string EmptySectionComment = "# (empty section)";
+
     /// <summary>
     /// Creates a new empty NiniFile with the specified marker style.
     /// </summary>
@@ -86,23 +88,32 @@ public class NiniFile
     /// </summary>
     /// <param name="path">Path to save the file.</param>
     /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>
-    public void Save(string path, Encoding? encoding = null)
+    /// <param name="newLine">The newline sequence to use. Default is Environment.NewLine.</param>
+    public void Save(string path, Encoding? encoding = null, string? newLine = null)
     {
-        var content = ToString();
+        var content = ToString(newLine);
         File.WriteAllText(path, content, encoding ?? TextEncoding.Utf8NoBom);
     }
 
     /// <summary>
-    /// Converts the file to a string representation.
+    /// Converts the file to a string representation using the default environment newline.
     /// </summary>
-    public override string ToString()
+    public override string ToString() => ToString(null);
+
+    /// <summary>
+    /// Converts the file to a string representation using the specified newline sequence.
+    /// </summary>
+    /// <param name="newLine">The newline sequence to use. Default is Environment.NewLine.</param>
+    public string ToString(string? newLine)
     {
+        newLine ??= Environment.NewLine;
         var paragraphs = new List<string>();
 
         // 1. Write preamble (keys without section) first
         if (_sections.TryGetValue("", out var preamble) && preamble.Count > 0)
         {
-            paragraphs.Add(NiniKeyValueWriter.Write(preamble));
+            // NiniKeyValueWriter.Write ends with newline, so we trim it to avoid extra spacing
+            paragraphs.Add(NiniKeyValueWriter.Write(preamble, sortKeys: false, newLine: newLine).TrimEnd());
         }
 
         // 2. Write named sections
@@ -114,20 +125,27 @@ public class NiniFile
 
             // Write section marker
             if (_markerStyle == NiniSectionMarkerStyle.IniBrackets)
-                sb.AppendLine($"[{sectionName}]");
+                sb.Append($"[{sectionName}]{newLine}");
             else
-                sb.AppendLine($"@{sectionName}");
+                sb.Append($"@{sectionName}{newLine}");
 
             // Write key-value pairs
-            var kvText = NiniKeyValueWriter.Write(keyValues);
+            var kvText = NiniKeyValueWriter.Write(keyValues, sortKeys: false, newLine: newLine);
             if (!string.IsNullOrEmpty(kvText))
+            {
                 sb.Append(kvText);
+            }
+            else
+            {
+                // Empty section - append comment
+                sb.Append($"{EmptySectionComment}{newLine}");
+            }
 
             paragraphs.Add(sb.ToString().TrimEnd());
         }
 
-        // Join paragraphs with blank lines
-        return string.Join("\n\n", paragraphs);
+        // Join paragraphs with blank lines (double newline)
+        return string.Join($"{newLine}{newLine}", paragraphs);
     }
 
     // Section access
@@ -188,7 +206,7 @@ public class NiniFile
     /// Gets a string value from the specified section and key.
     /// Returns the default value if section or key does not exist.
     /// </summary>
-    public string GetString(string section, string key, string defaultValue = "")
+    public string? GetString(string section, string key, string? defaultValue = null)
     {
         if (!_sections.TryGetValue(section, out var dict))
             return defaultValue;

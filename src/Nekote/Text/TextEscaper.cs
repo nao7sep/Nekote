@@ -252,7 +252,7 @@ public static class TextEscaper
                 if (i + 2 < escapedText.Length)
                 {
                     string hex = escapedText.Substring(i + 1, 2);
-                    if (byte.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out byte b))
+                    if (byte.TryParse(hex, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out byte b))
                     {
                         bytes.Add(b);
                         i += 3;

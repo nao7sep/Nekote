@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Nekote.Platform;
 
 namespace Nekote.Text;
 
@@ -174,7 +175,7 @@ public sealed record NiniOptions
         SectionNameComparer = StringComparer.Ordinal,
         KeyComparer = StringComparer.Ordinal,
         MarkerStyle = NiniSectionMarkerStyle.None,
-        NewLine = "\r\n",
+        NewLine = LineEndings.CrLf,
         SortKeys = false,
         SortSections = false,
         Encoding = TextEncoding.Utf8WithBom
@@ -213,7 +214,7 @@ public sealed record NiniOptions
         SectionNameComparer = StringComparer.OrdinalIgnoreCase,
         KeyComparer = StringComparer.OrdinalIgnoreCase,
         MarkerStyle = NiniSectionMarkerStyle.IniBrackets,
-        NewLine = "\r\n",
+        NewLine = LineEndings.CrLf,
         SortKeys = false,
         SortSections = false,
         Encoding = TextEncoding.Utf8NoBom

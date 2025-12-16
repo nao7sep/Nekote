@@ -9,7 +9,7 @@ namespace Nekote.Text;
 /// <para>
 /// A line-based text format organizing key-value pairs into named sections.
 /// Uses key:value syntax (not key=value), supports [section] or @section markers,
-/// and includes # and // style comments. Not a full INI parser - this is a
+/// and includes #, //, and ; style comments. Not a full INI parser - this is a
 /// simplified format designed for clarity and culture-safe portable configuration.
 /// </para>
 /// <para>

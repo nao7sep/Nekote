@@ -706,7 +706,7 @@ AutoSave: true";
         ini.SetValue("", "Guid", "a1b2c3d4-e5f6-7890-abcd-ef1234567890");
 
         // Should work fine with MarkerStyle.None since there are no named sections
-        var result = ini.ToString(NiniOptions.TaskKiller);
+        var result = ini.ToString(NiniOptions.taskKiller);
 
         Assert.Contains("Format:taskKiller1", result);
         Assert.Contains("Guid:a1b2c3d4-e5f6-7890-abcd-ef1234567890", result);

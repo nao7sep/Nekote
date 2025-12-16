@@ -267,7 +267,7 @@ public class NiniSectionWriterTests
             }
         };
 
-        var result = NiniSectionWriter.Write(sections, NiniOptions.TaskKiller);
+        var result = NiniSectionWriter.Write(sections, NiniOptions.taskKiller);
 
         Assert.Contains("Key:Value", result);
         Assert.DoesNotContain(": ", result);

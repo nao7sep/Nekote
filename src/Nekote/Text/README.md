@@ -36,7 +36,7 @@ Text processing utilities for parsing, escaping, and pattern matching.
 - **NiniOptions.cs** - Configuration record for NINI format parsing and writing.
   - Defines parsing settings (separator, string comparers), output formatting (marker style, sorting), and file I/O options (encoding).
   - All properties use `required` modifier - no inline defaults. Values must be explicitly set during initialization.
-  - Provides three predefined instances: `Default` (`: ` separator, @ markers), `TaskKiller` (`:` no space, no sections), `TraditionalIni` (`=` separator, [brackets]).
+  - Provides three predefined instances: `Default` (`: ` separator, @ markers), `taskKiller` (`:` no space, no sections), `TraditionalIni` (`=` separator, [brackets]).
 - **NiniKeyValueParser.cs** - Parser for the "key: value" line format.
   - Extracts key-value pairs while handling comments (`#`, `//`, `;`) and ignoring blank lines.
   - Unescapes values using `TextEscaper` to support multi-line content.

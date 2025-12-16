@@ -17,7 +17,7 @@ namespace Nekote.Text;
 /// Example usage:
 /// <code>
 /// // Use predefined instance
-/// var file = new NiniFile(NiniOptions.TaskKiller);
+/// var file = new NiniFile(NiniOptions.taskKiller);
 ///
 /// // Customize using 'with' expression
 /// var options = NiniOptions.Default with
@@ -73,7 +73,7 @@ public sealed record NiniOptions
     /// </summary>
     /// <remarks>
     /// This string appears between keys and values in generated output.
-    /// Common values: <c>": "</c> (NINI), <c>":"</c> (TaskKiller), <c>"="</c> (INI).
+    /// Common values: <c>": "</c> (NINI), <c>":"</c> (taskKiller), <c>"="</c> (INI).
     /// This property is required.
     /// </remarks>
     public required string OutputSeparator { get; init; }
@@ -145,12 +145,12 @@ public sealed record NiniOptions
     };
 
     /// <summary>
-    /// Gets options for TaskKiller format.
+    /// Gets options for taskKiller format.
     /// Uses <c>":"</c> separator (no space) with case-sensitive comparisons, CRLF line endings, and no section markers.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// TaskKiller is a task management application that stores data as flat key-value pairs in paragraph-separated files.
+    /// taskKiller is a task management application that stores data as flat key-value pairs in paragraph-separated files.
     /// Each paragraph represents a task or note with fields like <c>Guid:</c>, <c>CreationUtc:</c>, <c>Content:</c>, etc.
     /// </para>
     /// <para>
@@ -168,7 +168,7 @@ public sealed record NiniOptions
     /// because <see cref="NiniSectionMarkerStyle.None"/> cannot represent section boundaries.
     /// </para>
     /// </remarks>
-    public static NiniOptions TaskKiller { get; } = new()
+    public static NiniOptions taskKiller { get; } = new()
     {
         SeparatorChar = ':',
         OutputSeparator = ":",

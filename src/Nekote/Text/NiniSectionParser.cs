@@ -12,11 +12,14 @@ public static class NiniSectionParser
     /// have a section marker as its first line, which labels the keys in that paragraph.
     /// </summary>
     /// <param name="text">The text to parse.</param>
+    /// <param name="options">Configuration options. If null, uses <see cref="NiniOptions.Default"/>.</param>
     /// <returns>Array of sections. Paragraphs without markers have Marker=None and Name="".</returns>
-    public static NiniSection[] Parse(string text)
+    public static NiniSection[] Parse(string text, NiniOptions? options = null)
     {
         if (string.IsNullOrWhiteSpace(text))
             return Array.Empty<NiniSection>();
+
+        options ??= NiniOptions.Default;
 
         // Split into paragraphs - natural boundaries separated by blank lines
         var paragraphs = ParagraphParser.Parse(text);
@@ -46,7 +49,7 @@ public static class NiniSectionParser
             }
 
             // Parse content as key-value pairs
-            var keyValues = NiniKeyValueParser.Parse(contentLines);
+            var keyValues = NiniKeyValueParser.Parse(contentLines, options);
 
             // Add section if it has content OR if it's explicitly marked
             if (keyValues.Count > 0 || markerStyle != NiniSectionMarkerStyle.None)
@@ -68,10 +71,12 @@ public static class NiniSectionParser
     /// </summary>
     /// <param name="sections">The array of parsed sections.</param>
     /// <param name="name">The section name to find.</param>
+    /// <param name="options">Configuration options. If null, uses <see cref="NiniOptions.Default"/>.</param>
     /// <returns>The section if found, null otherwise.</returns>
-    public static NiniSection? GetSection(NiniSection[] sections, string name)
+    public static NiniSection? GetSection(NiniSection[] sections, string name, NiniOptions? options = null)
     {
-        return sections.FirstOrDefault(s => s.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        options ??= NiniOptions.Default;
+        return sections.FirstOrDefault(s => options.SectionNameComparer.Equals(s.Name, name));
     }
 
     /// <summary>

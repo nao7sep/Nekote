@@ -18,7 +18,7 @@ NINI organizes key-value pairs into named sections with a focus on culture-safe 
 | Feature | Traditional INI | NINI |
 |---------|----------------|------|
 | **Separator** | `key=value` | `key: value` (colon + space) |
-| **Comments** | `;` (semicolon) | `#` and `//` |
+| **Comments** | `;` (semicolon) | `#`, `//`, and `;` |
 | **Section Markers** | `[Section]` only | `[Section]` or `@Section` |
 | **Escaping** | Varies, often none | Explicit backslash escaping |
 | **Multi-line Values** | Varies, often not supported | Supported via `\n` escape sequences |
@@ -218,11 +218,12 @@ Path → "C:\Users\Documents\file.txt"
 
 ### 6.1 Comment Styles
 
-NINI supports two comment styles:
+NINI supports three comment styles for maximum compatibility:
 
 ```
-# Hash-style comment
-// Slash-style comment
+# Hash-style comment (NINI native)
+// Slash-style comment (NINI native)
+; Semicolon-style comment (INI compatible)
 ```
 
 ### 6.2 Comment Rules
@@ -238,13 +239,15 @@ NINI supports two comment styles:
 ```
 # This is a comment
 // This is also a comment
+; This is an INI-compatible comment
 
 @Section
 # Comment within section
 Key: Value
 
 // Multiple comment lines
-# can be placed together
+; can be placed together
+# using any style
 AnotherKey: AnotherValue
 ```
 

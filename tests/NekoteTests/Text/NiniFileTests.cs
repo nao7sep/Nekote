@@ -51,7 +51,7 @@ Key1: Value1";
 Host: localhost
 Port: 5432";
 
-        var ini = NiniFile.Parse(input, NiniSectionMarkerStyle.AtPrefix);
+        var ini = NiniFile.Parse(input, NiniOptions.Default with { MarkerStyle = NiniSectionMarkerStyle.AtPrefix });
 
         Assert.True(ini.HasSection("Database"));
         Assert.Equal("localhost", ini.GetString("Database", "Host"));
@@ -79,7 +79,7 @@ Port: 5432";
     [Fact]
     public void ToString_AtPrefixStyle_UsesAtMarkers()
     {
-        var ini = new NiniFile(NiniSectionMarkerStyle.AtPrefix);
+        var ini = new NiniFile(NiniOptions.Default with { MarkerStyle = NiniSectionMarkerStyle.AtPrefix });
         ini.SetValue("Database", "Host", "localhost");
 
         var result = ini.ToString();
@@ -109,12 +109,12 @@ Port: 5432";
     [Fact]
     public void ToString_CustomNewLine_UsesSpecifiedNewLine()
     {
-        var ini = new NiniFile(NiniSectionMarkerStyle.AtPrefix);
+        var newLine = "NEWLINE"; // Use a visible marker to be sure
+        var ini = new NiniFile(NiniOptions.Default with { MarkerStyle = NiniSectionMarkerStyle.AtPrefix, NewLine = newLine });
         ini.SetValue("Section1", "Key1", "Value1");
         ini.SetValue("Section2", "Key2", "Value2");
 
-        var newLine = "NEWLINE"; // Use a visible marker to be sure
-        var result = ini.ToString(newLine);
+        var result = ini.ToString();
 
         Assert.Contains($"@Section1{newLine}", result);
         Assert.Contains($"Key1: Value1{newLine}", result);
@@ -615,8 +615,8 @@ Host: localhost
 @Features
 AutoSave: true";
 
-        var ini = NiniFile.Parse(input, outputMarkerStyle: NiniSectionMarkerStyle.AtPrefix);
-        var output = ini.ToString();
+        var ini = NiniFile.Parse(input);
+        var output = ini.ToString(NiniOptions.Default with { MarkerStyle = NiniSectionMarkerStyle.AtPrefix });
 
         // Output should use @ style for both (output marker style)
         Assert.Contains("@Database", output);
@@ -624,5 +624,93 @@ AutoSave: true";
         Assert.DoesNotContain("[Database]", output);
         Assert.DoesNotContain("[Features]", output);
     }
-}
 
+    [Fact]
+    public void ToString_WithOutputOptions_OverridesInstanceOptions()
+    {
+        // Create with default options
+        var ini = new NiniFile();
+        ini.SetValue("Database", "Host", "localhost");
+        ini.SetValue("Cache", "Provider", "Redis");
+
+        // Override with INI brackets and sorting
+        var output = ini.ToString(outputOptions: NiniOptions.Default with
+        {
+            MarkerStyle = NiniSectionMarkerStyle.IniBrackets,
+            SortSections = true,
+            OutputSeparator = " = "
+        });
+
+        Assert.Contains("[Database]", output);
+        Assert.Contains("[Cache]", output);
+        Assert.Contains("Host = localhost", output);
+        Assert.DoesNotContain("@Database", output);
+    }
+
+    [Fact]
+    public void ToString_WithNullOutputOptions_UsesInstanceOptions()
+    {
+        var ini = new NiniFile(NiniOptions.Default with { MarkerStyle = NiniSectionMarkerStyle.IniBrackets });
+        ini.SetValue("Test", "Key", "Value");
+
+        var output = ini.ToString(outputOptions: null);
+
+        Assert.Contains("[Test]", output);
+    }
+
+    [Fact]
+    public void Save_WithOutputOptions_OverridesInstanceOptions()
+    {
+        var tempFile = Path.GetTempFileName();
+        try
+        {
+            // Create with default options
+            var ini = new NiniFile();
+            ini.SetValue("Section", "Key", "Value");
+
+            // Save with different options
+            ini.Save(tempFile, outputOptions: NiniOptions.TraditionalIni);
+
+            // Read back and verify format
+            var content = File.ReadAllText(tempFile);
+            Assert.Contains("[Section]", content);
+            Assert.Contains("Key=Value", content);
+        }
+        finally
+        {
+            File.Delete(tempFile);
+        }
+    }
+
+    [Fact]
+    public void ToString_WithNamedSectionAndMarkerStyleNone_ThrowsInvalidOperationException()
+    {
+        // Create file with named section
+        var ini = new NiniFile();
+        ini.SetValue("Database", "Host", "localhost");
+
+        // Attempt to output with MarkerStyle.None should throw
+        var ex = Assert.Throws<InvalidOperationException>(() =>
+            ini.ToString(NiniOptions.Default with { MarkerStyle = NiniSectionMarkerStyle.None }));
+
+        Assert.Contains("Cannot write named section 'Database'", ex.Message);
+        Assert.Contains("MarkerStyle.None", ex.Message);
+    }
+
+    [Fact]
+    public void ToString_WithPreambleOnlyAndMarkerStyleNone_Succeeds()
+    {
+        // Create file with only preamble (no named sections)
+        var ini = new NiniFile();
+        ini.SetValue("", "Format", "taskKiller1");
+        ini.SetValue("", "Guid", "a1b2c3d4-e5f6-7890-abcd-ef1234567890");
+
+        // Should work fine with MarkerStyle.None since there are no named sections
+        var result = ini.ToString(NiniOptions.TaskKiller);
+
+        Assert.Contains("Format:taskKiller1", result);
+        Assert.Contains("Guid:a1b2c3d4-e5f6-7890-abcd-ef1234567890", result);
+        Assert.DoesNotContain("@", result);
+        Assert.DoesNotContain("[", result);
+    }
+}

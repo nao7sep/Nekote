@@ -108,12 +108,33 @@ public class NiniKeyValueParserTests
     }
 
     [Fact]
+    public void Parse_SemicolonCommentLines_SkipsComments()
+    {
+        var input = "; This is a semicolon comment\nkey1: value1\n; Another comment\nkey2: value2";
+        var result = NiniKeyValueParser.Parse(input);
+
+        Assert.Equal(2, result.Count);
+        Assert.Equal("value1", result["key1"]);
+        Assert.Equal("value2", result["key2"]);
+    }
+
+    [Fact]
+    public void Parse_AllThreeCommentTypes_SkipsAll()
+    {
+        var input = "# Hash comment\n; Semicolon comment\n// Slash comment\nkey: value";
+        var result = NiniKeyValueParser.Parse(input);
+
+        Assert.Single(result);
+        Assert.Equal("value", result["key"]);
+    }
+
+    [Fact]
     public void Parse_MissingColon_ThrowsArgumentException()
     {
         var input = "invalid line without colon";
         var ex = Assert.Throws<ArgumentException>(() => NiniKeyValueParser.Parse(input));
         Assert.Contains("Line 1", ex.Message);
-        Assert.Contains("missing colon", ex.Message);
+        Assert.Contains("missing separator", ex.Message);
     }
 
     [Fact]

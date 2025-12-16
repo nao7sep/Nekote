@@ -78,7 +78,7 @@ public class NiniKeyValueWriterTests
             ["apple"] = "first",
             ["middle"] = "mid"
         };
-        var result = NiniKeyValueWriter.Write(data, sortKeys: true);
+        var result = NiniKeyValueWriter.Write(data, NiniOptions.Default with { SortKeys = true });
 
         var lines = result.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         Assert.Equal("apple: first", lines[0]);
@@ -95,7 +95,7 @@ public class NiniKeyValueWriterTests
             ["first"] = "1",
             ["second"] = "2"
         };
-        var result = NiniKeyValueWriter.Write(data, sortKeys: false);
+        var result = NiniKeyValueWriter.Write(data, NiniOptions.Default with { SortKeys = false });
 
         // Dictionary doesn't guarantee order, but we can verify all are present
         Assert.Contains("third: 3", result);
@@ -239,7 +239,7 @@ public class NiniKeyValueWriterTests
             ["apple"] = "fruit",
             ["Cherry"] = "fruit"
         };
-        var result = NiniKeyValueWriter.Write(data, sortKeys: true);
+        var result = NiniKeyValueWriter.Write(data, NiniOptions.Default with { SortKeys = true });
 
         var lines = result.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 

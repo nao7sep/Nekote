@@ -24,17 +24,17 @@ namespace Nekote.Text;
 /// </remarks>
 public class NiniFile
 {
-    private readonly Dictionary<string, Dictionary<string, string>> _sections = new(StringComparer.OrdinalIgnoreCase);
-    private readonly NiniSectionMarkerStyle _markerStyle;
-
-    private static readonly string EmptySectionComment = "# (empty section)";
+    private readonly Dictionary<string, Dictionary<string, string>> _sections;
+    private readonly NiniOptions _options;
 
     /// <summary>
-    /// Creates a new empty NiniFile with the specified marker style.
+    /// Creates a new empty NiniFile with the specified options.
     /// </summary>
-    public NiniFile(NiniSectionMarkerStyle markerStyle = NiniSectionMarkerStyle.AtPrefix)
+    /// <param name="options">Configuration options. If null, uses <see cref="NiniOptions.Default"/>.</param>
+    public NiniFile(NiniOptions? options = null)
     {
-        _markerStyle = markerStyle;
+        _options = options ?? NiniOptions.Default;
+        _sections = new Dictionary<string, Dictionary<string, string>>(_options.SectionNameComparer);
     }
 
     /// <summary>
@@ -42,13 +42,13 @@ public class NiniFile
     /// Supports both [INI-style] and @at-prefix section markers automatically.
     /// </summary>
     /// <param name="path">Path to the file.</param>
-    /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>
-    /// <param name="outputMarkerStyle">Marker style for output when saved (default: AtPrefix).</param>
+    /// <param name="options">Configuration options. If null, uses <see cref="NiniOptions.Default"/>.</param>
     /// <returns>Loaded NiniFile instance.</returns>
-    public static NiniFile Load(string path, Encoding? encoding = null, NiniSectionMarkerStyle outputMarkerStyle = NiniSectionMarkerStyle.AtPrefix)
+    public static NiniFile Load(string path, NiniOptions? options = null)
     {
-        var text = File.ReadAllText(path, encoding ?? TextEncoding.Utf8NoBom);
-        return Parse(text, outputMarkerStyle);
+        options ??= NiniOptions.Default;
+        var text = File.ReadAllText(path, options.Encoding);
+        return Parse(text, options);
     }
 
     /// <summary>
@@ -56,12 +56,13 @@ public class NiniFile
     /// Supports both [INI-style] and @at-prefix section markers automatically.
     /// </summary>
     /// <param name="content">File content.</param>
-    /// <param name="outputMarkerStyle">Marker style for output when saved (default: AtPrefix).</param>
+    /// <param name="options">Configuration options. If null, uses <see cref="NiniOptions.Default"/>.</param>
     /// <returns>Parsed NiniFile instance.</returns>
-    public static NiniFile Parse(string content, NiniSectionMarkerStyle outputMarkerStyle = NiniSectionMarkerStyle.AtPrefix)
+    public static NiniFile Parse(string content, NiniOptions? options = null)
     {
-        var sections = NiniSectionParser.Parse(content);
-        var file = new NiniFile(outputMarkerStyle);
+        options ??= NiniOptions.Default;
+        var sections = NiniSectionParser.Parse(content, options);
+        var file = new NiniFile(options);
 
         foreach (var section in sections)
         {
@@ -87,65 +88,28 @@ public class NiniFile
     /// Saves the file to the specified path.
     /// </summary>
     /// <param name="path">Path to save the file.</param>
-    /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>
-    /// <param name="newLine">The newline sequence to use. Default is Environment.NewLine.</param>
-    public void Save(string path, Encoding? encoding = null, string? newLine = null)
+    /// <param name="outputOptions">Optional options override. If null, uses the instance's options.</param>
+    public void Save(string path, NiniOptions? outputOptions = null)
     {
-        var content = ToString(newLine);
-        File.WriteAllText(path, content, encoding ?? TextEncoding.Utf8NoBom);
+        var content = ToString(outputOptions);
+        var effectiveOptions = outputOptions ?? _options;
+        File.WriteAllText(path, content, effectiveOptions.Encoding);
     }
 
     /// <summary>
-    /// Converts the file to a string representation using the default environment newline.
+    /// Converts the file to a string representation.
     /// </summary>
-    public override string ToString() => ToString(null);
+    /// <param name="outputOptions">Optional options override. If null, uses the instance's options.</param>
+    public string ToString(NiniOptions? outputOptions)
+    {
+        var effectiveOptions = outputOptions ?? _options;
+        return NiniSectionWriter.Write(_sections, effectiveOptions);
+    }
 
     /// <summary>
-    /// Converts the file to a string representation using the specified newline sequence.
+    /// Converts the file to a string representation using the instance's options.
     /// </summary>
-    /// <param name="newLine">The newline sequence to use. Default is Environment.NewLine.</param>
-    public string ToString(string? newLine)
-    {
-        newLine ??= Environment.NewLine;
-        var paragraphs = new List<string>();
-
-        // 1. Write preamble (keys without section) first
-        if (_sections.TryGetValue("", out var preamble) && preamble.Count > 0)
-        {
-            paragraphs.Add(NiniKeyValueWriter.Write(preamble, sortKeys: false, newLine: newLine));
-        }
-
-        // 2. Write named sections
-        foreach (var (sectionName, keyValues) in _sections)
-        {
-            if (sectionName == "") continue; // Already handled
-
-            var sectionParts = new List<string>();
-
-            // Write section marker
-            if (_markerStyle == NiniSectionMarkerStyle.IniBrackets)
-                sectionParts.Add($"[{sectionName}]");
-            else
-                sectionParts.Add($"@{sectionName}");
-
-            // Write key-value pairs
-            var kvText = NiniKeyValueWriter.Write(keyValues, sortKeys: false, newLine: newLine);
-            if (!string.IsNullOrEmpty(kvText))
-            {
-                sectionParts.Add(kvText);
-            }
-            else
-            {
-                // Empty section - append comment
-                sectionParts.Add(EmptySectionComment);
-            }
-
-            paragraphs.Add(string.Join(newLine, sectionParts));
-        }
-
-        // Join paragraphs with blank lines (double newline)
-        return string.Join($"{newLine}{newLine}", paragraphs);
-    }
+    public override string ToString() => ToString(outputOptions: null);
 
     // Section access
 
@@ -188,7 +152,7 @@ public class NiniFile
     {
         if (!_sections.TryGetValue(name, out var section))
         {
-            section = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            section = new Dictionary<string, string>(_options.KeyComparer);
             _sections[name] = section;
         }
         return section;

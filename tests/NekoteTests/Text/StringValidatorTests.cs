@@ -189,6 +189,13 @@ public class StringValidatorTests
     }
 
     [Fact]
+    public void ValidateNiniKey_StartsWithSemicolon_Throws()
+    {
+        var ex = Assert.Throws<ArgumentException>(() => StringValidator.ValidateNiniKey(";comment"));
+        Assert.Contains("starts with ';'", ex.Message);
+    }
+
+    [Fact]
     public void ValidateNiniKey_ContainsHashNotAtStart_DoesNotThrow()
     {
         StringValidator.ValidateNiniKey("key#value");
@@ -198,6 +205,12 @@ public class StringValidatorTests
     public void ValidateNiniKey_ContainsSlashesNotAtStart_DoesNotThrow()
     {
         StringValidator.ValidateNiniKey("key//value");
+    }
+
+    [Fact]
+    public void ValidateNiniKey_ContainsSemicolonNotAtStart_DoesNotThrow()
+    {
+        StringValidator.ValidateNiniKey("key;value");
     }
 
     #endregion

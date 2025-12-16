@@ -33,23 +33,33 @@ Text processing utilities for parsing, escaping, and pattern matching.
   - Handles special characters, surrogate pairs, and format-specific escape sequences (e.g. `\n`, `\"`).
 
 ### Nini Key-Value Parsing
+- **NiniOptions.cs** - Configuration record for NINI format parsing and writing.
+  - Defines parsing settings (separator, string comparers), output formatting (marker style, sorting), and file I/O options (encoding).
+  - All properties use `required` modifier - no inline defaults. Values must be explicitly set during initialization.
+  - Provides three predefined instances: `Default` (`: ` separator, @ markers), `TaskKiller` (`:` no space, no sections), `TraditionalIni` (`=` separator, [brackets]).
 - **NiniKeyValueParser.cs** - Parser for the "key: value" line format.
-  - Extracts key-value pairs while handling comments (`#`, `//`) and ignoring blank lines.
+  - Extracts key-value pairs while handling comments (`#`, `//`, `;`) and ignoring blank lines.
   - Unescapes values using `TextEscaper` to support multi-line content.
+  - Uses `NiniOptions` for separator character and comparer configuration.
 - **NiniKeyValueWriter.cs** - Generator for the "key: value" line format.
   - Serializes dictionaries to text, automatically escaping special characters.
-  - Supports configurable sorting and newline sequences.
+  - Uses `NiniOptions` for output separator, sorting, and newline configuration.
 
 ### Nini Sectioned Key-Value Files
-- **NiniSectionMarkerStyle.cs** - Definition of supported section markers (`[Section]` and `@Section`).
+- **NiniSectionMarkerStyle.cs** - Definition of supported section markers (`[Section]`, `@Section`, and `None`).
 - **NiniSection.cs** - Data structure representing a single named section and its key-value pairs.
 - **NiniSectionParser.cs** - Parser for sectioned text content.
   - Identifies section boundaries using markers and delegates content parsing to `NiniKeyValueParser`.
   - Supports mixed marker styles within the same file.
+- **NiniSectionWriter.cs** - Writer for sectioned text content.
+  - Formats sections with markers and delegates key-value writing to `NiniKeyValueWriter`.
+  - Handles preamble (unnamed sections), marker style selection, and section sorting.
+  - Validates that `MarkerStyle.None` has no named sections.
 - **NiniFile.cs** - The primary high-level API for working with NINI configuration files.
   - Provides a complete interface for loading, saving, querying, and modifying configuration data.
   - Offers strongly-typed accessors (`GetInt32`, `GetBool`, etc.) backed by `TypedStringConverter`.
-  - Manages file formatting, including preamble, sections, comments, and configurable newlines.
+  - Uses `NiniSectionParser` and `NiniSectionWriter` for I/O operations.
+  - `Save()` and `ToString()` accept optional `outputOptions` parameter to override format without changing the instance's configuration.
 
 ---
 

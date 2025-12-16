@@ -8,32 +8,36 @@ namespace Nekote.Text;
 public static class NiniKeyValueParser
 {
     /// <summary>
-    /// Parses NINI format text into a dictionary. Empty lines and lines starting with # or // are ignored.
+    /// Parses NINI format text into a dictionary. Empty lines and lines starting with #, //, or ; are ignored.
     /// </summary>
     /// <param name="text">The text to parse.</param>
+    /// <param name="options">Configuration options. If null, uses <see cref="NiniOptions.Default"/>.</param>
     /// <returns>A dictionary of key-value pairs with unescaped values.</returns>
     /// <exception cref="ArgumentException">Thrown when a line is not in valid key:value format.</exception>
-    public static Dictionary<string, string> Parse(string text)
+    public static Dictionary<string, string> Parse(string text, NiniOptions? options = null)
     {
         if (string.IsNullOrWhiteSpace(text))
             return new Dictionary<string, string>();
 
         var lines = LineParser.ToLines(text);
-        return Parse(lines);
+        return Parse(lines, options);
     }
 
     /// <summary>
-    /// Parses NINI format lines into a dictionary. Empty lines and lines starting with # or // are ignored.
+    /// Parses NINI format lines into a dictionary. Empty lines and lines starting with #, //, or ; are ignored.
     /// </summary>
     /// <param name="lines">The lines to parse.</param>
+    /// <param name="options">Configuration options. If null, uses <see cref="NiniOptions.Default"/>.</param>
     /// <returns>A dictionary of key-value pairs with unescaped values.</returns>
     /// <exception cref="ArgumentException">Thrown when a line is not in valid key:value format.</exception>
-    public static Dictionary<string, string> Parse(IEnumerable<string> lines)
+    public static Dictionary<string, string> Parse(IEnumerable<string> lines, NiniOptions? options = null)
     {
-        if (lines == null)
-            return new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        options ??= NiniOptions.Default;
 
-        var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        if (lines == null)
+            return new Dictionary<string, string>(options.KeyComparer);
+
+        var result = new Dictionary<string, string>(options.KeyComparer);
         int lineNumber = 0;
 
         foreach (var line in lines)
@@ -41,25 +45,25 @@ public static class NiniKeyValueParser
             lineNumber++;
 
             // Skip empty/whitespace lines and comments (comments must start at column 0)
-            if (string.IsNullOrWhiteSpace(line) || line.StartsWith('#') || line.StartsWith("//"))
+            if (string.IsNullOrWhiteSpace(line) || line.StartsWith('#') || line.StartsWith("//") || line.StartsWith(';'))
                 continue;
 
-            // Find first colon
-            int colonIndex = line.IndexOf(':');
-            if (colonIndex == -1)
-                throw new ArgumentException($"Line {lineNumber} is not in valid key:value format (missing colon): {line}");
+            // Find first separator
+            int separatorIndex = line.IndexOf(options.SeparatorChar);
+            if (separatorIndex == -1)
+                throw new ArgumentException($"Line {lineNumber} is not in valid key{options.SeparatorChar}value format (missing separator): {line}");
 
-            if (colonIndex == 0)
+            if (separatorIndex == 0)
                 throw new ArgumentException($"Line {lineNumber} has empty key: {line}");
 
             // Extract key from untrimmed line
-            string key = line.Substring(0, colonIndex);
+            string key = line.Substring(0, separatorIndex);
 
             // Validate key has no leading/trailing whitespace
             // This enforces that keys must start at column 0 with no indentation
-            StringValidator.ValidateNiniKey(key);
+            StringValidator.ValidateNiniKey(key, options);
 
-            string escapedValue = colonIndex + 1 < line.Length ? line.Substring(colonIndex + 1).Trim() : string.Empty;
+            string escapedValue = separatorIndex + 1 < line.Length ? line.Substring(separatorIndex + 1).Trim() : string.Empty;
             string unescapedValue = TextEscaper.Unescape(escapedValue, EscapeMode.NiniValue) ?? string.Empty;
 
             if (result.ContainsKey(key))
@@ -75,14 +79,13 @@ public static class NiniKeyValueParser
     /// Parses a NINI format file into a dictionary.
     /// </summary>
     /// <param name="filePath">The path to the file to parse.</param>
-    /// <param name="encoding">Text encoding (default: UTF-8 without BOM).</param>
+    /// <param name="options">Configuration options. If null, uses <see cref="NiniOptions.Default"/>.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A dictionary of key-value pairs with unescaped values.</returns>
-    public static async Task<Dictionary<string, string>> ParseFileAsync(string filePath, Encoding? encoding = null, CancellationToken cancellationToken = default)
+    public static async Task<Dictionary<string, string>> ParseFileAsync(string filePath, NiniOptions? options = null, CancellationToken cancellationToken = default)
     {
-        string text = await File.ReadAllTextAsync(filePath, encoding ?? TextEncoding.Utf8NoBom, cancellationToken);
-        return Parse(text);
+        options ??= NiniOptions.Default;
+        string text = await File.ReadAllTextAsync(filePath, options.Encoding, cancellationToken);
+        return Parse(text, options);
     }
 }
-
-

@@ -54,9 +54,9 @@ public class TextEncodingTests
         var tempFile = Path.GetTempFileName();
         try
         {
-            var file = new NiniFile();
+            var file = new NiniFile(options: NiniOptions.Default with { Encoding = TextEncoding.Utf8WithBom });
             file.SetValue("Section1", "Key1", "Value with 日本語");
-            file.Save(tempFile, TextEncoding.Utf8WithBom);
+            file.Save(tempFile);
 
             // Read raw bytes
             var bytes = await File.ReadAllBytesAsync(tempFile);
@@ -68,7 +68,7 @@ public class TextEncodingTests
             Assert.Equal(0xBF, bytes[2]);
 
             // Should load correctly (File.ReadAllText handles BOM automatically)
-            var loaded = NiniFile.Load(tempFile, encoding: TextEncoding.Utf8WithBom);
+            var loaded = NiniFile.Load(tempFile, options: NiniOptions.Default with { Encoding = TextEncoding.Utf8WithBom });
             Assert.Equal("Value with 日本語", loaded.GetString("Section1", "Key1"));
         }
         finally

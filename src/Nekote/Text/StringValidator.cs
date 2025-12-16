@@ -33,20 +33,22 @@ public static class StringValidator
     /// Checks for invalid characters and patterns that would conflict with the format syntax.
     /// </summary>
     /// <param name="key">The key to validate.</param>
+    /// <param name="options">Configuration options. If null, uses <see cref="NiniOptions.Default"/>.</param>
     /// <exception cref="ArgumentException">Thrown when the key contains invalid characters or patterns.</exception>
-    public static void ValidateNiniKey(string key)
+    public static void ValidateNiniKey(string key, NiniOptions? options = null)
     {
         if (string.IsNullOrWhiteSpace(key))
             throw new ArgumentException("Key cannot be null or whitespace.", nameof(key));
 
+        options ??= NiniOptions.Default;
         ValidateNoLeadingOrTrailingWhitespace(key, "Key");
 
         // Note: All checks below are SAFE with char-based string methods. We're looking for
-        // specific ASCII characters (: \n \r # / [ @) that never appear in surrogate pairs.
+        // specific ASCII characters (separator, \n, \r, #, /, [, @) that never appear in surrogate pairs.
         // String.Contains() and String.StartsWith() correctly handle surrogate pairs in the
         // parts we're NOT checking, so emoji and other non-BMP characters pass through safely.
-        if (key.Contains(':'))
-            throw new ArgumentException($"Key '{key}' contains invalid character ':'. Keys cannot contain colons.", nameof(key));
+        if (key.Contains(options.SeparatorChar))
+            throw new ArgumentException($"Key '{key}' contains invalid character '{options.SeparatorChar}'. Keys cannot contain the separator character.", nameof(key));
 
         if (key.Contains('\n') || key.Contains('\r'))
             throw new ArgumentException($"Key '{key}' contains line breaks. Keys cannot contain newlines.", nameof(key));
@@ -57,7 +59,8 @@ public static class StringValidator
 
         if (trimmedKey.StartsWith("//"))
             throw new ArgumentException($"Key '{key}' starts with '//'. Keys cannot start with double slashes as they denote a comment.", nameof(key));
-
+        if (trimmedKey.StartsWith(';'))
+            throw new ArgumentException($"Key '{key}' starts with ';'. Keys cannot start with a semicolon as it denotes a comment.", nameof(key));
         if (trimmedKey.StartsWith('['))
             throw new ArgumentException($"Key '{key}' starts with '['. Keys cannot start with an opening bracket as it denotes a section marker.", nameof(key));
 

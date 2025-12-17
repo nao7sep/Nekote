@@ -255,13 +255,13 @@ public static class PathHelper
     /// <summary>
     /// Combines two path segments and returns a normalized absolute path using the specified options.
     /// </summary>
-    /// <param name="options">The path options controlling filtering, validation, and normalization behavior.</param>
+    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="path1">The first path segment.</param>
     /// <param name="path2">The second path segment.</param>
     /// <returns>A normalized absolute path.</returns>
-    public static string CombineToAbsolute(PathOptions options, string? path1, string? path2)
+    public static string CombineToAbsolute(PathOptions? options, string? path1, string? path2)
     {
-        ArgumentNullException.ThrowIfNull(options);
+        options ??= PathOptions.Default;
         var processed = ProcessSegments(options, path1, path2);
         var combined = Path.Combine(processed.ToArray());
         var normalized = ApplyNormalization(options, combined);
@@ -271,14 +271,14 @@ public static class PathHelper
     /// <summary>
     /// Combines three path segments and returns a normalized absolute path using the specified options.
     /// </summary>
-    /// <param name="options">The path options controlling filtering, validation, and normalization behavior.</param>
+    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="path1">The first path segment.</param>
     /// <param name="path2">The second path segment.</param>
     /// <param name="path3">The third path segment.</param>
     /// <returns>A normalized absolute path.</returns>
-    public static string CombineToAbsolute(PathOptions options, string? path1, string? path2, string? path3)
+    public static string CombineToAbsolute(PathOptions? options, string? path1, string? path2, string? path3)
     {
-        ArgumentNullException.ThrowIfNull(options);
+        options ??= PathOptions.Default;
         var processed = ProcessSegments(options, path1, path2, path3);
         var combined = Path.Combine(processed.ToArray());
         var normalized = ApplyNormalization(options, combined);
@@ -288,15 +288,15 @@ public static class PathHelper
     /// <summary>
     /// Combines four path segments and returns a normalized absolute path using the specified options.
     /// </summary>
-    /// <param name="options">The path options controlling filtering, validation, and normalization behavior.</param>
+    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="path1">The first path segment.</param>
     /// <param name="path2">The second path segment.</param>
     /// <param name="path3">The third path segment.</param>
     /// <param name="path4">The fourth path segment.</param>
     /// <returns>A normalized absolute path.</returns>
-    public static string CombineToAbsolute(PathOptions options, string? path1, string? path2, string? path3, string? path4)
+    public static string CombineToAbsolute(PathOptions? options, string? path1, string? path2, string? path3, string? path4)
     {
-        ArgumentNullException.ThrowIfNull(options);
+        options ??= PathOptions.Default;
         var processed = ProcessSegments(options, path1, path2, path3, path4);
         var combined = Path.Combine(processed.ToArray());
         var normalized = ApplyNormalization(options, combined);
@@ -306,12 +306,12 @@ public static class PathHelper
     /// <summary>
     /// Combines multiple path segments and returns a normalized absolute path using the specified options.
     /// </summary>
-    /// <param name="options">The path options controlling filtering, validation, and normalization behavior.</param>
+    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="paths">The path segments to combine.</param>
     /// <returns>A normalized absolute path.</returns>
-    public static string CombineToAbsolute(PathOptions options, params string?[] paths)
+    public static string CombineToAbsolute(PathOptions? options, params string?[] paths)
     {
-        ArgumentNullException.ThrowIfNull(options);
+        options ??= PathOptions.Default;
         ArgumentNullException.ThrowIfNull(paths);
         var processed = ProcessSegments(options, paths);
         var combined = Path.Combine(processed.ToArray());
@@ -326,13 +326,13 @@ public static class PathHelper
     /// <summary>
     /// Combines two path segments and returns a normalized relative path using the specified options.
     /// </summary>
-    /// <param name="options">The path options controlling filtering, validation, and normalization behavior.</param>
+    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="path1">The first path segment.</param>
     /// <param name="path2">The second path segment.</param>
     /// <returns>A normalized relative path.</returns>
-    public static string CombineRelative(PathOptions options, string? path1, string? path2)
+    public static string CombineRelative(PathOptions? options, string? path1, string? path2)
     {
-        ArgumentNullException.ThrowIfNull(options);
+        options ??= PathOptions.Default;
         var processed = ProcessSegments(options, path1, path2);
         var combined = Path.Combine(processed.ToArray());
         return ApplyNormalization(options, combined);
@@ -341,14 +341,14 @@ public static class PathHelper
     /// <summary>
     /// Combines three path segments and returns a normalized relative path using the specified options.
     /// </summary>
-    /// <param name="options">The path options controlling filtering, validation, and normalization behavior.</param>
+    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="path1">The first path segment.</param>
     /// <param name="path2">The second path segment.</param>
     /// <param name="path3">The third path segment.</param>
     /// <returns>A normalized relative path.</returns>
-    public static string CombineRelative(PathOptions options, string? path1, string? path2, string? path3)
+    public static string CombineRelative(PathOptions? options, string? path1, string? path2, string? path3)
     {
-        ArgumentNullException.ThrowIfNull(options);
+        options ??= PathOptions.Default;
         var processed = ProcessSegments(options, path1, path2, path3);
         var combined = Path.Combine(processed.ToArray());
         return ApplyNormalization(options, combined);
@@ -357,15 +357,15 @@ public static class PathHelper
     /// <summary>
     /// Combines four path segments and returns a normalized relative path using the specified options.
     /// </summary>
-    /// <param name="options">The path options controlling filtering, validation, and normalization behavior.</param>
+    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="path1">The first path segment.</param>
     /// <param name="path2">The second path segment.</param>
     /// <param name="path3">The third path segment.</param>
     /// <param name="path4">The fourth path segment.</param>
     /// <returns>A normalized relative path.</returns>
-    public static string CombineRelative(PathOptions options, string? path1, string? path2, string? path3, string? path4)
+    public static string CombineRelative(PathOptions? options, string? path1, string? path2, string? path3, string? path4)
     {
-        ArgumentNullException.ThrowIfNull(options);
+        options ??= PathOptions.Default;
         var processed = ProcessSegments(options, path1, path2, path3, path4);
         var combined = Path.Combine(processed.ToArray());
         return ApplyNormalization(options, combined);
@@ -374,12 +374,12 @@ public static class PathHelper
     /// <summary>
     /// Combines multiple path segments and returns a normalized relative path using the specified options.
     /// </summary>
-    /// <param name="options">The path options controlling filtering, validation, and normalization behavior.</param>
+    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="paths">The path segments to combine.</param>
     /// <returns>A normalized relative path.</returns>
-    public static string CombineRelative(PathOptions options, params string?[] paths)
+    public static string CombineRelative(PathOptions? options, params string?[] paths)
     {
-        ArgumentNullException.ThrowIfNull(options);
+        options ??= PathOptions.Default;
         ArgumentNullException.ThrowIfNull(paths);
         var processed = ProcessSegments(options, paths);
         var combined = Path.Combine(processed.ToArray());

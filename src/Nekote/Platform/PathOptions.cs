@@ -7,6 +7,7 @@
 /// This record defines a reusable policy for how paths should be processed, validated, and normalized.
 /// All properties are required and must be explicitly set. Use predefined presets for common scenarios
 /// or create custom instances using the <c>with</c> expression to modify presets.
+/// When used as a parameter in <see cref="PathHelper"/> methods, passing <c>null</c> defaults to <see cref="Default"/>.
 /// </remarks>
 public record PathOptions
 {

@@ -34,14 +34,14 @@ Platform-specific constants, operating system detection, and cross-platform path
   - Record type with `required` properties - all settings must be explicitly initialized.
   - Groups validation settings (`ThrowOnEmptySegments`, `TrimSegments`, etc.) and normalization settings (`NormalizeUnicode`, `NormalizeStructure`, etc.).
   - Provides presets: `Default`, `Native`, `Windows`, `Unix`, `Minimal`.
-  - Presets use `with` expressions to show deltas from `Default`.
+  - When passed as `null` to PathHelper methods, defaults to `Default` preset (safe for 95% of use cases).
 
 ### Path Manipulation
 - **PathHelper.cs** - Cross-platform path normalization and combining utilities.
   - Atomic operations: `NormalizeUnicode` (NFC form for macOS compatibility), `NormalizeStructure` (resolves `.` and `..`), `NormalizeSeparators`, `HandleTrailingSeparator`.
   - Convenience wrappers: `ToUnixPath`, `ToWindowsPath`, `ToNativePath`.
   - Path combining: `CombineToAbsolute` (produces absolute path), `CombineRelative` (preserves relative path).
-  - All operations require explicit `PathOptions` parameter - no implicit defaults.
+  - Combining methods accept nullable `PathOptions` parameter (defaults to `PathOptions.Default` when `null`).
   - Pure string transformations with no file system access - complements `System.IO.Path`.
 
 

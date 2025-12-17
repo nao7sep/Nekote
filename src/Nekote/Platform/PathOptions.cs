@@ -155,9 +155,16 @@ public record PathOptions
     /// Uses the native separator for the current platform (backslash on Windows, forward slash on Unix).
     /// Enables all normalizations for maximum compatibility across Windows, Linux, and macOS.
     /// </remarks>
-    public static PathOptions Native { get; } = Default with
+    public static PathOptions Native { get; } = new()
     {
-        NormalizeSeparators = PathSeparatorMode.Native
+        ThrowOnEmptySegments = false,
+        TrimSegments = true,
+        RequireAtLeastOneSegment = true,
+        ValidateSubsequentPathsRelative = true,
+        NormalizeUnicode = true,
+        NormalizeStructure = true,
+        NormalizeSeparators = PathSeparatorMode.Native,
+        TrailingSeparator = TrailingSeparatorHandling.Remove
     };
 
     /// <summary>
@@ -167,9 +174,16 @@ public record PathOptions
     /// Forces all separators to backslash (<c>\</c>). Useful when generating paths
     /// specifically for Windows systems or Windows-formatted configuration files.
     /// </remarks>
-    public static PathOptions Windows { get; } = Default with
+    public static PathOptions Windows { get; } = new()
     {
-        NormalizeSeparators = PathSeparatorMode.Windows
+        ThrowOnEmptySegments = false,
+        TrimSegments = true,
+        RequireAtLeastOneSegment = true,
+        ValidateSubsequentPathsRelative = true,
+        NormalizeUnicode = true,
+        NormalizeStructure = true,
+        NormalizeSeparators = PathSeparatorMode.Windows,
+        TrailingSeparator = TrailingSeparatorHandling.Remove
     };
 
     /// <summary>
@@ -179,9 +193,16 @@ public record PathOptions
     /// Forces all separators to forward slash (<c>/</c>). Useful when generating paths
     /// for Unix systems, URLs, or Unix-formatted configuration files.
     /// </remarks>
-    public static PathOptions Unix { get; } = Default with
+    public static PathOptions Unix { get; } = new()
     {
-        NormalizeSeparators = PathSeparatorMode.Unix
+        ThrowOnEmptySegments = false,
+        TrimSegments = true,
+        RequireAtLeastOneSegment = true,
+        ValidateSubsequentPathsRelative = true,
+        NormalizeUnicode = true,
+        NormalizeStructure = true,
+        NormalizeSeparators = PathSeparatorMode.Unix,
+        TrailingSeparator = TrailingSeparatorHandling.Remove
     };
 
     /// <summary>
@@ -192,8 +213,12 @@ public record PathOptions
     /// but preserves path structure and formatting exactly as provided.
     /// Use when you need validation without transformation.
     /// </remarks>
-    public static PathOptions Minimal { get; } = Default with
+    public static PathOptions Minimal { get; } = new()
     {
+        ThrowOnEmptySegments = false,
+        TrimSegments = true,
+        RequireAtLeastOneSegment = true,
+        ValidateSubsequentPathsRelative = true,
         NormalizeUnicode = false,
         NormalizeStructure = false,
         NormalizeSeparators = PathSeparatorMode.Preserve,

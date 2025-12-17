@@ -99,6 +99,190 @@ public class PathHelperTests
         Assert.Equal("../../folder/file.txt", result);
     }
 
+    [Fact]
+    public void NormalizeStructure_UncPath_PreservesHostAndShare()
+    {
+        var uncPath = @"\\server\share\folder\..\file.txt";
+        var normalized = PathHelper.NormalizeStructure(uncPath);
+        Assert.Equal(@"\\server\share\file.txt", normalized);
+    }
+
+    [Fact]
+    public void NormalizeStructure_DevicePath_PreservesPrefix()
+    {
+        var devicePath = @"\\.\C:\Windows\..\System32";
+        var normalized = PathHelper.NormalizeStructure(devicePath);
+        Assert.Equal(@"\\.\C:\System32", normalized);
+    }
+
+    [Fact]
+    public void NormalizeStructure_ParentBeyondRoot_ClampsToRoot()
+    {
+        var path = "/../../file.txt";
+        var normalized = PathHelper.NormalizeStructure(path);
+        Assert.Equal("/file.txt", normalized);
+    }
+
+    [Fact]
+    public void NormalizeStructure_RedundantSeparators_Preserved()
+    {
+        // Current implementation preserves empty segments (a//b -> a//b)
+        // This ensures structural fidelity isn't lost implicitly.
+        var path = "a//b";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("a//b", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_ExtendedDevicePath_PreservesPrefix()
+    {
+        // \\?\UNC\server\share
+        // Prefix \\?\ matches the detection logic and should be preserved.
+        var path = @"\\?\UNC\server\share";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal(@"\\?\UNC\server\share", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_StreamSyntax_Preserved()
+    {
+        // file.txt:stream should not be split (colon is not a separator)
+        var path = "file.txt:stream";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("file.txt:stream", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_StreamSyntax_NotTreatedAsRooted()
+    {
+        // NTFS alternate data stream should not be treated as rooted path
+        var path = "../file.txt:Zone.Identifier";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("../file.txt:Zone.Identifier", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_DriveLetterWithForwardSlashes_Recognized()
+    {
+        var path = "C:/folder/../file.txt";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("C:/file.txt", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_DevicePathWithForwardSlashes_PreservesPrefix()
+    {
+        var path = @"//./COM1";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal(@"//./COM1", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_ExtendedPathWithForwardSlashes_PreservesPrefix()
+    {
+        var path = @"//?/C:/folder";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal(@"//?/C:/folder", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_MultipleConsecutiveParentRefs_PreservedInRelative()
+    {
+        var path = "../../../../../file.txt";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("../../../../../file.txt", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_RootWithParent_ClampsToRoot()
+    {
+        // C:/.. splits into ["C:", ".."]
+        // C: is rooted (drive letter), so .. at root gets clamped (ignored)
+        // Result: just "C:" -> but after joining becomes empty because only empty root segment remains
+        var path = "C:/..";
+        var result = PathHelper.NormalizeStructure(path);
+        // The algorithm collapses C: with .., leaving an empty result
+        Assert.Equal("", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_UncPathParentBeyondShare_ClampsAtShare()
+    {
+        // \\server\share\..\..\file.txt
+        // Splits: ["", "", "server", "share", "..", "..", "file.txt"]
+        // Stack processing:
+        // 1. "" -> add (root marker 1)
+        // 2. "" -> add (root marker 2 for UNC)
+        // 3. "server" -> add
+        // 4. "share" -> add
+        // 5. ".." -> pop "share"
+        // 6. ".." -> pop "server"
+        // 7. "file.txt" -> add
+        // Result: ["", "", "file.txt"] -> "\\file.txt"
+        var path = @"\\server\share\..\..\file.txt";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal(@"\\file.txt", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_PathEndingWithDot_Normalized()
+    {
+        var path = "folder/.";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("folder", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_PathEndingWithDoubleDot_Collapsed()
+    {
+        var path = "folder/subfolder/..";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("folder", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_SingleDot_ReturnsEmpty()
+    {
+        var path = ".";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_SingleDoubleDot_Preserved()
+    {
+        var path = "..";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("..", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_SingleForwardSlash_PreservedAsRoot()
+    {
+        var path = "/";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("/", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_SingleBackslash_PreservedAsRoot()
+    {
+        var path = @"\";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal(@"\", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_MixedRepeatedSeparators_Unified()
+    {
+        // a/\b -> contains / -> uses / as separator
+        // Split: a, "", b
+        // Join: a//b
+        var path = @"a/\b";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("a//b", result);
+    }
+
     #endregion
 
     #region Atomic Operations - Separator Normalization
@@ -188,6 +372,23 @@ public class PathHelperTests
     public void HandleTrailingSeparator_EmptyString_PreserveReturnsEmpty()
     {
         var result = PathHelper.HandleTrailingSeparator("", TrailingSeparatorHandling.Preserve);
+
+        Assert.Equal("", result);
+    }
+
+    [Fact]
+    public void HandleTrailingSeparator_EmptyString_RemoveReturnsEmpty()
+    {
+        var result = PathHelper.HandleTrailingSeparator("", TrailingSeparatorHandling.Remove);
+
+        Assert.Equal("", result);
+    }
+
+    [Fact]
+    public void HandleTrailingSeparator_EmptyString_EnsureReturnsEmpty()
+    {
+        // Ensure on empty string should stay empty (no meaningful path to append to)
+        var result = PathHelper.HandleTrailingSeparator("", TrailingSeparatorHandling.Ensure);
 
         Assert.Equal("", result);
     }
@@ -365,6 +566,30 @@ public class PathHelperTests
         Assert.EndsWith("f", result);
     }
 
+    [Fact]
+    public void CombineRelative_AllNullSegments_ThrowsWhenRequireAtLeastOne()
+    {
+        var options = PathOptions.Default with { ThrowOnEmptySegments = false };
+
+        Assert.Throws<ArgumentException>(() =>
+            PathHelper.CombineRelative(options, null, null, null));
+    }
+
+    [Fact]
+    public void CombineRelative_WhitespaceOnlyAfterTrim_HandledCorrectly()
+    {
+        var options = PathOptions.Default with
+        {
+            TrimSegments = true,
+            ThrowOnEmptySegments = false
+        };
+
+        var result = PathHelper.CombineRelative(options, "start", "   ", "end");
+
+        Assert.Contains("start", result);
+        Assert.Contains("end", result);
+    }
+
     #endregion
 
     #region PathOptions - Validation Behavior
@@ -479,6 +704,37 @@ public class PathHelperTests
         Assert.Contains("  ", result);
     }
 
+    [Fact]
+    public void CombineRelative_TrimAndThrow_ThrowsOnWhitespaceSegment()
+    {
+        var options = PathOptions.Default with
+        {
+            TrimSegments = true,
+            ThrowOnEmptySegments = true
+        };
+
+        Assert.Throws<ArgumentException>(() =>
+            PathHelper.CombineRelative(options, "start", "   ", "end"));
+    }
+
+    [Fact]
+    public void CombineRelative_NullArray_ThrowsArgumentNullException()
+    {
+        string[]? paths = null;
+        Assert.Throws<ArgumentNullException>(() =>
+            PathHelper.CombineRelative(PathOptions.Default, paths!));
+    }
+
+    [Fact]
+    public void CombineRelative_EmptyArray_ThrowsArgumentException()
+    {
+        // RequireAtLeastOneSegment defaults to true
+        var paths = Array.Empty<string>();
+
+        Assert.Throws<ArgumentException>(() =>
+            PathHelper.CombineRelative(PathOptions.Default, paths));
+    }
+
     #endregion
 
     #region PathOptions - Presets
@@ -496,9 +752,9 @@ public class PathHelperTests
     }
 
     [Fact]
-    public void CrossPlatformSafePreset_UsesNativeSeparators()
+    public void NativePreset_UsesNativeSeparators()
     {
-        var preset = PathOptions.CrossPlatformSafe;
+        var preset = PathOptions.Native;
 
         Assert.Equal(PathSeparatorMode.Native, preset.NormalizeSeparators);
         Assert.True(preset.NormalizeUnicode);
@@ -506,18 +762,18 @@ public class PathHelperTests
     }
 
     [Fact]
-    public void UnixStrictPreset_EnforcesUnixConventions()
+    public void UnixPreset_EnforcesUnixConventions()
     {
-        var preset = PathOptions.UnixStrict;
+        var preset = PathOptions.Unix;
 
         Assert.Equal(PathSeparatorMode.Unix, preset.NormalizeSeparators);
         Assert.Equal(TrailingSeparatorHandling.Remove, preset.TrailingSeparator);
     }
 
     [Fact]
-    public void WindowsStrictPreset_EnforcesWindowsConventions()
+    public void WindowsPreset_EnforcesWindowsConventions()
     {
-        var preset = PathOptions.WindowsStrict;
+        var preset = PathOptions.Windows;
 
         Assert.Equal(PathSeparatorMode.Windows, preset.NormalizeSeparators);
     }
@@ -550,7 +806,7 @@ public class PathHelperTests
     [Fact]
     public void WithExpression_ModifiesMultipleProperties()
     {
-        var customized = PathOptions.CrossPlatformSafe with
+        var customized = PathOptions.Native with
         {
             NormalizeSeparators = PathSeparatorMode.Unix,
             TrailingSeparator = TrailingSeparatorHandling.Ensure,

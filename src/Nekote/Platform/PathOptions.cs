@@ -149,60 +149,39 @@ public record PathOptions
     };
 
     /// <summary>
-    /// Gets path options optimized for cross-platform applications.
+    /// Gets path options with platform-native separators.
     /// </summary>
     /// <remarks>
-    /// Uses platform-native separators and enables all normalizations for maximum compatibility
-    /// across Windows, Linux, and macOS.
+    /// Uses the native separator for the current platform (backslash on Windows, forward slash on Unix).
+    /// Enables all normalizations for maximum compatibility across Windows, Linux, and macOS.
     /// </remarks>
-    public static PathOptions CrossPlatformSafe { get; } = new()
+    public static PathOptions Native { get; } = Default with
     {
-        ThrowOnEmptySegments = false,
-        TrimSegments = true,
-        RequireAtLeastOneSegment = true,
-        ValidateSubsequentPathsRelative = true,
-        NormalizeUnicode = true,
-        NormalizeStructure = true,
-        NormalizeSeparators = PathSeparatorMode.Native,
-        TrailingSeparator = TrailingSeparatorHandling.Remove
+        NormalizeSeparators = PathSeparatorMode.Native
     };
 
     /// <summary>
-    /// Gets path options enforcing Windows-style paths.
+    /// Gets path options with Windows-style separators.
     /// </summary>
     /// <remarks>
     /// Forces all separators to backslash (<c>\</c>). Useful when generating paths
     /// specifically for Windows systems or Windows-formatted configuration files.
     /// </remarks>
-    public static PathOptions WindowsStrict { get; } = new()
+    public static PathOptions Windows { get; } = Default with
     {
-        ThrowOnEmptySegments = false,
-        TrimSegments = true,
-        RequireAtLeastOneSegment = true,
-        ValidateSubsequentPathsRelative = true,
-        NormalizeUnicode = true,
-        NormalizeStructure = true,
-        NormalizeSeparators = PathSeparatorMode.Windows,
-        TrailingSeparator = TrailingSeparatorHandling.Remove
+        NormalizeSeparators = PathSeparatorMode.Windows
     };
 
     /// <summary>
-    /// Gets path options enforcing Unix-style paths.
+    /// Gets path options with Unix-style separators.
     /// </summary>
     /// <remarks>
     /// Forces all separators to forward slash (<c>/</c>). Useful when generating paths
     /// for Unix systems, URLs, or Unix-formatted configuration files.
     /// </remarks>
-    public static PathOptions UnixStrict { get; } = new()
+    public static PathOptions Unix { get; } = Default with
     {
-        ThrowOnEmptySegments = false,
-        TrimSegments = true,
-        RequireAtLeastOneSegment = true,
-        ValidateSubsequentPathsRelative = true,
-        NormalizeUnicode = true,
-        NormalizeStructure = true,
-        NormalizeSeparators = PathSeparatorMode.Unix,
-        TrailingSeparator = TrailingSeparatorHandling.Remove
+        NormalizeSeparators = PathSeparatorMode.Unix
     };
 
     /// <summary>
@@ -213,12 +192,8 @@ public record PathOptions
     /// but preserves path structure and formatting exactly as provided.
     /// Use when you need validation without transformation.
     /// </remarks>
-    public static PathOptions Minimal { get; } = new()
+    public static PathOptions Minimal { get; } = Default with
     {
-        ThrowOnEmptySegments = false,
-        TrimSegments = true,
-        RequireAtLeastOneSegment = true,
-        ValidateSubsequentPathsRelative = true,
         NormalizeUnicode = false,
         NormalizeStructure = false,
         NormalizeSeparators = PathSeparatorMode.Preserve,

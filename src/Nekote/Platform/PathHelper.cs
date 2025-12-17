@@ -122,12 +122,32 @@ public static class PathHelper
             return path;
         }
 
+        // Handle Device Paths explicitly to preserve the "\\.\" or "\\?\" prefix
+        // which contains a dot that would otherwise be removed.
+        // Support both backslash and forward slash variants.
+        string? prefix = null;
+        string pathProcess = path;
+
+        if (path.StartsWith(@"\\.\") || path.StartsWith(@"\\?\") ||
+            path.StartsWith(@"//./") || path.StartsWith(@"//?/"))
+        {
+            prefix = path.Substring(0, 4);
+            pathProcess = path.Substring(4);
+        }
+
         // Determine separator style to preserve
-        char separator = path.Contains('/') ? '/' : '\\';
+        char separator = pathProcess.Contains('/') ? '/' : '\\';
 
         // Split the path into segments, keeping empty segments to preserve structure
-        var segments = path.Split(['/', '\\']);
+        var segments = pathProcess.Split(['/', '\\']);
         var stack = new List<string>(segments.Length);
+
+        // Determine if the path is rooted (absolute) to handle ".." clamping
+        // Rooted if starts with empty (leading separator) or drive letter (X: at start)
+        // Check for drive letter: single char followed by colon (e.g., "C:")
+        bool isRooted = segments.Length > 0 &&
+                       (segments[0] == "" ||
+                        (segments[0].Length >= 2 && segments[0][1] == ':' && char.IsLetter(segments[0][0])));
 
         foreach (var segment in segments)
         {
@@ -146,8 +166,13 @@ public static class PathHelper
                 }
                 else
                 {
-                    // Can't pop (empty means root, or previous is also ".."), keep it
-                    stack.Add(segment);
+                    // Can't pop.
+                    // If we are NOT rooted, we must preserve ".." (e.g. "../../file.txt")
+                    // If we ARE rooted, ".." at root is ignored (clamped) (e.g. "/../file" -> "/file")
+                    if (!isRooted)
+                    {
+                        stack.Add(segment);
+                    }
                 }
             }
             else
@@ -157,7 +182,9 @@ public static class PathHelper
             }
         }
 
-        return string.Join(separator, stack);
+        var normalized = string.Join(separator, stack);
+
+        return prefix != null ? prefix + normalized : normalized;
     }
 
     /// <summary>

@@ -1,35 +1,49 @@
 ﻿# Nekote.Platform
 
-Provides platform-specific constants and OS detection for cross-platform applications, focusing on line endings, path separators, and operating system identification.
+Platform-specific constants, operating system detection, and cross-platform path manipulation utilities.
 
-## Foundation: Platform Constants
+## Current Segments
 
+### Platform Constants
 - **LineEndings.cs** - Standard line ending sequences for text files.
   - Provides `CrLf` (`\r\n`), `Lf` (`\n`), `Cr` (`\r`), and `Native`.
   - Immutable string constants enabling explicit control over line endings in text file I/O.
-  - Used by NINI file format implementations to enforce consistent line ending behavior.
-
+  - Used by NINI format implementations to enforce consistent line ending behavior across platforms.
 - **PathSeparators.cs** - Directory separator characters for different file systems.
   - Provides `Windows` (`\`), `Unix` (`/`), and `Native`.
+  - Pure character constants with no file system operations.
   - Used by PathHelper for string-based path normalization.
-  - Does not perform file system operations - purely character constants.
 
-## Core: Operating System Detection
-
-- **OperatingSystemType.cs** - Enumeration of operating system types.
+### Operating System Detection
+- **OperatingSystemType.cs** - Enumeration of operating system families.
   - Values: `Windows`, `Linux`, `MacOS`, `Unknown`.
   - `Unknown` represents unsupported platforms (FreeBSD, mobile, browser environments).
-  - Mobile (Android, iOS) and browser (WebAssembly) support planned for future releases.
-
 - **OperatingSystem.cs** - Cached operating system detection.
-  - Boolean properties: `IsWindows`, `IsLinux`, `IsMacOS` for platform-specific branching.
-  - `Current` property returns `OperatingSystemType` enum (cached at startup for performance).
-  - Wraps `System.OperatingSystem` APIs with consistent naming and caching behavior.
-  - Architecture properties (bit width, processor count) deferred following YAGNI - will be added when image processing or parallel operations require them.
+  - Boolean properties (`IsWindows`, `IsLinux`, `IsMacOS`) for platform-specific branching.
+  - `Current` property returns cached `OperatingSystemType` enum.
+  - Wraps `System.OperatingSystem` APIs with consistent naming and startup caching for performance.
 
-## Utilities: Path Manipulation
+### Path Normalization Configuration
+- **PathSeparatorMode.cs** - Enumeration for separator normalization strategies.
+  - Values: `Preserve`, `Native`, `Unix`, `Windows`.
+  - Used by PathHelper to control separator conversion behavior.
+- **TrailingSeparatorHandling.cs** - Enumeration for trailing separator behavior.
+  - Values: `Preserve`, `Remove`, `Ensure`.
+  - Used by PathHelper to control presence of trailing separators.
+- **PathOptions.cs** - Configuration record for path combining and normalization.
+  - Record type with `required` properties - all settings must be explicitly initialized.
+  - Groups validation settings (`ThrowOnEmptySegments`, `TrimSegments`, etc.) and normalization settings (`NormalizeUnicode`, `NormalizeStructure`, etc.).
+  - Provides presets: `Default`, `Native`, `Windows`, `Unix`, `Minimal`.
+  - Presets use `with` expressions to show deltas from `Default`.
 
-- **PathHelper.cs** - Cross-platform path separator conversion.
-  - Methods: `ToUnixPath`, `ToWindowsPath`, `ToNativePath`.
-  - Pure string transformation using `PathSeparators` constants - no file system access.
-  - Complements `System.IO.Path` without duplicating it (use `Path.Combine`, `Path.GetFileName`, etc. for standard operations).
+### Path Manipulation
+- **PathHelper.cs** - Cross-platform path normalization and combining utilities.
+  - Atomic operations: `NormalizeUnicode` (NFC form for macOS compatibility), `NormalizeStructure` (resolves `.` and `..`), `NormalizeSeparators`, `HandleTrailingSeparator`.
+  - Convenience wrappers: `ToUnixPath`, `ToWindowsPath`, `ToNativePath`.
+  - Path combining: `CombineToAbsolute` (produces absolute path), `CombineRelative` (preserves relative path).
+  - All operations require explicit `PathOptions` parameter - no implicit defaults.
+  - Pure string transformations with no file system access - complements `System.IO.Path`.
+
+
+
+

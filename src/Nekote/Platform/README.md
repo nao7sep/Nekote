@@ -1,59 +1,28 @@
-﻿# Nekote.Platform
+# Nekote.Platform
 
-Platform-specific constants, operating system detection, and cross-platform path manipulation utilities.
+Provides platform-specific constants, OS detection, and path manipulation utilities for cross-platform applications.
 
 ## Current Segments
 
 ### Platform Constants
-- **LineEndings.cs** - Standard line ending sequences for text files.
-  - Provides `CrLf` (`\r\n`), `Lf` (`\n`), `Cr` (`\r`), and `Native`.
-  - Immutable string constants enabling explicit control over line endings in text file I/O.
-  - Used by NINI format implementations to enforce consistent line ending behavior across platforms.
-- **PathSeparators.cs** - Directory separator characters for different file systems.
-  - Provides `Windows` (`\`), `Unix` (`/`), and `Native`.
-  - Pure character constants with no file system operations.
-  - Used by PathHelper for string-based path normalization.
+- **LineEndings.cs** - Standard line ending sequences (`CrLf`, `Lf`, `Cr`, `Native`).
+  - Immutable string constants for enforcing consistent text file I/O.
+- **PathSeparators.cs** - Directory separator characters (`Windows`, `Unix`, `Native`).
+  - Pure character constants for string-based path operations.
 
-### Operating System Detection
-- **OperatingSystemType.cs** - Enumeration of operating system families.
-  - Values: `Windows`, `Linux`, `MacOS`, `Unknown`.
-  - `Unknown` represents unsupported platforms (FreeBSD, mobile, browser environments).
+### Core Detection
+- **OperatingSystemType.cs** - Enumeration of supported operating systems (`Windows`, `Linux`, `MacOS`, `Unknown`).
 - **OperatingSystem.cs** - Cached operating system detection.
-  - Boolean properties (`IsWindows`, `IsLinux`, `IsMacOS`) for platform-specific branching.
-  - `Current` property returns cached `OperatingSystemType` enum.
-  - Wraps `System.OperatingSystem` APIs with consistent naming and startup caching for performance.
-
-### Path Normalization Configuration
-- **PathSeparatorMode.cs** - Enumeration for separator normalization strategies.
-  - Values: `Preserve`, `Native`, `Unix`, `Windows`.
-  - Used by PathHelper to control separator conversion behavior.
-- **TrailingSeparatorHandling.cs** - Enumeration for trailing separator behavior.
-  - Values: `Preserve`, `Remove`, `Ensure`.
-  - Used by PathHelper to control presence of trailing separators.
-- **PathOptions.cs** - Configuration record for path combining and normalization.
-  - Record type with `required` properties - all settings must be explicitly initialized.
-  - Groups validation settings (`ThrowOnEmptySegments`, `TrimSegments`, `RequireAbsoluteFirstSegment`, etc.) and normalization settings (`NormalizeUnicode`, `NormalizeStructure`, etc.).
-  - Provides presets: `Default`, `Native`, `Windows`, `Unix`, `Minimal`.
-  - When passed as `null` to PathHelper methods, defaults to `Default` preset (safe for 95% of use cases).
+  - Wraps `System.OperatingSystem` APIs with a consistent enum-based interface.
+  - Caches results at startup for performance.
 
 ### Path Manipulation
-- **PathHelper.cs** - Cross-platform path normalization and combining utilities.
-  - Atomic operations: `NormalizeUnicode` (NFC form for macOS compatibility), `NormalizeStructure` (resolves `.` and `..`, removes consecutive separators), `NormalizeSeparators`, `HandleTrailingSeparator`.
-  - **Empty segment handling**: `NormalizeStructure` removes consecutive separators (`usr//bin` → `usr/bin`) while preserving path prefixes:
-    - Device paths: `\\.\.\COM1` → `\\.\COM1`, `\\?\C:\path` → `\\?\C:\path`
-    - UNC network paths: `\\server\share` (Windows), `//server/share` (tolerates forward slashes)
-    - Absolute paths: `/usr` (Unix single leading slash), `\file` (Windows root-relative)
-    - Invalid Unix double-slash paths normalize to single: `//usr` → `/usr`
-  - Separator convenience wrappers: `ToUnixPath`, `ToWindowsPath`, `ToNativePath`.
-  - Trailing separator convenience wrappers: `EnsureTrailingSeparator`, `RemoveTrailingSeparator`.
-  - Core combining: `Combine` methods (2, 3, 4, and params overloads) accepting nullable `PathOptions` parameter (defaults to `PathOptions.Default` when `null`).
-  - Convenience combining methods with preset options:
-    - `CombineNative` (4 overloads) - Uses `PathOptions.Native` for platform-native separators.
-    - `CombineWindows` (4 overloads) - Uses `PathOptions.Windows` for Windows-style backslashes.
-    - `CombineUnix` (4 overloads) - Uses `PathOptions.Unix` for Unix-style forward slashes.
-  - All combining methods provide configurable validation through `PathOptions` properties like `RequireAbsoluteFirstSegment` and `ValidateSubsequentPathsRelative`.
-  - Pure string transformations with no file system access - complements `System.IO.Path`.
-
-
-
-
+- **PathOptions.cs** - Configuration record for path normalization and combining behavior.
+- **PathSeparatorMode.cs** - Enum for separator normalization strategies.
+- **TrailingSeparatorHandling.cs** - Enum for trailing separator policies.
+- **PathHelper.cs** - Atomic path normalization operations.
+  - Handles structure normalization (../.), Unicode normalization (NFC), and separator conversion.
+  - Contains robust edge-case logic for Device Paths and UNC paths.
+- **PathHelper.Combine.cs** - Path combining logic.
+  - Extends `PathHelper` with `Combine` methods that apply `PathOptions` to joined paths.
+  - Replaces `Path.Combine` with safer, normalized alternatives.

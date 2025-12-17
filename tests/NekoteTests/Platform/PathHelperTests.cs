@@ -703,10 +703,10 @@ public class PathHelperTests
 
     #endregion
 
-    #region Path Combining - Absolute Paths
+    #region Integration - Path Combining
 
     [Fact]
-    public void CombineToAbsolute_TwoSegments_CreatesAbsolutePath()
+    public void Combine_AbsoluteInput_ReturnsAbsolute()
     {
         var options = PathOptions.Default;
 
@@ -718,7 +718,7 @@ public class PathHelperTests
     }
 
     [Fact]
-    public void CombineToAbsolute_MultipleSegments_AllCombined()
+    public void Combine_MultipleSegments_CombinesAll()
     {
         var options = PathOptions.Default;
 
@@ -728,7 +728,7 @@ public class PathHelperTests
     }
 
     [Fact]
-    public void CombineToAbsolute_WithOptions_AppliesNormalization()
+    public void Combine_WithOptions_AppliesNormalization()
     {
         var options = new PathOptions
         {
@@ -752,7 +752,7 @@ public class PathHelperTests
     }
 
     [Fact]
-    public void CombineToAbsolute_ParamsOverload_AcceptsMultiplePaths()
+    public void Combine_ParamsOverload_AcceptsMultiplePaths()
     {
         var options = PathOptions.Default;
 
@@ -762,12 +762,8 @@ public class PathHelperTests
         Assert.EndsWith("file.txt", result);
     }
 
-    #endregion
-
-    #region Path Combining - Relative Paths
-
     [Fact]
-    public void CombineRelative_TwoSegments_RemainsRelative()
+    public void Combine_RelativeInput_ReturnsRelative()
     {
         var options = PathOptions.Default;
 
@@ -779,7 +775,7 @@ public class PathHelperTests
     }
 
     [Fact]
-    public void CombineRelative_MultipleSegments_PreservesRelativeNature()
+    public void Combine_RelativeInput_PreservesRelativeNature()
     {
         var options = PathOptions.Default;
 
@@ -790,7 +786,7 @@ public class PathHelperTests
     }
 
     [Fact]
-    public void CombineRelative_WithStructuralNormalization_ResolvesDotsButStaysRelative()
+    public void Combine_RelativeInput_ResolvesDots()
     {
         var options = PathOptions.Default;
 
@@ -801,7 +797,7 @@ public class PathHelperTests
     }
 
     [Fact]
-    public void CombineRelative_ParamsOverload_HandlesManySegments()
+    public void Combine_RelativeInput_HandlesManySegments()
     {
         var options = PathOptions.Default;
 
@@ -812,7 +808,7 @@ public class PathHelperTests
     }
 
     [Fact]
-    public void CombineRelative_AllNullSegments_ThrowsWhenRequireAtLeastOne()
+    public void Combine_AllNullSegments_ThrowsWhenRequireAtLeastOne()
     {
         var options = PathOptions.Default with { ThrowOnEmptySegments = false };
 
@@ -821,7 +817,7 @@ public class PathHelperTests
     }
 
     [Fact]
-    public void CombineRelative_WhitespaceOnlyAfterTrim_HandledCorrectly()
+    public void Combine_WhitespaceOnlyAfterTrim_HandledCorrectly()
     {
         var options = PathOptions.Default with
         {

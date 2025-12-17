@@ -1,313 +1,326 @@
-﻿using System.Text;
-
-namespace Nekote.Platform;
+﻿namespace Nekote.Platform;
 
 /// <summary>
 /// Provides path manipulation utilities not available in <see cref="System.IO.Path"/>.
 /// </summary>
 /// <remarks>
+/// <para>
 /// This class only includes functionality that .NET's <see cref="System.IO.Path"/> class does not provide.
 /// For standard path operations (Combine, GetFileName, GetExtension, etc.), use <see cref="System.IO.Path"/> directly.
+/// </para>
+/// <para>
+/// The class is organized into partial files for AI-editing efficiency:
+/// <list type="bullet">
+/// <item><c>PathHelper.Combining.cs</c> - Path combining operations (complete feature following external specs)</item>
+/// <item><c>PathHelper.Normalization.cs</c> - All normalization operations: structure, Unicode, separators, trailing (complete feature following external specs)</item>
+/// <item><c>PathHelper.cs</c> - Utility methods that don't fit specific subcategories or aren't large enough for separate files</item>
+/// </list>
+/// Subcategories are created only for "complete features" that follow external specifications and are large enough to deserve their own file.
+/// Anything else stays in the main file.
+/// </para>
 /// </remarks>
 public static partial class PathHelper
 {
-    #region Convenience Methods
+    #region Path Analysis
 
     /// <summary>
-    /// Converts all path separators in the specified path to Unix-style forward slashes (<c>/</c>).
+    /// Gets the length of the root portion of the path.
     /// </summary>
-    /// <param name="path">The path to convert.</param>
-    /// <returns>The path with all backslashes replaced by forward slashes.</returns>
-    /// <remarks>
-    /// This is a convenience wrapper around <see cref="NormalizeSeparators"/> with <see cref="PathSeparatorMode.Unix"/>.
-    /// </remarks>
-    public static string ToUnixPath(string path)
-    {
-        ArgumentNullException.ThrowIfNull(path);
-        return NormalizeSeparators(path, PathSeparatorMode.Unix);
-    }
-
-    /// <summary>
-    /// Converts all path separators in the specified path to Windows-style backslashes (<c>\</c>).
-    /// </summary>
-    /// <param name="path">The path to convert.</param>
-    /// <returns>The path with all forward slashes replaced by backslashes.</returns>
-    /// <remarks>
-    /// This is a convenience wrapper around <see cref="NormalizeSeparators"/> with <see cref="PathSeparatorMode.Windows"/>.
-    /// </remarks>
-    public static string ToWindowsPath(string path)
-    {
-        ArgumentNullException.ThrowIfNull(path);
-        return NormalizeSeparators(path, PathSeparatorMode.Windows);
-    }
-
-    /// <summary>
-    /// Converts all path separators in the specified path to the native separator for the current platform.
-    /// </summary>
-    /// <param name="path">The path to convert.</param>
-    /// <returns>
-    /// On Windows, returns the path with forward slashes replaced by backslashes.
-    /// On Unix-like systems, returns the path with backslashes replaced by forward slashes.
-    /// </returns>
-    /// <remarks>
-    /// This is a convenience wrapper around <see cref="NormalizeSeparators"/> with <see cref="PathSeparatorMode.Native"/>.
-    /// </remarks>
-    public static string ToNativePath(string path)
-    {
-        ArgumentNullException.ThrowIfNull(path);
-        return NormalizeSeparators(path, PathSeparatorMode.Native);
-    }
-
-    /// <summary>
-    /// Ensures the path has a trailing separator.
-    /// </summary>
-    /// <param name="path">The path to process.</param>
-    /// <returns>The path with a trailing separator added if not already present.</returns>
-    /// <remarks>
-    /// This is a convenience wrapper around <see cref="HandleTrailingSeparator"/> with <see cref="TrailingSeparatorHandling.Ensure"/>.
-    /// The native platform separator is used when adding a trailing separator.
-    /// </remarks>
-    public static string EnsureTrailingSeparator(string path)
-    {
-        ArgumentNullException.ThrowIfNull(path);
-        return HandleTrailingSeparator(path, TrailingSeparatorHandling.Ensure);
-    }
-
-    /// <summary>
-    /// Removes the trailing separator from the path if present.
-    /// </summary>
-    /// <param name="path">The path to process.</param>
-    /// <returns>The path with any trailing separator removed.</returns>
-    /// <remarks>
-    /// This is a convenience wrapper around <see cref="HandleTrailingSeparator"/> with <see cref="TrailingSeparatorHandling.Remove"/>.
-    /// </remarks>
-    public static string RemoveTrailingSeparator(string path)
-    {
-        ArgumentNullException.ThrowIfNull(path);
-        return HandleTrailingSeparator(path, TrailingSeparatorHandling.Remove);
-    }
-
-    #endregion
-
-    #region Atomic Normalization Operations
-
-    /// <summary>
-    /// Normalizes Unicode characters in a path to NFC (Canonical Composition) form.
-    /// </summary>
-    /// <param name="path">The path to normalize.</param>
-    /// <returns>The path with Unicode characters normalized to NFC form.</returns>
+    /// <param name="path">The path to analyze.</param>
+    /// <returns>The length of the root portion, or 0 if the path is relative.</returns>
     /// <remarks>
     /// <para>
-    /// This normalization is critical for cross-platform applications, particularly when working with macOS.
-    /// macOS file systems store filenames in NFD (decomposed) form, where characters like "café" are stored
-    /// as separate base + combining characters (e + ´). This can cause string comparison failures and dictionary
-    /// lookup misses when comparing paths across platforms.
+    /// <strong>Windows Path Specifications (also supported cross-platform):</strong>
     /// </para>
     /// <para>
-    /// Normalizing to NFC ensures consistent string representation across all platforms, preventing
-    /// "file not found" errors when paths are constructed on one platform and used on another.
-    /// </para>
-    /// </remarks>
-    public static string NormalizeUnicode(string path)
-    {
-        ArgumentNullException.ThrowIfNull(path);
-        return path.Normalize(NormalizationForm.FormC);
-    }
-
-    /// <summary>
-    /// Normalizes path structure by resolving <c>.</c> (current directory) and <c>..</c> (parent directory) segments,
-    /// and removing consecutive separators.
-    /// </summary>
-    /// <param name="path">The path to normalize.</param>
-    /// <returns>The path with <c>.</c> and <c>..</c> segments resolved and consecutive separators removed.</returns>
-    /// <remarks>
-    /// <para>
-    /// This method resolves relative path segments while preserving the relative nature of the path:
+    /// <strong>1. DOS Device Paths</strong> (<c>\\.</c> prefix):
     /// <list type="bullet">
-    /// <item><c>.</c> (current directory) - removed from path</item>
-    /// <item><c>..</c> (parent directory) - collapses with previous segment</item>
-    /// <item>Consecutive separators - removed (e.g., <c>usr//bin</c> becomes <c>usr/bin</c>)</item>
+    /// <item><c>\\.\COM1</c> - Physical device (serial port). Root length: 4</item>
+    /// <item><c>\\.\PhysicalDisk0</c> - Physical disk. Root length: 4</item>
+    /// <item><c>\\.\C:\path</c> - Drive via device. Root length: 7 (includes drive and separator)</item>
+    /// <item><c>//./COM1</c> - Same as above with forward slashes (extension for cross-platform tolerance)</item>
     /// </list>
+    /// Purpose: Direct access to hardware devices, bypassing filesystem layers.
     /// </para>
     /// <para>
-    /// Example: <c>dir1/./dir2/../dir3//file</c> becomes <c>dir1/dir3/file</c>
-    /// </para>
-    /// <para>
-    /// Correctly handles absolute paths including UNC network paths:
+    /// <strong>2. Extended-Length Paths</strong> (<c>\\?</c> prefix):
     /// <list type="bullet">
-    /// <item>Unix absolute: <c>/usr/./bin</c> becomes <c>/usr/bin</c></item>
-    /// <item>UNC network: <c>\\server\share\..\other</c> becomes <c>\\server\other</c></item>
-    /// <item>Device paths: <c>\\.\COM1</c> and <c>\\?\C:\path</c> preserve their prefixes</item>
-    /// <item>Invalid Unix double-slash: <c>//usr/bin</c> normalizes to <c>/usr/bin</c></item>
+    /// <item><c>\\?\C:\very\long\path</c> - Bypasses MAX_PATH (260 char) limit. Root length: 7</item>
+    /// <item><c>\\?\UNC\server\share\file</c> - Extended UNC path. Root length: includes server and share</item>
+    /// <item><c>//?/C:/path</c> - Same with forward slashes (extension)</item>
     /// </list>
+    /// Purpose: Access paths longer than 260 characters. Disables path normalization (no . or .. processing by Windows).
     /// </para>
     /// <para>
-    /// Unlike <see cref="Path.GetFullPath"/>, this method does NOT convert the path to an absolute path.
-    /// It only normalizes the structure of the existing path.
+    /// <strong>3. UNC (Universal Naming Convention) Paths</strong>:
+    /// <list type="bullet">
+    /// <item><c>\\server\share\path</c> - Network share. Root length: includes <c>\\server\share</c></item>
+    /// <item><c>//server/share/path</c> - Same with forward slashes</item>
+    /// <item>Server name: computer name or IP address</item>
+    /// <item>Share name: shared folder name</item>
+    /// </list>
+    /// Purpose: Access network resources. Root includes server and share to uniquely identify network location.
+    /// </para>
+    /// <para>
+    /// <strong>4. Drive Letter Paths</strong>:
+    /// <list type="bullet">
+    /// <item><c>C:\path</c> - Absolute path on drive C. Root length: 3</item>
+    /// <item><c>C:path</c> - Relative to current directory on drive C (NOT fully qualified). Root length: 2</item>
+    /// <item><c>D:/path</c> - Absolute with forward slash. Root length: 3</item>
+    /// </list>
+    /// Note: <c>C:</c> without separator is relative to current directory on that drive (dangerous, often unexpected).
+    /// </para>
+    /// <para>
+    /// <strong>5. Root-Relative Paths</strong>:
+    /// <list type="bullet">
+    /// <item><c>\path</c> - Relative to current drive's root (on Windows). Root length: 1</item>
+    /// <item><c>/path</c> - Absolute on Unix, root-relative on Windows. Root length: 1</item>
+    /// </list>
+    /// Dangerous on Windows: meaning depends on current drive.
+    /// </para>
+    /// <para>
+    /// <strong>Cross-Platform Extensions:</strong>
+    /// </para>
+    /// <para>
+    /// Unlike .NET's implementation (which only accepts backslashes for device paths), this accepts
+    /// mixed separators (<c>/</c> and <c>\</c>) for cross-platform tolerance. This allows paths
+    /// to be normalized with <c>ToUnixPath()</c> or <c>ToWindowsPath()</c> without losing semantic meaning.
+    /// </para>
+    /// <para>
+    /// Examples: <c>//./COM1</c>, <c>\/?\C:/path</c>, <c>//server/share</c> are all recognized.
     /// </para>
     /// </remarks>
-    public static string NormalizeStructure(string path)
+    internal static int GetRootLength(string path)
     {
-        ArgumentNullException.ThrowIfNull(path);
-
-        if (string.IsNullOrWhiteSpace(path))
+        if (string.IsNullOrEmpty(path))
         {
-            return path;
+            return 0;
         }
 
-        // Handle Device Paths explicitly to preserve the "\\.\" or "\\?\" prefix
-        // which contains a dot that would otherwise be removed.
-        string? prefix = null;
-        string pathProcess = path;
+        int pathLength = path.Length;
+        int i = 0;
 
-        if (path.StartsWith(@"\\.\") || path.StartsWith(@"\\?\") || 
-            path.StartsWith(@"//./") || path.StartsWith(@"//?/"))
+        // Check for device path patterns first (\\.\, \\?\, //./,  //?/)
+        // This must be checked before UNC because device UNC is a special case
+        bool isDevice = IsDevicePath(path);
+        bool isDeviceUnc = isDevice && IsDeviceUNC(path);
+
+        // Branch 1: UNC paths or simple rooted paths (starting with separator)
+        // Handles: \\server\share, //server/share, \path, /path, \\?\UNC\server\share
+        if ((!isDevice || isDeviceUnc) && pathLength > 0 && IsSeparator(path[0]))
         {
-            prefix = path.Substring(0, 4);
-            pathProcess = path.Substring(4);
-        }
-
-        // Determine separator style to preserve
-        char separator = (prefix != null) 
-            ? '\\' 
-            : (pathProcess.Contains('/') ? '/' : '\\');
-
-        // Split the path into segments
-        var segments = pathProcess.Split(['/', '\\']);
-        var stack = new List<string>(segments.Length);
-
-        // Determine if the path is rooted (absolute) to handle ".." clamping
-        // Rooted if starts with empty (leading separator) or drive letter (contains :)
-        bool isRooted = segments.Length > 0 && 
-                       (segments[0] == "" || 
-                       (segments[0].Length >= 2 && segments[0][1] == ':' && char.IsLetter(segments[0][0])));
-
-        for (int i = 0; i < segments.Length; i++)
-        {
-            var segment = segments[i];
-
-            if (segment == "")
+            // UNC or simple rooted path
+            if (isDeviceUnc || (pathLength > 1 && IsSeparator(path[1])))
             {
-                // Handle empty segments (separators)
-                // 1. Preserve leading separator (Root)
-                if (i == 0) 
+                // UNC path detected (either regular or device UNC)
+                // Device UNC: \\?\UNC\server\share → root includes entire \\?\UNC\server\share
+                // Regular UNC: \\server\share → root includes entire \\server\share
+                // Root must include server AND share because that uniquely identifies the network location
+
+                i = isDeviceUnc ? 8 : 2; // Start after \\?\UNC\ or \\
+
+                // Scan past server\share (two components separated by separator)
+                // n=2 means we skip two separators: one after server, one after share
+                // Example: \\server\share\path → scan past "server\share" → i points after second \
+                int n = 2;
+                while (i < pathLength && (!IsSeparator(path[i]) || --n > 0))
                 {
-                    stack.Add(segment);
-                    continue;
-                }
-                // 2. Preserve second leading separator (UNC \\server)
-                if (i == 1 && segments[0] == "")
-                {
-                    stack.Add(segment);
-                    continue;
-                }
-                // 3. Preserve trailing separator (path/ -> path/)
-                //    This allows TrailingSeparatorHandling options to work correctly later
-                if (i == segments.Length - 1)
-                {
-                    stack.Add(segment);
-                    continue;
-                }
-                
-                // 4. Skip redundant internal separators (a//b -> a/b)
-                continue;
-            }
-            
-            if (segment == ".")
-            {
-                // Current directory reference - skip it
-                continue;
-            }
-            else if (segment == "..")
-            {
-                // Parent directory reference - try to pop
-                // Only pop if there's a non-empty, non-".." segment to remove
-                if (stack.Count > 0 && stack[^1] != "" && stack[^1] != "..")
-                {
-                    stack.RemoveAt(stack.Count - 1);
-                }
-                else
-                {
-                    // Can't pop. 
-                    // If we are NOT rooted, we must preserve ".." (e.g. "../../file.txt")
-                    // If we ARE rooted, ".." at root is ignored (clamped) (e.g. "/../file" -> "/file")
-                    if (!isRooted)
-                    {
-                        stack.Add(segment);
-                    }
+                    i++;
                 }
             }
             else
             {
-                // Regular segment
-                stack.Add(segment);
+                // Simple rooted path (starts with single separator)
+                // Windows: \path (root-relative to current drive)
+                // Unix: /path (absolute)
+                // Root length: 1 (just the leading separator)
+                i = 1;
+            }
+        }
+        // Branch 2: Device paths (\\.\, \\?\) that are NOT device UNC
+        // Handles: \\.\COM1, \\?\C:\path, //./PhysicalDisk0
+        else if (isDevice)
+        {
+            // Device path: root includes the device prefix AND the device name (up to separator)
+            // Examples:
+            //   \\.\COM1 → root is entire path (4 chars)
+            //   \\.\C:\path → root is \\.\C:\ (7 chars)
+            //   \\?\C:\very\long\path → root is \\?\C:\ (7 chars)
+            i = 4; // Start after \\.\  or \\?\
+
+            // Scan to next separator (or end of path)
+            // This captures the device name or drive letter
+            while (i < pathLength && !IsSeparator(path[i]))
+            {
+                i++;
+            }
+
+            // If there's a separator after the device name, include it
+            // This handles \\?\C:\ (include the \) vs \\.\COM1 (no separator to include)
+            // i > 4 check ensures there's actually a device name (not just \\?\)
+            if (i < pathLength && i > 4 && IsSeparator(path[i]))
+            {
+                i++;
+            }
+        }
+        // Branch 3: Drive letter paths (C:, D:, etc.)
+        // Handles: C:\path, D:/path, C:path (drive-relative)
+        else if (pathLength >= 2 && path[1] == ':' && IsValidDriveChar(path[0]))
+        {
+            // Drive letter detected (A-Z or a-z followed by :)
+            i = 2; // Root is at least "C:"
+
+            // If followed by separator, include it (C:\ is absolute, C: is drive-relative)
+            // C:\ → root length 3 (absolute path on C:)
+            // C:path → root length 2 (relative to current directory on C:)
+            // This distinction is important: C:path is dangerous because its meaning depends on current directory
+            if (pathLength > 2 && IsSeparator(path[2]))
+            {
+                i++;
             }
         }
 
-        var normalized = string.Join(separator, stack);
-
-        return prefix != null ? prefix + normalized : normalized;
+        // If none of the above matched, return 0 (relative path with no root)
+        // Examples: path/to/file, dir\file, ../parent
+        return i;
     }
 
     /// <summary>
-    /// Normalizes path separators according to the specified mode.
+    /// Checks if the path uses device path syntax.
     /// </summary>
-    /// <param name="path">The path to normalize.</param>
-    /// <param name="mode">The separator normalization mode.</param>
-    /// <returns>The path with separators normalized according to the specified mode.</returns>
+    /// <param name="path">The path to check.</param>
+    /// <returns><c>true</c> if the path starts with a device prefix; otherwise, <c>false</c>.</returns>
     /// <remarks>
+    /// <para>
+    /// <strong>Device Path Specifications:</strong>
+    /// </para>
+    /// <para>
+    /// <strong>DOS Device Namespace</strong> (<c>\\.\</c>):
     /// <list type="bullet">
-    /// <item><see cref="PathSeparatorMode.Preserve"/> - No changes to separators</item>
-    /// <item><see cref="PathSeparatorMode.Native"/> - Convert to platform-native separator</item>
-    /// <item><see cref="PathSeparatorMode.Unix"/> - Convert all to forward slash (<c>/</c>)</item>
-    /// <item><see cref="PathSeparatorMode.Windows"/> - Convert all to backslash (<c>\</c>)</item>
+    /// <item>Format: <c>\\.\DeviceName</c> or <c>\\.\DriveLetter:\path</c></item>
+    /// <item>Purpose: Direct access to device drivers and hardware</item>
+    /// <item>Examples: <c>\\.\COM1</c>, <c>\\.\PhysicalDisk0</c>, <c>\\.\HarddiskVolume1</c></item>
+    /// <item>Behavior: Bypasses normal filesystem, talks directly to device driver</item>
     /// </list>
+    /// </para>
+    /// <para>
+    /// <strong>Win32 File Namespace (Extended-Length)</strong> (<c>\\?\</c>):
+    /// <list type="bullet">
+    /// <item>Format: <c>\\?\path</c></item>
+    /// <item>Purpose: Bypass MAX_PATH limit (260 characters) and disable normalization</item>
+    /// <item>Examples: <c>\\?\C:\very\long\path\...</c>, <c>\\?\UNC\server\share</c></item>
+    /// <item>Behavior: No <c>.</c> or <c>..</c> processing, no forward slash conversion, no relative path support</item>
+    /// <item>MAX_PATH includes null terminator, so practical limit is 259 displayable characters</item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// <strong>Security Note - Malicious Variants:</strong>
+    /// </para>
+    /// <para>
+    /// Mixed-separator device paths like <c>/\\.\</c> or <c>\/?\</c> are NOT recognized by Windows
+    /// but are accepted here for cross-platform tolerance. These pose minimal security risk because:
+    /// <list type="bullet">
+    /// <item>Windows filesystem will reject them anyway when accessed</item>
+    /// <item>This library normalizes separators before filesystem access</item>
+    /// <item>Pattern matching is exact (all 4 positions must match)</item>
+    /// <item>The primary goal is reversible normalization (ToUnixPath ↔ ToWindowsPath)</item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// <strong>Cross-Platform Extension:</strong>
+    /// </para>
+    /// <para>
+    /// Unlike .NET (which only accepts backslashes), this accepts any separator in all 4 positions.
+    /// This allows: <c>ToUnixPath("\\.\COM1")</c> → <c>"//./COM1"</c> → <c>ToWindowsPath()</c> → <c>"\\.\COM1"</c>
+    /// preserving semantic meaning through transformations.
+    /// </para>
     /// </remarks>
-    public static string NormalizeSeparators(string path, PathSeparatorMode mode)
+    internal static bool IsDevicePath(string path)
     {
-        ArgumentNullException.ThrowIfNull(path);
-
-        return mode switch
-        {
-            PathSeparatorMode.Preserve => path,
-            PathSeparatorMode.Unix => path.Replace(PathSeparators.Windows, PathSeparators.Unix),
-            PathSeparatorMode.Windows => path.Replace(PathSeparators.Unix, PathSeparators.Windows),
-            PathSeparatorMode.Native => PathSeparators.Native == PathSeparators.Windows
-                ? path.Replace(PathSeparators.Unix, PathSeparators.Windows)
-                : path.Replace(PathSeparators.Windows, PathSeparators.Unix),
-            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, "Invalid PathSeparatorMode value.")
-        };
+        return path.Length >= 4 &&
+               IsSeparator(path[0]) &&
+               IsSeparator(path[1]) &&
+               (path[2] == '.' || path[2] == '?') &&
+               IsSeparator(path[3]);
     }
 
     /// <summary>
-    /// Handles trailing path separators according to the specified mode.
+    /// Checks if the path is a device UNC path.
     /// </summary>
-    /// <param name="path">The path to process.</param>
-    /// <param name="handling">The trailing separator handling mode.</param>
-    /// <returns>The path with trailing separator handled according to the specified mode.</returns>
+    /// <param name="path">The path to check.</param>
+    /// <returns><c>true</c> if the path is a device UNC path; otherwise, <c>false</c>.</returns>
     /// <remarks>
+    /// <para>
+    /// <strong>Device UNC Path Specification:</strong>
+    /// </para>
+    /// <para>
+    /// Format: <c>\\?\UNC\server\share\path</c> or <c>\\?\UNC\server\share</c>
+    /// </para>
+    /// <para>
+    /// This is a hybrid format that combines:
     /// <list type="bullet">
-    /// <item><see cref="TrailingSeparatorHandling.Preserve"/> - No changes to trailing separator</item>
-    /// <item><see cref="TrailingSeparatorHandling.Remove"/> - Remove trailing separator if present</item>
-    /// <item><see cref="TrailingSeparatorHandling.Ensure"/> - Ensure trailing separator is present</item>
+    /// <item>Extended-length prefix (<c>\\?</c>) - Bypasses MAX_PATH limit (260 chars)</item>
+    /// <item>UNC indicator (<c>UNC</c>) - Signals network path follows</item>
+    /// <item>Network location (<c>server\share</c>) - Standard UNC server and share</item>
     /// </list>
+    /// </para>
+    /// <para>
+    /// <strong>Why Device UNC Exists:</strong>
+    /// </para>
+    /// <para>
+    /// Regular UNC paths (<c>\\server\share</c>) are limited to MAX_PATH (260 chars).
+    /// To access long network paths, Windows requires the extended-length syntax.
+    /// You can't just use <c>\\?\\server\share</c> (double separator) - that's invalid.
+    /// Instead, Windows requires the explicit <c>UNC</c> marker: <c>\\?\UNC\server\share</c>.
+    /// </para>
+    /// <para>
+    /// <strong>Conversion Examples:</strong>
+    /// </para>
+    /// <para>
+    /// <c>\\server\share\path</c> → <c>\\?\UNC\server\share\path</c> (to bypass MAX_PATH)
+    /// </para>
+    /// <para>
+    /// Root length includes the entire <c>\\?\UNC\server\share</c> portion (variable length)
+    /// because server and share names identify the root network location.
+    /// </para>
+    /// <para>
+    /// <strong>Case Insensitivity:</strong>
+    /// </para>
+    /// <para>
+    /// This method accepts <c>UNC</c>, <c>unc</c>, <c>Unc</c>, etc. because Windows treats
+    /// path components as case-insensitive on NTFS.
+    /// </para>
     /// </remarks>
-    public static string HandleTrailingSeparator(string path, TrailingSeparatorHandling handling)
+    internal static bool IsDeviceUNC(string path)
     {
-        ArgumentNullException.ThrowIfNull(path);
+        return path.Length >= 8 &&
+               IsDevicePath(path) &&
+               IsSeparator(path[7]) &&
+               (path[4] == 'U' || path[4] == 'u') &&
+               (path[5] == 'N' || path[5] == 'n') &&
+               (path[6] == 'C' || path[6] == 'c');
+    }
 
-        if (string.IsNullOrEmpty(path))
-        {
-            return path;
-        }
+    /// <summary>
+    /// Checks if a character is a valid drive letter.
+    /// </summary>
+    /// <param name="c">The character to check.</param>
+    /// <returns><c>true</c> if the character is A-Z or a-z; otherwise, <c>false</c>.</returns>
+    internal static bool IsValidDriveChar(char c)
+    {
+        return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+    }
 
-        return handling switch
-        {
-            TrailingSeparatorHandling.Preserve => path,
-            TrailingSeparatorHandling.Remove => path.TrimEnd('/', '\\'),
-            TrailingSeparatorHandling.Ensure => path.TrimEnd('/', '\\') + PathSeparators.Native,
-            _ => throw new ArgumentOutOfRangeException(nameof(handling), handling, "Invalid TrailingSeparatorHandling value.")
-        };
+    #endregion
+
+    #region Internal Helpers
+
+    /// <summary>
+    /// Checks if a character is a path separator.
+    /// </summary>
+    private static bool IsSeparator(char c)
+    {
+        return c == '/' || c == '\\';
     }
 
     #endregion

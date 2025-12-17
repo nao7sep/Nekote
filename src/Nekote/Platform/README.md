@@ -32,16 +32,21 @@ Platform-specific constants, operating system detection, and cross-platform path
   - Used by PathHelper to control presence of trailing separators.
 - **PathOptions.cs** - Configuration record for path combining and normalization.
   - Record type with `required` properties - all settings must be explicitly initialized.
-  - Groups validation settings (`ThrowOnEmptySegments`, `TrimSegments`, etc.) and normalization settings (`NormalizeUnicode`, `NormalizeStructure`, etc.).
+  - Groups validation settings (`ThrowOnEmptySegments`, `TrimSegments`, `RequireAbsoluteFirstSegment`, etc.) and normalization settings (`NormalizeUnicode`, `NormalizeStructure`, etc.).
   - Provides presets: `Default`, `Native`, `Windows`, `Unix`, `Minimal`.
   - When passed as `null` to PathHelper methods, defaults to `Default` preset (safe for 95% of use cases).
 
 ### Path Manipulation
 - **PathHelper.cs** - Cross-platform path normalization and combining utilities.
   - Atomic operations: `NormalizeUnicode` (NFC form for macOS compatibility), `NormalizeStructure` (resolves `.` and `..`), `NormalizeSeparators`, `HandleTrailingSeparator`.
-  - Convenience wrappers: `ToUnixPath`, `ToWindowsPath`, `ToNativePath`.
-  - Path combining: `CombineToAbsolute` (produces absolute path), `CombineRelative` (preserves relative path).
-  - Combining methods accept nullable `PathOptions` parameter (defaults to `PathOptions.Default` when `null`).
+  - Separator convenience wrappers: `ToUnixPath`, `ToWindowsPath`, `ToNativePath`.
+  - Trailing separator convenience wrappers: `EnsureTrailingSeparator`, `RemoveTrailingSeparator`.
+  - Core combining: `Combine` methods (2, 3, 4, and params overloads) accepting nullable `PathOptions` parameter (defaults to `PathOptions.Default` when `null`).
+  - Convenience combining methods with preset options:
+    - `CombineNative` (4 overloads) - Uses `PathOptions.Native` for platform-native separators.
+    - `CombineWindows` (4 overloads) - Uses `PathOptions.Windows` for Windows-style backslashes.
+    - `CombineUnix` (4 overloads) - Uses `PathOptions.Unix` for Unix-style forward slashes.
+  - All combining methods provide configurable validation through `PathOptions` properties like `RequireAbsoluteFirstSegment` and `ValidateSubsequentPathsRelative`.
   - Pure string transformations with no file system access - complements `System.IO.Path`.
 
 

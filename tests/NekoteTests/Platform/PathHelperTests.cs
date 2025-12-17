@@ -1,4 +1,5 @@
-﻿using Nekote.Platform;
+using Nekote.Platform;
+using OperatingSystem = Nekote.Platform.OperatingSystem;
 
 namespace NekoteTests.Platform;
 
@@ -457,6 +458,187 @@ public class PathHelperTests
         Assert.Equal(path, windowsResult); // No conversion needed for pure name
     }
 
+    [Fact]
+    public void EnsureTrailingSeparator_PathWithoutTrailingSeparator_AddsNativeSeparator()
+    {
+        var path = "folder/subfolder";
+
+        var result = PathHelper.EnsureTrailingSeparator(path);
+
+        Assert.EndsWith(PathSeparators.Native.ToString(), result);
+    }
+
+    [Fact]
+    public void EnsureTrailingSeparator_PathWithTrailingSeparator_NoChange()
+    {
+        var pathWithSlash = "folder/";
+        var pathWithBackslash = "folder\\";
+
+        var resultSlash = PathHelper.EnsureTrailingSeparator(pathWithSlash);
+        var resultBackslash = PathHelper.EnsureTrailingSeparator(pathWithBackslash);
+
+        Assert.EndsWith(PathSeparators.Native.ToString(), resultSlash);
+        Assert.EndsWith(PathSeparators.Native.ToString(), resultBackslash);
+    }
+
+    [Fact]
+    public void RemoveTrailingSeparator_PathWithTrailingSeparator_RemovesIt()
+    {
+        var pathWithSlash = "folder/";
+        var pathWithBackslash = "folder\\";
+
+        var resultSlash = PathHelper.RemoveTrailingSeparator(pathWithSlash);
+        var resultBackslash = PathHelper.RemoveTrailingSeparator(pathWithBackslash);
+
+        Assert.Equal("folder", resultSlash);
+        Assert.Equal("folder", resultBackslash);
+    }
+
+    [Fact]
+    public void RemoveTrailingSeparator_PathWithoutTrailingSeparator_NoChange()
+    {
+        var path = "folder";
+
+        var result = PathHelper.RemoveTrailingSeparator(path);
+
+        Assert.Equal(path, result);
+    }
+
+    #endregion
+
+    #region Convenience Methods - Path Combining
+
+    [Fact]
+    public void CombineNative_TwoSegments_UsesNativeSeparators()
+    {
+        var result = PathHelper.CombineNative("base", "file.txt");
+
+        Assert.Contains("base", result);
+        Assert.Contains("file.txt", result);
+        if (OperatingSystem.IsWindows)
+        {
+            Assert.Contains("\\", result);
+        }
+        else
+        {
+            Assert.Contains("/", result);
+        }
+    }
+
+    [Fact]
+    public void CombineNative_ThreeSegments_CombinesAll()
+    {
+        var result = PathHelper.CombineNative("base", "sub", "file.txt");
+
+        Assert.Contains("base", result);
+        Assert.Contains("sub", result);
+        Assert.Contains("file.txt", result);
+    }
+
+    [Fact]
+    public void CombineNative_FourSegments_CombinesAll()
+    {
+        var result = PathHelper.CombineNative("base", "sub1", "sub2", "file.txt");
+
+        Assert.Contains("base", result);
+        Assert.Contains("sub1", result);
+        Assert.Contains("sub2", result);
+        Assert.Contains("file.txt", result);
+    }
+
+    [Fact]
+    public void CombineNative_ParamsOverload_CombinesMultipleSegments()
+    {
+        var result = PathHelper.CombineNative("base", "sub1", "sub2", "sub3", "file.txt");
+
+        Assert.Contains("base", result);
+        Assert.Contains("file.txt", result);
+    }
+
+    [Fact]
+    public void CombineWindows_TwoSegments_UsesBackslashes()
+    {
+        var result = PathHelper.CombineWindows("base", "file.txt");
+
+        Assert.Contains("base", result);
+        Assert.Contains("file.txt", result);
+        Assert.Contains("\\", result);
+        Assert.DoesNotContain("/", result);
+    }
+
+    [Fact]
+    public void CombineWindows_ThreeSegments_CombinesAll()
+    {
+        var result = PathHelper.CombineWindows("base", "sub", "file.txt");
+
+        Assert.Contains("base", result);
+        Assert.Contains("sub", result);
+        Assert.Contains("file.txt", result);
+        Assert.Contains("\\", result);
+    }
+
+    [Fact]
+    public void CombineWindows_FourSegments_CombinesAll()
+    {
+        var result = PathHelper.CombineWindows("base", "sub1", "sub2", "file.txt");
+
+        Assert.Contains("base", result);
+        Assert.Contains("sub1", result);
+        Assert.Contains("sub2", result);
+        Assert.Contains("file.txt", result);
+    }
+
+    [Fact]
+    public void CombineWindows_ParamsOverload_UsesBackslashes()
+    {
+        var result = PathHelper.CombineWindows("base", "sub1", "sub2", "sub3", "file.txt");
+
+        Assert.Contains("\\", result);
+        Assert.DoesNotContain("/", result);
+    }
+
+    [Fact]
+    public void CombineUnix_TwoSegments_UsesForwardSlashes()
+    {
+        var result = PathHelper.CombineUnix("base", "file.txt");
+
+        Assert.Contains("base", result);
+        Assert.Contains("file.txt", result);
+        Assert.Contains("/", result);
+        Assert.DoesNotContain("\\", result);
+    }
+
+    [Fact]
+    public void CombineUnix_ThreeSegments_CombinesAll()
+    {
+        var result = PathHelper.CombineUnix("base", "sub", "file.txt");
+
+        Assert.Contains("base", result);
+        Assert.Contains("sub", result);
+        Assert.Contains("file.txt", result);
+        Assert.Contains("/", result);
+    }
+
+    [Fact]
+    public void CombineUnix_FourSegments_CombinesAll()
+    {
+        var result = PathHelper.CombineUnix("base", "sub1", "sub2", "file.txt");
+
+        Assert.Contains("base", result);
+        Assert.Contains("sub1", result);
+        Assert.Contains("sub2", result);
+        Assert.Contains("file.txt", result);
+    }
+
+    [Fact]
+    public void CombineUnix_ParamsOverload_UsesForwardSlashes()
+    {
+        var result = PathHelper.CombineUnix("base", "sub1", "sub2", "sub3", "file.txt");
+
+        Assert.Contains("/", result);
+        Assert.DoesNotContain("\\", result);
+    }
+
     #endregion
 
     #region Path Combining - Absolute Paths
@@ -466,7 +648,7 @@ public class PathHelperTests
     {
         var options = PathOptions.Default;
 
-        var result = PathHelper.CombineToAbsolute(options, "C:\\base", "relative");
+        var result = PathHelper.Combine(options, "C:\\base", "relative");
 
         Assert.True(Path.IsPathRooted(result));
         Assert.Contains("base", result);
@@ -478,7 +660,7 @@ public class PathHelperTests
     {
         var options = PathOptions.Default;
 
-        var result = PathHelper.CombineToAbsolute(options, "C:\\root", "level1", "level2", "file.txt");
+        var result = PathHelper.Combine(options, "C:\\root", "level1", "level2", "file.txt");
 
         Assert.EndsWith("file.txt", result);
     }
@@ -492,13 +674,14 @@ public class PathHelperTests
             TrimSegments = true,
             RequireAtLeastOneSegment = true,
             ValidateSubsequentPathsRelative = true,
+            RequireAbsoluteFirstSegment = false,
             NormalizeUnicode = true,
             NormalizeStructure = true,
             NormalizeSeparators = PathSeparatorMode.Unix,
             TrailingSeparator = TrailingSeparatorHandling.Remove
         };
 
-        var result = PathHelper.CombineToAbsolute(options, "C:\\base", "sub/./folder/../file.txt");
+        var result = PathHelper.Combine(options, "C:\\base", "sub/./folder/../file.txt");
 
         // Note: GetFullPath applies OS-native separators, overriding Unix normalization
         Assert.True(Path.IsPathRooted(result));
@@ -511,7 +694,7 @@ public class PathHelperTests
     {
         var options = PathOptions.Default;
 
-        var result = PathHelper.CombineToAbsolute(options, "C:\\base", "a", "b", "c", "d", "file.txt");
+        var result = PathHelper.Combine(options, "C:\\base", "a", "b", "c", "d", "file.txt");
 
         Assert.True(Path.IsPathRooted(result));
         Assert.EndsWith("file.txt", result);
@@ -526,7 +709,7 @@ public class PathHelperTests
     {
         var options = PathOptions.Default;
 
-        var result = PathHelper.CombineRelative(options, "config", "settings.ini");
+        var result = PathHelper.Combine(options, "config", "settings.ini");
 
         Assert.False(Path.IsPathRooted(result));
         Assert.Contains("config", result);
@@ -538,7 +721,7 @@ public class PathHelperTests
     {
         var options = PathOptions.Default;
 
-        var result = PathHelper.CombineRelative(options, "data", "cache", "temp", "file.dat");
+        var result = PathHelper.Combine(options, "data", "cache", "temp", "file.dat");
 
         Assert.False(Path.IsPathRooted(result));
         Assert.EndsWith("file.dat", result);
@@ -549,7 +732,7 @@ public class PathHelperTests
     {
         var options = PathOptions.Default;
 
-        var result = PathHelper.CombineRelative(options, "folder", "./sub/../other");
+        var result = PathHelper.Combine(options, "folder", "./sub/../other");
 
         Assert.False(Path.IsPathRooted(result));
         Assert.DoesNotContain("..", result);
@@ -560,7 +743,7 @@ public class PathHelperTests
     {
         var options = PathOptions.Default;
 
-        var result = PathHelper.CombineRelative(options, "a", "b", "c", "d", "e", "f");
+        var result = PathHelper.Combine(options, "a", "b", "c", "d", "e", "f");
 
         Assert.False(Path.IsPathRooted(result));
         Assert.EndsWith("f", result);
@@ -572,7 +755,7 @@ public class PathHelperTests
         var options = PathOptions.Default with { ThrowOnEmptySegments = false };
 
         Assert.Throws<ArgumentException>(() =>
-            PathHelper.CombineRelative(options, null, null, null));
+            PathHelper.Combine(options, null, null, null));
     }
 
     [Fact]
@@ -584,7 +767,7 @@ public class PathHelperTests
             ThrowOnEmptySegments = false
         };
 
-        var result = PathHelper.CombineRelative(options, "start", "   ", "end");
+        var result = PathHelper.Combine(options, "start", "   ", "end");
 
         Assert.Contains("start", result);
         Assert.Contains("end", result);
@@ -600,7 +783,7 @@ public class PathHelperTests
         var strictOptions = PathOptions.Default with { ThrowOnEmptySegments = true };
 
         var exception = Assert.Throws<ArgumentException>(() =>
-            PathHelper.CombineRelative(strictOptions, "base", null, "file.txt"));
+            PathHelper.Combine(strictOptions, "base", null, "file.txt"));
 
         Assert.Contains("ThrowOnEmptySegments", exception.Message);
     }
@@ -611,7 +794,7 @@ public class PathHelperTests
         var strictOptions = PathOptions.Default with { ThrowOnEmptySegments = true };
 
         Assert.Throws<ArgumentException>(() =>
-            PathHelper.CombineRelative(strictOptions, "base", "", "file.txt"));
+            PathHelper.Combine(strictOptions, "base", "", "file.txt"));
     }
 
     [Fact]
@@ -620,7 +803,7 @@ public class PathHelperTests
         var strictOptions = PathOptions.Default with { ThrowOnEmptySegments = true };
 
         Assert.Throws<ArgumentException>(() =>
-            PathHelper.CombineRelative(strictOptions, "base", "   ", "file.txt"));
+            PathHelper.Combine(strictOptions, "base", "   ", "file.txt"));
     }
 
     [Fact]
@@ -628,7 +811,7 @@ public class PathHelperTests
     {
         var lenientOptions = PathOptions.Default with { ThrowOnEmptySegments = false };
 
-        var result = PathHelper.CombineRelative(lenientOptions, "base", null, "file.txt");
+        var result = PathHelper.Combine(lenientOptions, "base", null, "file.txt");
 
         Assert.Contains("base", result);
         Assert.Contains("file.txt", result);
@@ -639,7 +822,7 @@ public class PathHelperTests
     {
         var lenientOptions = PathOptions.Default with { ThrowOnEmptySegments = false };
 
-        var result = PathHelper.CombineRelative(lenientOptions, "start", "", "   ", null, "end");
+        var result = PathHelper.Combine(lenientOptions, "start", "", "   ", null, "end");
 
         Assert.Contains("start", result);
         Assert.Contains("end", result);
@@ -653,12 +836,12 @@ public class PathHelperTests
         if (System.OperatingSystem.IsWindows())
         {
             Assert.Throws<ArgumentException>(() =>
-                PathHelper.CombineRelative(options, "relative", "C:\\absolute"));
+                PathHelper.Combine(options, "relative", "C:\\absolute"));
         }
         else
         {
             Assert.Throws<ArgumentException>(() =>
-                PathHelper.CombineRelative(options, "relative", "/absolute"));
+                PathHelper.Combine(options, "relative", "/absolute"));
         }
     }
 
@@ -672,7 +855,7 @@ public class PathHelperTests
         };
 
         Assert.Throws<ArgumentException>(() =>
-            PathHelper.CombineRelative(options, null, "", "  "));
+            PathHelper.Combine(options, null, "", "  "));
     }
 
     [Fact]
@@ -685,7 +868,7 @@ public class PathHelperTests
         };
 
         // Should not throw, even though all segments are empty
-        var result = PathHelper.CombineRelative(options, null, "", "  ");
+        var result = PathHelper.Combine(options, null, "", "  ");
 
         Assert.NotNull(result);
     }
@@ -699,7 +882,7 @@ public class PathHelperTests
             TrimSegments = false
         };
 
-        var result = PathHelper.CombineRelative(options, "  base  ", "  file  ");
+        var result = PathHelper.Combine(options, "  base  ", "  file  ");
 
         Assert.Contains("  ", result);
     }
@@ -714,7 +897,7 @@ public class PathHelperTests
         };
 
         Assert.Throws<ArgumentException>(() =>
-            PathHelper.CombineRelative(options, "start", "   ", "end"));
+            PathHelper.Combine(options, "start", "   ", "end"));
     }
 
     [Fact]
@@ -722,7 +905,7 @@ public class PathHelperTests
     {
         string[]? paths = null;
         Assert.Throws<ArgumentNullException>(() =>
-            PathHelper.CombineRelative(PathOptions.Default, paths!));
+            PathHelper.Combine(PathOptions.Default, paths!));
     }
 
     [Fact]
@@ -732,7 +915,7 @@ public class PathHelperTests
         var paths = Array.Empty<string>();
 
         Assert.Throws<ArgumentException>(() =>
-            PathHelper.CombineRelative(PathOptions.Default, paths));
+            PathHelper.Combine(PathOptions.Default, paths));
     }
 
     #endregion
@@ -826,9 +1009,10 @@ public class PathHelperTests
             ThrowOnEmptySegments = false,
             TrimSegments = true,
             RequireAtLeastOneSegment = true,
+            RequireAbsoluteFirstSegment = false,
             ValidateSubsequentPathsRelative = true,
-            NormalizeUnicode = true,
             NormalizeStructure = true,
+            NormalizeUnicode = true,
             NormalizeSeparators = PathSeparatorMode.Preserve,
             TrailingSeparator = TrailingSeparatorHandling.Remove
         };
@@ -838,14 +1022,171 @@ public class PathHelperTests
             ThrowOnEmptySegments = false,
             TrimSegments = true,
             RequireAtLeastOneSegment = true,
+            RequireAbsoluteFirstSegment = false,
             ValidateSubsequentPathsRelative = true,
-            NormalizeUnicode = true,
             NormalizeStructure = true,
+            NormalizeUnicode = true,
             NormalizeSeparators = PathSeparatorMode.Preserve,
             TrailingSeparator = TrailingSeparatorHandling.Remove
         };
 
         Assert.Equal(options1, options2);
+    }
+
+    #endregion
+
+    #region Validation - RequireAbsoluteFirstSegment
+
+    [Fact]
+    public void Combine_RequireAbsoluteFirstSegment_AcceptsFullyQualifiedPath()
+    {
+        var options = PathOptions.Default with { RequireAbsoluteFirstSegment = true };
+
+        if (OperatingSystem.IsWindows)
+        {
+            var result = PathHelper.Combine(options, "C:\\base", "file.txt");
+            Assert.NotNull(result);
+        }
+        else
+        {
+            var result = PathHelper.Combine(options, "/usr/bin", "file.txt");
+            Assert.NotNull(result);
+        }
+    }
+
+    [Fact]
+    public void Combine_RequireAbsoluteFirstSegment_AcceptsUncPath()
+    {
+        if (!OperatingSystem.IsWindows) return;
+
+        var options = PathOptions.Default with { RequireAbsoluteFirstSegment = true };
+        var result = PathHelper.Combine(options, "\\\\server\\share", "file.txt");
+
+        Assert.NotNull(result);
+    }
+
+    [Fact]
+    public void Combine_RequireAbsoluteFirstSegment_RejectsRelativePath()
+    {
+        var options = PathOptions.Default with { RequireAbsoluteFirstSegment = true };
+
+        var ex = Assert.Throws<ArgumentException>(() =>
+            PathHelper.Combine(options, "relative/path", "file.txt"));
+
+        Assert.Contains("not a fully qualified absolute path", ex.Message);
+        Assert.Contains("relative/path", ex.Message);
+    }
+
+    [Fact]
+    public void Combine_RequireAbsoluteFirstSegment_RejectsParentRelativePath()
+    {
+        var options = PathOptions.Default with { RequireAbsoluteFirstSegment = true };
+
+        var ex = Assert.Throws<ArgumentException>(() =>
+            PathHelper.Combine(options, "../parent", "file.txt"));
+
+        Assert.Contains("not a fully qualified absolute path", ex.Message);
+    }
+
+    [Fact]
+    public void Combine_RequireAbsoluteFirstSegment_RejectsCurrentDirectoryPath()
+    {
+        var options = PathOptions.Default with { RequireAbsoluteFirstSegment = true };
+
+        var ex = Assert.Throws<ArgumentException>(() =>
+            PathHelper.Combine(options, "./current", "file.txt"));
+
+        Assert.Contains("not a fully qualified absolute path", ex.Message);
+    }
+
+    [Fact]
+    public void Combine_RequireAbsoluteFirstSegment_RejectsDriveRelativePath()
+    {
+        if (!OperatingSystem.IsWindows) return;
+
+        var options = PathOptions.Default with { RequireAbsoluteFirstSegment = true };
+
+        // "C:file.txt" is drive-relative (relative to current directory on C:)
+        var ex = Assert.Throws<ArgumentException>(() =>
+            PathHelper.Combine(options, "C:file.txt", "other.txt"));
+
+        Assert.Contains("not a fully qualified absolute path", ex.Message);
+        Assert.Contains("C:file.txt", ex.Message);
+    }
+
+    [Fact]
+    public void Combine_RequireAbsoluteFirstSegment_RejectsRootRelativePath()
+    {
+        if (!OperatingSystem.IsWindows) return;
+
+        var options = PathOptions.Default with { RequireAbsoluteFirstSegment = true };
+
+        // "\file.txt" is root-relative (relative to current drive root)
+        var ex = Assert.Throws<ArgumentException>(() =>
+            PathHelper.Combine(options, "\\file.txt", "other.txt"));
+
+        Assert.Contains("not a fully qualified absolute path", ex.Message);
+    }
+
+    [Fact]
+    public void Combine_RequireAbsoluteFirstSegment_False_AllowsRelativePath()
+    {
+        var options = PathOptions.Default with { RequireAbsoluteFirstSegment = false };
+
+        var result = PathHelper.Combine(options, "relative", "file.txt");
+
+        Assert.NotNull(result);
+        Assert.Contains("relative", result);
+    }
+
+    [Fact]
+    public void Combine_RequireAbsoluteFirstSegment_False_AllowsDriveRelativePath()
+    {
+        if (!OperatingSystem.IsWindows) return;
+
+        var options = PathOptions.Default with { RequireAbsoluteFirstSegment = false };
+
+        var result = PathHelper.Combine(options, "C:file.txt", "other.txt");
+
+        Assert.NotNull(result);
+    }
+
+    [Fact]
+    public void Combine_RequireAbsoluteFirstSegment_ChecksOnlyFirstMeaningfulSegment()
+    {
+        var options = PathOptions.Default with
+        {
+            RequireAbsoluteFirstSegment = true,
+            ThrowOnEmptySegments = false
+        };
+
+        if (OperatingSystem.IsWindows)
+        {
+            // Empty segments before the first meaningful one should be ignored
+            var result = PathHelper.Combine(options, null, "", "C:\\base", "file.txt");
+            Assert.NotNull(result);
+        }
+        else
+        {
+            var result = PathHelper.Combine(options, null, "", "/usr/bin", "file.txt");
+            Assert.NotNull(result);
+        }
+    }
+
+    [Fact]
+    public void Combine_RequireAbsoluteFirstSegment_WithOnlyRelativeSegments_Throws()
+    {
+        var options = PathOptions.Default with
+        {
+            RequireAbsoluteFirstSegment = true,
+            ThrowOnEmptySegments = false
+        };
+
+        var ex = Assert.Throws<ArgumentException>(() =>
+            PathHelper.Combine(options, null, "", "relative", "file.txt"));
+
+        Assert.Contains("not a fully qualified absolute path", ex.Message);
+        Assert.Contains("relative", ex.Message);
     }
 
     #endregion
@@ -861,13 +1202,14 @@ public class PathHelperTests
             TrimSegments = true,
             RequireAtLeastOneSegment = true,
             ValidateSubsequentPathsRelative = true,
+            RequireAbsoluteFirstSegment = false,
             NormalizeUnicode = true,
             NormalizeStructure = true,
             NormalizeSeparators = PathSeparatorMode.Unix,
             TrailingSeparator = TrailingSeparatorHandling.Remove
         };
 
-        var result = PathHelper.CombineRelative(options,
+        var result = PathHelper.Combine(options,
             "  base  ",
             "folder/./subfolder",
             @"other\..\target",
@@ -890,7 +1232,7 @@ public class PathHelperTests
             TrailingSeparator = TrailingSeparatorHandling.Remove
         };
 
-        var storedPath = PathHelper.CombineRelative(options, "data", "users", "profile.json");
+        var storedPath = PathHelper.Combine(options, "data", "users", "profile.json");
 
         Assert.Equal("data/users/profile.json", storedPath);
         Assert.DoesNotContain("\\", storedPath);

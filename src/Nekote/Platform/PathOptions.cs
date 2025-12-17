@@ -45,6 +45,25 @@ public record PathOptions
     public required bool RequireAtLeastOneSegment { get; init; }
 
     /// <summary>
+    /// Gets or sets whether to require the first path segment to be an absolute (fully qualified) path.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// When <c>true</c>, validates the first path segment using <see cref="Path.IsPathFullyQualified"/>,
+    /// which requires a complete, unambiguous path specification. This is stricter than
+    /// <see cref="Path.IsPathRooted"/> and only accepts truly absolute paths.
+    /// </para>
+    /// <para>
+    /// When <c>false</c>, allows the first segment to be any path (relative or absolute).
+    /// </para>
+    /// <para>
+    /// Set to <c>true</c> when you want to ensure path combining always starts from a known absolute location,
+    /// preventing ambiguity about where the final path will resolve.
+    /// </para>
+    /// </remarks>
+    public required bool RequireAbsoluteFirstSegment { get; init; }
+
+    /// <summary>
     /// Gets or sets whether to validate that subsequent path segments are relative paths.
     /// </summary>
     /// <remarks>
@@ -63,23 +82,6 @@ public record PathOptions
     /// </para>
     /// </remarks>
     public required bool ValidateSubsequentPathsRelative { get; init; }
-
-    /// <summary>
-    /// Gets or sets whether to normalize Unicode strings to NFC (Canonical Composition) form.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// When <c>true</c>, applies <see cref="string.Normalize(System.Text.NormalizationForm.FormC)"/> to the result.
-    /// This is critical for cross-platform applications, particularly when working with macOS.
-    /// </para>
-    /// <para>
-    /// macOS file systems store filenames in NFD (decomposed) form, where characters like "café"
-    /// are stored as separate base + combining characters. This can cause string comparison failures
-    /// and dictionary lookup misses. Normalizing to NFC ensures consistent string representation
-    /// across all platforms.
-    /// </para>
-    /// </remarks>
-    public required bool NormalizeUnicode { get; init; }
 
     /// <summary>
     /// Gets or sets whether to normalize path structure by resolving <c>.</c> and <c>..</c> segments.
@@ -101,6 +103,23 @@ public record PathOptions
     /// </para>
     /// </remarks>
     public required bool NormalizeStructure { get; init; }
+
+    /// <summary>
+    /// Gets or sets whether to normalize Unicode strings to NFC (Canonical Composition) form.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// When <c>true</c>, applies <see cref="string.Normalize(System.Text.NormalizationForm.FormC)"/> to the result.
+    /// This is critical for cross-platform applications, particularly when working with macOS.
+    /// </para>
+    /// <para>
+    /// macOS file systems store filenames in NFD (decomposed) form, where characters like "café"
+    /// are stored as separate base + combining characters. This can cause string comparison failures
+    /// and dictionary lookup misses. Normalizing to NFC ensures consistent string representation
+    /// across all platforms.
+    /// </para>
+    /// </remarks>
+    public required bool NormalizeUnicode { get; init; }
 
     /// <summary>
     /// Gets or sets how path separators should be normalized.
@@ -142,9 +161,10 @@ public record PathOptions
         ThrowOnEmptySegments = false,
         TrimSegments = true,
         RequireAtLeastOneSegment = true,
+        RequireAbsoluteFirstSegment = false,
         ValidateSubsequentPathsRelative = true,
-        NormalizeUnicode = true,
         NormalizeStructure = true,
+        NormalizeUnicode = true,
         NormalizeSeparators = PathSeparatorMode.Preserve,
         TrailingSeparator = TrailingSeparatorHandling.Remove
     };
@@ -161,9 +181,10 @@ public record PathOptions
         ThrowOnEmptySegments = false,
         TrimSegments = true,
         RequireAtLeastOneSegment = true,
+        RequireAbsoluteFirstSegment = false,
         ValidateSubsequentPathsRelative = true,
-        NormalizeUnicode = true,
         NormalizeStructure = true,
+        NormalizeUnicode = true,
         NormalizeSeparators = PathSeparatorMode.Native,
         TrailingSeparator = TrailingSeparatorHandling.Remove
     };
@@ -180,9 +201,10 @@ public record PathOptions
         ThrowOnEmptySegments = false,
         TrimSegments = true,
         RequireAtLeastOneSegment = true,
+        RequireAbsoluteFirstSegment = false,
         ValidateSubsequentPathsRelative = true,
-        NormalizeUnicode = true,
         NormalizeStructure = true,
+        NormalizeUnicode = true,
         NormalizeSeparators = PathSeparatorMode.Windows,
         TrailingSeparator = TrailingSeparatorHandling.Remove
     };
@@ -199,9 +221,10 @@ public record PathOptions
         ThrowOnEmptySegments = false,
         TrimSegments = true,
         RequireAtLeastOneSegment = true,
+        RequireAbsoluteFirstSegment = false,
         ValidateSubsequentPathsRelative = true,
-        NormalizeUnicode = true,
         NormalizeStructure = true,
+        NormalizeUnicode = true,
         NormalizeSeparators = PathSeparatorMode.Unix,
         TrailingSeparator = TrailingSeparatorHandling.Remove
     };
@@ -219,9 +242,10 @@ public record PathOptions
         ThrowOnEmptySegments = false,
         TrimSegments = true,
         RequireAtLeastOneSegment = true,
+        RequireAbsoluteFirstSegment = false,
         ValidateSubsequentPathsRelative = true,
-        NormalizeUnicode = false,
         NormalizeStructure = false,
+        NormalizeUnicode = false,
         NormalizeSeparators = PathSeparatorMode.Preserve,
         TrailingSeparator = TrailingSeparatorHandling.Preserve
     };

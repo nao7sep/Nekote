@@ -11,7 +11,7 @@ namespace Nekote.Platform;
 /// </remarks>
 public static class PathHelper
 {
-    #region Separator Conversion (Convenience Methods)
+    #region Convenience Methods
 
     /// <summary>
     /// Converts all path separators in the specified path to Unix-style forward slashes (<c>/</c>).
@@ -56,6 +56,35 @@ public static class PathHelper
     {
         ArgumentNullException.ThrowIfNull(path);
         return NormalizeSeparators(path, PathSeparatorMode.Native);
+    }
+
+    /// <summary>
+    /// Ensures the path has a trailing separator.
+    /// </summary>
+    /// <param name="path">The path to process.</param>
+    /// <returns>The path with a trailing separator added if not already present.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="HandleTrailingSeparator"/> with <see cref="TrailingSeparatorHandling.Ensure"/>.
+    /// The native platform separator is used when adding a trailing separator.
+    /// </remarks>
+    public static string EnsureTrailingSeparator(string path)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+        return HandleTrailingSeparator(path, TrailingSeparatorHandling.Ensure);
+    }
+
+    /// <summary>
+    /// Removes the trailing separator from the path if present.
+    /// </summary>
+    /// <param name="path">The path to process.</param>
+    /// <returns>The path with any trailing separator removed.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="HandleTrailingSeparator"/> with <see cref="TrailingSeparatorHandling.Remove"/>.
+    /// </remarks>
+    public static string RemoveTrailingSeparator(string path)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+        return HandleTrailingSeparator(path, TrailingSeparatorHandling.Remove);
     }
 
     #endregion
@@ -250,140 +279,247 @@ public static class PathHelper
 
     #endregion
 
-    #region Path Combining - Absolute
+    #region Path Combining
 
     /// <summary>
-    /// Combines two path segments and returns a normalized absolute path using the specified options.
+    /// Combines two path segments into a normalized path.
     /// </summary>
     /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="path1">The first path segment.</param>
     /// <param name="path2">The second path segment.</param>
-    /// <returns>A normalized absolute path.</returns>
-    public static string CombineToAbsolute(PathOptions? options, string? path1, string? path2)
+    /// <returns>A normalized path.</returns>
+    public static string Combine(PathOptions? options, string? path1, string? path2)
     {
         options ??= PathOptions.Default;
         var processed = ProcessSegments(options, path1, path2);
         var combined = Path.Combine(processed.ToArray());
-        var normalized = ApplyNormalization(options, combined);
-        return Path.GetFullPath(normalized);
+        return ApplyNormalization(options, combined);
     }
 
     /// <summary>
-    /// Combines three path segments and returns a normalized absolute path using the specified options.
+    /// Combines three path segments into a normalized path.
     /// </summary>
     /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="path1">The first path segment.</param>
     /// <param name="path2">The second path segment.</param>
     /// <param name="path3">The third path segment.</param>
-    /// <returns>A normalized absolute path.</returns>
-    public static string CombineToAbsolute(PathOptions? options, string? path1, string? path2, string? path3)
+    /// <returns>A normalized path.</returns>
+    public static string Combine(PathOptions? options, string? path1, string? path2, string? path3)
     {
         options ??= PathOptions.Default;
         var processed = ProcessSegments(options, path1, path2, path3);
         var combined = Path.Combine(processed.ToArray());
-        var normalized = ApplyNormalization(options, combined);
-        return Path.GetFullPath(normalized);
+        return ApplyNormalization(options, combined);
     }
 
     /// <summary>
-    /// Combines four path segments and returns a normalized absolute path using the specified options.
+    /// Combines four path segments into a normalized path.
     /// </summary>
     /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="path1">The first path segment.</param>
     /// <param name="path2">The second path segment.</param>
     /// <param name="path3">The third path segment.</param>
     /// <param name="path4">The fourth path segment.</param>
-    /// <returns>A normalized absolute path.</returns>
-    public static string CombineToAbsolute(PathOptions? options, string? path1, string? path2, string? path3, string? path4)
+    /// <returns>A normalized path.</returns>
+    public static string Combine(PathOptions? options, string? path1, string? path2, string? path3, string? path4)
     {
         options ??= PathOptions.Default;
         var processed = ProcessSegments(options, path1, path2, path3, path4);
         var combined = Path.Combine(processed.ToArray());
-        var normalized = ApplyNormalization(options, combined);
-        return Path.GetFullPath(normalized);
+        return ApplyNormalization(options, combined);
     }
 
     /// <summary>
-    /// Combines multiple path segments and returns a normalized absolute path using the specified options.
+    /// Combines multiple path segments into a normalized path.
     /// </summary>
     /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="paths">The path segments to combine.</param>
-    /// <returns>A normalized absolute path.</returns>
-    public static string CombineToAbsolute(PathOptions? options, params string?[] paths)
+    /// <returns>A normalized path.</returns>
+    public static string Combine(PathOptions? options, params string?[] paths)
     {
         options ??= PathOptions.Default;
         ArgumentNullException.ThrowIfNull(paths);
         var processed = ProcessSegments(options, paths);
         var combined = Path.Combine(processed.ToArray());
-        var normalized = ApplyNormalization(options, combined);
-        return Path.GetFullPath(normalized);
+        return ApplyNormalization(options, combined);
     }
 
     #endregion
 
-    #region Path Combining - Relative
+    #region Path Combining (Convenience Methods)
 
     /// <summary>
-    /// Combines two path segments and returns a normalized relative path using the specified options.
+    /// Combines two path segments using native platform conventions.
     /// </summary>
-    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="path1">The first path segment.</param>
     /// <param name="path2">The second path segment.</param>
-    /// <returns>A normalized relative path.</returns>
-    public static string CombineRelative(PathOptions? options, string? path1, string? path2)
+    /// <returns>A normalized path with platform-native separators.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?)"/> with <see cref="PathOptions.Native"/>.
+    /// </remarks>
+    public static string CombineNative(string? path1, string? path2)
     {
-        options ??= PathOptions.Default;
-        var processed = ProcessSegments(options, path1, path2);
-        var combined = Path.Combine(processed.ToArray());
-        return ApplyNormalization(options, combined);
+        return Combine(PathOptions.Native, path1, path2);
     }
 
     /// <summary>
-    /// Combines three path segments and returns a normalized relative path using the specified options.
+    /// Combines three path segments using native platform conventions.
     /// </summary>
-    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="path1">The first path segment.</param>
     /// <param name="path2">The second path segment.</param>
     /// <param name="path3">The third path segment.</param>
-    /// <returns>A normalized relative path.</returns>
-    public static string CombineRelative(PathOptions? options, string? path1, string? path2, string? path3)
+    /// <returns>A normalized path with platform-native separators.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?, string?)"/> with <see cref="PathOptions.Native"/>.
+    /// </remarks>
+    public static string CombineNative(string? path1, string? path2, string? path3)
     {
-        options ??= PathOptions.Default;
-        var processed = ProcessSegments(options, path1, path2, path3);
-        var combined = Path.Combine(processed.ToArray());
-        return ApplyNormalization(options, combined);
+        return Combine(PathOptions.Native, path1, path2, path3);
     }
 
     /// <summary>
-    /// Combines four path segments and returns a normalized relative path using the specified options.
+    /// Combines four path segments using native platform conventions.
     /// </summary>
-    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="path1">The first path segment.</param>
     /// <param name="path2">The second path segment.</param>
     /// <param name="path3">The third path segment.</param>
     /// <param name="path4">The fourth path segment.</param>
-    /// <returns>A normalized relative path.</returns>
-    public static string CombineRelative(PathOptions? options, string? path1, string? path2, string? path3, string? path4)
+    /// <returns>A normalized path with platform-native separators.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?, string?, string?)"/> with <see cref="PathOptions.Native"/>.
+    /// </remarks>
+    public static string CombineNative(string? path1, string? path2, string? path3, string? path4)
     {
-        options ??= PathOptions.Default;
-        var processed = ProcessSegments(options, path1, path2, path3, path4);
-        var combined = Path.Combine(processed.ToArray());
-        return ApplyNormalization(options, combined);
+        return Combine(PathOptions.Native, path1, path2, path3, path4);
     }
 
     /// <summary>
-    /// Combines multiple path segments and returns a normalized relative path using the specified options.
+    /// Combines multiple path segments using native platform conventions.
     /// </summary>
-    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="paths">The path segments to combine.</param>
-    /// <returns>A normalized relative path.</returns>
-    public static string CombineRelative(PathOptions? options, params string?[] paths)
+    /// <returns>A normalized path with platform-native separators.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?[])"/> with <see cref="PathOptions.Native"/>.
+    /// </remarks>
+    public static string CombineNative(params string?[] paths)
     {
-        options ??= PathOptions.Default;
-        ArgumentNullException.ThrowIfNull(paths);
-        var processed = ProcessSegments(options, paths);
-        var combined = Path.Combine(processed.ToArray());
-        return ApplyNormalization(options, combined);
+        return Combine(PathOptions.Native, paths);
+    }
+
+    /// <summary>
+    /// Combines two path segments using Windows conventions.
+    /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <returns>A normalized path with Windows-style backslashes.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?)"/> with <see cref="PathOptions.Windows"/>.
+    /// </remarks>
+    public static string CombineWindows(string? path1, string? path2)
+    {
+        return Combine(PathOptions.Windows, path1, path2);
+    }
+
+    /// <summary>
+    /// Combines three path segments using Windows conventions.
+    /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <param name="path3">The third path segment.</param>
+    /// <returns>A normalized path with Windows-style backslashes.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?, string?)"/> with <see cref="PathOptions.Windows"/>.
+    /// </remarks>
+    public static string CombineWindows(string? path1, string? path2, string? path3)
+    {
+        return Combine(PathOptions.Windows, path1, path2, path3);
+    }
+
+    /// <summary>
+    /// Combines four path segments using Windows conventions.
+    /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <param name="path3">The third path segment.</param>
+    /// <param name="path4">The fourth path segment.</param>
+    /// <returns>A normalized path with Windows-style backslashes.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?, string?, string?)"/> with <see cref="PathOptions.Windows"/>.
+    /// </remarks>
+    public static string CombineWindows(string? path1, string? path2, string? path3, string? path4)
+    {
+        return Combine(PathOptions.Windows, path1, path2, path3, path4);
+    }
+
+    /// <summary>
+    /// Combines multiple path segments using Windows conventions.
+    /// </summary>
+    /// <param name="paths">The path segments to combine.</param>
+    /// <returns>A normalized path with Windows-style backslashes.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?[])"/> with <see cref="PathOptions.Windows"/>.
+    /// </remarks>
+    public static string CombineWindows(params string?[] paths)
+    {
+        return Combine(PathOptions.Windows, paths);
+    }
+
+    /// <summary>
+    /// Combines two path segments using Unix conventions.
+    /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <returns>A normalized path with Unix-style forward slashes.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?)"/> with <see cref="PathOptions.Unix"/>.
+    /// </remarks>
+    public static string CombineUnix(string? path1, string? path2)
+    {
+        return Combine(PathOptions.Unix, path1, path2);
+    }
+
+    /// <summary>
+    /// Combines three path segments using Unix conventions.
+    /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <param name="path3">The third path segment.</param>
+    /// <returns>A normalized path with Unix-style forward slashes.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?, string?)"/> with <see cref="PathOptions.Unix"/>.
+    /// </remarks>
+    public static string CombineUnix(string? path1, string? path2, string? path3)
+    {
+        return Combine(PathOptions.Unix, path1, path2, path3);
+    }
+
+    /// <summary>
+    /// Combines four path segments using Unix conventions.
+    /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <param name="path3">The third path segment.</param>
+    /// <param name="path4">The fourth path segment.</param>
+    /// <returns>A normalized path with Unix-style forward slashes.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?, string?, string?)"/> with <see cref="PathOptions.Unix"/>.
+    /// </remarks>
+    public static string CombineUnix(string? path1, string? path2, string? path3, string? path4)
+    {
+        return Combine(PathOptions.Unix, path1, path2, path3, path4);
+    }
+
+    /// <summary>
+    /// Combines multiple path segments using Unix conventions.
+    /// </summary>
+    /// <param name="paths">The path segments to combine.</param>
+    /// <returns>A normalized path with Unix-style forward slashes.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?[])"/> with <see cref="PathOptions.Unix"/>.
+    /// </remarks>
+    public static string CombineUnix(params string?[] paths)
+    {
+        return Combine(PathOptions.Unix, paths);
     }
 
     #endregion
@@ -428,12 +564,64 @@ public static class PathHelper
             throw new ArgumentException("At least one non-empty path segment is required.");
         }
 
-        // Validate subsequent paths are relative
-        // Use Path.IsPathRooted instead of Path.IsPathFullyQualified because IsPathRooted
-        // is stricter and catches dangerous Windows-specific paths that would otherwise slip through:
-        // - Drive-relative paths like "C:file.txt" (relative to current directory on drive C:)
-        // - Root-relative paths like "\file.txt" (relative to current drive root)
-        // These paths appear "partially absolute" and can cause silent bugs if passed to Path.Combine.
+        // Validate first segment is absolute if required
+        // IMPORTANT: We use Path.IsPathFullyQualified() for the FIRST segment because it's the STRICTEST check.
+        // It only returns true for paths that are complete and unambiguous on the current platform:
+        //
+        // On Windows, IsPathFullyQualified returns TRUE only for:
+        //   - Absolute paths with drive letter: "C:\Windows\System32"
+        //   - UNC network paths: "\\server\share\file.txt"
+        //   - Device paths: "\\.\COM1", "\\?\C:\file.txt"
+        //
+        // On Windows, IsPathFullyQualified returns FALSE for:
+        //   - Drive-relative paths: "C:file.txt" (relative to current directory on drive C:)
+        //   - Root-relative paths: "\file.txt" (relative to current drive root)
+        //   - Relative paths: "folder\file.txt", "..\file.txt"
+        //
+        // On Unix, IsPathFullyQualified returns TRUE only for:
+        //   - Absolute paths: "/usr/bin/bash"
+        //
+        // On Unix, IsPathFullyQualified returns FALSE for:
+        //   - Relative paths: "folder/file.txt", "../file.txt"
+        //
+        // This strict validation ensures the first segment provides an unambiguous starting point
+        // for path resolution, preventing errors from accidentally using platform-specific relative paths.
+        if (options.RequireAbsoluteFirstSegment && meaningful.Count > 0)
+        {
+            if (!Path.IsPathFullyQualified(meaningful[0]))
+            {
+                throw new ArgumentException(
+                    $"First path segment '{meaningful[0]}' is not a fully qualified absolute path. " +
+                    $"Set RequireAbsoluteFirstSegment to false to allow relative first segments.");
+            }
+        }
+
+        // Validate subsequent segments are relative
+        // IMPORTANT: We use Path.IsPathRooted() for SUBSEQUENT segments because it's LOOSER than IsPathFullyQualified.
+        // This means it catches MORE cases as "rooted" (which we want to reject), providing stricter validation.
+        //
+        // On Windows, IsPathRooted returns TRUE for:
+        //   - Absolute paths with drive letter: "C:\Windows\System32" ✓
+        //   - UNC network paths: "\\server\share\file.txt" ✓
+        //   - Device paths: "\\.\COM1", "\\?\C:\file.txt" ✓
+        //   - Drive-relative paths: "C:file.txt" ✓ (IMPORTANT: IsPathFullyQualified returns FALSE for this!)
+        //   - Root-relative paths: "\file.txt" ✓ (IMPORTANT: IsPathFullyQualified returns FALSE for this!)
+        //
+        // On Windows, IsPathRooted returns FALSE only for:
+        //   - Relative paths: "folder\file.txt", "..\file.txt"
+        //
+        // The key insight: IsPathRooted catches dangerous Windows-specific "partially qualified" paths
+        // (like "C:file.txt" and "\file.txt") that IsPathFullyQualified would miss. These paths are
+        // technically "rooted" but not "fully qualified", and they cause silent bugs when passed to Path.Combine
+        // because they depend on ambient state (current drive, current directory on a drive).
+        //
+        // For subsequent segments, we want the STRICTEST possible check to reject anything that could
+        // potentially override the base path. IsPathRooted provides this by catching all forms of
+        // rooted paths, including the ambiguous Windows-specific ones.
+        //
+        // Example dangerous scenario we prevent:
+        //   Path.Combine("C:\\Base", "D:file.txt") → "D:file.txt" (silently discards "C:\\Base"!)
+        //   Path.Combine("C:\\Base", "\\file.txt") → "\\file.txt" (silently discards "C:\\Base"!)
         if (options.ValidateSubsequentPathsRelative)
         {
             for (int i = 1; i < meaningful.Count; i++)

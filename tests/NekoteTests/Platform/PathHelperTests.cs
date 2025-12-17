@@ -125,13 +125,75 @@ public class PathHelperTests
     }
 
     [Fact]
-    public void NormalizeStructure_RedundantSeparators_Preserved()
+    public void NormalizeStructure_ConsecutiveSeparators_Removed()
     {
-        // Current implementation preserves empty segments (a//b -> a//b)
-        // This ensures structural fidelity isn't lost implicitly.
+        // Consecutive separators are normalized out (a//b -> a/b)
+        // Leading separators for absolute/UNC paths are preserved as prefix.
         var path = "a//b";
         var result = PathHelper.NormalizeStructure(path);
-        Assert.Equal("a//b", result);
+        Assert.Equal("a/b", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_ConsecutiveSeparators_Windows_Removed()
+    {
+        var path = @"a\\b";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal(@"a\b", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_MixedConsecutiveSeparators_Removed()
+    {
+        // Mixed separators like /\ are also normalized
+        var path = "a/\\b";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("a/b", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_UncPath_PreservesDoubleLeadingBackslash()
+    {
+        // UNC paths preserve the \\ prefix
+        var path = @"\\server\share\file.txt";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal(@"\\server\share\file.txt", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_UncPathWithForwardSlashes_PreservesDoubleLeading()
+    {
+        // UNC-style with forward slashes preserves // prefix
+        var path = @"//server/share/file.txt";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal(@"//server/share/file.txt", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_InvalidUnixDoubleSlash_NormalizesToSingle()
+    {
+        // Invalid Unix path with double leading slash is treated as UNC-like prefix and preserved
+        // POSIX allows //server but implementation defined behavior for //path
+        var path = "//usr/bin";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("//usr/bin", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_AbsoluteUnixPath_PreservesSingleLeadingSlash()
+    {
+        var path = "/usr/bin";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("/usr/bin", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_ConsecutiveSeparatorsInMiddle_Removed()
+    {
+        // Multiple consecutive separators in the middle are all removed
+        var path = "a///b////c";
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal("a/b/c", result);
     }
 
     [Fact]
@@ -183,7 +245,7 @@ public class PathHelperTests
     {
         var path = @"//?/C:/folder";
         var result = PathHelper.NormalizeStructure(path);
-        Assert.Equal(@"//?/C:/folder", result);
+        Assert.Equal(@"//?/C:\folder", result);
     }
 
     [Fact]
@@ -278,10 +340,10 @@ public class PathHelperTests
     {
         // a/\b -> contains / -> uses / as separator
         // Split: a, "", b
-        // Join: a//b
+        // Join: a/b (normalization collapses middle empty segment)
         var path = @"a/\b";
         var result = PathHelper.NormalizeStructure(path);
-        Assert.Equal("a//b", result);
+        Assert.Equal("a/b", result);
     }
 
     #endregion

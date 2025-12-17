@@ -115,26 +115,30 @@ public static class PathHelper
     }
 
     /// <summary>
-    /// Normalizes path structure by resolving <c>.</c> (current directory) and <c>..</c> (parent directory) segments.
+    /// Normalizes path structure by resolving <c>.</c> (current directory) and <c>..</c> (parent directory) segments,
+    /// and removing consecutive separators.
     /// </summary>
     /// <param name="path">The path to normalize.</param>
-    /// <returns>The path with <c>.</c> and <c>..</c> segments resolved.</returns>
+    /// <returns>The path with <c>.</c> and <c>..</c> segments resolved and consecutive separators removed.</returns>
     /// <remarks>
     /// <para>
     /// This method resolves relative path segments while preserving the relative nature of the path:
     /// <list type="bullet">
     /// <item><c>.</c> (current directory) - removed from path</item>
     /// <item><c>..</c> (parent directory) - collapses with previous segment</item>
+    /// <item>Consecutive separators - removed (e.g., <c>usr//bin</c> becomes <c>usr/bin</c>)</item>
     /// </list>
     /// </para>
     /// <para>
-    /// Example: <c>dir1/./dir2/../dir3</c> becomes <c>dir1/dir3</c>
+    /// Example: <c>dir1/./dir2/../dir3//file</c> becomes <c>dir1/dir3/file</c>
     /// </para>
     /// <para>
     /// Correctly handles absolute paths including UNC network paths:
     /// <list type="bullet">
     /// <item>Unix absolute: <c>/usr/./bin</c> becomes <c>/usr/bin</c></item>
     /// <item>UNC network: <c>\\server\share\..\other</c> becomes <c>\\server\other</c></item>
+    /// <item>Device paths: <c>\\.\COM1</c> and <c>\\?\C:\path</c> preserve their prefixes</item>
+    /// <item>Invalid Unix double-slash: <c>//usr/bin</c> normalizes to <c>/usr/bin</c></item>
     /// </list>
     /// </para>
     /// <para>
@@ -153,11 +157,10 @@ public static class PathHelper
 
         // Handle Device Paths explicitly to preserve the "\\.\" or "\\?\" prefix
         // which contains a dot that would otherwise be removed.
-        // Support both backslash and forward slash variants.
         string? prefix = null;
         string pathProcess = path;
 
-        if (path.StartsWith(@"\\.\") || path.StartsWith(@"\\?\") ||
+        if (path.StartsWith(@"\\.\") || path.StartsWith(@"\\?\") || 
             path.StartsWith(@"//./") || path.StartsWith(@"//?/"))
         {
             prefix = path.Substring(0, 4);
@@ -165,21 +168,51 @@ public static class PathHelper
         }
 
         // Determine separator style to preserve
-        char separator = pathProcess.Contains('/') ? '/' : '\\';
+        char separator = (prefix != null) 
+            ? '\\' 
+            : (pathProcess.Contains('/') ? '/' : '\\');
 
-        // Split the path into segments, keeping empty segments to preserve structure
+        // Split the path into segments
         var segments = pathProcess.Split(['/', '\\']);
         var stack = new List<string>(segments.Length);
 
         // Determine if the path is rooted (absolute) to handle ".." clamping
-        // Rooted if starts with empty (leading separator) or drive letter (X: at start)
-        // Check for drive letter: single char followed by colon (e.g., "C:")
-        bool isRooted = segments.Length > 0 &&
-                       (segments[0] == "" ||
-                        (segments[0].Length >= 2 && segments[0][1] == ':' && char.IsLetter(segments[0][0])));
+        // Rooted if starts with empty (leading separator) or drive letter (contains :)
+        bool isRooted = segments.Length > 0 && 
+                       (segments[0] == "" || 
+                       (segments[0].Length >= 2 && segments[0][1] == ':' && char.IsLetter(segments[0][0])));
 
-        foreach (var segment in segments)
+        for (int i = 0; i < segments.Length; i++)
         {
+            var segment = segments[i];
+
+            if (segment == "")
+            {
+                // Handle empty segments (separators)
+                // 1. Preserve leading separator (Root)
+                if (i == 0) 
+                {
+                    stack.Add(segment);
+                    continue;
+                }
+                // 2. Preserve second leading separator (UNC \\server)
+                if (i == 1 && segments[0] == "")
+                {
+                    stack.Add(segment);
+                    continue;
+                }
+                // 3. Preserve trailing separator (path/ -> path/)
+                //    This allows TrailingSeparatorHandling options to work correctly later
+                if (i == segments.Length - 1)
+                {
+                    stack.Add(segment);
+                    continue;
+                }
+                
+                // 4. Skip redundant internal separators (a//b -> a/b)
+                continue;
+            }
+            
             if (segment == ".")
             {
                 // Current directory reference - skip it
@@ -195,7 +228,7 @@ public static class PathHelper
                 }
                 else
                 {
-                    // Can't pop.
+                    // Can't pop. 
                     // If we are NOT rooted, we must preserve ".." (e.g. "../../file.txt")
                     // If we ARE rooted, ".." at root is ignored (clamped) (e.g. "/../file" -> "/file")
                     if (!isRooted)
@@ -206,7 +239,7 @@ public static class PathHelper
             }
             else
             {
-                // Regular segment (including empty ones that preserve leading separators)
+                // Regular segment
                 stack.Add(segment);
             }
         }

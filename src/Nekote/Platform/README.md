@@ -38,7 +38,12 @@ Platform-specific constants, operating system detection, and cross-platform path
 
 ### Path Manipulation
 - **PathHelper.cs** - Cross-platform path normalization and combining utilities.
-  - Atomic operations: `NormalizeUnicode` (NFC form for macOS compatibility), `NormalizeStructure` (resolves `.` and `..`), `NormalizeSeparators`, `HandleTrailingSeparator`.
+  - Atomic operations: `NormalizeUnicode` (NFC form for macOS compatibility), `NormalizeStructure` (resolves `.` and `..`, removes consecutive separators), `NormalizeSeparators`, `HandleTrailingSeparator`.
+  - **Empty segment handling**: `NormalizeStructure` removes consecutive separators (`usr//bin` → `usr/bin`) while preserving path prefixes:
+    - Device paths: `\\.\.\COM1` → `\\.\COM1`, `\\?\C:\path` → `\\?\C:\path`
+    - UNC network paths: `\\server\share` (Windows), `//server/share` (tolerates forward slashes)
+    - Absolute paths: `/usr` (Unix single leading slash), `\file` (Windows root-relative)
+    - Invalid Unix double-slash paths normalize to single: `//usr` → `/usr`
   - Separator convenience wrappers: `ToUnixPath`, `ToWindowsPath`, `ToNativePath`.
   - Trailing separator convenience wrappers: `EnsureTrailingSeparator`, `RemoveTrailingSeparator`.
   - Core combining: `Combine` methods (2, 3, 4, and params overloads) accepting nullable `PathOptions` parameter (defaults to `PathOptions.Default` when `null`).

@@ -290,6 +290,28 @@ public static partial class PathHelper
         }
 
         // Validate first segment is absolute if required
+        //
+        // IMPORTANT: We use Path.IsPathFullyQualified() for the FIRST segment because it's the STRICTEST check.
+        // It only returns true for paths that are complete and unambiguous on the current platform:
+        //
+        // On Windows, IsPathFullyQualified returns TRUE only for:
+        //   - Absolute paths with drive letter: "C:\Windows\System32"
+        //   - UNC network paths: "\\server\share\file.txt"
+        //   - Device paths: "\\.\COM1", "\\?\C:\file.txt"
+        //
+        // On Windows, IsPathFullyQualified returns FALSE for:
+        //   - Drive-relative paths: "C:file.txt" (relative to current directory on drive C:)
+        //   - Root-relative paths: "\file.txt" (relative to current drive root)
+        //   - Relative paths: "folder\file.txt", "..\file.txt"
+        //
+        // On Unix, IsPathFullyQualified returns TRUE only for:
+        //   - Absolute paths: "/usr/bin/bash"
+        //
+        // On Unix, IsPathFullyQualified returns FALSE for:
+        //   - Relative paths: "folder/file.txt", "../file.txt"
+        //
+        // This strict validation ensures the first segment provides an unambiguous starting point
+        // for path resolution, preventing errors from accidentally using platform-specific relative paths.
         if (options.RequireAbsoluteFirstSegment && meaningful.Count > 0)
         {
             if (!Path.IsPathFullyQualified(meaningful[0]))
@@ -301,6 +323,38 @@ public static partial class PathHelper
         }
 
         // Validate subsequent segments are relative
+        //
+        // IMPORTANT: We use Path.IsPathRooted() for SUBSEQUENT segments because it's LOOSER than IsPathFullyQualified.
+        // This means it catches MORE cases as "rooted" (which we want to reject), providing stricter validation.
+        //
+        // On Windows, IsPathRooted returns TRUE for:
+        //   - Absolute paths with drive letter: "C:\Windows\System32" ✓
+        //   - UNC network paths: "\\server\share\file.txt" ✓
+        //   - Device paths: "\\.\COM1", "\\?\C:\file.txt" ✓
+        //   - Drive-relative paths: "C:file.txt" ✓ (IMPORTANT: IsPathFullyQualified returns FALSE for this!)
+        //   - Root-relative paths: "\file.txt" ✓ (IMPORTANT: IsPathFullyQualified returns FALSE for this!)
+        //
+        // On Windows, IsPathRooted returns FALSE only for:
+        //   - Relative paths: "folder\file.txt", "..\file.txt"
+        //
+        // On Unix, IsPathRooted returns TRUE for:
+        //   - Absolute paths: "/usr/bin" ✓
+        //
+        // On Unix, IsPathRooted returns FALSE for:
+        //   - Relative paths: "folder/file.txt", "../file.txt"
+        //
+        // The key insight: IsPathRooted catches dangerous Windows-specific "partially qualified" paths
+        // (like "C:file.txt" and "\file.txt") that IsPathFullyQualified would miss. These paths are
+        // technically "rooted" but not "fully qualified", and they cause silent bugs when passed to Path.Combine
+        // because they depend on ambient state (current drive, current directory on a drive).
+        //
+        // For subsequent segments, we want the STRICTEST possible check to reject anything that could
+        // potentially override the base path. IsPathRooted provides this by catching all forms of
+        // rooted paths, including the ambiguous Windows-specific ones.
+        //
+        // Example dangerous scenarios we prevent:
+        //   Path.Combine("C:\\Base", "D:file.txt") → "D:file.txt" (silently discards "C:\\Base"!)
+        //   Path.Combine("C:\\Base", "\\file.txt") → "\\file.txt" (silently discards "C:\\Base"!)
         if (options.ValidateSubsequentPathsRelative)
         {
             for (int i = 1; i < meaningful.Count; i++)

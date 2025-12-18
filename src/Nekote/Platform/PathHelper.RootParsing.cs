@@ -1,4 +1,4 @@
-﻿namespace Nekote.Platform;
+namespace Nekote.Platform;
 
 /// <summary>
 /// Root detection and parsing methods for PathHelper.
@@ -6,6 +6,95 @@
 /// </summary>
 public static partial class PathHelper
 {
+    #region Root Length Detection
+
+    /// <summary>
+    /// Gets the length of the root portion of the path.
+    /// </summary>
+    /// <param name="path">The path to analyze.</param>
+    /// <returns>The length of the root portion, or 0 if the path is relative.</returns>
+    /// <remarks>
+    /// <para>
+    /// <strong>Windows Path Specifications (also supported cross-platform):</strong>
+    /// </para>
+    /// <para>
+    /// <strong>1. DOS Device Paths</strong> (<c>\\.</c> prefix):
+    /// <list type="bullet">
+    /// <item><c>\\.\COM1</c> - Physical device (serial port). Root length: 4</item>
+    /// <item><c>\\.\PhysicalDisk0</c> - Physical disk. Root length: 4</item>
+    /// <item><c>\\.\C:\path</c> - Drive via device. Root length: 7 (includes drive and separator)</item>
+    /// <item><c>//./COM1</c> - Same as above with forward slashes (extension for cross-platform tolerance)</item>
+    /// </list>
+    /// Purpose: Direct access to hardware devices, bypassing filesystem layers.
+    /// </para>
+    /// <para>
+    /// <strong>2. Extended-Length Paths</strong> (<c>\\?</c> prefix):
+    /// <list type="bullet">
+    /// <item><c>\\?\C:\very\long\path</c> - Bypasses MAX_PATH (260 char) limit. Root length: 7</item>
+    /// <item><c>\\?\UNC\server\share\file</c> - Extended UNC path. Root length: includes server and share</item>
+    /// <item><c>//?/C:/path</c> - Same with forward slashes (extension)</item>
+    /// </list>
+    /// Purpose: Access paths longer than 260 characters. Disables path normalization (no . or .. processing by Windows).
+    /// </para>
+    /// <para>
+    /// <strong>3. UNC (Universal Naming Convention) Paths</strong>:
+    /// <list type="bullet">
+    /// <item><c>\\server\share\path</c> - Network share. Root length: includes <c>\\server\share</c></item>
+    /// <item><c>//server/share/path</c> - Same with forward slashes</item>
+    /// <item>Server name: computer name or IP address</item>
+    /// <item>Share name: shared folder name</item>
+    /// </list>
+    /// Purpose: Access network resources. Root includes server and share to uniquely identify network location.
+    /// </para>
+    /// <para>
+    /// <strong>4. Drive Letter Paths</strong>:
+    /// <list type="bullet">
+    /// <item><c>C:\path</c> - Absolute path on drive C. Root length: 3</item>
+    /// <item><c>C:path</c> - Relative to current directory on drive C (NOT fully qualified). Root length: 2</item>
+    /// <item><c>D:/path</c> - Absolute with forward slash. Root length: 3</item>
+    /// </list>
+    /// Note: <c>C:</c> without separator is relative to current directory on that drive (dangerous, often unexpected).
+    /// </para>
+    /// <para>
+    /// <strong>5. Root-Relative Paths</strong>:
+    /// <list type="bullet">
+    /// <item><c>\path</c> - Relative to current drive's root (on Windows). Root length: 1</item>
+    /// <item><c>/path</c> - Absolute on Unix, root-relative on Windows. Root length: 1</item>
+    /// </list>
+    /// Dangerous on Windows: meaning depends on current drive.
+    /// </para>
+    /// <para>
+    /// <strong>Cross-Platform Extensions:</strong>
+    /// </para>
+    /// <para>
+    /// Unlike .NET's implementation (which only accepts backslashes for device paths), this accepts
+    /// mixed separators (<c>/</c> and <c>\</c>) for cross-platform tolerance. This allows paths
+    /// to be normalized with <c>ToUnixPath()</c> or <c>ToWindowsPath()</c> without losing semantic meaning.
+    /// </para>
+    /// <para>
+    /// Examples: <c>//./COM1</c>, <c>\/?\C:/path</c>, <c>//server/share</c> are all recognized.
+    /// </para>
+    /// </remarks>
+    internal static int GetRootLength(string path)
+    {
+        if (string.IsNullOrEmpty(path))
+        {
+            return 0;
+        }
+
+        ReadOnlySpan<char> span = path.AsSpan();
+
+        // Try each root type in order of specificity
+        if (TryParseDeviceOrExtendedSegment(span, out int length)) return length;
+        if (TryParseDriveSegment(span, out length)) return length;
+        if (TryParseUncRootSegment(span, out length)) return length;
+        if (TryParseRootSegment(span, out length)) return length;
+
+        return 0; // Relative path
+    }
+
+    #endregion
+
     #region Root Detection (Is* predicates)
 
     /// <summary>

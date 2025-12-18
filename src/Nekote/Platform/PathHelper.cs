@@ -11,9 +11,10 @@
 /// <para>
 /// The class is organized into partial files for AI-editing efficiency:
 /// <list type="bullet">
+/// <item><c>PathHelper.RootParsing.cs</c> - Root detection and parsing (device, extended, UNC, drive, simple roots)</item>
 /// <item><c>PathHelper.Combining.cs</c> - Path combining operations (complete feature following external specs)</item>
 /// <item><c>PathHelper.Normalization.cs</c> - All normalization operations: structure, Unicode, separators, trailing (complete feature following external specs)</item>
-/// <item><c>PathHelper.cs</c> - Utility methods that don't fit specific subcategories or aren't large enough for separate files</item>
+/// <item><c>PathHelper.cs</c> - Utility methods and helpers (drive letter validation, separator checking)</item>
 /// </list>
 /// Subcategories are created only for "complete features" that follow external specifications and are large enough to deserve their own file.
 /// Anything else stays in the main file.

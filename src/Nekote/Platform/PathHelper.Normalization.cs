@@ -333,9 +333,11 @@ public static partial class PathHelper
         return mode switch
         {
             PathSeparatorMode.Preserve => path,
-            PathSeparatorMode.Windows => path.Replace('/', '\\'),
-            PathSeparatorMode.Unix => path.Replace('\\', '/'),
-            PathSeparatorMode.Native => path.Replace(PathSeparators.NonNative, PathSeparators.Native),
+            PathSeparatorMode.Windows => path.Replace(PathSeparators.Unix, PathSeparators.Windows),
+            PathSeparatorMode.Unix => path.Replace(PathSeparators.Windows, PathSeparators.Unix),
+            PathSeparatorMode.Native => PathSeparators.Native == PathSeparators.Windows
+                ? path.Replace(PathSeparators.Unix, PathSeparators.Windows)  // Native is Windows: convert Unix to Windows
+                : path.Replace(PathSeparators.Windows, PathSeparators.Unix), // Native is Unix: convert Windows to Unix
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, "Invalid PathSeparatorMode value.")
         };
     }

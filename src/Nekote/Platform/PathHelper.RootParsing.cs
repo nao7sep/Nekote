@@ -532,7 +532,8 @@ public static partial class PathHelper
     /// </remarks>
     /// <param name="path">The path to parse.</param>
     /// <param name="length">Receives the length of the complete device/extended root.</param>
-    /// <returns>True if the path starts with a device or extended-length prefix; otherwise, false.</returns>
+    /// <returns>True if the path starts with a valid device or extended-length prefix and content.</returns>
+    /// <exception cref="ArgumentException">Thrown when a valid prefix is detected but the subsequent path structure is malformed (e.g., missing device name or invalid UNC structure).</exception>
     private static bool TryParseDeviceOrExtendedSegment(ReadOnlySpan<char> path, out int length)
     {
         length = 0;
@@ -727,7 +728,8 @@ public static partial class PathHelper
     /// </remarks>
     /// <param name="path">The path to parse.</param>
     /// <param name="length">Receives the length of the UNC root (including server and share if present).</param>
-    /// <returns>True if the path starts with a valid UNC prefix; otherwise, false.</returns>
+    /// <returns>True if the path starts with a valid UNC prefix and server name.</returns>
+    /// <exception cref="ArgumentException">Thrown when a valid UNC prefix is detected but the server name is missing or malformed.</exception>
     private static bool TryParseUncRootSegment(ReadOnlySpan<char> path, out int length)
     {
         length = 0;

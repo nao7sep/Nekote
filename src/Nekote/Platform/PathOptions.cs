@@ -1,4 +1,4 @@
-﻿namespace Nekote.Platform;
+namespace Nekote.Platform;
 
 /// <summary>
 /// Provides configuration options for path combining and normalization operations.

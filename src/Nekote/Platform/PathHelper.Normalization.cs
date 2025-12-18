@@ -12,6 +12,7 @@ public static partial class PathHelper
     /// </summary>
     /// <param name="path">The path to normalize.</param>
     /// <returns>The path with <c>.</c> and <c>..</c> segments resolved and consecutive separators removed.</returns>
+    /// <exception cref="ArgumentException">Thrown when the path root is malformed (e.g., invalid device path or missing UNC server name).</exception>
     /// <remarks>
     /// <para>
     /// <strong>Normalization Operations:</strong>
@@ -87,7 +88,7 @@ public static partial class PathHelper
     /// <para>
     /// <list type="bullet">
     /// <item><c>C:</c> (drive without separator) - root is 2 chars, normalized as-is</item>
-    /// <item><c>C:path\..\file</c> (drive-relative) - treated as relative path (rootLength=2, but isRooted based on trailing separator)</item>
+    /// <item><c>C:path\..\file</c> (drive-relative) - treated as rooted path (rootLength=2, clamps at root like <c>C:file</c>)</item>
     /// <item><c>\path</c> (root-relative Windows) - root is 1 char, treated as absolute</item>
     /// <item><c>\\.\Device\..\other</c> - device path, clamps at root (can't escape device namespace)</item>
     /// <item><c>\\?\UNC\server\share\..\other</c> - device UNC, clamps at <c>\\?\UNC\server\share</c></item>

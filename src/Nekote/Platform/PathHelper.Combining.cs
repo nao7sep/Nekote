@@ -257,47 +257,63 @@ public static partial class PathHelper
                 nameof(paths));
         }
 
+        // Path validation strategy: IsPathFullyQualified vs IsPathRooted
+        //
+        // We use different validation methods for first vs subsequent segments because they serve different purposes:
+        //
+        // 1. FIRST SEGMENT (RequireAbsoluteFirstSegment): Uses Path.IsPathFullyQualified
+        //    Purpose: Ensure the base path is TRULY absolute with no ambiguity
+        //    Strictness: STRICT - only accepts complete, unambiguous absolute paths
+        //
+        //    Windows - Path.IsPathFullyQualified returns TRUE for:
+        //      ✓ C:\path        (drive-based absolute)
+        //      ✓ \\server\share (UNC path)
+        //      ✓ \\.\device     (device path)
+        //      ✓ \\?\path       (extended-length path)
+        //
+        //    Windows - Path.IsPathFullyQualified returns FALSE for (DANGEROUS, ambiguous):
+        //      ✗ \path          (root-relative - depends on current drive: C:\path or D:\path?)
+        //      ✗ C:path         (drive-relative - depends on current directory on C:)
+        //      ✗ /path          (root-relative on Windows)
+        //
+        //    Unix - Path.IsPathFullyQualified returns TRUE for:
+        //      ✓ /path          (absolute)
+        //
+        //    Unix - Path.IsPathFullyQualified returns FALSE for:
+        //      ✗ path           (relative)
+        //
+        // 2. SUBSEQUENT SEGMENTS (ValidateSubsequentPathsRelative): Uses Path.IsPathRooted
+        //    Purpose: Detect ANY rooted path that would cause Path.Combine to discard previous segments
+        //    Strictness: LOOSE - catches anything that starts with a separator or drive letter
+        //
+        //    Windows - Path.IsPathRooted returns TRUE for:
+        //      ✓ C:\path        (absolute - would discard previous)
+        //      ✓ \path          (root-relative - would discard previous)
+        //      ✓ C:path         (drive-relative - would discard previous)
+        //      ✓ /path          (root-relative - would discard previous)
+        //      ✓ \\server\share (UNC - would discard previous)
+        //
+        //    Unix - Path.IsPathRooted returns TRUE for:
+        //      ✓ /path          (absolute - would discard previous)
+        //      ✓ \path          (accepted as separator - would discard previous)
+        //
+        // WHY THIS MATTERS:
+        //
+        // Path.Combine("C:\\base", "\\other") → "\\other" (base path LOST!)
+        // Path.Combine("C:\\base", "D:\\other") → "D:\\other" (base path LOST!)
+        //
+        // By using IsPathRooted for subsequent segments, we catch ALL rooted variants that would
+        // cause Path.Combine to discard previous segments, preventing silent data loss.
+        //
+        // By using IsPathFullyQualified for the first segment, we ensure the base path is truly
+        // absolute and unambiguous, preventing dependency on process-specific state (current drive,
+        // current directory on a specific drive, etc.).
+
         // Validate first segment is absolute if required
         if (options.RequireAbsoluteFirstSegment && segments.Count > 0)
         {
             if (!Path.IsPathFullyQualified(segments[0]))
             {
-                // Path.IsPathFullyQualified requires a complete, absolute path specification.
-                //
-                // On Windows, this means:
-                // - Drive-based absolute paths: C:\path, D:\path
-                // - UNC paths: \\server\share\path
-                // - Device paths: \\.\device, \\?\path
-                //
-                // It does NOT accept "rooted but not absolute" paths:
-                // - \path (root-relative, depends on current drive)
-                // - C:path (drive-relative, depends on current directory on drive C:)
-                // - /path (on Windows, treated as root-relative)
-                //
-                // On Unix-like systems:
-                // - /path is fully qualified (absolute)
-                // - path is NOT fully qualified (relative)
-                //
-                // Path.IsPathRooted is less strict and accepts any path starting with a separator:
-                //
-                // On Windows, Path.IsPathRooted returns true for:
-                // - C:\path (absolute)
-                // - \path (root-relative)
-                // - C:path (drive-relative)
-                // - /path (root-relative)
-                //
-                // On Unix-like systems, Path.IsPathRooted returns true for:
-                // - /path (absolute)
-                // - \path (absolute, backslash accepted as separator)
-                //
-                // When RequireAbsoluteFirstSegment is true, we enforce Path.IsPathFullyQualified
-                // to prevent ambiguity about where the path resolves. This catches dangerous
-                // Windows-specific paths like:
-                // - \path (depends on current drive: could be C:\path or D:\path)
-                // - C:path (depends on current directory on C:)
-                //
-                // For cross-platform reliability, always use fully qualified paths when this option is enabled.
-
                 throw new ArgumentException(
                     $"The first path segment must be an absolute (fully qualified) path when RequireAbsoluteFirstSegment is true. " +
                     $"Got: {segments[0]}",

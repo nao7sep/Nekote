@@ -64,6 +64,17 @@ public class NiniKeyValueParserTests
     }
 
     [Fact]
+    public void Parse_WhitespaceOnlyValue_TrimsToEmptyString()
+    {
+        // Key:    -> Value should be ""
+        var input = "Key:    ";
+        var result = NiniKeyValueParser.Parse(input);
+        
+        Assert.Single(result);
+        Assert.Equal("", result["Key"]);
+    }
+
+    [Fact]
     public void Parse_EmptyLines_SkipsEmptyLines()
     {
         var input = "key1: value1\n\n\nkey2: value2";

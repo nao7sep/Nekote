@@ -21,6 +21,15 @@ public partial class PathHelperTests
         Assert.Equal(expected.Replace('\\', '/'), result.Replace('\\', '/'));
     }
 
+    [Fact]
+    public void Combine_NullOptions_UsesDefaults()
+    {
+        // Explicitly passing null should use PathOptions.Default
+        var result = PathHelper.Combine(null, "part1", "part2");
+        Assert.EndsWith("part2", result);
+        Assert.Contains("part1", result);
+    }
+
     [Theory]
     [InlineData("C:\\base", "dir", "file.txt", "C:\\base\\dir\\file.txt")]
     [InlineData("/usr", "local", "bin", "/usr/local/bin")]
@@ -191,6 +200,21 @@ public partial class PathHelperTests
         var ex = Assert.Throws<ArgumentException>(() =>
             PathHelper.Combine(options, "C:\\base", "D:\\other"));
         Assert.Contains("must be a relative path", ex.Message);
+    }
+
+    [Fact]
+    public void Combine_AllowAbsoluteSubsequent_RestartsPath()
+    {
+        // When validation is disabled, standard Path.Combine behavior (restart at root) should apply
+        var options = PathOptions.Default with { ValidateSubsequentPathsRelative = false };
+
+        // On Windows: Path.Combine("C:\\base", "D:\\new") -> "D:\\new"
+        // On Unix: Path.Combine("/base", "/new") -> "/new"
+
+        string root = System.OperatingSystem.IsWindows() ? @"D:\new" : "/new";
+        var result = PathHelper.Combine(options, "base", root);
+
+        Assert.Equal(root, result);
     }
 
     #endregion

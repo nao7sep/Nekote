@@ -2,7 +2,7 @@
 
 Platform-specific constants, operating system detection, and cross-platform path manipulation utilities.
 
-## Current Segments
+## Segments
 
 ### Platform Constants
 - **LineEndings.cs** - Standard line ending sequences (`CrLf`, `Lf`, `Cr`, `Native`).
@@ -31,19 +31,16 @@ Platform-specific constants, operating system detection, and cross-platform path
   - Immutable - use `with` expressions to modify presets.
 
 ### Path Manipulation
-- **PathHelper.cs** - Atomic path normalization operations and convenience wrappers.
-  - Atomic operations: `NormalizeUnicode` (NFC form), `NormalizeStructure` (resolves `.` and `..`, removes consecutive separators), `NormalizeSeparators`, `HandleTrailingSeparator`.
-  - Convenience wrappers: `ToUnixPath`, `ToWindowsPath`, `ToNativePath`, `EnsureTrailingSeparator`, `RemoveTrailingSeparator`.
-  - Handles device paths (`\\.\COM1`, `\\?\C:\path`), UNC paths (`\\server\share`), and tolerates forward-slash variants from systematic normalization errors (`//./COM1`).
-  - Invalid Unix double-slash (`//usr`) normalizes to single (`/usr`).
-  - Separator preservation: Forward slash checked first (cross-platform default), device paths prefer backslash.
-  - Pure string transformations - no file system access.
-  - Declared as `partial class` - extended by `PathHelper.Combine.cs`.
-- **PathHelper.Combine.cs** - Path combining with validation and normalization.
-  - Core `Combine` methods: 4 overloads (2, 3, 4, params) accepting nullable `PathOptions` parameter.
-  - Convenience wrappers with presets: `CombineNative`, `CombineWindows`, `CombineUnix` (4 overloads each).
-  - Replaces `Path.Combine` with safer, normalized alternatives.
-  - Validation: `RequireAbsoluteFirstSegment` uses `Path.IsPathFullyQualified` (strictest), `ValidateSubsequentPathsRelative` uses `Path.IsPathRooted` (catches dangerous Windows drive-relative `C:file.txt` and root-relative `\file.txt` paths).
-  - Workflow: Filter empty segments → Validate → Delegate to `Path.Combine` → Apply normalizations.
-  - Private helpers: `ProcessSegments` (filters/validates), `ApplyNormalization` (applies structure, Unicode, separator, trailing normalizations in sequence).
-  - 60+ lines of validation comments explaining `IsPathFullyQualified` vs `IsPathRooted` behavior.
+- **PathHelper.cs** - Core utility entry point.
+  - Contains shared internal helpers (e.g., character validation) used by other partial files.
+  - Serves as the central definition for the static `PathHelper` class.
+- **PathHelper.RootParsing.cs** - Root path detection and parsing logic.
+  - Encapsulates the complexity of identifying different root types (Drive, UNC, Device, Extended).
+  - Responsible for determining the immutable boundaries of a path.
+- **PathHelper.Normalization.cs** - Path structure and content normalization.
+  - Handles the transformation of path strings into a canonical form (structure, separators, casing).
+  - Enforces security boundaries by resolving relative segments (`.`, `..`) safely against the root.
+  - Ensures cross-platform consistency (e.g., Unicode normalization).
+- **PathHelper.Combining.cs** - Safe path concatenation logic.
+  - Replaces standard `Path.Combine` with a safer implementation that enforces `PathOptions`.
+  - Coordinates validation (e.g., absolute/relative checks) and normalization during the combination process.

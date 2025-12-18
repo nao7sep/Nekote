@@ -154,6 +154,35 @@ public partial class PathHelperTests
     }
 
     [Theory]
+    [InlineData(@"\\server", 8)] // prefix(2) + server(6)
+    [InlineData(@"\\server\", 9)]
+    [InlineData(@"\\?\UNC\server", 14)] // prefix(4) + UNC\(4) + server(6)
+    public void GetRootLength_IncompleteUnc_IncludesServer(string path, int expectedLength)
+    {
+        // Even without a share name, the server part is considered the root
+        var length = PathHelper_GetRootLength(path);
+        Assert.Equal(expectedLength, length);
+    }
+
+    [Fact]
+    public void GetRootLength_IPv6_UncPath_HandledCorrectly()
+    {
+        // IPv6 addresses contain colons, which can be confused with drive letters.
+        // Format: \\2001:db8::1\share
+        // The parser must treat "2001:db8::1" as the server, not confusing ":d" as a drive.
+
+        var ipv6Unc = @"\\2001:db8::1\share\folder";
+        var rootLength = PathHelper_GetRootLength(ipv6Unc);
+
+        // Root should be \\2001:db8::1\share\ (including trailing separator)
+        // Length: 2 (\\) + 11 (2001:db8::1) + 1 (\) + 5 (share) + 1 (\) = 20
+        var rootPart = ipv6Unc.Substring(0, rootLength);
+
+        Assert.StartsWith(@"\\2001:db8::1\share", rootPart);
+        Assert.Equal(20, rootLength);
+    }
+
+    [Theory]
     [InlineData(@"\\")]
     [InlineData(@"//")]
     public void GetRootLength_MalformedUncPath_Throws(string path)

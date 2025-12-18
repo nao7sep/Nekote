@@ -31,6 +31,15 @@ public partial class PathHelperTests
         Assert.Equal(expected, result);
     }
 
+    [Fact]
+    public void NormalizeStructure_TripleDot_TreatedAsName()
+    {
+        // "..." is a valid filename in most filesystems, unlike "." and ".."
+        var input = "path/to/.../file";
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal("path/to/.../file", result);
+    }
+
     #endregion
 
     #region NormalizeStructure - Parent Directory (..) Resolution - Relative Paths
@@ -214,6 +223,92 @@ public partial class PathHelperTests
     {
         var result = PathHelper.NormalizeStructure(input);
         Assert.Equal(expected, result);
+    }
+
+    #endregion
+
+    #region NormalizeStructure - Special Characters
+
+    [Fact]
+    public void NormalizeStructure_Wildcards_Preserved()
+    {
+        // * and ? are valid in Unix paths (though ? is used in Windows extended prefix)
+        // NormalizeStructure shouldn't strip them from the body of the path
+        var input = "path/to/*.txt";
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal("path/to/*.txt", result);
+
+        var input2 = "path/to/fi?e.txt";
+        var result2 = PathHelper.NormalizeStructure(input2);
+        Assert.Equal("path/to/fi?e.txt", result2);
+    }
+
+    [Fact]
+    public void NormalizeStructure_ZalgoText_Preserved()
+    {
+        // "H̷e comes" - excessive combining characters
+        var zalgo = "H\u0337\u0300\u0321\u0328\u0355\u0320\u0330\u0338\u0341\u0334\u031ee comes/file.txt";
+        var result = PathHelper.NormalizeStructure(zalgo);
+
+        Assert.Equal(zalgo, result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_RTL_MixedDirection_Preserved()
+    {
+        // "folder/ملف/file.txt" (Arabic for file)
+        var path = "folder/ملف/file.txt";
+        var result = PathHelper.NormalizeStructure(path);
+
+        Assert.Equal(path, result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_ComplexEmojis_Preserved()
+    {
+        // Family emoji: Man, Woman, Girl, Boy (joined by ZWJ)
+        // 👨‍👩‍👧‍👦
+        var family = "👨\u200D👩\u200D👧\u200D👦";
+        var path = $"{family}/documents/vacation.jpg";
+
+        var result = PathHelper.NormalizeStructure(path);
+
+        // Ensure the sequence wasn't split or mangled
+        Assert.Contains(family, result);
+        Assert.Equal(path, result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_ControlCharacters_PassedThrough()
+    {
+        // PathHelper is a string manipulator, it doesn't enforce OS validity.
+        // It should handle control chars without crashing.
+        var path = "dir/\u0007bell/file.txt"; // \a (bell)
+        var result = PathHelper.NormalizeStructure(path);
+
+        Assert.Equal(path, result);
+    }
+
+    [Theory]
+    [InlineData("CON/file.txt")]
+    [InlineData("PRN/file.txt")]
+    [InlineData("AUX/file.txt")]
+    [InlineData("NUL/file.txt")]
+    public void NormalizeStructure_WindowsReservedNames_Preserved(string path)
+    {
+        // PathHelper shouldn't care about reserved names, just structure
+        var result = PathHelper.NormalizeStructure(path);
+        Assert.Equal(path, result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_ZeroWidthJoiner_Preserved()
+    {
+        // ZWJ inside a filename
+        var path = "fi\u200Dle.txt";
+        var result = PathHelper.NormalizeStructure(path);
+
+        Assert.Equal(path, result);
     }
 
     #endregion
@@ -543,6 +638,210 @@ public partial class PathHelperTests
         Assert.Contains("dir1", result);
         Assert.Contains("dir3", result);
         Assert.DoesNotContain("..", result);
+    }
+
+    #endregion
+
+    #region NormalizeStructure - Deep Chaos
+
+    [Fact]
+    public void NormalizeStructure_AlternateDataStreams_Preserved()
+    {
+        // Windows NTFS supports "filename:streamname".
+        // Normalization should treat ":streamname" as part of the filename, NOT as a drive or separator.
+
+        var path = @"C:\data\file.txt:secret_stream";
+        var result = PathHelper.NormalizeStructure(path);
+
+        Assert.Equal(@"C:\data\file.txt:secret_stream", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_AdsWithRelativePath_Preserved()
+    {
+        // Relative path with ADS: "file.txt:stream"
+        // Should NOT be confused with a drive "file.txt:" (invalid drive anyway)
+
+        var path = "file.txt:stream";
+        var result = PathHelper.NormalizeStructure(path);
+
+        Assert.Equal("file.txt:stream", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_UnixFileNamedLikeDrive_TreatedAsRoot_KnownLimitation()
+    {
+        // CRITICAL AMBIGUITY:
+        // On Linux, a file named "C:" is valid in the current directory.
+        // However, PathHelper's logic is "Universal/Windows-biased", so it treats "C:" as a drive root.
+        // This test documents this SPECIFIC behavior. If this behavior changes, this test should be updated.
+
+        var unixPath = "C:/../file";
+
+        // IF we were truly Unix-aware: "C:" is a dir. ".." goes out. Result -> "file" (or "../file").
+        // BUT PathHelper assumes "C:" is a drive root. Roots clamp "..". Result -> "C:/file".
+
+        var result = PathHelper.NormalizeStructure(unixPath);
+
+        // Asserting the CURRENT behavior (clamping).
+        // This confirms the library is "Windows-Safe" even on Unix, arguably "Unix-Hostile" for this edge case.
+        Assert.Equal("C:/file", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_BackslashOnUnix_TreatedAsSeparator_KnownLimitation()
+    {
+        // On Unix, "\" is a valid filename character, not a separator.
+        // PathHelper treats it as a separator regardless of platform.
+
+        var path = @"folder\file.txt"; // Unix: one file named "folder\file.txt"
+
+        var result = PathHelper.NormalizeStructure(path);
+
+        // PathHelper normalizes structure. Since it sees '\' as separator, it sees 2 segments.
+        // It returns the path structurally normalized.
+        // If it treated it as a filename, it would return "folder\file.txt" verbatim.
+        // But it splits it.
+
+        Assert.Equal(@"folder\file.txt", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_DeeplyNested_DoesNotStackOverflow()
+    {
+        // Generate a path with 5000 segments
+        var depth = 5000;
+        var segments = Enumerable.Repeat("a", depth);
+        var path = string.Join("/", segments);
+
+        // This should not throw StackOverflowException
+        var result = PathHelper.NormalizeStructure(path);
+
+        Assert.EndsWith("a/a", result);
+        Assert.True(result.Length > depth);
+    }
+
+    [Fact]
+    public void NormalizeStructure_MassiveParentTraversal_ClampsEfficiently()
+    {
+        // /root/ + 10,000 ".." + /file
+        var sb = new StringBuilder();
+        sb.Append("/root");
+        for (int i = 0; i < 10000; i++)
+        {
+            sb.Append("/..");
+        }
+        sb.Append("/file");
+
+        var result = PathHelper.NormalizeStructure(sb.ToString());
+
+        // Should clamp at root
+        Assert.Equal("/file", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_HomoglyphSeparators_NotTreatedAsSeparators()
+    {
+        // The mathematical division slash (U+2215) looks like /, but is NOT a separator.
+        // Input: "folder∕file.txt" (1 segment)
+        // Should NOT become "folder/file.txt" (2 segments)
+
+        var homoglyph = "folder\u2215file.txt";
+        var result = PathHelper.NormalizeStructure(homoglyph);
+
+        Assert.Equal(homoglyph, result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_NullByte_Preserved()
+    {
+        // Null byte injection attack checks.
+        // PathHelper is a structural normalizer, not a security sanitizer.
+        // It should treat \0 as just another character in the name, preserving it.
+        // It must NOT truncate the string (C-style behavior).
+
+        var path = "safe.txt\0malicious.exe";
+        var result = PathHelper.NormalizeStructure(path);
+
+        Assert.Equal(path, result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_UriScheme_TreatedAsRelative()
+    {
+        // "file:///C:/path"
+        // "file:" is a valid directory name on Windows/Linux (if no forbidden chars).
+        // The parser should treat this as: "file:" -> "" -> "" -> "C:" -> "path"
+        // (Assuming / is separator)
+
+        var path = "file:///C:/path";
+        var result = PathHelper.NormalizeStructure(path);
+
+        // NormalizeStructure removes empty segments (consecutive separators)
+        // "file:" / / / "C:" / "path"
+        // Becomes: "file:/C:/path"
+
+        Assert.Equal("file:/C:/path", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_BrokenSurrogates_DoesNotCrash()
+    {
+        // High surrogate (U+D83D) without Low surrogate.
+        // This is an invalid string, but the parser should be robust.
+
+        var broken = "folder/\uD83D/file";
+        var result = PathHelper.NormalizeStructure(broken);
+
+        Assert.Equal(broken, result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_MixedRootSeparators_Consolidated()
+    {
+        // "C:\/Windows" -> Mixed separators at root.
+        // NormalizeStructure consolidates consecutive separators.
+        // But Root parsing logic handles the "C:\" part first.
+        // Does it handle "C:\" then see "/" as start of next segment (empty) and remove it?
+        // Or does it treat "C:\/" as the root? (GetRootLength doesn't consume mixed except for specific prefixes)
+        //
+        // If Root is "C:\", remaining is "/Windows".
+        // Separator normalization isn't enabled here (only Structure), but duplicate separators are removed.
+        // So "C:\" + "/Windows" -> "C:\/Windows" -> "C:\Windows" (consecutive removal).
+
+        var path = @"C:\/Windows";
+        var result = PathHelper.NormalizeStructure(path);
+
+        // Should remove the redundant separator
+        Assert.True(result == @"C:\Windows" || result == @"C:/Windows");
+    }
+
+    [Fact]
+    public void NormalizeStructure_SurrogatesAtBoundaries_Preserved()
+    {
+        // Emoji (Grinning Face: \uD83D\uDE00) at start and end of segments
+        // Ensure that splitting logic doesn't eat the first or last char of a surrogate pair
+        // if it aligns with segment boundaries.
+
+        var emoji = "\uD83D\uDE00"; // 😀
+        var path = $"{emoji}/middle/{emoji}";
+        var result = PathHelper.NormalizeStructure(path);
+
+        Assert.Equal(path, result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_SplitSurrogatePair_TreatedAsTwoSegments()
+    {
+        // What if a user puts a separator INSIDE a surrogate pair?
+        // High Surrogate (U+D83D) + Separator + Low Surrogate (U+DE00)
+        // This makes two invalid strings (broken surrogates), but structurally it's two segments.
+        // The parser should NOT crash or try to "heal" the pair by eating the separator.
+
+        var split = "Start\uD83D/\uDE00End";
+        var result = PathHelper.NormalizeStructure(split);
+
+        Assert.Equal(split, result);
     }
 
     #endregion

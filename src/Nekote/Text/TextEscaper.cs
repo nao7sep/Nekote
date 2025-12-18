@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 
 namespace Nekote.Text;
 
@@ -198,197 +199,58 @@ public static class TextEscaper
     }
 
     /// <summary>
-    /// Escapes text for URL query strings using percent encoding. Unreserved characters (A-Z, a-z, 0-9, -, _, ., ~)
-    /// are not encoded. All other characters become %XX hex values. Properly handles surrogate pairs (emojis).
+    /// Escapes text for URL query strings using percent encoding. 
     /// </summary>
+    /// <remarks>
+    /// Uses <see cref="Uri.EscapeDataString"/> to ensure full compliance with RFC 3986.
+    /// Properly handles surrogate pairs and international characters by encoding them to UTF-8 before percent-encoding.
+    /// </remarks>
     private static string EscapeUrl(string text)
     {
-        var result = new StringBuilder(text.Length + 16);
-        Span<byte> bytes = stackalloc byte[4]; // Max UTF-8 bytes per character
-
-        // IMPORTANT: Rune enumeration is REQUIRED here for correct URL encoding.
-        // URLs must encode each Unicode codepoint (not UTF-16 code units) to UTF-8 bytes.
-        // Emojis and other characters outside BMP are surrogate pairs in UTF-16 but single
-        // codepoints in Unicode. Using char iteration would incorrectly encode each surrogate
-        // separately, producing invalid URL encoding. This is one of the rare cases where
-        // the performance cost of Rune enumeration is justified by correctness requirements.
-        foreach (Rune rune in text.EnumerateRunes())
-        {
-            // Check if it's a simple ASCII unreserved character
-            if (rune.IsAscii && IsUnreservedUrlChar((char)rune.Value))
-            {
-                result.Append((char)rune.Value);
-            }
-            else
-            {
-                // Convert to UTF-8 bytes and percent-encode each byte
-                int byteCount = rune.EncodeToUtf8(bytes);
-                for (int i = 0; i < byteCount; i++)
-                {
-                    result.Append('%');
-                    result.Append(bytes[i].ToString("X2"));
-                }
-            }
-        }
-
-        return result.ToString();
+        // Built-in Uri.EscapeDataString is highly optimized and handles RFC 3986 correctly,
+        // including correct UTF-8 encoding of surrogate pairs (emojis).
+        return Uri.EscapeDataString(text);
     }
 
     /// <summary>
-    /// Unescapes text from URL percent encoding. Converts %XX sequences back to their original characters.
-    /// Properly handles non-ASCII characters that are already decoded.
+    /// Unescapes text from URL percent encoding.
     /// </summary>
+    /// <remarks>
+    /// Uses <see cref="Uri.UnescapeDataString"/> to convert %XX sequences back to their original characters.
+    /// Handles UTF-8 encoded sequences and edge cases where % might be literal or incomplete.
+    /// </remarks>
     private static string UnescapeUrl(string escapedText)
     {
-        var bytes = new List<byte>();
-        Span<byte> runeBytes = stackalloc byte[4]; // Reusable buffer for UTF-8 encoding
-        var i = 0;
-
-        while (i < escapedText.Length)
-        {
-            if (escapedText[i] == '%')
-            {
-                // Check if we have enough characters for a complete %XX sequence
-                if (i + 2 < escapedText.Length)
-                {
-                    string hex = escapedText.Substring(i + 1, 2);
-                    if (byte.TryParse(hex, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out byte b))
-                    {
-                        bytes.Add(b);
-                        i += 3;
-                    }
-                    else
-                    {
-                        // Invalid hex sequence, treat % as literal - encode it properly
-                        byte[] charBytes = Encoding.UTF8.GetBytes(new[] { escapedText[i] });
-                        bytes.AddRange(charBytes);
-                        i++;
-                    }
-                }
-                else
-                {
-                    // Incomplete sequence at end (e.g., "test%2" or "test%"), treat % as literal
-                    byte[] charBytes = Encoding.UTF8.GetBytes(new[] { escapedText[i] });
-                    bytes.AddRange(charBytes);
-                    i++;
-                }
-            }
-            else
-            {
-                // Non-escaped character - may be a surrogate pair (emoji, etc.)
-                // Must use Rune to avoid corrupting surrogate pairs into replacement characters
-                if (!Rune.TryGetRuneAt(escapedText, i, out Rune rune))
-                {
-                    // Invalid/lone surrogate - emit UTF-8 replacement character U+FFFD
-                    bytes.Add(0xEF);
-                    bytes.Add(0xBF);
-                    bytes.Add(0xBD);
-                    i++;
-                }
-                else
-                {
-                    // Valid codepoint - encode to UTF-8
-                    int bytesWritten = rune.EncodeToUtf8(runeBytes);
-                    for (int k = 0; k < bytesWritten; k++)
-                    {
-                        bytes.Add(runeBytes[k]);
-                    }
-                    i += rune.Utf16SequenceLength;
-                }
-            }
-        }
-
-        return Encoding.UTF8.GetString(bytes.ToArray());
-    }
-
-    /// <summary>
-    /// Checks if a character is unreserved in URL encoding (RFC 3986).
-    /// </summary>
-    private static bool IsUnreservedUrlChar(char c)
-    {
-        return (c >= 'A' && c <= 'Z') ||
-               (c >= 'a' && c <= 'z') ||
-               (c >= '0' && c <= '9') ||
-               c == '-' || c == '_' || c == '.' || c == '~';
+        // Built-in Uri.UnescapeDataString is more robust than manual parsing,
+        // correctly reconstructing Unicode characters from multiple percent-encoded bytes.
+        return Uri.UnescapeDataString(escapedText);
     }
 
     /// <summary>
     /// Escapes text for HTML by converting special characters to HTML entities.
     /// </summary>
+    /// <remarks>
+    /// Uses <see cref="WebUtility.HtmlEncode"/> to ensure compliance with HTML5 specification.
+    /// Handles all standard named entities and numeric references.
+    /// </remarks>
     private static string EscapeHtml(string text)
     {
-        var result = new StringBuilder(text.Length + 16);
-
-        foreach (char c in text)
-        {
-            switch (c)
-            {
-                case '&':
-                    result.Append("&amp;");
-                    break;
-                case '<':
-                    result.Append("&lt;");
-                    break;
-                case '>':
-                    result.Append("&gt;");
-                    break;
-                case '"':
-                    result.Append("&quot;");
-                    break;
-                case '\'':
-                    result.Append("&#39;");
-                    break;
-                default:
-                    result.Append(c);
-                    break;
-            }
-        }
-
-        return result.ToString();
+        // WebUtility.HtmlEncode is the standard .NET way to safely encode HTML content.
+        return WebUtility.HtmlEncode(text);
     }
 
     /// <summary>
     /// Unescapes text from HTML entities back to original characters.
     /// </summary>
+    /// <remarks>
+    /// Uses <see cref="WebUtility.HtmlDecode"/> which supports the full HTML5 entity set
+    /// including thousands of named entities and all decimal/hexadecimal numeric references.
+    /// </remarks>
     private static string UnescapeHtml(string escapedText)
     {
-        var result = new StringBuilder(escapedText.Length);
-        var i = 0;
-
-        while (i < escapedText.Length)
-        {
-            if (escapedText[i] == '&')
-            {
-                // Find the ending semicolon
-                int semicolonPos = escapedText.IndexOf(';', i);
-                if (semicolonPos > i && semicolonPos - i <= 10) // Reasonable entity length
-                {
-                    string entity = escapedText.Substring(i, semicolonPos - i + 1);
-                    string? replacement = entity switch
-                    {
-                        "&amp;" => "&",
-                        "&lt;" => "<",
-                        "&gt;" => ">",
-                        "&quot;" => "\"",
-                        "&#39;" => "'",
-                        "&apos;" => "'",
-                        "&nbsp;" => "\u00A0",
-                        _ => null
-                    };
-
-                    if (replacement != null)
-                    {
-                        result.Append(replacement);
-                        i = semicolonPos + 1;
-                        continue;
-                    }
-                }
-            }
-
-            result.Append(escapedText[i]);
-            i++;
-        }
-
-        return result.ToString();
+        // WebUtility.HtmlDecode handles the massive HTML5 entity set and complex 
+        // numeric sequences (&#123;, &#xABC;) that are difficult to parse manually.
+        return WebUtility.HtmlDecode(escapedText);
     }
 }
+

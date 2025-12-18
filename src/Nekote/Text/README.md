@@ -1,92 +1,40 @@
 # Nekote.Text
 
-Text processing utilities for parsing, escaping, and pattern matching.
+Provides robust, culture-safe text processing utilities and a high-performance, specification-compliant parser for the NINI configuration format.
 
-## Current Segments
+## Segments
 
-### Text Encoding
+### Foundational Utilities
 - **TextEncoding.cs** - Cached encoding instances for optimized file operations.
-  - Provides `Utf8NoBom` (recommended default), `Utf8WithBom`, `Utf16`, and `Utf32` instances.
-  - Standardizes file operations to use UTF-8 without BOM by default for cross-platform compatibility.
+  - Standardizes the namespace on `Utf8NoBom` to ensure cross-platform compatibility and modern toolchain support.
+- **TextEscaper.cs** - Centralized escaping logic for HTML, URL, CSV, and NINI values.
+  - **Invariants**: Delegates to .NET BCL (`WebUtility`, `Uri`) for HTML5 and RFC 3986 compliance; implements custom RFC 4180 logic for CSV.
+- **EscapeMode.cs** - Defines the supported escaping strategies.
+- **TypedStringConverter.cs** - Culture-independent translation between strings and .NET types.
+  - **Invariants**: Strictly enforces `InvariantCulture` to prevent locale-dependent configuration parsing bugs (e.g., decimal separator issues).
+- **StringValidator.cs** - Security-focused validation for format identifiers.
+  - Rejects ambiguous patterns like leading/trailing whitespace or internal indentation to prevent homograph attacks and parsing drift.
 
-### String Validation
-- **StringValidator.cs** - Security-focused validation for strings in structured text formats.
-  - Enforces strict rules for keys and section names to prevent ambiguity and homograph attacks.
-  - Rejects dangerous characters (colons, newlines) and boundary whitespace that could obscure content.
-
-### Typed String Conversion
-- **TypedStringConverter.cs** - Robust, culture-independent conversion between strings and .NET types.
-  - Handles `Int32`, `Int64`, `Double`, `Decimal`, `Bool`, `DateTime`, `Guid`, `TimeSpan`, `DateTimeOffset`, `Enum<T>`, `Uri`, and `Version`.
-  - Enforces `InvariantCulture` to ensure configuration files are portable across different system locales (e.g., always uses `.` for decimals).
-
-### Line and Paragraph Parsing
+### Structural Parsing
 - **LineParser.cs** - High-performance line splitting and joining.
-  - Uses sequential scanning to handle mixed line endings (`\r\n`, `\n`, `\r`) correctly within the same file.
-  - Avoids common pitfalls of `string.Split` which can produce incorrect empty entries.
-- **ParagraphParser.cs** - Text segmentation based on blank lines.
-  - Splits text into paragraphs separated by one or more blank lines.
-  - Preserves indentation and internal structure of paragraphs, making it suitable for content-heavy formats.
+  - Manually scans for `\r`, `\n`, and `\r\n` to handle mixed line-ending conventions within a single source correctly.
+- **ParagraphParser.cs** - Text segmentation based on blank line boundaries.
+  - Relationship: Uses `LineParser` to identify logical paragraphs while preserving internal indentation.
 
-### Text Escaping
-- **EscapeMode.cs** - Enumeration of supported escaping strategies (NiniValue, CSV, URL, HTML).
-- **TextEscaper.cs** - Centralized escaping logic for multiple formats.
-  - Handles special characters, surrogate pairs, and format-specific escape sequences (e.g. `\n`, `\"`).
+### NINI Key-Value Logic
+- **NiniOptions.cs** - Configuration record for the NINI format.
+  - **Invariants**: All properties are `required`. Includes `taskKiller` preset (lowercase name is intentional to match the official product name).
+- **NiniKeyValueParser.cs** - Logic for extracting pairs from "key: value" lines.
+  - **Invariants**: Enforces strict "no indentation" rules; keys must start at column 0.
+- **NiniKeyValueWriter.cs** - Generator for "key: value" formatted text.
+  - Relationship: Uses `TextEscaper` to ensure multi-line values are safely encoded.
 
-### Nini Key-Value Parsing
-- **NiniOptions.cs** - Configuration record for NINI format parsing and writing.
-  - Defines parsing settings (separator, string comparers), output formatting (marker style, sorting), and file I/O options (encoding).
-  - All properties use `required` modifier - no inline defaults. Values must be explicitly set during initialization.
-  - Provides three predefined instances: `Default` (`: ` separator, @ markers), `taskKiller` (`:` no space, no sections), `TraditionalIni` (`=` separator, [brackets]).
-- **NiniKeyValueParser.cs** - Parser for the "key: value" line format.
-  - Extracts key-value pairs while handling comments (`#`, `//`, `;`) and ignoring blank lines.
-  - Unescapes values using `TextEscaper` to support multi-line content.
-  - Uses `NiniOptions` for separator character and comparer configuration.
-- **NiniKeyValueWriter.cs** - Generator for the "key: value" line format.
-  - Serializes dictionaries to text, automatically escaping special characters.
-  - Uses `NiniOptions` for output separator, sorting, and newline configuration.
-
-### Nini Sectioned Key-Value Files
-- **NiniSectionMarkerStyle.cs** - Definition of supported section markers (`[Section]`, `@Section`, and `None`).
-- **NiniSection.cs** - Data structure representing a single named section and its key-value pairs.
-- **NiniSectionParser.cs** - Parser for sectioned text content.
-  - Identifies section boundaries using markers and delegates content parsing to `NiniKeyValueParser`.
-  - Supports mixed marker styles within the same file.
-- **NiniSectionWriter.cs** - Writer for sectioned text content.
-  - Formats sections with markers and delegates key-value writing to `NiniKeyValueWriter`.
-  - Handles preamble (unnamed sections), marker style selection, and section sorting.
-  - Validates that `MarkerStyle.None` has no named sections.
-- **NiniFile.cs** - The primary high-level API for working with NINI configuration files.
-  - Provides a complete interface for loading, saving, querying, and modifying configuration data.
-  - Offers strongly-typed accessors (`GetInt32`, `GetBool`, etc.) backed by `TypedStringConverter`.
-  - Uses `NiniSectionParser` and `NiniSectionWriter` for I/O operations.
-  - `Save()` and `ToString()` accept optional `outputOptions` parameter to override format without changing the instance's configuration.
-
----
-
-## Considered but Not Implemented
-
-This section documents features that were analyzed but deliberately excluded from Nekote.Text to maintain focus on general-purpose text processing utilities.
-
-### TextMatcher - Pattern Matching Wrapper
-
-**Rejected:** A wrapper for pattern matching (contains, regex, wildcard) that operates on isolated strings.
-
-**Reasoning:**
-- Provides no value over built-in .NET methods (`String.Contains`, `String.StartsWith`, `Regex.IsMatch`)
-- Real-world use cases (email filtering, rule engines, content classification) require field-aware matching where patterns are applied to specific properties (e.g., "From starts with X" AND "Subject contains Y")
-- Proper solution requires boolean composition (AND/OR/NOT), priority handling, and action execution - this belongs in a comprehensive rule engine system (future `Nekote.Rules` namespace), not as isolated text utilities
-- Creating a thin wrapper would produce an API that doesn't solve actual problems and forces awkward workarounds
-
-**Conclusion:** When rule-based filtering is needed, implement a proper rule engine with conditions, composition, and actions rather than string-only pattern matching.
-
-### SectionParser - Custom Semantic Markers
-
-**Rejected:** A parser for text with application-specific semantic markers (e.g., `@ AI-generated content @` in taskKiller).
-
-**Reasoning:**
-- The `@ ... @` marker pattern was designed as a workaround for embedding AI responses in plaintext notes for a specific application
-- Not a general-purpose pattern - no identified use cases beyond the original application's constraints
-- `NiniSectionParser` already handles standard sectioned formats (`[Section]` and `@Section` markers) for configuration files
-- Application-specific text parsing logic belongs in application code, not in a general-purpose library
-
-**Conclusion:** Nekote.Text is complete for general-purpose text processing. Domain-specific parsing belongs in application codebases.
+### NINI Sectioned Files (Public API)
+- **NiniSection.cs** - Data model for a named configuration segment.
+- **NiniSectionMarkerStyle.cs** - Defines visual styles for section headers (`[Section]` vs `@Section`).
+- **NiniSectionParser.cs** - Orchestrates paragraph-level parsing into sections.
+  - Relationship: Delegates individual paragraph content parsing to `NiniKeyValueParser`.
+- **NiniSectionWriter.cs** - Formats multiple sections into a cohesive document.
+  - **Invariants**: Automatically inserts `# (empty section)` comments to ensure empty sections are preserved during round-trips.
+- **NiniFile.cs** - The primary high-level interface for configuration management.
+  - Relationship: Bridges `NiniSection` models with `TypedStringConverter` to provide the end-user API for typed data access.

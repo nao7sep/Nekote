@@ -127,6 +127,19 @@ public class ParagraphParserTests
     }
 
     [Fact]
+    public void Parse_MixedBlankLineStyles_SplitsCorrectly()
+    {
+        // Tests mixing \n\n and \r\n\r\n as separators in the same file
+        var input = "Para1\n\nPara2\r\n\r\nPara3";
+        var result = ParagraphParser.Parse(input);
+        
+        Assert.Equal(3, result.Length);
+        Assert.Equal("Para1", result[0]);
+        Assert.Equal("Para2", result[1]);
+        Assert.Equal("Para3", result[2]);
+    }
+
+    [Fact]
     public void Parse_WhitespaceOnlyLines_TreatedAsBlank()
     {
         var input = "Paragraph 1\n   \nParagraph 2";

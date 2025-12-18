@@ -168,6 +168,7 @@ public sealed record NiniOptions
     /// because <see cref="NiniSectionMarkerStyle.None"/> cannot represent section boundaries.
     /// </para>
     /// </remarks>
+    // The lowercase 't' in 'taskKiller' is intentional as it is the official product name (similar to iOS or xAI).
     public static NiniOptions taskKiller { get; } = new()
     {
         SeparatorChar = ':',

@@ -124,143 +124,79 @@ public static partial class PathHelper
             return path;
         }
 
-        // Determine separator to use: scan for first separator after root
-        // Preserves the user's separator style (they may have mixed / and \ for a reason)
-        // Example: \\?\C:/path/to/file preserves / because that's what appears first
-        char separator = '\\'; // default
-        for (int i = rootLength; i < path.Length; i++)
+        var segments = new List<string>();
+
+        // Process segments after root using slice-based approach
+        ReadOnlySpan<char> remaining = path.AsSpan(rootLength);
+
+        while (remaining.Length > 0)
         {
-            if (path[i] == '/')
+            // Skip leading separators (handles consecutive separators automatically)
+            while (remaining.Length > 0 && IsSeparator(remaining[0]))
             {
-                separator = '/';
+                remaining = remaining.Slice(1);
+            }
+
+            if (remaining.Length == 0)
+            {
                 break;
             }
-            else if (path[i] == '\\')
+
+            // Parse current segment
+            if (!TryParseDelimitedSegment(remaining, requireDelimiter: false, out int segmentLength))
             {
-                separator = '\\';
                 break;
             }
-        }
 
-        // Use streaming approach similar to .NET's RemoveRelativeSegments
-        // Instead of tokenizing into segments, stream character-by-character with lookahead
-        // This is more efficient (single-pass, single allocation) and handles edge cases better
-        var sb = new StringBuilder(path.Length);
-
-        // Append root portion
-        int skip = rootLength;
-
-        // Adjust skip position: if root ends with separator, back up one
-        // so we can properly handle the separator in the main loop
-        // Example: "C:\" has rootLength=3, but we want skip=2 so we can process the \ in the loop
-        // This ensures consistent separator handling (consecutive separator removal, etc.)
-        if (skip > 0 && IsSeparator(path[skip - 1]))
-        {
-            skip--;
-        }
-
-        if (skip > 0)
-        {
-            sb.Append(path.AsSpan(0, skip));
-        }
-
-        // isRooted determines whether we clamp .. at root (absolute) or preserve them (relative)
-        // C:\, /usr, \\server\share are rooted; dir/path, C:path are not
-        bool isRooted = rootLength > 0;
-
-        // Stream through the path, handling /./  and /../ patterns
-        // We only look for patterns at separators (can't have /. or /.. in middle of segment)
-        for (int i = skip; i < path.Length; i++)
-        {
-            char c = path[i];
-
-            // Lookahead for patterns: //, /./,  /../
-            // Only check when we're at a separator and there's at least one more character
-            if (IsSeparator(c) && i + 1 < path.Length)
+            // Extract segment name (without trailing separator)
+            int nameLength = segmentLength;
+            if (nameLength > 0 && IsSeparator(remaining[nameLength - 1]))
             {
-                // Pattern: // (consecutive separators)
-                // Skip the current separator, continue to next iteration
-                // Result: "usr//bin" → "usr/bin"
-                if (IsSeparator(path[i + 1]))
-                {
-                    continue;
-                }
-
-                // Pattern: /./  (current directory reference)
-                // Conditions: separator + dot + (separator OR end-of-string)
-                // Examples: "dir/./file" → "dir/file", "dir/." → "dir"
-                if ((i + 2 == path.Length || IsSeparator(path[i + 2])) &&
-                    path[i + 1] == '.')
-                {
-                    i++; // Skip the dot
-                    continue;
-                }
-
-                // Pattern: /../ (parent directory reference)
-                // Conditions: separator + dot + dot + (separator OR end-of-string)
-                // This is where the unwinding magic happens
-                if (i + 2 < path.Length &&
-                    (i + 3 == path.Length || IsSeparator(path[i + 3])) &&
-                    path[i + 1] == '.' && path[i + 2] == '.')
-                {
-                    // Unwind back to last separator in the StringBuilder
-                    // We're effectively removing the last segment
-                    // Example: StringBuilder contains "usr/local/", we search back for the / before "local"
-                    int s;
-                    for (s = sb.Length - 1; s >= skip; s--)
-                    {
-                        if (IsSeparator(sb[s]))
-                        {
-                            // Found separator - truncate StringBuilder here
-                            // Special case: if this is the last .. in the path and we're at root separator,
-                            // preserve the separator (otherwise "/usr/.." would become "" instead of "/")
-                            sb.Length = (i + 3 >= path.Length && s == skip) ? s + 1 : s;
-                            break;
-                        }
-                    }
-
-                    // Couldn't unwind (s < skip means we've searched back to the root boundary)
-                    if (s < skip)
-                    {
-                        // Can't unwind further - behavior depends on whether path is rooted
-                        if (isRooted)
-                        {
-                            // Rooted path: clamp at root (ignore the ..)
-                            // Example: "/../../file" → "/file" (can't go above root)
-                            // Security: prevents path traversal attacks, matches OS behavior
-                            sb.Length = skip;
-                        }
-                        else
-                        {
-                            // Relative path: preserve the .. because we might be able to resolve it later
-                            // Example: "../../file" stays as "../../file"
-                            // We don't know the current directory, so we can't resolve this now
-                            if (sb.Length > 0 && !IsSeparator(sb[sb.Length - 1]))
-                            {
-                                sb.Append(separator);
-                            }
-                            sb.Append("..");
-                        }
-                    }
-
-                    i += 2; // Skip the two dots (..)
-                    continue;
-                }
+                nameLength--;
             }
 
-            // No pattern matched - append character as-is
-            sb.Append(c);
+            ReadOnlySpan<char> segmentName = remaining.Slice(0, nameLength);
+
+            // Handle special segments
+            if (segmentName.Length == 1 && segmentName[0] == '.')
+            {
+                // Current directory - skip
+                remaining = remaining.Slice(segmentLength);
+                continue;
+            }
+
+            if (segmentName.Length == 2 && segmentName[0] == '.' && segmentName[1] == '.')
+            {
+                // Parent directory - try to unwind
+                if (segments.Count > 0)
+                {
+                    // Can unwind - remove last segment
+                    segments.RemoveAt(segments.Count - 1);
+                }
+                else if (rootLength == 0)
+                {
+                    // Relative path, no segments to unwind - preserve the ..
+                    segments.Add(remaining.Slice(0, segmentLength).ToString());
+                }
+                // else: rooted path, can't go above root - clamp (do nothing)
+
+                remaining = remaining.Slice(segmentLength);
+                continue;
+            }
+
+            // Regular segment - add it with its trailing separator
+            segments.Add(remaining.Slice(0, segmentLength).ToString());
+
+            remaining = remaining.Slice(segmentLength);
         }
 
-        // Restore root separator if we removed it during normalization
-        // This handles cases where the normalized result is shorter than the root
-        // Example: "C:\.." should remain "C:\" not "C:"
-        if (skip != rootLength && sb.Length < rootLength)
+        // Combine root with normalized segments
+        if (rootLength > 0)
         {
-            sb.Append(path[rootLength - 1]);
+            return string.Concat(path.AsSpan(0, rootLength), string.Concat(segments));
         }
 
-        return sb.ToString();
+        return string.Concat(segments);
     }
 
     #endregion
@@ -333,11 +269,11 @@ public static partial class PathHelper
         return mode switch
         {
             PathSeparatorMode.Preserve => path,
-            PathSeparatorMode.Windows => path.Replace(PathSeparators.Unix, PathSeparators.Windows),
-            PathSeparatorMode.Unix => path.Replace(PathSeparators.Windows, PathSeparators.Unix),
-            PathSeparatorMode.Native => PathSeparators.Native == PathSeparators.Windows
-                ? path.Replace(PathSeparators.Unix, PathSeparators.Windows)  // Native is Windows: convert Unix to Windows
-                : path.Replace(PathSeparators.Windows, PathSeparators.Unix), // Native is Unix: convert Windows to Unix
+            PathSeparatorMode.Windows => path.Replace('/', '\\'),
+            PathSeparatorMode.Unix => path.Replace('\\', '/'),
+            PathSeparatorMode.Native => PathSeparators.Native == '\\'
+                ? path.Replace('/', '\\')  // Native is Windows: convert Unix to Windows
+                : path.Replace('\\', '/'), // Native is Unix: convert Windows to Unix
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, "Invalid PathSeparatorMode value.")
         };
     }

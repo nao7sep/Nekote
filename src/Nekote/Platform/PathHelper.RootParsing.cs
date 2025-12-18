@@ -20,40 +20,51 @@ public static partial class PathHelper
     /// <para>
     /// <strong>1. DOS Device Paths</strong> (<c>\\.</c> prefix):
     /// <list type="bullet">
-    /// <item><c>\\.\COM1</c> - Physical device (serial port). Root length: 4</item>
-    /// <item><c>\\.\PhysicalDisk0</c> - Physical disk. Root length: 4</item>
+    /// <item><c>\\.\COM1</c> - Physical device (serial port). Root length: 8 (4 for prefix + 4 for 'COM1'), or 9 with trailing separator</item>
+    /// <item><c>\\.\PhysicalDisk0</c> - Physical disk. Root length: 18 (4 for prefix + 14 for 'PhysicalDisk0'), or 19 with trailing separator</item>
     /// <item><c>\\.\C:\path</c> - Drive via device. Root length: 7 (includes drive and separator)</item>
     /// <item><c>//./COM1</c> - Same as above with forward slashes (extension for cross-platform tolerance)</item>
     /// </list>
     /// Purpose: Direct access to hardware devices, bypassing filesystem layers.
+    /// Note: Root length includes the full device name, not just the 4-character prefix. If a trailing separator
+    /// follows the device name, it is included in the root length so subsequent path operations start fresh.
     /// </para>
     /// <para>
     /// <strong>2. Extended-Length Paths</strong> (<c>\\?</c> prefix):
     /// <list type="bullet">
-    /// <item><c>\\?\C:\very\long\path</c> - Bypasses MAX_PATH (260 char) limit. Root length: 7</item>
-    /// <item><c>\\?\UNC\server\share\file</c> - Extended UNC path. Root length: includes server and share</item>
+    /// <item><c>\\?\C:\very\long\path</c> - Bypasses MAX_PATH (260 char) limit. Root length: 7 (includes trailing separator)</item>
+    /// <item><c>\\?\UNC\server\share\file</c> - Extended UNC path. Root length: includes server and share with trailing separator if present</item>
     /// <item><c>//?/C:/path</c> - Same with forward slashes (extension)</item>
     /// </list>
-    /// Purpose: Access paths longer than 260 characters. Disables path normalization (no . or .. processing by Windows).
+    /// Purpose: Access paths longer than 260 characters. Windows itself disables path normalization (no . or .. processing),
+    /// but PathHelper normalizes them when requested via <see cref="NormalizeStructure"/> regardless of prefix type.
+    /// This design follows .NET's PathInternal.RemoveRelativeSegments method (see https://source.dot.net/#System.Private.CoreLib/src/libraries/Common/src/System/IO/PathInternal.cs),
+    /// which accepts a rootLength parameter and normalizes relative segments (. and ..) without caring about the root's
+    /// content or whether it's an extended-length path. The method signature is:
+    /// <c>internal static bool RemoveRelativeSegments(ReadOnlySpan&lt;char&gt; path, int rootLength, ref ValueStringBuilder sb)</c>
+    /// PathHelper's normalization behavior is intentionally based on this design, not an oversight.
+    /// Note: Any trailing separator after the root components is included in the root length.
     /// </para>
     /// <para>
     /// <strong>3. UNC (Universal Naming Convention) Paths</strong>:
     /// <list type="bullet">
-    /// <item><c>\\server\share\path</c> - Network share. Root length: includes <c>\\server\share</c></item>
+    /// <item><c>\\server\share\path</c> - Network share. Root length: includes <c>\\server\share</c> plus trailing separator if present</item>
     /// <item><c>//server/share/path</c> - Same with forward slashes</item>
     /// <item>Server name: computer name or IP address</item>
     /// <item>Share name: shared folder name</item>
     /// </list>
     /// Purpose: Access network resources. Root includes server and share to uniquely identify network location.
+    /// Note: The trailing separator after share name (if present) is included in the root length.
     /// </para>
     /// <para>
     /// <strong>4. Drive Letter Paths</strong>:
     /// <list type="bullet">
-    /// <item><c>C:\path</c> - Absolute path on drive C. Root length: 3</item>
-    /// <item><c>C:path</c> - Relative to current directory on drive C (NOT fully qualified). Root length: 2</item>
-    /// <item><c>D:/path</c> - Absolute with forward slash. Root length: 3</item>
+    /// <item><c>C:\path</c> - Absolute path on drive C. Root length: 3 (includes trailing separator)</item>
+    /// <item><c>C:path</c> - Relative to current directory on drive C (NOT fully qualified). Root length: 2 (no separator)</item>
+    /// <item><c>D:/path</c> - Absolute with forward slash. Root length: 3 (includes trailing separator)</item>
     /// </list>
     /// Note: <c>C:</c> without separator is relative to current directory on that drive (dangerous, often unexpected).
+    /// The trailing separator (if present) is included in the root length.
     /// </para>
     /// <para>
     /// <strong>5. Root-Relative Paths</strong>:
@@ -73,6 +84,15 @@ public static partial class PathHelper
     /// </para>
     /// <para>
     /// Examples: <c>//./COM1</c>, <c>\/?\C:/path</c>, <c>//server/share</c> are all recognized.
+    /// </para>
+    /// <para>
+    /// <strong>Trailing Separator Handling:</strong>
+    /// </para>
+    /// <para>
+    /// When a trailing separator follows any root component (device name, share name, drive letter with separator),
+    /// it is included in the root length. This ensures subsequent path operations start with a clean slate.
+    /// For example: <c>\\server\share\</c> includes the final separator in the root, so the next segment
+    /// can be appended directly without concerns about separator doubling.
     /// </para>
     /// </remarks>
     internal static int GetRootLength(string path)

@@ -1,0 +1,549 @@
+﻿using Nekote.Platform;
+using System.Text;
+
+namespace Nekote.Tests.Platform;
+
+/// <summary>
+/// Tests for PathHelper normalization methods.
+/// </summary>
+/// <remarks>
+/// IMPORTANT: Normalization behavior clarifications:
+/// - NormalizeStructure preserves trailing separators after "." removal
+///   Example: "path/." returns "path/" not "path"
+/// - Parent directory (..) resolution clamps at the ROOT boundary
+///   Example: UNC \\server\share\.. stays at \\server\share\ (share is part of root)
+/// - Triple+ slashes (///path) are treated as malformed UNC paths (throws)
+/// - The root includes the share name in UNC paths, device names in device paths
+/// </remarks>
+public partial class PathHelperTests
+{
+    #region NormalizeStructure - Current Directory (.) Removal
+
+    [Theory]
+    [InlineData("dir/./file", "dir/file")]
+    [InlineData("./file", "file")]
+    [InlineData("path/.", "path/")]  // Trailing separator is preserved after . removal
+    [InlineData("a/./b/./c", "a/b/c")]
+    [InlineData(@"dir\.\..\file", "file")]
+    public void NormalizeStructure_CurrentDirectory_RemovesIt(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    #endregion
+
+    #region NormalizeStructure - Parent Directory (..) Resolution - Relative Paths
+
+    [Theory]
+    [InlineData("dir1/dir2/../file", "dir1/file")]
+    [InlineData("dir1/../file", "file")]
+    [InlineData("dir1/dir2/dir3/../../file", "dir1/file")]
+    [InlineData("a/b/c/../../d", "a/d")]
+    public void NormalizeStructure_ParentDirectory_CollapsesInRelativePaths(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    [Theory]
+    [InlineData("../../file", "../../file")]
+    [InlineData("../file", "../file")]
+    [InlineData("../../../a", "../../../a")]
+    public void NormalizeStructure_LeadingParentDirectory_PreservedInRelativePaths(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    [Theory]
+    [InlineData("dir1/../../file", "../file")]
+    [InlineData("a/../../../b", "../../b")]
+    public void NormalizeStructure_ParentDirectoryExceedingDepth_PreservesExtra(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    #endregion
+
+    #region NormalizeStructure - Parent Directory (..) Resolution - Absolute Paths (Clamped)
+
+    [Theory]
+    [InlineData("/usr/../bin", "/bin")]
+    [InlineData("/a/b/../../c", "/c")]
+    [InlineData("/dir/../file", "/file")]
+    public void NormalizeStructure_ParentDirectoryInAbsolutePath_ClampsAtRoot(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    [Theory]
+    [InlineData("/../../file", "/file")]
+    [InlineData("/../../../a", "/a")]
+    [InlineData("/../../../../", "/")]
+    public void NormalizeStructure_ExcessiveParentDirectoryInAbsolutePath_ClampsAtRoot(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    [Theory]
+    [InlineData(@"C:\Windows\..\Users", @"C:\Users")]
+    [InlineData(@"C:\a\b\..\..\c", @"C:\c")]
+    [InlineData(@"C:\..\..\file", @"C:\file")]
+    public void NormalizeStructure_WindowsDrivePath_ClampsAtRoot(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    [Theory]
+    [InlineData(@"\\server\share\..\file", @"\\server\share\file")]  // .. clamps at share root
+    [InlineData(@"\\server\share\dir\..\file", @"\\server\share\file")]
+    [InlineData(@"\\server\share\..\..\file", @"\\server\share\file")]  // Both .. clamp at share root
+    [InlineData(@"\\server\share\dir\.\file", @"\\server\share\dir\file")]  // . removes itself only, dir remains
+    public void NormalizeStructure_UncPath_ClampsAtShareRoot(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    [Theory]
+    [InlineData(@"\\?\C:\dir\..\file", @"\\?\C:\file")]
+    [InlineData(@"\\?\UNC\server\share\..\other", @"\\?\UNC\server\share\other")]  // .. clamps at share root
+    [InlineData(@"\\.\Device\..\other", @"\\.\Device\other")]  // .. clamps at device root
+    public void NormalizeStructure_DeviceAndExtendedPaths_ClampsAtRoot(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    #endregion
+
+    #region NormalizeStructure - Consecutive Separator Removal
+
+    [Theory]
+    [InlineData("usr//bin", "usr/bin")]
+    [InlineData("dir///file", "dir/file")]
+    [InlineData("a////b////c", "a/b/c")]
+    [InlineData(@"path\\to\\file", @"path\to\file")]
+    public void NormalizeStructure_ConsecutiveSeparators_RemovesDuplicates(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    [Theory]
+    [InlineData(@"\\server\share", @"\\server\share")]
+    [InlineData("//server/share", "//server/share")]
+    public void NormalizeStructure_UncPrefix_Preserved(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    [Theory]
+    [InlineData("///usr/bin")]  // Treated as malformed UNC path (3+ slashes)
+    [InlineData("////a/b")]
+    public void NormalizeStructure_TripleSlashPrefix_ThrowsMalformedUncException(string input)
+    {
+        // Triple+ slashes are interpreted as UNC paths but missing server
+        var ex = Assert.Throws<ArgumentException>(() => PathHelper.NormalizeStructure(input));
+        Assert.Contains("Malformed UNC path", ex.Message);
+    }
+
+    #endregion
+
+    #region NormalizeStructure - Combined Operations
+
+    [Theory]
+    [InlineData("dir1/./dir2/../dir3//file", "dir1/dir3/file")]
+    [InlineData("./a//../b/./c///d", "b/c/d")]
+    [InlineData("/usr/./local/../bin//ls", "/usr/bin/ls")]
+    public void NormalizeStructure_CombinedOperations_WorksCorrectly(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    #endregion
+
+    #region NormalizeStructure - Edge Cases
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void NormalizeStructure_EmptyOrWhitespace_ReturnsAsIs(string input)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(input, result);
+    }
+
+    [Theory]
+    [InlineData("C:\\")]
+    [InlineData("/")]
+    [InlineData(@"\\server\share")]
+    public void NormalizeStructure_RootOnly_ReturnsAsIs(string input)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(input, result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_NullInput_Throws()
+    {
+        Assert.Throws<ArgumentNullException>(() => PathHelper.NormalizeStructure(null!));
+    }
+
+    [Theory]
+    [InlineData(@"C:\", @"C:\")]
+    [InlineData(@"C:\path", @"C:\path")]
+    [InlineData("C:", "C:")]
+    public void NormalizeStructure_DriveOnly_HandlesCorrectly(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    [Theory]
+    [InlineData(@"C:path\..\file", @"C:file")]
+    [InlineData(@"C:dir1\dir2\..\..", @"C:")]
+    public void NormalizeStructure_DriveRelativePaths_NormalizesCorrectly(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    #endregion
+
+    #region NormalizeStructure - Trailing Separators
+
+    [Theory]
+    [InlineData("path/to/dir/", "path/to/dir/")]
+    [InlineData("path/to/dir", "path/to/dir")]
+    [InlineData("a/b/c/./", "a/b/c/")]
+    public void NormalizeStructure_TrailingSeparator_Preserved(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
+    #endregion
+
+    #region ToUnixPath
+
+    [Theory]
+    [InlineData(@"C:\Windows\System32", "C:/Windows/System32")]
+    [InlineData(@"path\to\file", "path/to/file")]
+    [InlineData(@"\\server\share", "//server/share")]
+    [InlineData("already/unix/style", "already/unix/style")]
+    public void ToUnixPath_ConvertsBackslashesToForwardSlashes(string input, string expected)
+    {
+        var result = PathHelper.ToUnixPath(input);
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    public void ToUnixPath_NullInput_Throws()
+    {
+        Assert.Throws<ArgumentNullException>(() => PathHelper.ToUnixPath(null!));
+    }
+
+    #endregion
+
+    #region ToWindowsPath
+
+    [Theory]
+    [InlineData("C:/Windows/System32", @"C:\Windows\System32")]
+    [InlineData("path/to/file", @"path\to\file")]
+    [InlineData("//server/share", @"\\server\share")]
+    [InlineData(@"already\windows\style", @"already\windows\style")]
+    public void ToWindowsPath_ConvertsForwardSlashesToBackslashes(string input, string expected)
+    {
+        var result = PathHelper.ToWindowsPath(input);
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    public void ToWindowsPath_NullInput_Throws()
+    {
+        Assert.Throws<ArgumentNullException>(() => PathHelper.ToWindowsPath(null!));
+    }
+
+    #endregion
+
+    #region ToNativePath
+
+    [Fact]
+    public void ToNativePath_ConvertsToNativeSeparator()
+    {
+        var input = "path/to/file";
+        var result = PathHelper.ToNativePath(input);
+
+        if (Path.DirectorySeparatorChar == '\\')
+        {
+            Assert.DoesNotContain("/", result);
+            Assert.Contains("\\", result);
+        }
+        else
+        {
+            Assert.DoesNotContain("\\", result);
+            Assert.Contains("/", result);
+        }
+    }
+
+    [Fact]
+    public void ToNativePath_NullInput_Throws()
+    {
+        Assert.Throws<ArgumentNullException>(() => PathHelper.ToNativePath(null!));
+    }
+
+    #endregion
+
+    #region NormalizeSeparators
+
+    [Theory]
+    [InlineData("path/to\\file", PathSeparatorMode.Preserve, "path/to\\file")]
+    [InlineData("path/to\\file", PathSeparatorMode.Windows, "path\\to\\file")]
+    [InlineData("path/to\\file", PathSeparatorMode.Unix, "path/to/file")]
+    public void NormalizeSeparators_VariousModes_WorksCorrectly(string input, PathSeparatorMode mode, string expected)
+    {
+        var result = PathHelper.NormalizeSeparators(input, mode);
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    public void NormalizeSeparators_InvalidMode_Throws()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            PathHelper.NormalizeSeparators("path", (PathSeparatorMode)999));
+    }
+
+    [Fact]
+    public void NormalizeSeparators_NullInput_Throws()
+    {
+        Assert.Throws<ArgumentNullException>(() =>
+            PathHelper.NormalizeSeparators(null!, PathSeparatorMode.Unix));
+    }
+
+    #endregion
+
+    #region EnsureTrailingSeparator
+
+    [Theory]
+    [InlineData("path/to/dir")]
+    [InlineData("path/to/dir/")]
+    [InlineData("file")]
+    public void EnsureTrailingSeparator_AddsIfMissing(string input)
+    {
+        var result = PathHelper.EnsureTrailingSeparator(input);
+        // Result should end with either / or \
+        Assert.True(result.EndsWith("/") || result.EndsWith("\\"));
+        Assert.StartsWith(input.TrimEnd('/', '\\'), result);
+    }
+
+    [Fact]
+    public void EnsureTrailingSeparator_NullInput_Throws()
+    {
+        Assert.Throws<ArgumentNullException>(() => PathHelper.EnsureTrailingSeparator(null!));
+    }
+
+    #endregion
+
+    #region RemoveTrailingSeparator
+
+    [Theory]
+    [InlineData("path/to/dir/", "path/to/dir")]
+    [InlineData("path/to/dir", "path/to/dir")]
+    [InlineData(@"path\to\dir\", "path\\to\\dir")]
+    [InlineData("file/", "file")]
+    public void RemoveTrailingSeparator_RemovesIfPresent(string input, string expected)
+    {
+        var result = PathHelper.RemoveTrailingSeparator(input);
+        Assert.False(result.EndsWith("/") || result.EndsWith("\\"));
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    public void RemoveTrailingSeparator_NullInput_Throws()
+    {
+        Assert.Throws<ArgumentNullException>(() => PathHelper.RemoveTrailingSeparator(null!));
+    }
+
+    #endregion
+
+    #region HandleTrailingSeparator
+
+    [Theory]
+    [InlineData("path/", TrailingSeparatorHandling.Preserve, "path/")]
+    [InlineData("path", TrailingSeparatorHandling.Preserve, "path")]
+    public void HandleTrailingSeparator_Preserve_KeepsOriginal(string input, TrailingSeparatorHandling handling, string expected)
+    {
+        var result = PathHelper.HandleTrailingSeparator(input, handling);
+        Assert.Equal(expected, result);
+    }
+
+    [Theory]
+    [InlineData("path/", TrailingSeparatorHandling.Remove, "path")]
+    [InlineData("path", TrailingSeparatorHandling.Remove, "path")]
+    public void HandleTrailingSeparator_Remove_RemovesSeparator(string input, TrailingSeparatorHandling handling, string expected)
+    {
+        var result = PathHelper.HandleTrailingSeparator(input, handling);
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    public void HandleTrailingSeparator_Ensure_AddsSeparator()
+    {
+        var result = PathHelper.HandleTrailingSeparator("path", TrailingSeparatorHandling.Ensure);
+        Assert.True(result.EndsWith("/") || result.EndsWith("\\"));
+    }
+
+    [Fact]
+    public void HandleTrailingSeparator_InvalidMode_Throws()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            PathHelper.HandleTrailingSeparator("path", (TrailingSeparatorHandling)999));
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void HandleTrailingSeparator_EmptyOrWhitespace_ReturnsAsIs(string input)
+    {
+        var result = PathHelper.HandleTrailingSeparator(input, TrailingSeparatorHandling.Remove);
+        Assert.Equal(input, result);
+    }
+
+    #endregion
+
+    #region NormalizeUnicode
+
+    [Fact]
+    public void NormalizeUnicode_NFDtoNFC_Normalizes()
+    {
+        // NFD (decomposed): é = e + combining acute accent
+        var nfd = "caf\u0065\u0301"; // café in NFD form
+        var result = PathHelper.NormalizeUnicode(nfd);
+
+        // Should be NFC (composed)
+        Assert.Equal("café", result);
+        Assert.Equal(4, result.Length); // café in NFC is 4 characters
+    }
+
+    [Fact]
+    public void NormalizeUnicode_AlreadyNFC_RemainsUnchanged()
+    {
+        var nfc = "café"; // Already in NFC form
+        var result = PathHelper.NormalizeUnicode(nfc);
+        Assert.Equal(nfc, result);
+    }
+
+    [Fact]
+    public void NormalizeUnicode_ComplexPath_Normalizes()
+    {
+        // Path with decomposed characters
+        var decomposed = "Documents/re\u0301sume\u0301/file.txt"; // résumé with combining accents
+        var result = PathHelper.NormalizeUnicode(decomposed);
+
+        Assert.Contains("résumé", result);
+    }
+
+    [Fact]
+    public void NormalizeUnicode_NullInput_Throws()
+    {
+        Assert.Throws<ArgumentNullException>(() => PathHelper.NormalizeUnicode(null!));
+    }
+
+    #endregion
+
+    #region ApplyNormalization - Internal Orchestration
+
+    [Fact]
+    public void ApplyNormalization_AllOperations_AppliesInCorrectOrder()
+    {
+        var options = new PathOptions
+        {
+            ThrowOnEmptySegments = false,
+            TrimSegments = true,
+            RequireAtLeastOneSegment = true,
+            RequireAbsoluteFirstSegment = false,
+            ValidateSubsequentPathsRelative = true,
+            NormalizeStructure = true,
+            NormalizeUnicode = true,
+            NormalizeSeparators = PathSeparatorMode.Unix,
+            TrailingSeparator = TrailingSeparatorHandling.Remove
+        };
+
+        var input = @"dir1\.\dir2\..\file/";
+        var method = typeof(PathHelper).GetMethod("ApplyNormalization",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+
+        var result = (string)method!.Invoke(null, new object[] { options, input })!;
+
+        // Should normalize structure, convert to Unix separators, and remove trailing separator
+        Assert.Equal("dir1/file", result);
+    }
+
+    [Fact]
+    public void ApplyNormalization_NoNormalizations_ReturnsOriginal()
+    {
+        var options = new PathOptions
+        {
+            ThrowOnEmptySegments = false,
+            TrimSegments = true,
+            RequireAtLeastOneSegment = true,
+            RequireAbsoluteFirstSegment = false,
+            ValidateSubsequentPathsRelative = true,
+            NormalizeStructure = false,
+            NormalizeUnicode = false,
+            NormalizeSeparators = PathSeparatorMode.Preserve,
+            TrailingSeparator = TrailingSeparatorHandling.Preserve
+        };
+
+        var input = @"dir\..\file/";
+        var method = typeof(PathHelper).GetMethod("ApplyNormalization",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+
+        var result = (string)method!.Invoke(null, new object[] { options, input })!;
+
+        // Should preserve everything
+        Assert.Equal(input, result);
+    }
+
+    #endregion
+
+    #region Complex Scenarios
+
+    [Fact]
+    public void NormalizeStructure_ComplexWindowsPath_HandlesCorrectly()
+    {
+        var input = @"C:\Program Files\.\MyApp\..\Other\..\..\Windows\System32";
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(@"C:\Windows\System32", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_ComplexUnixPath_HandlesCorrectly()
+    {
+        var input = "/usr/./local/../share/../../opt/bin";
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal("/opt/bin", result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_MixedSeparatorsAndDots_HandlesCorrectly()
+    {
+        var input = @"base/dir1\.\dir2/..\dir3//file";
+        var result = PathHelper.NormalizeStructure(input);
+        // Should resolve dots and consecutive separators
+        Assert.Contains("base", result);
+        Assert.Contains("dir1", result);
+        Assert.Contains("dir3", result);
+        Assert.DoesNotContain("..", result);
+    }
+
+    #endregion
+}

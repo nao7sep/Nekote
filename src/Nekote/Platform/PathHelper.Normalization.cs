@@ -170,21 +170,31 @@ public static partial class PathHelper
                 // Parent directory - try to unwind
                 if (segments.Count > 0)
                 {
-                    // Can unwind - remove last segment
-                    segments.RemoveAt(segments.Count - 1);
+                    var lastSegment = segments[segments.Count - 1];
+                    if (lastSegment.Length != 3 || lastSegment[0] != '.' || lastSegment[1] != '.')
+                    {
+                        // Last segment is not .., can unwind
+                        segments.RemoveAt(segments.Count - 1);
+                    }
+                    else if (rootLength == 0)
+                    {
+                        // Last segment is also .., and we're relative - add another ..
+                        segments.Add(remaining.Slice(0, segmentLength).ToString());
+                    }
+                    // else: rooted path with .. on stack - shouldn't happen, but clamp
                 }
                 else if (rootLength == 0)
                 {
-                    // Relative path, no segments to unwind - preserve the ..
+                    // Relative path, no segments - preserve the ..
                     segments.Add(remaining.Slice(0, segmentLength).ToString());
                 }
-                // else: rooted path, can't go above root - clamp (do nothing)
+                // else: rooted path at root level, can't go above root - clamp (do nothing)
 
                 remaining = remaining.Slice(segmentLength);
                 continue;
             }
 
-            // Regular segment - add it with its trailing separator
+            // Regular segment - add it (with trailing separator if present)
             segments.Add(remaining.Slice(0, segmentLength).ToString());
 
             remaining = remaining.Slice(segmentLength);

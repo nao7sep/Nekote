@@ -7,45 +7,21 @@ namespace Nekote.Text;
 /// </summary>
 /// <remarks>
 /// <para>
-/// <strong>Problem this solves:</strong> ReadOnlySpan&lt;char&gt; cannot be modified in-place.
-/// When you need to transform span content (filter, replace, append), you need a writable buffer.
-/// This class provides that buffer while minimizing allocations by using ArrayPool.
+/// <strong>When to use this over StringBuilder:</strong>
 /// </para>
 /// <para>
-/// <strong>Design philosophy:</strong> Similar to System.Drawing.Graphics - you create an editable
-/// workspace, perform mutations, extract the result as a span, and dispose to release resources.
-/// The buffer can be reused multiple times by calling <see cref="Clear"/> between operations.
+/// <see cref="StringBuilder"/> has an AsSpan() method (since .NET Core 2.1), but this class offers advantages:
 /// </para>
-/// <para>
-/// <strong>Use cases:</strong>
-/// - Filtering characters from a span (e.g., remove whitespace)
-/// - Replacing characters in a span (e.g., normalize whitespace)
-/// - Building strings from multiple spans without intermediate allocations
-/// - Any transformation where you need to write modified span content
-/// </para>
+/// <list type="bullet">
+/// <item>Uses <see cref="ArrayPool{T}"/> instead of heap allocations, reducing GC pressure for temporary buffers</item>
+/// <item>Returns a mutable <see cref="Span{T}"/> allowing direct in-place modifications without additional copies</item>
+/// <item>Designed as a <c>ref struct</c> ensuring stack-only semantics for predictable cleanup</item>
+/// </list>
 /// <para>
 /// <strong>Memory safety:</strong> This is a ref struct and cannot escape to the heap.
 /// Spans returned from <see cref="AsSpan()"/> are only valid until the next mutation operation
 /// or until <see cref="Dispose"/> is called. The buffer is rented from ArrayPool and reused
 /// to minimize GC pressure.
-/// </para>
-/// <para>
-/// <strong>Example usage:</strong>
-/// <code>
-/// using var buffer = new CharBuffer(initialSize: 256);
-///
-/// // Append multiple spans
-/// buffer.Append("Hello");
-/// buffer.Append(' ');
-/// buffer.Append("World");
-///
-/// ReadOnlySpan&lt;char&gt; result = buffer.AsSpan(); // "Hello World"
-///
-/// // Reuse the buffer
-/// buffer.Clear();
-/// buffer.Append("Foo");
-/// result = buffer.AsSpan(); // "Foo"
-/// </code>
 /// </para>
 /// </remarks>
 public ref struct CharBuffer
@@ -53,43 +29,47 @@ public ref struct CharBuffer
     private char[]? _buffer;
     private int _capacity;
     private int _length;
-    private readonly int? _maxSize;
 
     /// <summary>
     /// Gets the default initial buffer size (256 characters).
     /// </summary>
     /// <remarks>
-    /// This value is used when <c>null</c> is passed to the <see cref="CharBuffer(int?, int?)"/> constructor.
+    /// This value is used when the parameterless constructor is called.
     /// Exposed publicly to allow users to make informed decisions about buffer sizing.
     /// </remarks>
     public static readonly int DefaultInitialSize = 256;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CharBuffer"/> struct.
+    /// Initializes a new instance of the <see cref="CharBuffer"/> struct with the default initial size.
+    /// </summary>
+    /// <remarks>
+    /// Uses <see cref="DefaultInitialSize"/> (256 characters) as the initial capacity.
+    /// Note that <see cref="ArrayPool{T}"/> may return a buffer larger than requested due to bucket sizes.
+    /// </remarks>
+    public CharBuffer()
+    {
+        _buffer = ArrayPool<char>.Shared.Rent(DefaultInitialSize);
+        _capacity = _buffer.Length;
+        _length = 0;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CharBuffer"/> struct with the specified initial size.
     /// </summary>
     /// <param name="initialSize">
-    /// The initial buffer capacity (0 or greater), or <c>null</c> to use <see cref="DefaultInitialSize"/> (256 characters).
+    /// The initial buffer capacity (0 or greater).
     /// Note that <see cref="ArrayPool{T}"/> may return a buffer larger than requested due to bucket sizes.
     /// Specifying 0 is valid and will rent the pool's minimum buffer size.
     /// </param>
-    /// <param name="maxSize">
-    /// The maximum buffer size in characters. If null (default), the buffer can grow unbounded.
-    /// If specified and capacity would exceed this size, an <see cref="InvalidOperationException"/> is thrown.
-    /// </param>
-    public CharBuffer(int? initialSize = null, int? maxSize = null)
+    /// <exception cref="ArgumentOutOfRangeException">Initial size is negative.</exception>
+    public CharBuffer(int initialSize)
     {
-        int effectiveInitialSize = initialSize ?? DefaultInitialSize;
-
-        if (effectiveInitialSize < 0)
+        if (initialSize < 0)
             throw new ArgumentOutOfRangeException(nameof(initialSize), "Initial size must be 0 or greater.");
 
-        if (maxSize.HasValue && maxSize.Value < effectiveInitialSize)
-            throw new ArgumentException("Max size cannot be less than initial size.", nameof(maxSize));
-
-        _buffer = ArrayPool<char>.Shared.Rent(effectiveInitialSize);
+        _buffer = ArrayPool<char>.Shared.Rent(initialSize);
         _capacity = _buffer.Length;
         _length = 0;
-        _maxSize = maxSize;
     }
 
     /// <summary>
@@ -122,18 +102,8 @@ public ref struct CharBuffer
     /// <remarks>
     /// <para>
     /// Setting this to a smaller value effectively truncates the buffer content.
-    /// Setting to a larger value (up to <see cref="Capacity"/>) extends the used region
-    /// without modifying existing characters. The extended region may contain garbage data
-    /// from the <see cref="ArrayPool{T}"/> and must be initialized via the indexer before use.
-    /// </para>
-    /// <para>
-    /// This pattern allows pre-allocation for scenarios where you know the final size:
-    /// <code>
-    /// buffer.Length = 100;
-    /// for (int i = 0; i &lt; 100; i++)
-    ///     buffer[i] = ComputeChar(i);
-    /// </code>
-    /// This is more efficient than calling <see cref="Append(char)"/> 100 times.
+    /// Setting to a larger value (up to <see cref="Capacity"/>) extends the used region,
+    /// zero-filling the extended portion to match <see cref="StringBuilder"/> behavior.
     /// </para>
     /// </remarks>
     /// <exception cref="ArgumentOutOfRangeException">Value is negative or exceeds <see cref="Capacity"/>.</exception>
@@ -144,6 +114,12 @@ public ref struct CharBuffer
         {
             if (value < 0 || value > _capacity)
                 throw new ArgumentOutOfRangeException(nameof(value), $"Length must be in range [0..{_capacity}].");
+
+            // Zero-fill extended region to match StringBuilder behavior
+            if (value > _length)
+            {
+                _buffer.AsSpan(_length, value - _length).Clear();
+            }
 
             _length = value;
         }
@@ -167,9 +143,6 @@ public ref struct CharBuffer
     /// Ensures the buffer has at least the specified capacity.
     /// </summary>
     /// <param name="requiredSize">The minimum required capacity.</param>
-    /// <exception cref="InvalidOperationException">
-    /// Required size exceeds <see cref="_maxSize"/> if a maximum was specified.
-    /// </exception>
     /// <remarks>
     /// If the current capacity is insufficient, the buffer will grow using an exponential
     /// doubling strategy until the required size is met. The old buffer is returned to the pool.
@@ -179,23 +152,11 @@ public ref struct CharBuffer
         if (requiredSize <= _capacity)
             return;
 
-        // CRITICAL: Validate requiredSize is achievable before entering the growth loop.
-        // Without this check, if requiredSize > maxSize, the loop would clamp to maxSize
-        // but never satisfy the loop condition (newCapacity < requiredSize), causing an infinite loop.
-        if (_maxSize.HasValue && requiredSize > _maxSize.Value)
-            throw new InvalidOperationException($"Required size {requiredSize} exceeds maximum size {_maxSize.Value}.");
-
-        // Growth loop: double capacity until we meet or exceed requiredSize.
-        // Invariant: requiredSize <= maxSize (enforced by check above).
+        // Growth loop: double capacity until we meet or exceed requiredSize
         int newCapacity = _capacity;
         while (newCapacity < requiredSize)
         {
             newCapacity *= 2;
-
-            // Clamp to maxSize if doubling overshoots. This is safe because we know
-            // requiredSize <= maxSize, so the clamped value still satisfies the requirement.
-            if (_maxSize.HasValue && newCapacity > _maxSize.Value)
-                newCapacity = _maxSize.Value;
         }
 
         char[] oldBuffer = _buffer!;
@@ -337,53 +298,6 @@ public ref struct CharBuffer
     }
 
     /// <summary>
-    /// Removes all leading whitespace characters from the buffer.
-    /// </summary>
-    public void TrimStart()
-    {
-        int trimLength = 0;
-        for (int i = 0; i < _length; i++)
-        {
-            if (!char.IsWhiteSpace(_buffer![i]))
-                break;
-            trimLength++;
-        }
-
-        if (trimLength > 0)
-        {
-            Remove(0, trimLength);
-        }
-    }
-
-    /// <summary>
-    /// Removes all trailing whitespace characters from the buffer.
-    /// </summary>
-    public void TrimEnd()
-    {
-        int trimLength = 0;
-        for (int i = _length - 1; i >= 0; i--)
-        {
-            if (!char.IsWhiteSpace(_buffer![i]))
-                break;
-            trimLength++;
-        }
-
-        if (trimLength > 0)
-        {
-            _length -= trimLength;
-        }
-    }
-
-    /// <summary>
-    /// Removes all leading and trailing whitespace characters from the buffer.
-    /// </summary>
-    public void Trim()
-    {
-        TrimEnd();
-        TrimStart();
-    }
-
-    /// <summary>
     /// Reports the zero-based index of the first occurrence of the specified character.
     /// </summary>
     /// <param name="value">The character to seek.</param>
@@ -496,6 +410,16 @@ public ref struct CharBuffer
     }
 
     /// <summary>
+    /// Determines whether the buffer contains any of the specified characters.
+    /// </summary>
+    /// <param name="values">The set of characters to locate.</param>
+    /// <returns><c>true</c> if any of the characters are found; otherwise, <c>false</c>.</returns>
+    public bool ContainsAny(ReadOnlySpan<char> values)
+    {
+        return IndexOfAny(values) >= 0;
+    }
+
+    /// <summary>
     /// Replaces all occurrences of a specified character with another character.
     /// </summary>
     /// <param name="oldChar">The character to be replaced.</param>
@@ -530,14 +454,6 @@ public ref struct CharBuffer
                 span[i] = newChar;
             }
         }
-    }
-
-    /// <summary>
-    /// Reverses the sequence of characters in the buffer.
-    /// </summary>
-    public void Reverse()
-    {
-        AsSpan().Reverse();
     }
 
     /// <summary>

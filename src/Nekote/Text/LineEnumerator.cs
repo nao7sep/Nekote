@@ -16,7 +16,6 @@ public ref struct LineEnumerator
 {
     private ReadOnlySpan<char> _remaining;
     private ReadOnlySpan<char> _current;
-    private int _position;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LineEnumerator"/> struct.
@@ -26,7 +25,6 @@ public ref struct LineEnumerator
     {
         _remaining = text;
         _current = default;
-        _position = 0;
     }
 
     /// <summary>
@@ -47,7 +45,54 @@ public ref struct LineEnumerator
     /// </returns>
     public bool MoveNext()
     {
-        throw new NotImplementedException();
+        if (_remaining.IsEmpty)
+        {
+            _current = default;
+            return false;
+        }
+
+        int lineStart = 0;
+        int i = 0;
+
+        // Scan for line ending
+        while (i < _remaining.Length)
+        {
+            char c = _remaining[i];
+
+            if (c == '\r')
+            {
+                // Found \r - extract line before it
+                _current = _remaining.Slice(lineStart, i - lineStart);
+
+                // Check if next character is \n (Windows CRLF)
+                if (i + 1 < _remaining.Length && _remaining[i + 1] == '\n')
+                {
+                    // \r\n - skip both characters
+                    _remaining = _remaining.Slice(i + 2);
+                }
+                else
+                {
+                    // \r alone - old Mac line ending
+                    _remaining = _remaining.Slice(i + 1);
+                }
+
+                return true;
+            }
+            else if (c == '\n')
+            {
+                // Found \n - extract line before it
+                _current = _remaining.Slice(lineStart, i - lineStart);
+                _remaining = _remaining.Slice(i + 1);
+                return true;
+            }
+
+            i++;
+        }
+
+        // No line ending found - return rest of text as final line
+        _current = _remaining;
+        _remaining = ReadOnlySpan<char>.Empty;
+        return true;
     }
 
     /// <summary>

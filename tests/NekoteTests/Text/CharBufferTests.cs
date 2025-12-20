@@ -108,6 +108,19 @@ public class CharBufferTests
         Assert.Equal(capacity, buffer.Length);
     }
 
+    [Fact]
+    public void Length_SetToSameValue_IsNoOp()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("test");
+        int length = buffer.Length;
+
+        buffer.Length = length; // Should not throw or change anything
+
+        Assert.Equal(length, buffer.Length);
+        Assert.Equal("test", buffer.ToString());
+    }
+
     // ===================================================================================
     // Capacity Management Tests
     // ===================================================================================
@@ -157,6 +170,17 @@ public class CharBufferTests
     }
 
     [Fact]
+    public void EnsureCapacity_LessThanCurrentCapacity_DoesNothing()
+    {
+        using var buffer = new CharBuffer(100);
+        int capacity = buffer.Capacity;
+
+        buffer.EnsureCapacity(50); // Request less than current
+
+        Assert.Equal(capacity, buffer.Capacity); // Should not shrink
+    }
+
+    [Fact]
     public void Clear_ResetsLengthButNotCapacity()
     {
         using var buffer = new CharBuffer();
@@ -175,6 +199,19 @@ public class CharBufferTests
     {
         using var buffer = new CharBuffer();
         buffer.Clear(); // Should not throw
+        Assert.Equal(0, buffer.Length);
+    }
+
+    [Fact]
+    public void Clear_MultipleTimes_Works()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("test");
+
+        buffer.Clear();
+        buffer.Clear(); // Should not throw
+        buffer.Clear(); // Should not throw
+
         Assert.Equal(0, buffer.Length);
     }
 
@@ -794,6 +831,14 @@ public class CharBufferTests
         Assert.Equal(string.Empty, buffer.ToString());
     }
 
+    [Fact]
+    public void ToString_ZeroLength_ReturnsEmptyString()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("abc");
+        Assert.Equal(string.Empty, buffer.ToString(1, 0)); // Zero length substring
+    }
+
     // ===================================================================================
     // AsSpan Tests
     // ===================================================================================
@@ -830,6 +875,15 @@ public class CharBufferTests
     {
         using var buffer = new CharBuffer();
         var span = buffer.AsSpan();
+        Assert.True(span.IsEmpty);
+    }
+
+    [Fact]
+    public void AsSpan_ZeroLength_ReturnsEmptySpan()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("abc");
+        var span = buffer.AsSpan(1, 0); // Zero length span
         Assert.True(span.IsEmpty);
     }
 
@@ -900,6 +954,18 @@ public class CharBufferTests
         using var buffer = new CharBuffer();
         char[] dest = new char[10];
         buffer.CopyTo(dest.AsSpan()); // Should not throw
+        Assert.Equal(new char[10], dest); // Destination unchanged
+    }
+
+    [Fact]
+    public void CopyTo_ZeroLengthRange_CopiesNothing()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("abc");
+        char[] dest = new char[10];
+
+        buffer.CopyTo(dest.AsSpan(), 1, 0); // Copy zero characters
+
         Assert.Equal(new char[10], dest); // Destination unchanged
     }
 
@@ -1018,6 +1084,26 @@ public class CharBufferTests
 
         buffer.Remove(0, 1);
         Assert.True(buffer.IsEmpty);
+    }
+
+    [Fact]
+    public void Contains_WithZeroLengthRange_ReturnsFalse()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("abc");
+
+        // Searching in zero-length range should return false
+        Assert.False(buffer.Contains('b', 1, 0));
+    }
+
+    [Fact]
+    public void ContainsAny_WithZeroLengthRange_ReturnsFalse()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("abc");
+
+        // Searching in zero-length range should return false
+        Assert.False(buffer.ContainsAny("abc".AsSpan(), 1, 0));
     }
 
     // ===================================================================================

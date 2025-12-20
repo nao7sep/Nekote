@@ -81,21 +81,28 @@ public sealed class CharBuffer : IDisposable
     /// <param name="index">The zero-based index of the character.</param>
     /// <returns>The character at the specified index.</returns>
     /// <exception cref="IndexOutOfRangeException">Index is less than zero or greater than or equal to <see cref="Length"/>.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public char this[int index]
     {
         get
         {
+            if (_buffer == null)
+                throw new ObjectDisposedException(nameof(CharBuffer));
+
             if (index < 0 || index >= _length)
                 throw new IndexOutOfRangeException($"Index {index} is out of range [0..{_length}).");
 
-            return _buffer![index];
+            return _buffer[index];
         }
         set
         {
+            if (_buffer == null)
+                throw new ObjectDisposedException(nameof(CharBuffer));
+
             if (index < 0 || index >= _length)
                 throw new IndexOutOfRangeException($"Index {index} is out of range [0..{_length}).");
 
-            _buffer![index] = value;
+            _buffer[index] = value;
         }
     }
 
@@ -110,11 +117,20 @@ public sealed class CharBuffer : IDisposable
     /// </para>
     /// </remarks>
     /// <exception cref="ArgumentOutOfRangeException">Value is negative or exceeds <see cref="Capacity"/>.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public int Length
     {
-        get => _length;
+        get
+        {
+            if (_buffer == null)
+                throw new ObjectDisposedException(nameof(CharBuffer));
+            return _length;
+        }
         set
         {
+            if (_buffer == null)
+                throw new ObjectDisposedException(nameof(CharBuffer));
+
             if (value < 0 || value > _capacity)
                 throw new ArgumentOutOfRangeException(nameof(value), $"Length must be in range [0..{_capacity}].");
 
@@ -135,12 +151,30 @@ public sealed class CharBuffer : IDisposable
     /// This is the total size of the rented array, which may be larger than the requested size
     /// due to ArrayPool's bucket sizes.
     /// </remarks>
-    public int Capacity => _capacity;
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int Capacity
+    {
+        get
+        {
+            if (_buffer == null)
+                throw new ObjectDisposedException(nameof(CharBuffer));
+            return _capacity;
+        }
+    }
 
     /// <summary>
     /// Gets a value indicating whether the buffer is empty.
     /// </summary>
-    public bool IsEmpty => _length == 0;
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public bool IsEmpty
+    {
+        get
+        {
+            if (_buffer == null)
+                throw new ObjectDisposedException(nameof(CharBuffer));
+            return _length == 0;
+        }
+    }
 
     /// <summary>
     /// Ensures the buffer has at least the specified capacity.
@@ -150,19 +184,32 @@ public sealed class CharBuffer : IDisposable
     /// If the current capacity is insufficient, the buffer will grow using an exponential
     /// doubling strategy until the required size is met. The old buffer is returned to the pool.
     /// </remarks>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public void EnsureCapacity(int requiredSize)
     {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
         if (requiredSize <= _capacity)
             return;
 
+        if (requiredSize < 0)
+            throw new ArgumentOutOfRangeException(nameof(requiredSize), "Required size must be non-negative.");
+
         // Growth loop: double capacity until we meet or exceed requiredSize
-        int newCapacity = _capacity;
+        int newCapacity = _capacity == 0 ? DefaultInitialSize : _capacity;
         while (newCapacity < requiredSize)
         {
-            newCapacity *= 2;
+            int nextCapacity = newCapacity * 2;
+            if (nextCapacity < 0) // Overflow
+            {
+                newCapacity = requiredSize;
+                break;
+            }
+            newCapacity = nextCapacity;
         }
 
-        char[] oldBuffer = _buffer!;
+        char[] oldBuffer = _buffer;
         char[] newBuffer = ArrayPool<char>.Shared.Rent(newCapacity);
 
         // Copy existing content
@@ -182,6 +229,29 @@ public sealed class CharBuffer : IDisposable
     {
         EnsureCapacity(_length + 1);
         _buffer![_length++] = c;
+    }
+
+    /// <summary>
+    /// Appends a character to the buffer a specified number of times.
+    /// </summary>
+    /// <param name="c">The character to append.</param>
+    /// <param name="repeatCount">The number of times to append the character.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Repeat count is negative.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public void Append(char c, int repeatCount)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (repeatCount < 0)
+            throw new ArgumentOutOfRangeException(nameof(repeatCount));
+
+        if (repeatCount == 0)
+            return;
+
+        EnsureCapacity(_length + repeatCount);
+        _buffer.AsSpan(_length, repeatCount).Fill(c);
+        _length += repeatCount;
     }
 
     /// <summary>
@@ -246,6 +316,40 @@ public sealed class CharBuffer : IDisposable
     }
 
     /// <summary>
+    /// Inserts a character at the specified index a specified number of times.
+    /// </summary>
+    /// <param name="index">The zero-based index at which to insert the character.</param>
+    /// <param name="c">The character to insert.</param>
+    /// <param name="repeatCount">The number of times to insert the character.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Index is out of range or repeat count is negative.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public void Insert(int index, char c, int repeatCount)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (index < 0 || index > _length)
+            throw new ArgumentOutOfRangeException(nameof(index), $"Index must be in range [0..{_length}].");
+
+        if (repeatCount < 0)
+            throw new ArgumentOutOfRangeException(nameof(repeatCount));
+
+        if (repeatCount == 0)
+            return;
+
+        EnsureCapacity(_length + repeatCount);
+
+        // Shift existing content right
+        if (index < _length)
+        {
+            _buffer.AsSpan(index, _length - index).CopyTo(_buffer.AsSpan(index + repeatCount));
+        }
+
+        _buffer.AsSpan(index, repeatCount).Fill(c);
+        _length += repeatCount;
+    }
+
+    /// <summary>
     /// Inserts a span of characters at the specified index.
     /// </summary>
     /// <param name="index">The zero-based index at which to insert the characters.</param>
@@ -280,8 +384,12 @@ public sealed class CharBuffer : IDisposable
     /// <exception cref="ArgumentOutOfRangeException">
     /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
     /// </exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public void Remove(int start, int length)
     {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
         if (start < 0 || start > _length)
             throw new ArgumentOutOfRangeException(nameof(start));
 
@@ -567,6 +675,9 @@ public sealed class CharBuffer : IDisposable
     /// </remarks>
     public void ReplaceAny(ReadOnlySpan<char> oldChars, char newChar)
     {
+        if (oldChars.IsEmpty)
+            return;
+
         Span<char> span = AsSpan();
         for (int i = 0; i < span.Length; i++)
         {
@@ -586,6 +697,9 @@ public sealed class CharBuffer : IDisposable
     /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
     public void ReplaceAny(ReadOnlySpan<char> oldChars, char newChar, int start)
     {
+        if (oldChars.IsEmpty)
+            return;
+
         if (start < 0 || start > _length)
             throw new ArgumentOutOfRangeException(nameof(start));
 
@@ -611,6 +725,9 @@ public sealed class CharBuffer : IDisposable
     /// </exception>
     public void ReplaceAny(ReadOnlySpan<char> oldChars, char newChar, int start, int length)
     {
+        if (oldChars.IsEmpty)
+            return;
+
         if (start < 0 || start > _length)
             throw new ArgumentOutOfRangeException(nameof(start));
 
@@ -632,8 +749,12 @@ public sealed class CharBuffer : IDisposable
     /// </summary>
     /// <param name="destination">The destination span to copy to.</param>
     /// <exception cref="ArgumentException">Destination span is too small to hold the buffer contents.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public void CopyTo(Span<char> destination)
     {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
         if (destination.Length < _length)
             throw new ArgumentException($"Destination span length {destination.Length} is less than buffer length {_length}.", nameof(destination));
 
@@ -647,8 +768,12 @@ public sealed class CharBuffer : IDisposable
     /// <param name="start">The starting index in the buffer to copy from.</param>
     /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
     /// <exception cref="ArgumentException">Destination span is too small to hold the buffer contents.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public void CopyTo(Span<char> destination, int start)
     {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
         if (start < 0 || start > _length)
             throw new ArgumentOutOfRangeException(nameof(start));
 
@@ -669,8 +794,12 @@ public sealed class CharBuffer : IDisposable
     /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
     /// </exception>
     /// <exception cref="ArgumentException">Destination span is too small to hold the buffer contents.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public void CopyTo(Span<char> destination, int start, int length)
     {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
         if (start < 0 || start > _length)
             throw new ArgumentOutOfRangeException(nameof(start));
 
@@ -687,8 +816,11 @@ public sealed class CharBuffer : IDisposable
     /// Materializes the buffer contents as a string.
     /// </summary>
     /// <returns>A string containing the characters from index 0 to <see cref="Length"/> - 1.</returns>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public override string ToString()
     {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
         return new string(_buffer.AsSpan(0, _length));
     }
 
@@ -698,8 +830,12 @@ public sealed class CharBuffer : IDisposable
     /// <param name="start">The starting index of the range to convert.</param>
     /// <returns>A string containing the characters from start to <see cref="Length"/> - 1.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public string ToString(int start)
     {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
         if (start < 0 || start > _length)
             throw new ArgumentOutOfRangeException(nameof(start));
 
@@ -715,8 +851,12 @@ public sealed class CharBuffer : IDisposable
     /// <exception cref="ArgumentOutOfRangeException">
     /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
     /// </exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public string ToString(int start, int length)
     {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
         if (start < 0 || start > _length)
             throw new ArgumentOutOfRangeException(nameof(start));
 
@@ -745,8 +885,11 @@ public sealed class CharBuffer : IDisposable
     /// or until <see cref="Dispose"/> is called.
     /// </para>
     /// </remarks>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public Span<char> AsSpan()
     {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
         return _buffer.AsSpan(0, _length);
     }
 
@@ -756,11 +899,18 @@ public sealed class CharBuffer : IDisposable
     /// <param name="start">The zero-based starting index.</param>
     /// <param name="length">The number of characters in the span.</param>
     /// <returns>A span containing the specified slice of the buffer.</returns>
+    /// <remarks>
+    /// See <see cref="AsSpan()"/> for details on span lifetime and mutability.
+    /// </remarks>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
     /// </exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public Span<char> AsSpan(int start, int length)
     {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
         if (start < 0 || start > _length)
             throw new ArgumentOutOfRangeException(nameof(start));
 
@@ -775,9 +925,16 @@ public sealed class CharBuffer : IDisposable
     /// </summary>
     /// <param name="start">The zero-based starting index.</param>
     /// <returns>A span containing the characters from start to <see cref="Length"/> - 1.</returns>
+    /// <remarks>
+    /// See <see cref="AsSpan()"/> for details on span lifetime and mutability.
+    /// </remarks>
     /// <exception cref="ArgumentOutOfRangeException">Start is negative or greater than <see cref="Length"/>.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public Span<char> AsSpan(int start)
     {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
         if (start < 0 || start > _length)
             throw new ArgumentOutOfRangeException(nameof(start));
 
@@ -791,8 +948,11 @@ public sealed class CharBuffer : IDisposable
     /// This does not release the underlying buffer or clear its contents.
     /// It simply resets the used length to allow reusing the buffer.
     /// </remarks>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public void Clear()
     {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
         _length = 0;
     }
 

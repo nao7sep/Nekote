@@ -42,7 +42,7 @@ public sealed class CharBuffer : IDisposable
     public static readonly int DefaultInitialSize = 256;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CharBuffer"/> struct with the default initial size.
+    /// Initializes a new instance of the <see cref="CharBuffer"/> class with the default initial size.
     /// </summary>
     /// <remarks>
     /// Uses <see cref="DefaultInitialSize"/> (256 characters) as the initial capacity.
@@ -56,7 +56,7 @@ public sealed class CharBuffer : IDisposable
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CharBuffer"/> struct with the specified initial size.
+    /// Initializes a new instance of the <see cref="CharBuffer"/> class with the specified initial size.
     /// </summary>
     /// <param name="initialSize">
     /// The initial buffer capacity (0 or greater).
@@ -183,17 +183,18 @@ public sealed class CharBuffer : IDisposable
     /// If the current capacity is insufficient, the buffer will grow using an exponential
     /// doubling strategy until the required size is met. The old buffer is returned to the pool.
     /// </remarks>
+    /// <exception cref="ArgumentOutOfRangeException">Required size is negative.</exception>
     /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
     public void EnsureCapacity(int requiredSize)
     {
         if (_buffer == null)
             throw new ObjectDisposedException(nameof(CharBuffer));
 
-        if (requiredSize <= _capacity)
-            return;
-
         if (requiredSize < 0)
             throw new ArgumentOutOfRangeException(nameof(requiredSize), "Required size must be non-negative.");
+
+        if (requiredSize <= _capacity)
+            return;
 
         // Growth loop: double capacity until we meet or exceed requiredSize
         int newCapacity = _capacity == 0 ? DefaultInitialSize : _capacity;

@@ -1,4 +1,6 @@
-﻿namespace Nekote.Text;
+﻿using System.Collections.Generic;
+
+namespace Nekote.Text;
 
 /// <summary>
 /// Enumerates lines with configurable processing (trimming, whitespace handling, blank line handling).
@@ -6,7 +8,7 @@
 /// <remarks>
 /// This enumerator wraps a <see cref="LineEnumerator"/> and applies processing according to
 /// <see cref="LineProcessingOptions"/>. Uses <see cref="CharBuffer"/> for inline whitespace
-/// transformations and <see cref="StringQueue"/> for blank line lookahead/buffering.
+/// transformations and <see cref="Queue{T}"/> for blank line lookahead/buffering.
 /// <para>
 /// The returned spans are only valid until the next call to <see cref="MoveNext"/>. If data
 /// needs to persist, call <c>ToString()</c> on the span to materialize it as a string.
@@ -17,7 +19,7 @@ public ref struct ProcessedLineEnumerator
     private LineEnumerator _lines;
     private readonly LineProcessingOptions _options;
     private CharBuffer _charBuffer;
-    private StringQueue? _blankQueue;
+    private Queue<string>? _blankQueue;
     private ReadOnlySpan<char> _current;
 
     // State for blank line handling
@@ -98,8 +100,8 @@ public ref struct ProcessedLineEnumerator
             if (isBlank && _hasEmittedContent)
             {
                 // We can't know if this is consecutive or trailing until we read ahead
-                _blankQueue ??= new StringQueue();
-                _blankQueue.Enqueue(line);
+                _blankQueue ??= new Queue<string>();
+                _blankQueue.Enqueue(line.ToString());
 
                 // Read ahead until we find content or EOF
                 while (_lines.MoveNext())
@@ -111,7 +113,7 @@ public ref struct ProcessedLineEnumerator
                     if (nextIsBlank)
                     {
                         // Another blank - queue it
-                        _blankQueue.Enqueue(nextLine);
+                        _blankQueue.Enqueue(nextLine.ToString());
                     }
                     else
                     {
@@ -131,7 +133,7 @@ public ref struct ProcessedLineEnumerator
                             if (_blankQueue.TryDequeue(out singleBlank))
                             {
                                 _blankQueue.Clear(); // Discard remaining blanks
-                                _blankQueue.Enqueue(nextLine); // Queue content line
+                                _blankQueue.Enqueue(nextLine.ToString()); // Queue content line
                                 _current = singleBlank.AsSpan();
                                 return true;
                             }
@@ -139,7 +141,7 @@ public ref struct ProcessedLineEnumerator
                         else // Preserve mode
                         {
                             // Keep all queued blanks, queue content for later
-                            _blankQueue.Enqueue(nextLine);
+                            _blankQueue.Enqueue(nextLine.ToString());
                             // Will emit from queue on next MoveNext call
                             if (_blankQueue.TryDequeue(out string? firstBlank))
                             {

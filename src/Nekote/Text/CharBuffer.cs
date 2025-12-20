@@ -661,6 +661,417 @@ public sealed class CharBuffer : IDisposable
     }
 
     /// <summary>
+    /// Counts the number of occurrences of the specified character in the buffer.
+    /// </summary>
+    /// <param name="value">The character to count.</param>
+    /// <returns>The number of times the character appears in the buffer.</returns>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int Count(char value)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        return AsSpan().Count(value);
+    }
+
+    /// <summary>
+    /// Counts the number of occurrences of the specified character in the buffer, starting at the specified position.
+    /// </summary>
+    /// <param name="value">The character to count.</param>
+    /// <param name="start">The starting index of the range to search.</param>
+    /// <returns>The number of times the character appears in the specified range.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int Count(char value, int start)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        return AsSpan(start).Count(value);
+    }
+
+    /// <summary>
+    /// Counts the number of occurrences of the specified character within the specified range.
+    /// </summary>
+    /// <param name="value">The character to count.</param>
+    /// <param name="start">The starting index of the range to search.</param>
+    /// <param name="length">The number of characters in the range to search.</param>
+    /// <returns>The number of times the character appears in the specified range.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int Count(char value, int start, int length)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        if (length < 0 || start + length > _length)
+            throw new ArgumentOutOfRangeException(nameof(length));
+
+        return AsSpan(start, length).Count(value);
+    }
+
+    /// <summary>
+    /// Counts the number of occurrences of any character in the specified set.
+    /// </summary>
+    /// <param name="values">The set of characters to count.</param>
+    /// <returns>The number of times any character in the set appears in the buffer.</returns>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int CountAny(ReadOnlySpan<char> values)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (values.IsEmpty)
+            return 0;
+
+        Span<char> span = AsSpan();
+        int count = 0;
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (values.Contains(span[i]))
+                count++;
+        }
+        return count;
+    }
+
+    /// <summary>
+    /// Counts the number of occurrences of any character in the specified set, starting at the specified position.
+    /// </summary>
+    /// <param name="values">The set of characters to count.</param>
+    /// <param name="start">The starting index of the range to search.</param>
+    /// <returns>The number of times any character in the set appears in the specified range.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int CountAny(ReadOnlySpan<char> values, int start)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        if (values.IsEmpty)
+            return 0;
+
+        Span<char> span = AsSpan(start);
+        int count = 0;
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (values.Contains(span[i]))
+                count++;
+        }
+        return count;
+    }
+
+    /// <summary>
+    /// Counts the number of occurrences of any character in the specified set within the specified range.
+    /// </summary>
+    /// <param name="values">The set of characters to count.</param>
+    /// <param name="start">The starting index of the range to search.</param>
+    /// <param name="length">The number of characters in the range to search.</param>
+    /// <returns>The number of times any character in the set appears in the specified range.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int CountAny(ReadOnlySpan<char> values, int start, int length)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        if (length < 0 || start + length > _length)
+            throw new ArgumentOutOfRangeException(nameof(length));
+
+        if (values.IsEmpty)
+            return 0;
+
+        Span<char> span = AsSpan(start, length);
+        int count = 0;
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (values.Contains(span[i]))
+                count++;
+        }
+        return count;
+    }
+
+    /// <summary>
+    /// Counts the number of characters that are NOT in the specified set.
+    /// </summary>
+    /// <param name="values">The set of allowed characters.</param>
+    /// <returns>The number of characters not in the specified set.</returns>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int CountAnyExcept(ReadOnlySpan<char> values)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (values.IsEmpty)
+            return _length;
+
+        Span<char> span = AsSpan();
+        int count = 0;
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (!values.Contains(span[i]))
+                count++;
+        }
+        return count;
+    }
+
+    /// <summary>
+    /// Counts the number of characters that are NOT in the specified set, starting at the specified position.
+    /// </summary>
+    /// <param name="values">The set of allowed characters.</param>
+    /// <param name="start">The starting index of the range to search.</param>
+    /// <returns>The number of characters not in the specified set within the specified range.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int CountAnyExcept(ReadOnlySpan<char> values, int start)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        Span<char> span = AsSpan(start);
+
+        if (values.IsEmpty)
+            return span.Length;
+
+        int count = 0;
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (!values.Contains(span[i]))
+                count++;
+        }
+        return count;
+    }
+
+    /// <summary>
+    /// Counts the number of characters that are NOT in the specified set within the specified range.
+    /// </summary>
+    /// <param name="values">The set of allowed characters.</param>
+    /// <param name="start">The starting index of the range to search.</param>
+    /// <param name="length">The number of characters in the range to search.</param>
+    /// <returns>The number of characters not in the specified set within the specified range.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int CountAnyExcept(ReadOnlySpan<char> values, int start, int length)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        if (length < 0 || start + length > _length)
+            throw new ArgumentOutOfRangeException(nameof(length));
+
+        if (values.IsEmpty)
+            return length;
+
+        Span<char> span = AsSpan(start, length);
+        int count = 0;
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (!values.Contains(span[i]))
+                count++;
+        }
+        return count;
+    }
+
+    /// <summary>
+    /// Determines whether the buffer contains any character that is NOT in the specified set.
+    /// </summary>
+    /// <param name="values">The set of allowed characters.</param>
+    /// <returns><c>true</c> if any character not in the set is found; otherwise, <c>false</c>.</returns>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public bool ContainsAnyExcept(ReadOnlySpan<char> values)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        return AsSpan().ContainsAnyExcept(values);
+    }
+
+    /// <summary>
+    /// Determines whether the buffer contains any character that is NOT in the specified set, starting at the specified position.
+    /// </summary>
+    /// <param name="values">The set of allowed characters.</param>
+    /// <param name="start">The starting index of the range to search.</param>
+    /// <returns><c>true</c> if any character not in the set is found; otherwise, <c>false</c>.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public bool ContainsAnyExcept(ReadOnlySpan<char> values, int start)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        return AsSpan(start).ContainsAnyExcept(values);
+    }
+
+    /// <summary>
+    /// Determines whether the buffer contains any character that is NOT in the specified set within the specified range.
+    /// </summary>
+    /// <param name="values">The set of allowed characters.</param>
+    /// <param name="start">The starting index of the range to search.</param>
+    /// <param name="length">The number of characters in the range to search.</param>
+    /// <returns><c>true</c> if any character not in the set is found; otherwise, <c>false</c>.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public bool ContainsAnyExcept(ReadOnlySpan<char> values, int start, int length)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        if (length < 0 || start + length > _length)
+            throw new ArgumentOutOfRangeException(nameof(length));
+
+        return AsSpan(start, length).ContainsAnyExcept(values);
+    }
+
+    /// <summary>
+    /// Reports the zero-based index of the first character that is NOT in the specified set.
+    /// </summary>
+    /// <param name="values">The set of allowed characters.</param>
+    /// <returns>The zero-based index of the first character not in the set, or -1 if all characters are in the set.</returns>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int IndexOfAnyExcept(ReadOnlySpan<char> values)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        return AsSpan().IndexOfAnyExcept(values);
+    }
+
+    /// <summary>
+    /// Reports the zero-based index of the first character that is NOT in the specified set, starting at the specified position.
+    /// </summary>
+    /// <param name="values">The set of allowed characters.</param>
+    /// <param name="start">The search starting position.</param>
+    /// <returns>The zero-based index of the first character not in the set, or -1 if all characters are in the set.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int IndexOfAnyExcept(ReadOnlySpan<char> values, int start)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        int result = AsSpan(start).IndexOfAnyExcept(values);
+        return result >= 0 ? result + start : -1;
+    }
+
+    /// <summary>
+    /// Reports the zero-based index of the first character that is NOT in the specified set within the specified range.
+    /// </summary>
+    /// <param name="values">The set of allowed characters.</param>
+    /// <param name="start">The starting index of the range to search.</param>
+    /// <param name="length">The number of characters in the range to search.</param>
+    /// <returns>The zero-based index of the first character not in the set, or -1 if all characters are in the set.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int IndexOfAnyExcept(ReadOnlySpan<char> values, int start, int length)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        if (length < 0 || start + length > _length)
+            throw new ArgumentOutOfRangeException(nameof(length));
+
+        int result = AsSpan(start, length).IndexOfAnyExcept(values);
+        return result >= 0 ? result + start : -1;
+    }
+
+    /// <summary>
+    /// Reports the zero-based index of the last character that is NOT in the specified set.
+    /// </summary>
+    /// <param name="values">The set of allowed characters.</param>
+    /// <returns>The zero-based index of the last character not in the set, or -1 if all characters are in the set.</returns>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int LastIndexOfAnyExcept(ReadOnlySpan<char> values)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        return AsSpan().LastIndexOfAnyExcept(values);
+    }
+
+    /// <summary>
+    /// Reports the zero-based index of the last character that is NOT in the specified set, searching backward from the specified position.
+    /// </summary>
+    /// <param name="values">The set of allowed characters.</param>
+    /// <param name="start">The search starting position (searches backward from this position).</param>
+    /// <returns>The zero-based index of the last character not in the set, or -1 if all characters are in the set.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than or equal to <see cref="Length"/>.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int LastIndexOfAnyExcept(ReadOnlySpan<char> values, int start)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (start < 0 || start >= _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        return AsSpan(0, start + 1).LastIndexOfAnyExcept(values);
+    }
+
+    /// <summary>
+    /// Reports the zero-based index of the last character that is NOT in the specified set within the specified range.
+    /// </summary>
+    /// <param name="values">The set of allowed characters.</param>
+    /// <param name="start">The starting index of the range to search.</param>
+    /// <param name="length">The number of characters in the range to search.</param>
+    /// <returns>The zero-based index of the last character not in the set, or -1 if all characters are in the set.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public int LastIndexOfAnyExcept(ReadOnlySpan<char> values, int start, int length)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        if (length < 0 || start + length > _length)
+            throw new ArgumentOutOfRangeException(nameof(length));
+
+        return AsSpan(start, length).LastIndexOfAnyExcept(values);
+    }
+
+    /// <summary>
     /// Replaces all occurrences of a specified character with another character.
     /// </summary>
     /// <param name="oldChar">The character to be replaced.</param>
@@ -824,6 +1235,108 @@ public sealed class CharBuffer : IDisposable
         for (int i = 0; i < span.Length; i++)
         {
             if (oldChars.Contains(span[i]))
+            {
+                span[i] = newChar;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Replaces all characters that are NOT in the specified set with a replacement character.
+    /// </summary>
+    /// <param name="allowedChars">The set of characters that should NOT be replaced.</param>
+    /// <param name="newChar">The character to replace all disallowed characters with.</param>
+    /// <remarks>
+    /// Useful for sanitization scenarios, e.g., replacing all non-safe filename characters with an underscore.
+    /// </remarks>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public void ReplaceAnyExcept(ReadOnlySpan<char> allowedChars, char newChar)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (allowedChars.IsEmpty)
+        {
+            AsSpan().Fill(newChar);
+            return;
+        }
+
+        Span<char> span = AsSpan();
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (!allowedChars.Contains(span[i]))
+            {
+                span[i] = newChar;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Replaces all characters that are NOT in the specified set with a replacement character within the specified range.
+    /// </summary>
+    /// <param name="allowedChars">The set of characters that should NOT be replaced.</param>
+    /// <param name="newChar">The character to replace all disallowed characters with.</param>
+    /// <param name="start">The starting index of the range.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public void ReplaceAnyExcept(ReadOnlySpan<char> allowedChars, char newChar, int start)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        Span<char> span = AsSpan(start);
+
+        if (allowedChars.IsEmpty)
+        {
+            span.Fill(newChar);
+            return;
+        }
+
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (!allowedChars.Contains(span[i]))
+            {
+                span[i] = newChar;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Replaces all characters that are NOT in the specified set with a replacement character within the specified range.
+    /// </summary>
+    /// <param name="allowedChars">The set of characters that should NOT be replaced.</param>
+    /// <param name="newChar">The character to replace all disallowed characters with.</param>
+    /// <param name="start">The starting index of the range.</param>
+    /// <param name="length">The number of characters in the range.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">The buffer has been disposed.</exception>
+    public void ReplaceAnyExcept(ReadOnlySpan<char> allowedChars, char newChar, int start, int length)
+    {
+        if (_buffer == null)
+            throw new ObjectDisposedException(nameof(CharBuffer));
+
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        if (length < 0 || start + length > _length)
+            throw new ArgumentOutOfRangeException(nameof(length));
+
+        Span<char> span = AsSpan(start, length);
+
+        if (allowedChars.IsEmpty)
+        {
+            span.Fill(newChar);
+            return;
+        }
+
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (!allowedChars.Contains(span[i]))
             {
                 span[i] = newChar;
             }

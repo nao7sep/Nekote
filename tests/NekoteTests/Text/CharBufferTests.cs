@@ -1107,6 +1107,311 @@ public class CharBufferTests
     }
 
     // ===================================================================================
+    // Count Tests
+    // ===================================================================================
+
+    [Fact]
+    public void Count_SingleChar_CountsOccurrences()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("aabbbaaa");
+
+        Assert.Equal(5, buffer.Count('a'));
+        Assert.Equal(3, buffer.Count('b'));
+        Assert.Equal(0, buffer.Count('c'));
+    }
+
+    [Fact]
+    public void Count_WithStart_CountsFromPosition()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("aabbbaaa");
+
+        Assert.Equal(3, buffer.Count('a', 5)); // "aaa"
+        Assert.Equal(0, buffer.Count('b', 5)); // No 'b' after index 5
+    }
+
+    [Fact]
+    public void Count_WithRange_CountsInRange()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("aabbbaaa");
+
+        Assert.Equal(3, buffer.Count('b', 2, 3)); // "bbb" has 3 b's
+        Assert.Equal(1, buffer.Count('a', 1, 3)); // "abb" has 1 a
+    }
+
+    [Fact]
+    public void Count_EmptyBuffer_ReturnsZero()
+    {
+        using var buffer = new CharBuffer();
+        Assert.Equal(0, buffer.Count('a'));
+    }
+
+    [Fact]
+    public void CountAny_CountsMultipleChars()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("hello world");
+
+        Assert.Equal(5, buffer.CountAny("lo".AsSpan())); // l, l, l, o, o
+        Assert.Equal(3, buffer.CountAny("aeiou".AsSpan())); // e, o, o
+        Assert.Equal(0, buffer.CountAny("xyz".AsSpan()));
+    }
+
+    [Fact]
+    public void CountAny_WithStart_CountsFromPosition()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("hello world");
+
+        Assert.Equal(2, buffer.CountAny("lo".AsSpan(), 6)); // "world" has o and l
+    }
+
+    [Fact]
+    public void CountAny_WithRange_CountsInRange()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("hello world");
+
+        Assert.Equal(3, buffer.CountAny("lo".AsSpan(), 0, 5)); // "hello" has l, l, o
+    }
+
+    [Fact]
+    public void CountAny_EmptySet_ReturnsZero()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("hello");
+
+        Assert.Equal(0, buffer.CountAny(ReadOnlySpan<char>.Empty));
+    }
+
+    [Fact]
+    public void CountAnyExcept_CountsCharsNotInSet()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("hello123");
+
+        Assert.Equal(3, buffer.CountAnyExcept("helo".AsSpan())); // '1', '2', '3'
+        Assert.Equal(5, buffer.CountAnyExcept("123".AsSpan())); // h, e, l, l, o
+    }
+
+    [Fact]
+    public void CountAnyExcept_WithStart_CountsFromPosition()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("hello123");
+
+        Assert.Equal(3, buffer.CountAnyExcept("helo".AsSpan(), 5)); // "123"
+    }
+
+    [Fact]
+    public void CountAnyExcept_WithRange_CountsInRange()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("hello123");
+
+        Assert.Equal(0, buffer.CountAnyExcept("helo".AsSpan(), 0, 5)); // "hello" all chars are in "helo"
+    }
+
+    [Fact]
+    public void CountAnyExcept_EmptySet_ReturnsLength()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("hello");
+
+        Assert.Equal(5, buffer.CountAnyExcept(ReadOnlySpan<char>.Empty));
+    }
+
+    // ===================================================================================
+    // ContainsAnyExcept Tests
+    // ===================================================================================
+
+    [Fact]
+    public void ContainsAnyExcept_ReturnsTrueIfCharNotInSet()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("hello");
+
+        Assert.False(buffer.ContainsAnyExcept("helo".AsSpan())); // All chars in "hello" are in "helo"
+        Assert.False(buffer.ContainsAnyExcept("helo ".AsSpan())); // All chars are in set
+    }
+
+    [Fact]
+    public void ContainsAnyExcept_WithStart_SearchesFromPosition()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("abc123");
+
+        Assert.True(buffer.ContainsAnyExcept("abc".AsSpan(), 3)); // "123" not in "abc"
+        Assert.False(buffer.ContainsAnyExcept("123".AsSpan(), 3)); // "123" all in "123"
+    }
+
+    [Fact]
+    public void ContainsAnyExcept_WithRange_SearchesInRange()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("abc123");
+
+        Assert.False(buffer.ContainsAnyExcept("abc".AsSpan(), 0, 3)); // "abc" all in "abc"
+        Assert.True(buffer.ContainsAnyExcept("abc".AsSpan(), 3, 3)); // "123" not in "abc"
+    }
+
+    [Fact]
+    public void ContainsAnyExcept_EmptyBuffer_ReturnsFalse()
+    {
+        using var buffer = new CharBuffer();
+        Assert.False(buffer.ContainsAnyExcept("abc".AsSpan()));
+    }
+
+    // ===================================================================================
+    // IndexOfAnyExcept Tests
+    // ===================================================================================
+
+    [Fact]
+    public void IndexOfAnyExcept_FindsFirstCharNotInSet()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("aaabbbccc");
+
+        Assert.Equal(3, buffer.IndexOfAnyExcept("a".AsSpan())); // First 'b'
+        Assert.Equal(0, buffer.IndexOfAnyExcept("bc".AsSpan())); // First 'a'
+        Assert.Equal(-1, buffer.IndexOfAnyExcept("abc".AsSpan())); // All in set
+    }
+
+    [Fact]
+    public void IndexOfAnyExcept_WithStart_FindsFromPosition()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("aaabbbccc");
+
+        Assert.Equal(6, buffer.IndexOfAnyExcept("ab".AsSpan(), 5)); // First 'c'
+        Assert.Equal(3, buffer.IndexOfAnyExcept("a".AsSpan(), 0)); // First 'b'
+    }
+
+    [Fact]
+    public void IndexOfAnyExcept_WithRange_FindsInRange()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("aaabbbccc");
+
+        Assert.Equal(3, buffer.IndexOfAnyExcept("a".AsSpan(), 0, 6)); // First 'b' at index 3
+        Assert.Equal(-1, buffer.IndexOfAnyExcept("ab".AsSpan(), 0, 6)); // All 'a' or 'b'
+    }
+
+    [Fact]
+    public void IndexOfAnyExcept_EmptyBuffer_ReturnsMinusOne()
+    {
+        using var buffer = new CharBuffer();
+        Assert.Equal(-1, buffer.IndexOfAnyExcept("abc".AsSpan()));
+    }
+
+    // ===================================================================================
+    // LastIndexOfAnyExcept Tests
+    // ===================================================================================
+
+    [Fact]
+    public void LastIndexOfAnyExcept_FindsLastCharNotInSet()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("aaabbbccc");
+
+        Assert.Equal(8, buffer.LastIndexOfAnyExcept("ab".AsSpan())); // Last 'c'
+        Assert.Equal(5, buffer.LastIndexOfAnyExcept("ac".AsSpan())); // Last 'b'
+        Assert.Equal(-1, buffer.LastIndexOfAnyExcept("abc".AsSpan())); // All in set
+    }
+
+    [Fact]
+    public void LastIndexOfAnyExcept_WithStart_SearchesBackwardFromPosition()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("aaabbbccc");
+
+        Assert.Equal(5, buffer.LastIndexOfAnyExcept("ac".AsSpan(), 7)); // Last 'b' before index 7
+        Assert.Equal(2, buffer.LastIndexOfAnyExcept("bc".AsSpan(), 5)); // Last 'a' before index 5
+    }
+
+    [Fact]
+    public void LastIndexOfAnyExcept_WithRange_SearchesInRange()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("aaabbbccc");
+
+        Assert.Equal(5, buffer.LastIndexOfAnyExcept("ac".AsSpan(), 0, 6)); // Last 'b' in first 6 chars
+        Assert.Equal(-1, buffer.LastIndexOfAnyExcept("ab".AsSpan(), 0, 6)); // All 'a' or 'b'
+    }
+
+    [Fact]
+    public void LastIndexOfAnyExcept_EmptyBuffer_ReturnsMinusOne()
+    {
+        using var buffer = new CharBuffer();
+        Assert.Equal(-1, buffer.LastIndexOfAnyExcept("abc".AsSpan()));
+    }
+
+    // ===================================================================================
+    // ReplaceAnyExcept Tests
+    // ===================================================================================
+
+    [Fact]
+    public void ReplaceAnyExcept_ReplacesCharsNotInSet()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("hello123world");
+
+        buffer.ReplaceAnyExcept("helo wrd".AsSpan(), '_');
+        Assert.Equal("hello___world", buffer.ToString());
+    }
+
+    [Fact]
+    public void ReplaceAnyExcept_WithStart_ReplacesFromPosition()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("abc123xyz");
+
+        buffer.ReplaceAnyExcept("123".AsSpan(), '_', 3);
+        Assert.Equal("abc123___", buffer.ToString());
+    }
+
+    [Fact]
+    public void ReplaceAnyExcept_WithRange_ReplacesInRange()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("abc123xyz");
+
+        buffer.ReplaceAnyExcept("123".AsSpan(), '_', 3, 3);
+        Assert.Equal("abc123xyz", buffer.ToString()); // "123" is all allowed, nothing replaced
+    }
+
+    [Fact]
+    public void ReplaceAnyExcept_EmptySet_ReplacesAll()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("abc");
+
+        buffer.ReplaceAnyExcept(ReadOnlySpan<char>.Empty, '*');
+        Assert.Equal("***", buffer.ToString());
+    }
+
+    [Fact]
+    public void ReplaceAnyExcept_Sanitization_WorksCorrectly()
+    {
+        using var buffer = new CharBuffer();
+        buffer.Append("file<name>.txt");
+
+        // Replace all non-alphanumeric and non-dot/dash chars
+        buffer.ReplaceAnyExcept("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-".AsSpan(), '_');
+        Assert.Equal("file_name_.txt", buffer.ToString());
+    }
+
+    [Fact]
+    public void ReplaceAnyExcept_EmptyBuffer_DoesNothing()
+    {
+        using var buffer = new CharBuffer();
+        buffer.ReplaceAnyExcept("abc".AsSpan(), '_');
+        Assert.Equal(string.Empty, buffer.ToString());
+    }
+
+    // ===================================================================================
     // Dispose Tests
     // ===================================================================================
 

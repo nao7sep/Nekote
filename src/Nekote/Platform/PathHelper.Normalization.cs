@@ -144,7 +144,7 @@ public static partial class PathHelper
             }
 
             // Parse current segment
-            if (!TryParseDelimitedSegment(remaining, requireDelimiter: false, out int segmentLength))
+            if (!ParseDelimitedSegment(remaining, requireDelimiter: false, out int segmentLength))
             {
                 break;
             }

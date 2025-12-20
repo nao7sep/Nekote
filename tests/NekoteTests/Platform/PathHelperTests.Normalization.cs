@@ -561,6 +561,7 @@ public partial class PathHelperTests
     {
         var options = new PathOptions
         {
+            TargetOperatingSystem = null,
             ThrowOnEmptySegments = false,
             TrimSegments = true,
             RequireAtLeastOneSegment = true,
@@ -587,6 +588,7 @@ public partial class PathHelperTests
     {
         var options = new PathOptions
         {
+            TargetOperatingSystem = null,
             ThrowOnEmptySegments = false,
             TrimSegments = true,
             RequireAtLeastOneSegment = true,

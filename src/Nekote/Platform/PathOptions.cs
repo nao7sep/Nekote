@@ -12,6 +12,75 @@ namespace Nekote.Platform;
 public record PathOptions
 {
     /// <summary>
+    /// Gets or sets the target operating system for path interpretation and validation.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Controls how path roots are detected and interpreted during validation and normalization.
+    /// When set to a specific operating system, paths are validated according to that system's rules
+    /// regardless of the current runtime platform.
+    /// </para>
+    /// <para>
+    /// <strong>Cross-Platform Path Validation:</strong>
+    /// </para>
+    /// <para>
+    /// This enables scenarios such as:
+    /// <list type="bullet">
+    /// <item>Validating Windows paths (<c>C:\path</c>, <c>\\server\share</c>) while running on Linux or macOS</item>
+    /// <item>Validating Unix paths (<c>/usr/bin</c>) while running on Windows</item>
+    /// <item>Storing paths in databases with platform-specific validation before deployment</item>
+    /// <item>Building cross-platform tools that work with paths from multiple operating systems</item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// <strong>Platform-Specific Path Semantics:</strong>
+    /// </para>
+    /// <para>
+    /// <strong>Windows</strong> (<see cref="OperatingSystemType.Windows"/>):
+    /// <list type="bullet">
+    /// <item><c>C:\path</c> - Fully qualified (drive letter with separator)</item>
+    /// <item><c>C:path</c> - Rooted but NOT fully qualified (drive-relative, depends on current directory)</item>
+    /// <item><c>\path</c> - Rooted but NOT fully qualified (root-relative, depends on current drive)</item>
+    /// <item><c>\\server\share</c> - Fully qualified (UNC path)</item>
+    /// <item><c>\\.\device</c>, <c>\\?\path</c> - Fully qualified (device and extended-length paths)</item>
+    /// <item><c>/path</c> - Rooted but NOT fully qualified (root-relative with forward slash)</item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// <strong>Unix</strong> (<see cref="OperatingSystemType.Linux"/> or <see cref="OperatingSystemType.MacOS"/>):
+    /// <list type="bullet">
+    /// <item><c>/path</c> - Fully qualified (absolute path from root)</item>
+    /// <item><c>\path</c> - Fully qualified (backslash is treated as separator, equivalent to forward slash)</item>
+    /// <item><c>relative/path</c> - Relative path (not rooted)</item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// <strong>Security: Windows-Only Path Formats on Unix</strong>
+    /// </para>
+    /// <para>
+    /// When <see cref="TargetOperatingSystem"/> is set to <see cref="OperatingSystemType.Linux"/>
+    /// or <see cref="OperatingSystemType.MacOS"/>, the following Windows-specific path formats
+    /// will throw <see cref="ArgumentException"/> to prevent silent misinterpretation:
+    /// <list type="bullet">
+    /// <item><c>C:\path</c> - Drive letter paths (no drive concept on Unix)</item>
+    /// <item><c>\\server\share</c> - UNC paths (network shares work differently on Unix)</item>
+    /// <item><c>\\.\device</c> - DOS device paths (Windows-only device namespace)</item>
+    /// <item><c>\\?\path</c>, <c>\??\path</c> - Extended-length paths (Windows-only feature)</item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// This fail-fast behavior prevents dangerous scenarios where a developer expects UNC network
+    /// access but the path is silently interpreted as a local filesystem path. It's better to
+    /// throw an explicit exception than to allow cross-platform path confusion.
+    /// </para>
+    /// <para>
+    /// When <c>null</c>, uses the current runtime platform from <see cref="OperatingSystem.Current"/>.
+    /// This is the default behavior and appropriate for most applications.
+    /// </para>
+    /// </remarks>
+    public required OperatingSystemType? TargetOperatingSystem { get; init; }
+
+    /// <summary>
     /// Gets or sets whether to throw an exception on null, empty, or whitespace-only path segments.
     /// </summary>
     /// <remarks>
@@ -158,6 +227,7 @@ public record PathOptions
     /// </remarks>
     public static PathOptions Default { get; } = new()
     {
+        TargetOperatingSystem = null,
         ThrowOnEmptySegments = false,
         TrimSegments = true,
         RequireAtLeastOneSegment = true,
@@ -178,6 +248,7 @@ public record PathOptions
     /// </remarks>
     public static PathOptions Native { get; } = new()
     {
+        TargetOperatingSystem = null,
         ThrowOnEmptySegments = false,
         TrimSegments = true,
         RequireAtLeastOneSegment = true,
@@ -195,9 +266,11 @@ public record PathOptions
     /// <remarks>
     /// Forces all separators to backslash (<c>\</c>). Useful when generating paths
     /// specifically for Windows systems or Windows-formatted configuration files.
+    /// Uses Windows path interpretation rules for validation.
     /// </remarks>
     public static PathOptions Windows { get; } = new()
     {
+        TargetOperatingSystem = OperatingSystemType.Windows,
         ThrowOnEmptySegments = false,
         TrimSegments = true,
         RequireAtLeastOneSegment = true,
@@ -215,9 +288,11 @@ public record PathOptions
     /// <remarks>
     /// Forces all separators to forward slash (<c>/</c>). Useful when generating paths
     /// for Unix systems, URLs, or Unix-formatted configuration files.
+    /// Uses Linux path interpretation rules for validation (MacOS behavior is identical).
     /// </remarks>
     public static PathOptions Unix { get; } = new()
     {
+        TargetOperatingSystem = OperatingSystemType.Linux,
         ThrowOnEmptySegments = false,
         TrimSegments = true,
         RequireAtLeastOneSegment = true,
@@ -239,6 +314,7 @@ public record PathOptions
     /// </remarks>
     public static PathOptions Minimal { get; } = new()
     {
+        TargetOperatingSystem = null,
         ThrowOnEmptySegments = false,
         TrimSegments = true,
         RequireAtLeastOneSegment = true,

@@ -105,10 +105,10 @@ public static partial class PathHelper
         ReadOnlySpan<char> span = path.AsSpan();
 
         // Try each root type in order of specificity
-        if (TryParseDeviceOrExtendedSegment(span, out int length)) return length;
-        if (TryParseDriveSegment(span, out length)) return length;
-        if (TryParseUncRootSegment(span, out length)) return length;
-        if (TryParseRootSegment(span, out length)) return length;
+        if (ParseDeviceOrExtendedSegment(span, out int length)) return length;
+        if (ParseDriveSegment(span, out length)) return length;
+        if (ParseUncRootSegment(span, out length)) return length;
+        if (ParseRootSegment(span, out length)) return length;
 
         return 0; // Relative path
     }
@@ -282,7 +282,7 @@ public static partial class PathHelper
     /// </para>
     /// <para>
     /// Note: This only checks for the double-separator prefix. Full validation (non-empty
-    /// server/share) happens in TryParseUncRootSegment.
+    /// server/share) happens in ParseUncRootSegment.
     /// </para>
     /// </remarks>
     private static bool IsUncRootSegment(ReadOnlySpan<char> path)
@@ -331,7 +331,7 @@ public static partial class PathHelper
 
     #endregion
 
-    #region Root Parsing (TryParse* methods)
+    #region Root Parsing (Parse* methods)
 
     /// <summary>
     /// Parses a delimited segment from the start of the path.
@@ -377,7 +377,7 @@ public static partial class PathHelper
     /// No default value is provided - callers must explicitly choose based on context.</param>
     /// <param name="length">Receives the length of the segment (and separator if present).</param>
     /// <returns>True if a valid non-empty segment was found; otherwise, false.</returns>
-    private static bool TryParseDelimitedSegment(
+    private static bool ParseDelimitedSegment(
         ReadOnlySpan<char> path,
         bool requireDelimiter,
         out int length)
@@ -429,6 +429,16 @@ public static partial class PathHelper
     /// including any embedded UNC or drive components.
     /// </summary>
     /// <remarks>
+    /// <para>
+    /// <strong>Parse Method Behavior:</strong>
+    /// </para>
+    /// <para>
+    /// This method is named <c>Parse*</c> (not <c>TryParse*</c>) because it returns <c>bool</c>
+    /// for pattern matching success but <strong>can throw exceptions</strong> when the pattern matches
+    /// but the structure is malformed (e.g., missing device name after prefix). The <c>TryParse*</c>
+    /// convention implies never throwing, so <c>Parse*</c> is more accurate. This fail-fast behavior
+    /// ensures invalid paths are caught early rather than silently misinterpreted.
+    /// </para>
     /// <para>
     /// <strong>Device and Extended-Length Path Specification:</strong>
     /// </para>
@@ -501,7 +511,7 @@ public static partial class PathHelper
     /// <strong>CRITICAL SECURITY BOUNDARY:</strong> For device/extended UNC paths, the share
     /// is a permission boundary. Path traversal with <c>..</c> must never escape above
     /// <c>\\?\UNC\server\share\</c> as this would enable unauthorized access to other shares.
-    /// See <c>TryParseUncRootSegment</c> documentation for details.
+    /// See <c>ParseUncRootSegment</c> documentation for details.
     /// </para>
     /// <para>
     /// <strong>5. Device/Extended Drive Paths</strong>
@@ -534,7 +544,7 @@ public static partial class PathHelper
     /// <param name="length">Receives the length of the complete device/extended root.</param>
     /// <returns>True if the path starts with a valid device or extended-length prefix and content.</returns>
     /// <exception cref="ArgumentException">Thrown when a valid prefix is detected but the subsequent path structure is malformed (e.g., missing device name or invalid UNC structure).</exception>
-    private static bool TryParseDeviceOrExtendedSegment(ReadOnlySpan<char> path, out int length)
+    private static bool ParseDeviceOrExtendedSegment(ReadOnlySpan<char> path, out int length)
     {
         length = 0;
 
@@ -549,7 +559,7 @@ public static partial class PathHelper
         ReadOnlySpan<char> rest = path.Slice(4);
 
         // Check for drive letter first
-        if (TryParseDriveSegment(rest, out int driveLength))
+        if (ParseDriveSegment(rest, out int driveLength))
         {
             i += driveLength;
             length = i;
@@ -557,7 +567,7 @@ public static partial class PathHelper
         }
 
         // Try to parse next segment with delimiter required
-        if (TryParseDelimitedSegment(rest, requireDelimiter: true, out int segmentLength))
+        if (ParseDelimitedSegment(rest, requireDelimiter: true, out int segmentLength))
         {
             // Check if it's the UNC marker (4 chars: U, N, C, separator)
             if (segmentLength == 4 &&
@@ -571,7 +581,7 @@ public static partial class PathHelper
                 rest = path.Slice(i);
 
                 // Parse server (required, delimiter optional at end)
-                if (!TryParseDelimitedSegment(rest, requireDelimiter: false, out int serverLength))
+                if (!ParseDelimitedSegment(rest, requireDelimiter: false, out int serverLength))
                 {
                     // Malformed device/extended UNC path - we've committed to UNC format but server is missing
                     throw new ArgumentException($"Malformed device or extended-length UNC path: missing server name after UNC marker. Path: {path.ToString()}", nameof(path));
@@ -583,7 +593,7 @@ public static partial class PathHelper
                 if (i < path.Length)
                 {
                     rest = path.Slice(i);
-                    if (TryParseDelimitedSegment(rest, requireDelimiter: false, out int shareLength))
+                    if (ParseDelimitedSegment(rest, requireDelimiter: false, out int shareLength))
                     {
                         i += shareLength;
                     }
@@ -595,7 +605,7 @@ public static partial class PathHelper
         }
 
         // Otherwise, parse device name (everything until next separator or end)
-        if (TryParseDelimitedSegment(rest, requireDelimiter: false, out int deviceLength))
+        if (ParseDelimitedSegment(rest, requireDelimiter: false, out int deviceLength))
         {
             i += deviceLength;
             length = i;
@@ -643,7 +653,7 @@ public static partial class PathHelper
     /// <param name="path">The path to parse.</param>
     /// <param name="length">Receives the length of the drive segment (2 or 3 chars: letter + colon + optional separator).</param>
     /// <returns>True if a valid drive letter segment was found; otherwise, false.</returns>
-    private static bool TryParseDriveSegment(ReadOnlySpan<char> path, out int length)
+    private static bool ParseDriveSegment(ReadOnlySpan<char> path, out int length)
     {
         length = 0;
 
@@ -668,6 +678,16 @@ public static partial class PathHelper
     /// Parses a regular UNC (Universal Naming Convention) path: \\server\share
     /// </summary>
     /// <remarks>
+    /// <para>
+    /// <strong>Parse Method Behavior:</strong>
+    /// </para>
+    /// <para>
+    /// This method is named <c>Parse*</c> (not <c>TryParse*</c>) because it returns <c>bool</c>
+    /// for pattern matching success but <strong>can throw exceptions</strong> when the UNC prefix
+    /// is detected but the server name is missing or malformed. The <c>TryParse*</c> convention
+    /// implies never throwing, so <c>Parse*</c> is more accurate. This fail-fast behavior ensures
+    /// invalid UNC paths are caught early rather than silently misinterpreted.
+    /// </para>
     /// <para>
     /// <strong>UNC Path Root Specification:</strong>
     /// </para>
@@ -730,7 +750,7 @@ public static partial class PathHelper
     /// <param name="length">Receives the length of the UNC root (including server and share if present).</param>
     /// <returns>True if the path starts with a valid UNC prefix and server name.</returns>
     /// <exception cref="ArgumentException">Thrown when a valid UNC prefix is detected but the server name is missing or malformed.</exception>
-    private static bool TryParseUncRootSegment(ReadOnlySpan<char> path, out int length)
+    private static bool ParseUncRootSegment(ReadOnlySpan<char> path, out int length)
     {
         length = 0;
 
@@ -745,7 +765,7 @@ public static partial class PathHelper
         ReadOnlySpan<char> rest = path.Slice(2);
 
         // Parse server (required, delimiter optional at end)
-        if (!TryParseDelimitedSegment(rest, requireDelimiter: false, out int serverLength))
+        if (!ParseDelimitedSegment(rest, requireDelimiter: false, out int serverLength))
         {
             // Malformed UNC path - we've committed to UNC format (\\) but server is missing
             throw new ArgumentException($"Malformed UNC path: missing server name after UNC prefix. Path: {path.ToString()}", nameof(path));
@@ -757,7 +777,7 @@ public static partial class PathHelper
         if (i < path.Length)
         {
             rest = path.Slice(i);
-            if (TryParseDelimitedSegment(rest, requireDelimiter: false, out int shareLength))
+            if (ParseDelimitedSegment(rest, requireDelimiter: false, out int shareLength))
             {
                 i += shareLength;
             }
@@ -810,7 +830,7 @@ public static partial class PathHelper
     /// <param name="path">The path to parse.</param>
     /// <param name="length">Receives 1 if the path starts with a separator; otherwise, 0.</param>
     /// <returns>True if the path starts with a single separator; otherwise, false.</returns>
-    private static bool TryParseRootSegment(ReadOnlySpan<char> path, out int length)
+    private static bool ParseRootSegment(ReadOnlySpan<char> path, out int length)
     {
         if (IsRootSegment(path))
         {

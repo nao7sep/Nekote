@@ -9,10 +9,11 @@ public static partial class PathHelper
     #region Root Length Detection
 
     /// <summary>
-    /// Gets the length of the root portion of the path.
+    /// Gets the length of the root portion of the path and whether it is fully qualified.
     /// </summary>
     /// <param name="path">The path to analyze.</param>
-    /// <returns>The length of the root portion, or 0 if the path is relative.</returns>
+    /// <param name="options">Path options containing target OS for fully-qualified determination.</param>
+    /// <returns>A tuple containing the root length (or 0 if relative) and whether the path is fully qualified.</returns>
     /// <remarks>
     /// <para>
     /// <strong>Windows Path Specifications (also supported cross-platform):</strong>
@@ -20,21 +21,22 @@ public static partial class PathHelper
     /// <para>
     /// <strong>1. DOS Device Paths</strong> (<c>\\.</c> prefix):
     /// <list type="bullet">
-    /// <item><c>\\.\COM1</c> - Physical device (serial port). Root length: 8 (4 for prefix + 4 for 'COM1'), or 9 with trailing separator</item>
-    /// <item><c>\\.\PhysicalDisk0</c> - Physical disk. Root length: 18 (4 for prefix + 14 for 'PhysicalDisk0'), or 19 with trailing separator</item>
-    /// <item><c>\\.\C:\path</c> - Drive via device. Root length: 7 (includes drive and separator)</item>
-    /// <item><c>//./COM1</c> - Same as above with forward slashes (extension for cross-platform tolerance)</item>
+    /// <item><c>\\.\COM1</c> - Physical device (serial port). Root length: 8 (4 for prefix + 4 for 'COM1'), or 9 with trailing separator. Fully qualified: <c>true</c></item>
+    /// <item><c>\\.\PhysicalDisk0</c> - Physical disk. Root length: 18 (4 for prefix + 14 for 'PhysicalDisk0'), or 19 with trailing separator. Fully qualified: <c>true</c></item>
+    /// <item><c>\\.\C:\path</c> - Drive via device. Root length: 7 (includes drive and separator). Fully qualified: <c>true</c></item>
+    /// <item><c>//./COM1</c> - Same as above with forward slashes (extension for cross-platform tolerance). Fully qualified: <c>true</c></item>
     /// </list>
     /// Purpose: Direct access to hardware devices, bypassing filesystem layers.
     /// Note: Root length includes the full device name, not just the 4-character prefix. If a trailing separator
     /// follows the device name, it is included in the root length so subsequent path operations start fresh.
+    /// Device paths are always fully qualified.
     /// </para>
     /// <para>
     /// <strong>2. Extended-Length Paths</strong> (<c>\\?</c> prefix):
     /// <list type="bullet">
-    /// <item><c>\\?\C:\very\long\path</c> - Bypasses MAX_PATH (260 char) limit. Root length: 7 (includes trailing separator)</item>
-    /// <item><c>\\?\UNC\server\share\file</c> - Extended UNC path. Root length: includes server and share with trailing separator if present</item>
-    /// <item><c>//?/C:/path</c> - Same with forward slashes (extension)</item>
+    /// <item><c>\\?\C:\very\long\path</c> - Bypasses MAX_PATH (260 char) limit. Root length: 7 (includes trailing separator). Fully qualified: <c>true</c></item>
+    /// <item><c>\\?\UNC\server\share\file</c> - Extended UNC path. Root length: includes server and share with trailing separator if present. Fully qualified: <c>true</c></item>
+    /// <item><c>//?/C:/path</c> - Same with forward slashes (extension). Fully qualified: <c>true</c></item>
     /// </list>
     /// Purpose: Access paths longer than 260 characters. Windows itself disables path normalization (no . or .. processing),
     /// but PathHelper normalizes them when requested via <see cref="NormalizeStructure"/> regardless of prefix type.
@@ -44,33 +46,35 @@ public static partial class PathHelper
     /// <c>internal static bool RemoveRelativeSegments(ReadOnlySpan&lt;char&gt; path, int rootLength, ref ValueStringBuilder sb)</c>
     /// PathHelper's normalization behavior is intentionally based on this design, not an oversight.
     /// Note: Any trailing separator after the root components is included in the root length.
+    /// Extended-length paths are always fully qualified.
     /// </para>
     /// <para>
     /// <strong>3. UNC (Universal Naming Convention) Paths</strong>:
     /// <list type="bullet">
-    /// <item><c>\\server\share\path</c> - Network share. Root length: includes <c>\\server\share</c> plus trailing separator if present</item>
-    /// <item><c>//server/share/path</c> - Same with forward slashes</item>
+    /// <item><c>\\server\share\path</c> - Network share. Root length: includes <c>\\server\share</c> plus trailing separator if present. Fully qualified: <c>true</c></item>
+    /// <item><c>//server/share/path</c> - Same with forward slashes. Fully qualified: <c>true</c></item>
     /// <item>Server name: computer name or IP address</item>
     /// <item>Share name: shared folder name</item>
     /// </list>
     /// Purpose: Access network resources. Root includes server and share to uniquely identify network location.
     /// Note: The trailing separator after share name (if present) is included in the root length.
+    /// UNC paths are always fully qualified.
     /// </para>
     /// <para>
     /// <strong>4. Drive Letter Paths</strong>:
     /// <list type="bullet">
-    /// <item><c>C:\path</c> - Absolute path on drive C. Root length: 3 (includes trailing separator)</item>
-    /// <item><c>C:path</c> - Relative to current directory on drive C (NOT fully qualified). Root length: 2 (no separator)</item>
-    /// <item><c>D:/path</c> - Absolute with forward slash. Root length: 3 (includes trailing separator)</item>
+    /// <item><c>C:\path</c> - Absolute path on drive C. Root length: 3 (includes trailing separator). Fully qualified: <c>true</c></item>
+    /// <item><c>C:path</c> - Relative to current directory on drive C (NOT fully qualified). Root length: 2 (no separator). Fully qualified: <c>false</c></item>
+    /// <item><c>D:/path</c> - Absolute with forward slash. Root length: 3 (includes trailing separator). Fully qualified: <c>true</c></item>
     /// </list>
     /// Note: <c>C:</c> without separator is relative to current directory on that drive (dangerous, often unexpected).
-    /// The trailing separator (if present) is included in the root length.
+    /// The trailing separator (if present) is included in the root length. Only paths with trailing separator are fully qualified.
     /// </para>
     /// <para>
     /// <strong>5. Root-Relative Paths</strong>:
     /// <list type="bullet">
-    /// <item><c>\path</c> - Relative to current drive's root (on Windows). Root length: 1</item>
-    /// <item><c>/path</c> - Absolute on Unix, root-relative on Windows. Root length: 1</item>
+    /// <item><c>\path</c> - Relative to current drive's root (on Windows). Root length: 1. Fully qualified: <c>false</c> on Windows, <c>true</c> on Unix</item>
+    /// <item><c>/path</c> - Absolute on Unix, root-relative on Windows. Root length: 1. Fully qualified: <c>true</c> on Unix, <c>false</c> on Windows</item>
     /// </list>
     /// Dangerous on Windows: meaning depends on current drive.
     /// </para>
@@ -94,23 +98,39 @@ public static partial class PathHelper
     /// For example: <c>\\server\share\</c> includes the final separator in the root, so the next segment
     /// can be appended directly without concerns about separator doubling.
     /// </para>
+    /// <para>
+    /// <strong>Fully Qualified Determination:</strong>
+    /// </para>
+    /// <para>
+    /// A path is considered fully qualified if its meaning does not depend on any process-specific state
+    /// (current drive, current directory). The determination considers the target operating system from
+    /// <paramref name="options"/>.TargetOperatingSystem:
+    /// <list type="bullet">
+    /// <item>Device paths (<c>\\.\</c>, <c>\\?\</c>, <c>\??\</c>): Always fully qualified</item>
+    /// <item>UNC paths (<c>\\server\share</c>): Always fully qualified</item>
+    /// <item>Drive paths with separator (<c>C:\</c>): Fully qualified</item>
+    /// <item>Drive paths without separator (<c>C:</c>): NOT fully qualified (drive-relative)</item>
+    /// <item>Single separator (<c>/</c>, <c>\</c>): Fully qualified on Unix, NOT on Windows (root-relative)</item>
+    /// <item>No root (relative path): NOT fully qualified (returns 0 for root length)</item>
+    /// </list>
+    /// </para>
     /// </remarks>
-    internal static int GetRootLength(string path)
+    internal static (int rootLength, bool isFullyQualified) GetRootLength(string path, PathOptions options)
     {
         if (string.IsNullOrEmpty(path))
         {
-            return 0;
+            return (0, false);
         }
 
         ReadOnlySpan<char> span = path.AsSpan();
 
         // Try each root type in order of specificity
-        if (ParseDeviceOrExtendedSegment(span, out int length)) return length;
-        if (ParseDriveSegment(span, out length)) return length;
-        if (ParseUncRootSegment(span, out length)) return length;
-        if (ParseRootSegment(span, out length)) return length;
+        if (ParseDeviceOrExtendedSegment(span, out int length, out bool isFullyQualified)) return (length, isFullyQualified);
+        if (ParseDriveSegment(span, out length, out isFullyQualified)) return (length, isFullyQualified);
+        if (ParseUncRootSegment(span, out length, out isFullyQualified)) return (length, isFullyQualified);
+        if (ParseRootSegment(span, options, out length, out isFullyQualified)) return (length, isFullyQualified);
 
-        return 0; // Relative path
+        return (0, false); // Relative path
     }
 
     #endregion
@@ -536,17 +556,28 @@ public static partial class PathHelper
     /// </list>
     /// </para>
     /// <para>
+    /// <strong>Fully Qualified Determination:</strong>
+    /// </para>
+    /// <para>
+    /// Device and extended-length paths are always considered fully qualified because they specify
+    /// a complete location that does not depend on any process-specific state like current drive or directory.
+    /// When they contain embedded drive letters or UNC components, the fully-qualified status of those
+    /// components is propagated.
+    /// </para>
+    /// <para>
     /// Cross-platform tolerance: This method accepts mixed separators in the UNC server/share
     /// parsing to enable reversible normalization of user-provided paths.
     /// </para>
     /// </remarks>
     /// <param name="path">The path to parse.</param>
     /// <param name="length">Receives the length of the complete device/extended root.</param>
+    /// <param name="isFullyQualified">Receives true if the path is fully qualified (considers embedded drive/UNC status).</param>
     /// <returns>True if the path starts with a valid device or extended-length prefix and content.</returns>
     /// <exception cref="ArgumentException">Thrown when a valid prefix is detected but the subsequent path structure is malformed (e.g., missing device name or invalid UNC structure).</exception>
-    private static bool ParseDeviceOrExtendedSegment(ReadOnlySpan<char> path, out int length)
+    private static bool ParseDeviceOrExtendedSegment(ReadOnlySpan<char> path, out int length, out bool isFullyQualified)
     {
         length = 0;
+        isFullyQualified = false;
 
         if (!IsDeviceSegment(path) && !IsExtendedSegment(path))
         {
@@ -559,10 +590,12 @@ public static partial class PathHelper
         ReadOnlySpan<char> rest = path.Slice(4);
 
         // Check for drive letter first
-        if (ParseDriveSegment(rest, out int driveLength))
+        if (ParseDriveSegment(rest, out int driveLength, out bool driveIsFullyQualified))
         {
             i += driveLength;
             length = i;
+            // Device/extended drive paths: inherit the fully-qualified status from the drive component
+            isFullyQualified = driveIsFullyQualified;
             return true;
         }
 
@@ -600,6 +633,7 @@ public static partial class PathHelper
                 }
 
                 length = i;
+                isFullyQualified = true; // Device/extended UNC paths are always fully qualified
                 return true;
             }
         }
@@ -609,6 +643,7 @@ public static partial class PathHelper
         {
             i += deviceLength;
             length = i;
+            isFullyQualified = true; // Device paths are always fully qualified
             return true;
         }
 
@@ -629,8 +664,8 @@ public static partial class PathHelper
     /// <para>
     /// Two forms with very different semantics:
     /// <list type="bullet">
-    /// <item><c>C:\path</c> - <strong>Absolute</strong>: Path from root of drive C</item>
-    /// <item><c>C:path</c> - <strong>Drive-relative</strong>: Path relative to current directory on drive C</item>
+    /// <item><c>C:\path</c> - <strong>Absolute</strong> (fully qualified): Path from root of drive C</item>
+    /// <item><c>C:path</c> - <strong>Drive-relative</strong> (NOT fully qualified): Path relative to current directory on drive C</item>
     /// </list>
     /// </para>
     /// <para>
@@ -646,16 +681,22 @@ public static partial class PathHelper
     /// </list>
     /// </para>
     /// <para>
-    /// This method handles both forms. The caller is responsible for checking whether
-    /// a separator follows the colon to distinguish absolute from drive-relative.
+    /// <strong>Fully Qualified Determination:</strong>
+    /// </para>
+    /// <para>
+    /// A drive letter path is considered fully qualified only if it has a trailing separator (e.g., <c>C:\</c>).
+    /// The form <c>C:</c> without separator is drive-relative and NOT fully qualified because its meaning
+    /// depends on the current directory on that drive.
     /// </para>
     /// </remarks>
     /// <param name="path">The path to parse.</param>
     /// <param name="length">Receives the length of the drive segment (2 or 3 chars: letter + colon + optional separator).</param>
+    /// <param name="isFullyQualified">Receives true if the path has a trailing separator (fully qualified); otherwise, false (drive-relative).</param>
     /// <returns>True if a valid drive letter segment was found; otherwise, false.</returns>
-    private static bool ParseDriveSegment(ReadOnlySpan<char> path, out int length)
+    private static bool ParseDriveSegment(ReadOnlySpan<char> path, out int length, out bool isFullyQualified)
     {
         length = 0;
+        isFullyQualified = false;
 
         if (!IsDriveSegment(path))
         {
@@ -668,6 +709,11 @@ public static partial class PathHelper
         if (i < path.Length && IsSeparator(path[i]))
         {
             i++;
+            isFullyQualified = true; // C:\ is fully qualified
+        }
+        else
+        {
+            isFullyQualified = false; // C: is drive-relative (not fully qualified)
         }
 
         length = i;
@@ -742,17 +788,26 @@ public static partial class PathHelper
     /// </list>
     /// </para>
     /// <para>
+    /// <strong>Fully Qualified Determination:</strong>
+    /// </para>
+    /// <para>
+    /// UNC paths are always considered fully qualified because they specify a complete network location
+    /// (server + share). Their meaning does not depend on any process-specific state like current drive or directory.
+    /// </para>
+    /// <para>
     /// Security note: UNC paths can access remote network resources. Applications should
     /// validate that network access is intentional and authorized.
     /// </para>
     /// </remarks>
     /// <param name="path">The path to parse.</param>
     /// <param name="length">Receives the length of the UNC root (including server and share if present).</param>
+    /// <param name="isFullyQualified">Receives true (UNC paths are always fully qualified).</param>
     /// <returns>True if the path starts with a valid UNC prefix and server name.</returns>
     /// <exception cref="ArgumentException">Thrown when a valid UNC prefix is detected but the server name is missing or malformed.</exception>
-    private static bool ParseUncRootSegment(ReadOnlySpan<char> path, out int length)
+    private static bool ParseUncRootSegment(ReadOnlySpan<char> path, out int length, out bool isFullyQualified)
     {
         length = 0;
+        isFullyQualified = false;
 
         if (!IsUncRootSegment(path))
         {
@@ -784,6 +839,7 @@ public static partial class PathHelper
         }
 
         length = i;
+        isFullyQualified = true; // UNC paths are always fully qualified
         return true;
     }
 
@@ -800,15 +856,15 @@ public static partial class PathHelper
     /// <para>
     /// Platform-dependent semantics:
     /// <list type="bullet">
-    /// <item><strong>Unix/Linux/macOS</strong>: <c>/path</c> is <strong>absolute</strong> - starts from filesystem root</item>
-    /// <item><strong>Windows</strong>: <c>\path</c> is <strong>root-relative</strong> - starts from current drive's root</item>
+    /// <item><strong>Unix/Linux/macOS</strong>: <c>/path</c> is <strong>absolute</strong> (fully qualified) - starts from filesystem root</item>
+    /// <item><strong>Windows</strong>: <c>\path</c> is <strong>root-relative</strong> (NOT fully qualified) - starts from current drive's root</item>
     /// </list>
     /// </para>
     /// <para>
     /// Examples:
     /// <list type="bullet">
-    /// <item>Unix: <c>/usr/bin</c> always means the same location</item>
-    /// <item>Windows: <c>\Windows</c> means <c>C:\Windows</c> if current drive is C:, or <c>D:\Windows</c> if current drive is D:</item>
+    /// <item>Unix: <c>/usr/bin</c> always means the same location (fully qualified)</item>
+    /// <item>Windows: <c>\Windows</c> means <c>C:\Windows</c> if current drive is C:, or <c>D:\Windows</c> if current drive is D: (NOT fully qualified)</item>
     /// </list>
     /// </para>
     /// <para>
@@ -823,23 +879,106 @@ public static partial class PathHelper
     /// </list>
     /// </para>
     /// <para>
-    /// This method doesn't distinguish between Unix absolute and Windows root-relative paths.
-    /// That distinction requires OS context at runtime.
+    /// <strong>Fully Qualified Determination:</strong>
+    /// </para>
+    /// <para>
+    /// Whether a path with this root is considered fully qualified depends on the target operating system:
+    /// <list type="bullet">
+    /// <item>When <paramref name="options"/>.TargetOperatingSystem is Unix (Linux/MacOS): <c>true</c> (absolute path)</item>
+    /// <item>When <paramref name="options"/>.TargetOperatingSystem is Windows: <c>false</c> (root-relative, depends on current drive)</item>
+    /// <item>When <paramref name="options"/>.TargetOperatingSystem is null: Uses current runtime OS</item>
+    /// </list>
     /// </para>
     /// </remarks>
     /// <param name="path">The path to parse.</param>
+    /// <param name="options">Path options containing target OS for fully-qualified determination.</param>
     /// <param name="length">Receives 1 if the path starts with a separator; otherwise, 0.</param>
+    /// <param name="isFullyQualified">Receives true if the path is fully qualified on the target OS; otherwise, false.</param>
     /// <returns>True if the path starts with a single separator; otherwise, false.</returns>
-    private static bool ParseRootSegment(ReadOnlySpan<char> path, out int length)
+    private static bool ParseRootSegment(ReadOnlySpan<char> path, PathOptions options, out int length, out bool isFullyQualified)
     {
         if (IsRootSegment(path))
         {
             length = 1;
+
+            // Determine target OS
+            var targetOS = options.TargetOperatingSystem ?? OperatingSystem.Current;
+
+            // On Unix, single separator is fully qualified; on Windows, it's root-relative (not fully qualified)
+            isFullyQualified = targetOS == OperatingSystemType.Linux || targetOS == OperatingSystemType.MacOS;
+
             return true;
         }
 
         length = 0;
+        isFullyQualified = false;
         return false;
+    }
+
+    #endregion
+
+    #region IsPathRooted and IsPathFullyQualified
+
+    /// <summary>
+    /// Determines whether the path has a root (is rooted).
+    /// </summary>
+    /// <param name="path">The path to check.</param>
+    /// <param name="options">Path options containing target OS for root determination.</param>
+    /// <returns>True if the path has a root (rootLength > 0); otherwise, false.</returns>
+    /// <remarks>
+    /// <para>
+    /// A path is rooted if it has any root component, including:
+    /// <list type="bullet">
+    /// <item>Drive letters: <c>C:\path</c> or <c>C:path</c> (both rooted, though only first is fully qualified)</item>
+    /// <item>UNC paths: <c>\\server\share</c></item>
+    /// <item>Device paths: <c>\\.\COM1</c>, <c>\\?\C:\path</c></item>
+    /// <item>Single separator: <c>/path</c> or <c>\path</c></item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// Note: Being rooted does not mean the path is fully qualified. For example, <c>C:path</c> is rooted
+    /// but not fully qualified (drive-relative), and <c>\path</c> on Windows is rooted but not fully qualified
+    /// (root-relative).
+    /// </para>
+    /// </remarks>
+    internal static bool IsPathRooted(string path, PathOptions options)
+    {
+        var (rootLength, _) = GetRootLength(path, options);
+        return rootLength > 0;
+    }
+
+    /// <summary>
+    /// Determines whether the path is fully qualified (absolute).
+    /// </summary>
+    /// <param name="path">The path to check.</param>
+    /// <param name="options">Path options containing target OS for fully-qualified determination.</param>
+    /// <returns>True if the path is fully qualified; otherwise, false.</returns>
+    /// <remarks>
+    /// <para>
+    /// A path is fully qualified if its meaning does not depend on any process-specific state
+    /// (current drive, current directory). The determination considers the target operating system:
+    /// <list type="bullet">
+    /// <item>Device paths (<c>\\.\</c>, <c>\\?\</c>, <c>\??\</c>): Always fully qualified</item>
+    /// <item>UNC paths (<c>\\server\share</c>): Always fully qualified</item>
+    /// <item>Drive paths with separator (<c>C:\</c>): Fully qualified</item>
+    /// <item>Drive paths without separator (<c>C:</c>): NOT fully qualified (drive-relative)</item>
+    /// <item>Single separator (<c>/</c>, <c>\</c>): Fully qualified on Unix, NOT on Windows (root-relative)</item>
+    /// <item>No root (relative path): NOT fully qualified</item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// <strong>Cross-Platform Behavior:</strong>
+    /// </para>
+    /// <para>
+    /// When validating Windows paths on Unix (or vice versa), set <paramref name="options"/>.TargetOperatingSystem
+    /// to specify which OS rules to apply. For example, <c>C:\path</c> is fully qualified when TargetOperatingSystem
+    /// is Windows, even when running on macOS.
+    /// </para>
+    /// </remarks>
+    internal static bool IsPathFullyQualified(string path, PathOptions options)
+    {
+        var (rootLength, isFullyQualified) = GetRootLength(path, options);
+        return rootLength > 0 && isFullyQualified;
     }
 
     #endregion

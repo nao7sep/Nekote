@@ -332,7 +332,10 @@ public partial class PathHelperTests
             throw new InvalidOperationException("GetRootLength method not found");
         }
 
-        return (int)method.Invoke(null, new object[] { path })!;
+        // Method now returns (int rootLength, bool isFullyQualified) and takes PathOptions
+        var result = method.Invoke(null, new object[] { path, PathOptions.Default })!;
+        var tuple = ((int, bool))result;
+        return tuple.Item1; // Return just the root length for existing tests
     }
 
     #endregion

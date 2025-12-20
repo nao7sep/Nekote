@@ -261,39 +261,39 @@ public static partial class PathHelper
         //
         // We use different validation methods for first vs subsequent segments because they serve different purposes:
         //
-        // 1. FIRST SEGMENT (RequireAbsoluteFirstSegment): Uses Path.IsPathFullyQualified
+        // 1. FIRST SEGMENT (RequireAbsoluteFirstSegment): Uses IsPathFullyQualified
         //    Purpose: Ensure the base path is TRULY absolute with no ambiguity
         //    Strictness: STRICT - only accepts complete, unambiguous absolute paths
         //
-        //    Windows - Path.IsPathFullyQualified returns TRUE for:
+        //    Windows - Fully qualified returns TRUE for:
         //      ✓ C:\path        (drive-based absolute)
         //      ✓ \\server\share (UNC path)
         //      ✓ \\.\device     (device path)
         //      ✓ \\?\path       (extended-length path)
         //
-        //    Windows - Path.IsPathFullyQualified returns FALSE for (DANGEROUS, ambiguous):
+        //    Windows - Fully qualified returns FALSE for (DANGEROUS, ambiguous):
         //      ✗ \path          (root-relative - depends on current drive: C:\path or D:\path?)
         //      ✗ C:path         (drive-relative - depends on current directory on C:)
         //      ✗ /path          (root-relative on Windows)
         //
-        //    Unix - Path.IsPathFullyQualified returns TRUE for:
+        //    Unix - Fully qualified returns TRUE for:
         //      ✓ /path          (absolute)
         //
-        //    Unix - Path.IsPathFullyQualified returns FALSE for:
+        //    Unix - Fully qualified returns FALSE for:
         //      ✗ path           (relative)
         //
-        // 2. SUBSEQUENT SEGMENTS (ValidateSubsequentPathsRelative): Uses Path.IsPathRooted
+        // 2. SUBSEQUENT SEGMENTS (ValidateSubsequentPathsRelative): Uses IsPathRooted
         //    Purpose: Detect ANY rooted path that would cause Path.Combine to discard previous segments
         //    Strictness: LOOSE - catches anything that starts with a separator or drive letter
         //
-        //    Windows - Path.IsPathRooted returns TRUE for:
+        //    Windows - Rooted (rootLength > 0) returns TRUE for:
         //      ✓ C:\path        (absolute - would discard previous)
         //      ✓ \path          (root-relative - would discard previous)
         //      ✓ C:path         (drive-relative - would discard previous)
         //      ✓ /path          (root-relative - would discard previous)
         //      ✓ \\server\share (UNC - would discard previous)
         //
-        //    Unix - Path.IsPathRooted returns TRUE for:
+        //    Unix - Rooted (rootLength > 0) returns TRUE for:
         //      ✓ /path          (absolute - would discard previous)
         //      ✓ \path          (accepted as separator - would discard previous)
         //
@@ -302,17 +302,21 @@ public static partial class PathHelper
         // Path.Combine("C:\\base", "\\other") → "\\other" (base path LOST!)
         // Path.Combine("C:\\base", "D:\\other") → "D:\\other" (base path LOST!)
         //
-        // By using IsPathRooted for subsequent segments, we catch ALL rooted variants that would
+        // By checking rootLength > 0 for subsequent segments, we catch ALL rooted variants that would
         // cause Path.Combine to discard previous segments, preventing silent data loss.
         //
-        // By using IsPathFullyQualified for the first segment, we ensure the base path is truly
+        // By checking isFullyQualified for the first segment, we ensure the base path is truly
         // absolute and unambiguous, preventing dependency on process-specific state (current drive,
         // current directory on a specific drive, etc.).
+        //
+        // CROSS-PLATFORM: Our implementation respects PathOptions.TargetOperatingSystem, so you can
+        // validate Windows paths on Unix and vice versa. For example, C:\path is fully qualified
+        // when TargetOperatingSystem=Windows, even when running on macOS.
 
         // Validate first segment is absolute if required
         if (options.RequireAbsoluteFirstSegment && segments.Count > 0)
         {
-            if (!Path.IsPathFullyQualified(segments[0]))
+            if (!IsPathFullyQualified(segments[0], options))
             {
                 throw new ArgumentException(
                     $"The first path segment must be an absolute (fully qualified) path when RequireAbsoluteFirstSegment is true. " +
@@ -326,7 +330,7 @@ public static partial class PathHelper
         {
             for (int i = 1; i < segments.Count; i++)
             {
-                if (Path.IsPathRooted(segments[i]))
+                if (IsPathRooted(segments[i], options))
                 {
                     throw new ArgumentException(
                         $"Path segment at index {i} must be a relative path when ValidateSubsequentPathsRelative is true. " +

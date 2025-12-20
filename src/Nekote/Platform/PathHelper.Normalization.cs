@@ -106,9 +106,10 @@ public static partial class PathHelper
     /// Example: <c>dir/../file</c> stays relative; <c>GetFullPath</c> would prepend <c>C:\CurrentDir\</c>.
     /// </para>
     /// </remarks>
-    public static string NormalizeStructure(string path)
+    public static string NormalizeStructure(string path, PathOptions? options = null)
     {
         ArgumentNullException.ThrowIfNull(path);
+        options ??= PathOptions.Default;
 
         if (string.IsNullOrWhiteSpace(path))
         {
@@ -117,7 +118,7 @@ public static partial class PathHelper
 
         // Get the root length (device prefix, UNC, drive, or absolute path)
         // This tells us which part of the path is immutable and can't be escaped with ..
-        int rootLength = GetRootLength(path);
+        var (rootLength, _) = GetRootLength(path, options);
 
         if (rootLength >= path.Length)
         {

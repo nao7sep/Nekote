@@ -161,7 +161,12 @@ public partial class PathHelperTests
     [InlineData("C:path")] // Drive-relative
     public void Combine_RequireAbsoluteFirst_WithAmbiguousPaths_Throws(string ambiguousPath)
     {
-        var options = PathOptions.Default with { RequireAbsoluteFirstSegment = true };
+        // These paths are ambiguous on Windows but we're running on Unix, so explicitly target Windows
+        var options = PathOptions.Default with
+        {
+            RequireAbsoluteFirstSegment = true,
+            TargetOperatingSystem = OperatingSystemType.Windows
+        };
         var ex = Assert.Throws<ArgumentException>(() =>
             PathHelper.Combine(options, ambiguousPath, "file.txt"));
         Assert.Contains("must be an absolute (fully qualified) path", ex.Message);

@@ -7,24 +7,27 @@ namespace Nekote.Text;
 /// </summary>
 /// <remarks>
 /// <para>
-/// <strong>When to use this over StringBuilder:</strong>
+/// <strong>Conceptual model:</strong> This class works like <see cref="List{T}"/> for characters,
+/// not like <see cref="StringBuilder"/>. It's a buffer/collection class that stores and manipulates
+/// character data, with <see cref="AsSpan()"/> returning a mutable <see cref="Span{T}"/> over
+/// the buffer contents (similar to <c>List&lt;char&gt;.AsSpan()</c>).
 /// </para>
 /// <para>
-/// <see cref="StringBuilder"/> has an AsSpan() method (since .NET Core 2.1), but this class offers advantages:
+/// <strong>Key advantages:</strong>
 /// </para>
 /// <list type="bullet">
 /// <item>Uses <see cref="ArrayPool{T}"/> instead of heap allocations, reducing GC pressure for temporary buffers</item>
-/// <item>Returns a mutable <see cref="Span{T}"/> allowing direct in-place modifications without additional copies</item>
-/// <item>Designed as a <c>ref struct</c> ensuring stack-only semantics for predictable cleanup</item>
+/// <item>Provides direct mutable span access for efficient in-place character operations</item>
+/// <item>Implements <see cref="IDisposable"/> for explicit resource cleanup</item>
 /// </list>
 /// <para>
-/// <strong>Memory safety:</strong> This is a ref struct and cannot escape to the heap.
+/// <strong>Memory management:</strong> The buffer is rented from <see cref="ArrayPool{T}"/> and must be
+/// returned via <see cref="Dispose"/>. Always use <c>using</c> statements or ensure Dispose is called.
 /// Spans returned from <see cref="AsSpan()"/> are only valid until the next mutation operation
-/// or until <see cref="Dispose"/> is called. The buffer is rented from ArrayPool and reused
-/// to minimize GC pressure.
+/// or until <see cref="Dispose"/> is called.
 /// </para>
 /// </remarks>
-public ref struct CharBuffer
+public sealed class CharBuffer : IDisposable
 {
     private char[]? _buffer;
     private int _capacity;
@@ -410,6 +413,40 @@ public ref struct CharBuffer
     }
 
     /// <summary>
+    /// Determines whether the buffer contains the specified character within the specified range.
+    /// </summary>
+    /// <param name="value">The character to locate.</param>
+    /// <param name="start">The starting index of the range to search.</param>
+    /// <returns><c>true</c> if the character is found; otherwise, <c>false</c>.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
+    public bool Contains(char value, int start)
+    {
+        return IndexOf(value, start) >= 0;
+    }
+
+    /// <summary>
+    /// Determines whether the buffer contains the specified character within the specified range.
+    /// </summary>
+    /// <param name="value">The character to locate.</param>
+    /// <param name="start">The starting index of the range to search.</param>
+    /// <param name="length">The number of characters in the range to search.</param>
+    /// <returns><c>true</c> if the character is found; otherwise, <c>false</c>.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
+    /// </exception>
+    public bool Contains(char value, int start, int length)
+    {
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        if (length < 0 || start + length > _length)
+            throw new ArgumentOutOfRangeException(nameof(length));
+
+        int result = AsSpan(start, length).IndexOf(value);
+        return result >= 0;
+    }
+
+    /// <summary>
     /// Determines whether the buffer contains any of the specified characters.
     /// </summary>
     /// <param name="values">The set of characters to locate.</param>
@@ -420,6 +457,40 @@ public ref struct CharBuffer
     }
 
     /// <summary>
+    /// Determines whether the buffer contains any of the specified characters within the specified range.
+    /// </summary>
+    /// <param name="values">The set of characters to locate.</param>
+    /// <param name="start">The starting index of the range to search.</param>
+    /// <returns><c>true</c> if any of the characters are found; otherwise, <c>false</c>.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
+    public bool ContainsAny(ReadOnlySpan<char> values, int start)
+    {
+        return IndexOfAny(values, start) >= 0;
+    }
+
+    /// <summary>
+    /// Determines whether the buffer contains any of the specified characters within the specified range.
+    /// </summary>
+    /// <param name="values">The set of characters to locate.</param>
+    /// <param name="start">The starting index of the range to search.</param>
+    /// <param name="length">The number of characters in the range to search.</param>
+    /// <returns><c>true</c> if any of the characters are found; otherwise, <c>false</c>.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
+    /// </exception>
+    public bool ContainsAny(ReadOnlySpan<char> values, int start, int length)
+    {
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        if (length < 0 || start + length > _length)
+            throw new ArgumentOutOfRangeException(nameof(length));
+
+        int result = AsSpan(start, length).IndexOfAny(values);
+        return result >= 0;
+    }
+
+    /// <summary>
     /// Replaces all occurrences of a specified character with another character.
     /// </summary>
     /// <param name="oldChar">The character to be replaced.</param>
@@ -427,6 +498,56 @@ public ref struct CharBuffer
     public void Replace(char oldChar, char newChar)
     {
         Span<char> span = AsSpan();
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (span[i] == oldChar)
+            {
+                span[i] = newChar;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Replaces all occurrences of a specified character with another character within the specified range.
+    /// </summary>
+    /// <param name="oldChar">The character to be replaced.</param>
+    /// <param name="newChar">The character to replace all occurrences of oldChar.</param>
+    /// <param name="start">The starting index of the range.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
+    public void Replace(char oldChar, char newChar, int start)
+    {
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        Span<char> span = AsSpan(start);
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (span[i] == oldChar)
+            {
+                span[i] = newChar;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Replaces all occurrences of a specified character with another character within the specified range.
+    /// </summary>
+    /// <param name="oldChar">The character to be replaced.</param>
+    /// <param name="newChar">The character to replace all occurrences of oldChar.</param>
+    /// <param name="start">The starting index of the range.</param>
+    /// <param name="length">The number of characters in the range.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
+    /// </exception>
+    public void Replace(char oldChar, char newChar, int start, int length)
+    {
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        if (length < 0 || start + length > _length)
+            throw new ArgumentOutOfRangeException(nameof(length));
+
+        Span<char> span = AsSpan(start, length);
         for (int i = 0; i < span.Length; i++)
         {
             if (span[i] == oldChar)
@@ -457,6 +578,56 @@ public ref struct CharBuffer
     }
 
     /// <summary>
+    /// Replaces all occurrences of any specified character with a single replacement character within the specified range.
+    /// </summary>
+    /// <param name="oldChars">The set of characters to be replaced.</param>
+    /// <param name="newChar">The character to replace all occurrences of any character in oldChars.</param>
+    /// <param name="start">The starting index of the range.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
+    public void ReplaceAny(ReadOnlySpan<char> oldChars, char newChar, int start)
+    {
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        Span<char> span = AsSpan(start);
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (oldChars.Contains(span[i]))
+            {
+                span[i] = newChar;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Replaces all occurrences of any specified character with a single replacement character within the specified range.
+    /// </summary>
+    /// <param name="oldChars">The set of characters to be replaced.</param>
+    /// <param name="newChar">The character to replace all occurrences of any character in oldChars.</param>
+    /// <param name="start">The starting index of the range.</param>
+    /// <param name="length">The number of characters in the range.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
+    /// </exception>
+    public void ReplaceAny(ReadOnlySpan<char> oldChars, char newChar, int start, int length)
+    {
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        if (length < 0 || start + length > _length)
+            throw new ArgumentOutOfRangeException(nameof(length));
+
+        Span<char> span = AsSpan(start, length);
+        for (int i = 0; i < span.Length; i++)
+        {
+            if (oldChars.Contains(span[i]))
+            {
+                span[i] = newChar;
+            }
+        }
+    }
+
+    /// <summary>
     /// Copies the buffer contents to the specified span.
     /// </summary>
     /// <param name="destination">The destination span to copy to.</param>
@@ -470,12 +641,89 @@ public ref struct CharBuffer
     }
 
     /// <summary>
+    /// Copies a portion of the buffer contents to the specified span.
+    /// </summary>
+    /// <param name="destination">The destination span to copy to.</param>
+    /// <param name="start">The starting index in the buffer to copy from.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
+    /// <exception cref="ArgumentException">Destination span is too small to hold the buffer contents.</exception>
+    public void CopyTo(Span<char> destination, int start)
+    {
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        int copyLength = _length - start;
+        if (destination.Length < copyLength)
+            throw new ArgumentException($"Destination span length {destination.Length} is less than copy length {copyLength}.", nameof(destination));
+
+        _buffer.AsSpan(start, copyLength).CopyTo(destination);
+    }
+
+    /// <summary>
+    /// Copies a portion of the buffer contents to the specified span.
+    /// </summary>
+    /// <param name="destination">The destination span to copy to.</param>
+    /// <param name="start">The starting index in the buffer to copy from.</param>
+    /// <param name="length">The number of characters to copy.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
+    /// </exception>
+    /// <exception cref="ArgumentException">Destination span is too small to hold the buffer contents.</exception>
+    public void CopyTo(Span<char> destination, int start, int length)
+    {
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        if (length < 0 || start + length > _length)
+            throw new ArgumentOutOfRangeException(nameof(length));
+
+        if (destination.Length < length)
+            throw new ArgumentException($"Destination span length {destination.Length} is less than copy length {length}.", nameof(destination));
+
+        _buffer.AsSpan(start, length).CopyTo(destination);
+    }
+
+    /// <summary>
     /// Materializes the buffer contents as a string.
     /// </summary>
     /// <returns>A string containing the characters from index 0 to <see cref="Length"/> - 1.</returns>
     public override string ToString()
     {
         return new string(_buffer.AsSpan(0, _length));
+    }
+
+    /// <summary>
+    /// Materializes a portion of the buffer contents as a string.
+    /// </summary>
+    /// <param name="start">The starting index of the range to convert.</param>
+    /// <returns>A string containing the characters from start to <see cref="Length"/> - 1.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Start index is negative or greater than <see cref="Length"/>.</exception>
+    public string ToString(int start)
+    {
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        return new string(_buffer.AsSpan(start, _length - start));
+    }
+
+    /// <summary>
+    /// Materializes a portion of the buffer contents as a string.
+    /// </summary>
+    /// <param name="start">The starting index of the range to convert.</param>
+    /// <param name="length">The number of characters to include.</param>
+    /// <returns>A string containing the specified characters.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Start or length is negative, or start + length exceeds <see cref="Length"/>.
+    /// </exception>
+    public string ToString(int start, int length)
+    {
+        if (start < 0 || start > _length)
+            throw new ArgumentOutOfRangeException(nameof(start));
+
+        if (length < 0 || start + length > _length)
+            throw new ArgumentOutOfRangeException(nameof(length));
+
+        return new string(_buffer.AsSpan(start, length));
     }
 
     /// <summary>

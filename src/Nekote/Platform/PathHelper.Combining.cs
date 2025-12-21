@@ -17,7 +17,7 @@ public static partial class PathHelper
     {
         options ??= PathOptions.Default;
         var processed = ProcessSegments(options, path1, path2);
-        var combined = Path.Combine(processed.ToArray());
+        var combined = CombineInternal(options, processed);
         return ApplyNormalization(options, combined);
     }
 
@@ -33,7 +33,7 @@ public static partial class PathHelper
     {
         options ??= PathOptions.Default;
         var processed = ProcessSegments(options, path1, path2, path3);
-        var combined = Path.Combine(processed.ToArray());
+        var combined = CombineInternal(options, processed);
         return ApplyNormalization(options, combined);
     }
 
@@ -50,7 +50,7 @@ public static partial class PathHelper
     {
         options ??= PathOptions.Default;
         var processed = ProcessSegments(options, path1, path2, path3, path4);
-        var combined = Path.Combine(processed.ToArray());
+        var combined = CombineInternal(options, processed);
         return ApplyNormalization(options, combined);
     }
 
@@ -64,7 +64,7 @@ public static partial class PathHelper
     {
         options ??= PathOptions.Default;
         var processed = ProcessSegments(options, paths);
-        var combined = Path.Combine(processed.ToArray());
+        var combined = CombineInternal(options, processed);
         return ApplyNormalization(options, combined);
     }
 
@@ -341,6 +341,80 @@ public static partial class PathHelper
         }
 
         return segments;
+    }
+
+    /// <summary>
+    /// Internal method to combine processed path segments using the appropriate separator for the target OS.
+    /// </summary>
+    /// <param name="options">Path options specifying the target operating system and separator behavior.</param>
+    /// <param name="segments">Pre-validated, filtered path segments to combine.</param>
+    /// <returns>Combined path string with appropriate separators but before normalization.</returns>
+    /// <remarks>
+    /// <para>
+    /// This method replaces the use of <see cref="Path.Combine(string[])"/> to avoid platform-specific
+    /// behavior and mixed-separator issues. Instead of relying on the runtime platform's separator,
+    /// we use the separator specified by <see cref="PathOptions.TargetOperatingSystem"/>.
+    /// </para>
+    /// <para>
+    /// <strong>Why not use Path.Combine?</strong>
+    /// </para>
+    /// <list type="bullet">
+    /// <item>Path.Combine uses the runtime platform's separator, which creates mixed-separator paths
+    /// when combining Windows-style paths (C:\base) on Unix (/), resulting in "C:\base/dir/file".</item>
+    /// <item>These mixed-separator intermediate paths fail validation in GetRootLength when checking
+    /// for Windows-specific syntax on non-Windows platforms.</item>
+    /// <item>By using the target OS separator from the start, we avoid creating invalid intermediate
+    /// paths and provide predictable cross-platform behavior.</item>
+    /// </list>
+    /// <para>
+    /// <strong>Security Note:</strong> Unlike Path.Combine, this method does NOT restart on rooted segments.
+    /// Path.Combine's behavior of discarding previous segments when encountering an absolute path is a
+    /// security risk (path traversal attack vector). Instead, we rely on <see cref="PathOptions.ValidateSubsequentPathsRelative"/>
+    /// to explicitly reject rooted subsequent segments when security is required. If validation is disabled,
+    /// segments are concatenated as-is, making the behavior explicit rather than silent.
+    /// </para>
+    /// <para>
+    /// <strong>Implementation:</strong> Simply joins segments with the appropriate separator character.
+    /// Structure normalization (handling .., ., etc.) is handled by <see cref="ApplyNormalization"/>.
+    /// </para>
+    /// </remarks>
+    private static string CombineInternal(PathOptions options, List<string> segments)
+    {
+        if (segments.Count == 0)
+        {
+            return string.Empty;
+        }
+
+        if (segments.Count == 1)
+        {
+            return segments[0];
+        }
+
+        // Determine separator based on target OS
+        char separator = options.TargetOperatingSystem == OperatingSystemType.Windows
+            ? PathSeparators.Windows
+            : PathSeparators.Unix;
+
+        // Build the combined path
+        var builder = new StringBuilder(segments[0]);
+
+        // Check if first segment already has a trailing separator to avoid duplication
+        bool needsSeparator = segments[0].Length == 0 || !IsSeparator(segments[0][^1]);
+
+        for (int i = 1; i < segments.Count; i++)
+        {
+            if (needsSeparator)
+            {
+                builder.Append(separator);
+            }
+
+            builder.Append(segments[i]);
+
+            // Check if this segment ends with a separator for the next iteration
+            needsSeparator = segments[i].Length == 0 || !IsSeparator(segments[i][^1]);
+        }
+
+        return builder.ToString();
     }
 
     #endregion

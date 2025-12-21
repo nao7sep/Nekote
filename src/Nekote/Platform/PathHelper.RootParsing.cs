@@ -15,6 +15,17 @@ public static partial class PathHelper
     /// <param name="options">Path options containing target OS for fully-qualified determination.</param>
     /// <param name="isFullyQualified">When this method returns, contains true if the path is fully qualified; otherwise, false.</param>
     /// <returns>The root length (or 0 if relative).</returns>
+    /// <exception cref="ArgumentException">
+    /// Thrown when the path syntax is invalid for the specified target OS:
+    /// <list type="bullet">
+    /// <item>Device or extended-length path syntax (e.g., <c>\\?\</c>, <c>\\.</c>) used with non-Windows target OS</item>
+    /// <item>Drive letter path syntax (e.g., <c>C:</c>) used with non-Windows target OS</item>
+    /// <item>UNC path syntax (e.g., <c>\\server\share</c>) used with non-Windows target OS</item>
+    /// </list>
+    /// <strong>Important:</strong> Unlike .NET's <see cref="Path.GetPathRoot"/> which never throws, this method
+    /// uses fail-fast validation to catch cross-platform path errors early. If you need non-throwing behavior,
+    /// use .NET's path methods, but note they lack cross-platform validation and security features.
+    /// </exception>
     /// <remarks>
     /// <para>
     /// <strong>Windows Path Specifications (also supported cross-platform):</strong>
@@ -186,6 +197,12 @@ public static partial class PathHelper
     /// <param name="path">The path to check.</param>
     /// <param name="options">Path options containing target OS for root determination.</param>
     /// <returns>True if the path has a root (rootLength > 0); otherwise, false.</returns>
+    /// <exception cref="ArgumentException">
+    /// Thrown when the path syntax is invalid for the specified target OS. See <see cref="GetRootLength"/> for details.
+    /// <strong>Important:</strong> Unlike .NET's <see cref="Path.IsPathRooted"/> which never throws, this method
+    /// uses fail-fast validation to catch cross-platform path errors early. If you need non-throwing behavior,
+    /// use .NET's path methods, but note they lack cross-platform validation and security features.
+    /// </exception>
     /// <remarks>
     /// <para>
     /// A path is rooted if it has any root component, including:
@@ -214,6 +231,12 @@ public static partial class PathHelper
     /// <param name="path">The path to check.</param>
     /// <param name="options">Path options containing target OS for fully-qualified determination.</param>
     /// <returns>True if the path is fully qualified; otherwise, false.</returns>
+    /// <exception cref="ArgumentException">
+    /// Thrown when the path syntax is invalid for the specified target OS. See <see cref="GetRootLength"/> for details.
+    /// <strong>Important:</strong> Unlike .NET's <see cref="Path.IsPathFullyQualified"/> which never throws, this method
+    /// uses fail-fast validation to catch cross-platform path errors early. If you need non-throwing behavior,
+    /// use .NET's path methods, but note they lack cross-platform validation and security features.
+    /// </exception>
     /// <remarks>
     /// <para>
     /// A path is fully qualified if its meaning does not depend on any process-specific state

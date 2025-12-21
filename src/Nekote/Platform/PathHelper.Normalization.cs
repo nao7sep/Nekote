@@ -118,7 +118,7 @@ public static partial class PathHelper
 
         // Get the root length (device prefix, UNC, drive, or absolute path)
         // This tells us which part of the path is immutable and can't be escaped with ..
-        var (rootLength, _) = GetRootLength(path, options);
+        int rootLength = GetRootLength(path, options, out _);
 
         if (rootLength >= path.Length)
         {

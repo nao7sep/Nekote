@@ -13,7 +13,8 @@ public static partial class PathHelper
     /// </summary>
     /// <param name="path">The path to analyze.</param>
     /// <param name="options">Path options containing target OS for fully-qualified determination.</param>
-    /// <returns>A tuple containing the root length (or 0 if relative) and whether the path is fully qualified.</returns>
+    /// <param name="isFullyQualified">When this method returns, contains true if the path is fully qualified; otherwise, false.</param>
+    /// <returns>The root length (or 0 if relative).</returns>
     /// <remarks>
     /// <para>
     /// <strong>Windows Path Specifications (also supported cross-platform):</strong>
@@ -115,22 +116,130 @@ public static partial class PathHelper
     /// </list>
     /// </para>
     /// </remarks>
-    internal static (int rootLength, bool isFullyQualified) GetRootLength(string path, PathOptions options)
+    public static int GetRootLength(string path, PathOptions options, out bool isFullyQualified)
     {
         if (string.IsNullOrEmpty(path))
         {
-            return (0, false);
+            isFullyQualified = false;
+            return 0;
         }
 
         ReadOnlySpan<char> span = path.AsSpan();
+        var targetOs = options.TargetOperatingSystem ?? OperatingSystem.Current;
 
         // Try each root type in order of specificity
-        if (ParseDeviceOrExtendedSegment(span, out int length, out bool isFullyQualified)) return (length, isFullyQualified);
-        if (ParseDriveSegment(span, out length, out isFullyQualified)) return (length, isFullyQualified);
-        if (ParseUncRootSegment(span, out length, out isFullyQualified)) return (length, isFullyQualified);
-        if (ParseRootSegment(span, options, out length, out isFullyQualified)) return (length, isFullyQualified);
+        // Device/Extended paths: Windows-only
+        if (ParseDeviceOrExtendedSegment(span, out int length, out isFullyQualified))
+        {
+            if (targetOs != OperatingSystemType.Windows)
+            {
+                throw new ArgumentException(
+                    $"Device or extended-length path syntax is only valid for Windows. " +
+                    $"Target OS: {targetOs}, Path: {path}",
+                    nameof(path));
+            }
+            return length;
+        }
 
-        return (0, false); // Relative path
+        // Drive paths: Windows-only
+        if (ParseDriveSegment(span, out length, out isFullyQualified))
+        {
+            if (targetOs != OperatingSystemType.Windows)
+            {
+                throw new ArgumentException(
+                    $"Drive letter path syntax (e.g., 'C:') is only valid for Windows. " +
+                    $"Target OS: {targetOs}, Path: {path}",
+                    nameof(path));
+            }
+            return length;
+        }
+
+        // UNC paths: Windows-only
+        if (ParseUncRootSegment(span, out length, out isFullyQualified))
+        {
+            if (targetOs != OperatingSystemType.Windows)
+            {
+                throw new ArgumentException(
+                    $"UNC path syntax (e.g., '\\\\server\\share') is only valid for Windows. " +
+                    $"Target OS: {targetOs}, Path: {path}. " +
+                    $"Note: On Unix, this would be interpreted as a path with an empty first segment.",
+                    nameof(path));
+            }
+            return length;
+        }
+
+        // Root segment: cross-platform (single separator)
+        if (ParseRootSegment(span, out length))
+        {
+            // On Unix, single separator is fully qualified; on Windows, it's root-relative (not fully qualified)
+            isFullyQualified = targetOs == OperatingSystemType.Linux || targetOs == OperatingSystemType.MacOS;
+            return length;
+        }
+
+        isFullyQualified = false;
+        return 0; // Relative path
+    }
+
+    /// <summary>
+    /// Determines whether the path has a root (is rooted).
+    /// </summary>
+    /// <param name="path">The path to check.</param>
+    /// <param name="options">Path options containing target OS for root determination.</param>
+    /// <returns>True if the path has a root (rootLength > 0); otherwise, false.</returns>
+    /// <remarks>
+    /// <para>
+    /// A path is rooted if it has any root component, including:
+    /// <list type="bullet">
+    /// <item>Drive letters: <c>C:\path</c> or <c>C:path</c> (both rooted, though only first is fully qualified)</item>
+    /// <item>UNC paths: <c>\\server\share</c></item>
+    /// <item>Device paths: <c>\\.\COM1</c>, <c>\\?\C:\path</c></item>
+    /// <item>Single separator: <c>/path</c> or <c>\path</c></item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// Note: Being rooted does not mean the path is fully qualified. For example, <c>C:path</c> is rooted
+    /// but not fully qualified (drive-relative), and <c>\path</c> on Windows is rooted but not fully qualified
+    /// (root-relative).
+    /// </para>
+    /// </remarks>
+    public static bool IsPathRooted(string path, PathOptions options)
+    {
+        int rootLength = GetRootLength(path, options, out _);
+        return rootLength > 0;
+    }
+
+    /// <summary>
+    /// Determines whether the path is fully qualified (absolute).
+    /// </summary>
+    /// <param name="path">The path to check.</param>
+    /// <param name="options">Path options containing target OS for fully-qualified determination.</param>
+    /// <returns>True if the path is fully qualified; otherwise, false.</returns>
+    /// <remarks>
+    /// <para>
+    /// A path is fully qualified if its meaning does not depend on any process-specific state
+    /// (current drive, current directory). The determination considers the target operating system:
+    /// <list type="bullet">
+    /// <item>Device paths (<c>\\.\</c>, <c>\\?\</c>, <c>\??\</c>): Always fully qualified</item>
+    /// <item>UNC paths (<c>\\server\share</c>): Always fully qualified</item>
+    /// <item>Drive paths with separator (<c>C:\</c>): Fully qualified</item>
+    /// <item>Drive paths without separator (<c>C:</c>): NOT fully qualified (drive-relative)</item>
+    /// <item>Single separator (<c>/</c>, <c>\</c>): Fully qualified on Unix, NOT on Windows (root-relative)</item>
+    /// <item>No root (relative path): NOT fully qualified</item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// <strong>Cross-Platform Behavior:</strong>
+    /// </para>
+    /// <para>
+    /// When validating Windows paths on Unix (or vice versa), set <paramref name="options"/>.TargetOperatingSystem
+    /// to specify which OS rules to apply. For example, <c>C:\path</c> is fully qualified when TargetOperatingSystem
+    /// is Windows, even when running on macOS.
+    /// </para>
+    /// </remarks>
+    public static bool IsPathFullyQualified(string path, PathOptions options)
+    {
+        int rootLength = GetRootLength(path, options, out bool isFullyQualified);
+        return rootLength > 0 && isFullyQualified;
     }
 
     #endregion
@@ -895,90 +1004,16 @@ public static partial class PathHelper
     /// <param name="length">Receives 1 if the path starts with a separator; otherwise, 0.</param>
     /// <param name="isFullyQualified">Receives true if the path is fully qualified on the target OS; otherwise, false.</param>
     /// <returns>True if the path starts with a single separator; otherwise, false.</returns>
-    private static bool ParseRootSegment(ReadOnlySpan<char> path, PathOptions options, out int length, out bool isFullyQualified)
+    private static bool ParseRootSegment(ReadOnlySpan<char> path, out int length)
     {
         if (IsRootSegment(path))
         {
             length = 1;
-
-            // Determine target OS
-            var targetOS = options.TargetOperatingSystem ?? OperatingSystem.Current;
-
-            // On Unix, single separator is fully qualified; on Windows, it's root-relative (not fully qualified)
-            isFullyQualified = targetOS == OperatingSystemType.Linux || targetOS == OperatingSystemType.MacOS;
-
             return true;
         }
 
         length = 0;
-        isFullyQualified = false;
         return false;
-    }
-
-    #endregion
-
-    #region IsPathRooted and IsPathFullyQualified
-
-    /// <summary>
-    /// Determines whether the path has a root (is rooted).
-    /// </summary>
-    /// <param name="path">The path to check.</param>
-    /// <param name="options">Path options containing target OS for root determination.</param>
-    /// <returns>True if the path has a root (rootLength > 0); otherwise, false.</returns>
-    /// <remarks>
-    /// <para>
-    /// A path is rooted if it has any root component, including:
-    /// <list type="bullet">
-    /// <item>Drive letters: <c>C:\path</c> or <c>C:path</c> (both rooted, though only first is fully qualified)</item>
-    /// <item>UNC paths: <c>\\server\share</c></item>
-    /// <item>Device paths: <c>\\.\COM1</c>, <c>\\?\C:\path</c></item>
-    /// <item>Single separator: <c>/path</c> or <c>\path</c></item>
-    /// </list>
-    /// </para>
-    /// <para>
-    /// Note: Being rooted does not mean the path is fully qualified. For example, <c>C:path</c> is rooted
-    /// but not fully qualified (drive-relative), and <c>\path</c> on Windows is rooted but not fully qualified
-    /// (root-relative).
-    /// </para>
-    /// </remarks>
-    internal static bool IsPathRooted(string path, PathOptions options)
-    {
-        var (rootLength, _) = GetRootLength(path, options);
-        return rootLength > 0;
-    }
-
-    /// <summary>
-    /// Determines whether the path is fully qualified (absolute).
-    /// </summary>
-    /// <param name="path">The path to check.</param>
-    /// <param name="options">Path options containing target OS for fully-qualified determination.</param>
-    /// <returns>True if the path is fully qualified; otherwise, false.</returns>
-    /// <remarks>
-    /// <para>
-    /// A path is fully qualified if its meaning does not depend on any process-specific state
-    /// (current drive, current directory). The determination considers the target operating system:
-    /// <list type="bullet">
-    /// <item>Device paths (<c>\\.\</c>, <c>\\?\</c>, <c>\??\</c>): Always fully qualified</item>
-    /// <item>UNC paths (<c>\\server\share</c>): Always fully qualified</item>
-    /// <item>Drive paths with separator (<c>C:\</c>): Fully qualified</item>
-    /// <item>Drive paths without separator (<c>C:</c>): NOT fully qualified (drive-relative)</item>
-    /// <item>Single separator (<c>/</c>, <c>\</c>): Fully qualified on Unix, NOT on Windows (root-relative)</item>
-    /// <item>No root (relative path): NOT fully qualified</item>
-    /// </list>
-    /// </para>
-    /// <para>
-    /// <strong>Cross-Platform Behavior:</strong>
-    /// </para>
-    /// <para>
-    /// When validating Windows paths on Unix (or vice versa), set <paramref name="options"/>.TargetOperatingSystem
-    /// to specify which OS rules to apply. For example, <c>C:\path</c> is fully qualified when TargetOperatingSystem
-    /// is Windows, even when running on macOS.
-    /// </para>
-    /// </remarks>
-    internal static bool IsPathFullyQualified(string path, PathOptions options)
-    {
-        var (rootLength, isFullyQualified) = GetRootLength(path, options);
-        return rootLength > 0 && isFullyQualified;
     }
 
     #endregion

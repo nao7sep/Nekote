@@ -302,10 +302,10 @@ public static partial class PathHelper
         // Path.Combine("C:\\base", "\\other") → "\\other" (base path LOST!)
         // Path.Combine("C:\\base", "D:\\other") → "D:\\other" (base path LOST!)
         //
-        // By checking rootLength > 0 for subsequent segments, we catch ALL rooted variants that would
+        // By using IsPathRooted for subsequent segments, we catch ALL rooted variants that would
         // cause Path.Combine to discard previous segments, preventing silent data loss.
         //
-        // By checking isFullyQualified for the first segment, we ensure the base path is truly
+        // By using IsPathFullyQualified for the first segment, we ensure the base path is truly
         // absolute and unambiguous, preventing dependency on process-specific state (current drive,
         // current directory on a specific drive, etc.).
         //

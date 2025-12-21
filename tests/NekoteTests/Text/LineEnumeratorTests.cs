@@ -153,6 +153,24 @@ public class LineEnumeratorTests
         Assert.Equal("Line 4", lines[3]);
     }
 
+    [Fact]
+    public void TextEndingWithCR_NoLF()
+    {
+        // Edge Case: Text ends with \r (Classic Mac) but no following \n.
+        // Ensures the last line is correctly identified and not skipped.
+        var text = "Line1\r";
+        var lines = new List<string>();
+        
+        foreach (var line in LineProcessor.EnumerateLines(text))
+        {
+            lines.Add(line.ToString());
+        }
+        
+        // "Line1\r" -> "Line1" (trailing line break is treated as terminator, not starting a new empty line)
+        Assert.Single(lines);
+        Assert.Equal("Line1", lines[0]); 
+    }
+
     #region Edge Cases - Unicode and Extremes
 
     [Fact]

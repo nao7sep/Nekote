@@ -66,33 +66,16 @@ public class LineProcessor
     /// <returns>The number of lines in the text. Returns 0 if the text is empty.</returns>
     /// <remarks>
     /// This method properly handles all standard line ending conventions (\r\n, \n, \r).
+    /// It matches the behavior of <see cref="EnumerateLines"/>, treating line breaks as terminators.
+    /// For example, "A\n" counts as 1 line, while "A\nB" counts as 2 lines.
     /// </remarks>
     public static int CountLines(ReadOnlySpan<char> text)
     {
-        if (text.IsEmpty)
-        {
-            return 0;
-        }
-
-        int count = 1;
-        int index;
-        ReadOnlySpan<char> remaining = text;
-
-        while ((index = remaining.IndexOfAny('\r', '\n')) >= 0)
+        int count = 0;
+        while (TryReadLine(text, out _, out text))
         {
             count++;
-
-            // Handle CRLF
-            if (remaining[index] == '\r' && index + 1 < remaining.Length && remaining[index + 1] == '\n')
-            {
-                remaining = remaining.Slice(index + 2);
-            }
-            else
-            {
-                remaining = remaining.Slice(index + 1);
-            }
         }
-
         return count;
     }
 

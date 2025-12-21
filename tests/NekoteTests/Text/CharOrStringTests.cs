@@ -313,5 +313,48 @@ public class CharOrStringTests
         Assert.Equal(longString, cos.AsString());
     }
 
+    [Fact]
+    public void DefaultValue_Behavior()
+    {
+        // Extreme Edge Case: The default(struct) state
+        // This state has neither char nor string (both are 0/null).
+        CharOrString def = default;
+
+        Assert.False(def.IsChar, "Default should not be Char");
+        Assert.False(def.IsString, "Default should not be String");
+        
+        // Accessing values should throw
+        Assert.Throws<InvalidOperationException>(() => def.AsChar());
+        Assert.Throws<InvalidOperationException>(() => def.AsString());
+        Assert.Throws<InvalidOperationException>(() => def.AsSpan());
+
+        // ToString() on default struct returns null
+        Assert.Null(def.ToString());
+        
+        // Length throws NullReferenceException because internal string is null
+        Assert.Throws<NullReferenceException>(() => _ = def.Length);
+    }
+
+    [Fact]
+    public void WriteTo_ExactBufferSize()
+    {
+        // Edge Case: Buffer is EXACTLY the size needed. 
+        // Checks for off-by-one errors in bounds checking.
+        
+        // Char
+        var charCos = CharOrString.FromChar('A');
+        Span<char> charDest = stackalloc char[1]; // Exact size
+        int charWritten = charCos.WriteTo(charDest);
+        Assert.Equal(1, charWritten);
+        Assert.Equal('A', charDest[0]);
+
+        // String
+        var strCos = CharOrString.FromString("ABC");
+        Span<char> strDest = stackalloc char[3]; // Exact size
+        int strWritten = strCos.WriteTo(strDest);
+        Assert.Equal(3, strWritten);
+        Assert.Equal("ABC", new string(strDest));
+    }
+
     #endregion
 }

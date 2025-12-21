@@ -109,7 +109,12 @@ public class LineParserTests
         var input = "\n\n\n";
         var result = LineParser.ToLines(input);
 
-        Assert.Equal(4, result.Length);
+        // Terminator semantics: \n \n \n
+        // 1. \n -> "" (Line 1)
+        // 2. \n -> "" (Line 2)
+        // 3. \n -> "" (Line 3)
+        // End.
+        Assert.Equal(3, result.Length);
         Assert.All(result, line => Assert.Equal("", line));
     }
 
@@ -264,9 +269,9 @@ public class LineParserTests
     #region Round-Trip Tests
 
     [Theory]
-    [InlineData("line1\nline2\nline3\n", "\n")]
-    [InlineData("line1\r\nline2\r\nline3\r\n", "\r\n")]
-    [InlineData("line1\rline2\rline3\r", "\r")]
+    [InlineData("line1\nline2\nline3", "\n")]
+    [InlineData("line1\r\nline2\r\nline3", "\r\n")]
+    [InlineData("line1\rline2\rline3", "\r")]
     public void ToLines_FromLines_RoundTrip_PreservesText(string original, string newLine)
     {
         var lines = LineParser.ToLines(original);

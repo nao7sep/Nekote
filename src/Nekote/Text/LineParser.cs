@@ -10,7 +10,7 @@ public static class LineParser
 {
     /// <summary>
     /// Splits text into lines, properly handling all line ending conventions (\r\n, \n, \r).
-    /// Empty lines are preserved.
+    /// Line breaks are treated as terminators. A trailing line break does not generate an empty final line.
     /// </summary>
     /// <param name="text">The text to split into lines.</param>
     /// <returns>An array of lines. Returns empty array if input is null or empty.</returns>
@@ -19,49 +19,12 @@ public static class LineParser
         if (string.IsNullOrEmpty(text))
             return Array.Empty<string>();
 
-        var lines = new List<string>();
-        var currentLine = new System.Text.StringBuilder();
-
-        // Note: char-by-char iteration is SAFE here. Line endings (\r, \n) are ASCII characters
-        // that never appear in surrogate pairs. We only check for these specific characters,
-        // and StringBuilder.Append(char) correctly preserves surrogate pairs in the content.
-        for (int i = 0; i < text.Length; i++)
+        var result = new List<string>();
+        foreach (var line in LineProcessor.EnumerateLines(text.AsSpan()))
         {
-            char c = text[i];
-
-            if (c == '\r')
-            {
-                // Check if next character is \n (Windows CRLF)
-                if (i + 1 < text.Length && text[i + 1] == '\n')
-                {
-                    // \r\n - Windows line ending
-                    lines.Add(currentLine.ToString());
-                    currentLine.Clear();
-                    i++; // Skip the \n
-                }
-                else
-                {
-                    // \r alone - old Mac line ending
-                    lines.Add(currentLine.ToString());
-                    currentLine.Clear();
-                }
-            }
-            else if (c == '\n')
-            {
-                // \n alone - Unix line ending
-                lines.Add(currentLine.ToString());
-                currentLine.Clear();
-            }
-            else
-            {
-                currentLine.Append(c);
-            }
+            result.Add(line.ToString());
         }
-
-        // Add the final line (even if empty, it represents trailing content without line ending)
-        lines.Add(currentLine.ToString());
-
-        return lines.ToArray();
+        return result.ToArray();
     }
 
     /// <summary>
@@ -96,6 +59,7 @@ public static class LineParser
 
     /// <summary>
     /// Counts the number of lines in text, properly handling all line ending conventions.
+    /// Line breaks are treated as terminators. A trailing line break does not increment the count.
     /// </summary>
     /// <param name="text">The text to count lines in.</param>
     /// <returns>The number of lines. Returns 0 if input is null or empty.</returns>
@@ -104,28 +68,7 @@ public static class LineParser
         if (string.IsNullOrEmpty(text))
             return 0;
 
-        int lineCount = 1; // Start at 1 because text always has at least one line
-
-        for (int i = 0; i < text.Length; i++)
-        {
-            char c = text[i];
-
-            if (c == '\r')
-            {
-                lineCount++;
-                // Skip \n if this is \r\n
-                if (i + 1 < text.Length && text[i + 1] == '\n')
-                {
-                    i++;
-                }
-            }
-            else if (c == '\n')
-            {
-                lineCount++;
-            }
-        }
-
-        return lineCount;
+        return LineProcessor.CountLines(text.AsSpan());
     }
 
     /// <summary>

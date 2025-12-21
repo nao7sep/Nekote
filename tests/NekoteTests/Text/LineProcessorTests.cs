@@ -33,7 +33,8 @@ public class LineProcessorTests
     [Fact]
     public void CountLines_TrailingLineBreak()
     {
-        Assert.Equal(3, LineProcessor.CountLines("Line 1\nLine 2\n"));
+        // "Line 1\nLine 2\n" -> 2 lines (newline is terminator)
+        Assert.Equal(2, LineProcessor.CountLines("Line 1\nLine 2\n"));
     }
 
     #endregion
@@ -261,6 +262,28 @@ public class LineProcessorTests
         Assert.True(result.IsEmpty);
     }
 
+    [Fact]
+    public void ProcessLine_CollapseWithEmptyString()
+    {
+        // Edge Case: Collapsing inner whitespace with an empty string.
+        // Effectively removes inner whitespace but uses the "Collapse" logic path.
+        var options = new LineProcessingOptions
+        {
+            LeadingWhitespaceHandling = LeadingWhitespaceHandling.Preserve,
+            InnerWhitespaceHandling = InnerWhitespaceHandling.Collapse,
+            InnerWhitespaceReplacement = CharOrString.FromString(""), // Empty string replacement
+            TrailingWhitespaceHandling = TrailingWhitespaceHandling.Preserve,
+            LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
+            InnerBlankLineHandling = InnerBlankLineHandling.Remove,
+            TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
+            NewLine = "\n"
+        };
+
+        // "A   B" -> "AB"
+        var result = LineProcessor.ProcessLine("A   B", options, new StringBuilder());
+        Assert.Equal("AB", result.ToString());
+    }
+
     #endregion
 
     #region SplitIntoSections Tests
@@ -345,6 +368,20 @@ public class LineProcessorTests
         Assert.True(leading.IsEmpty);
         Assert.Equal("Hello World\n", content.ToString());
         Assert.Equal("\n", trailing.ToString());
+    }
+
+    [Fact]
+    public void SplitIntoSections_SingleWord_NoNewlines()
+    {
+        // Edge Case: Text is a single atom. No newlines, no whitespace.
+        // Verifies SplitIntoSections doesn't fail or return incorrect ranges.
+        var text = "Word";
+        var result = LineProcessor.SplitIntoSections(text, out var leading, out var content, out var trailing);
+
+        Assert.True(result);
+        Assert.True(leading.IsEmpty);
+        Assert.Equal("Word", content.ToString());
+        Assert.True(trailing.IsEmpty);
     }
 
     #endregion

@@ -349,6 +349,136 @@ public class LineProcessorTests
 
     #endregion
 
+    #region Edge Cases - Unicode Whitespace
+
+    [Theory]
+    [InlineData("\u00A0")] // Non-breaking space
+    [InlineData("\u2003")] // Em space
+    [InlineData("\u3000")] // Ideographic space
+    [InlineData("\u1680")] // Ogham space mark
+    [InlineData("\u2000")] // En quad
+    public void IsBlank_UnicodeWhitespace_ReturnsTrue(string whitespace)
+    {
+        Assert.True(LineProcessor.IsBlank(whitespace));
+    }
+
+    [Fact]
+    public void GetLeadingWhitespace_UnicodeSpaces()
+    {
+        var line = "\u00A0\u2003Hello";
+        var result = LineProcessor.GetLeadingWhitespace(line);
+        Assert.Equal("\u00A0\u2003", result.ToString());
+    }
+
+    [Fact]
+    public void GetTrailingWhitespace_UnicodeSpaces()
+    {
+        var line = "Hello\u00A0\u2003";
+        var result = LineProcessor.GetTrailingWhitespace(line);
+        Assert.Equal("\u00A0\u2003", result.ToString());
+    }
+
+    [Fact]
+    public void ProcessLine_WithEmojis()
+    {
+        var options = LineProcessingOptions.Default;
+        var builder = new StringBuilder();
+        
+        var result = LineProcessor.ProcessLine("  Hello 😀 World  ", options, builder);
+        
+        Assert.Equal("  Hello 😀 World", result.ToString());
+    }
+
+    [Fact]
+    public void ProcessLine_CollapseInner_WithUnicodeSpaces()
+    {
+        var options = new LineProcessingOptions
+        {
+            LeadingWhitespaceHandling = LeadingWhitespaceHandling.Remove,
+            InnerWhitespaceHandling = InnerWhitespaceHandling.Collapse,
+            InnerWhitespaceReplacement = ' ',
+            TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
+            LeadingBlankLineHandling = LeadingBlankLineHandling.Preserve,
+            InnerBlankLineHandling = InnerBlankLineHandling.Preserve,
+            TrailingBlankLineHandling = TrailingBlankLineHandling.Preserve,
+            NewLine = "\n"
+        };
+        var builder = new StringBuilder();
+        
+        var result = LineProcessor.ProcessLine("Hello\u00A0\u00A0\u2003World", options, builder);
+        
+        // Unicode whitespace should be collapsed to single space
+        Assert.Equal("Hello World", result.ToString());
+    }
+
+    [Fact]
+    public void ProcessLine_OnlyEmojis()
+    {
+        var options = LineProcessingOptions.Default;
+        var builder = new StringBuilder();
+        
+        var result = LineProcessor.ProcessLine("😀😁😂", options, builder);
+        
+        Assert.Equal("😀😁😂", result.ToString());
+    }
+
+    [Fact]
+    public void ProcessLine_ZeroWidthCharacters()
+    {
+        var options = new LineProcessingOptions
+        {
+            LeadingWhitespaceHandling = LeadingWhitespaceHandling.Remove,
+            InnerWhitespaceHandling = InnerWhitespaceHandling.Preserve,
+            InnerWhitespaceReplacement = ' ',
+            TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
+            LeadingBlankLineHandling = LeadingBlankLineHandling.Preserve,
+            InnerBlankLineHandling = InnerBlankLineHandling.Preserve,
+            TrailingBlankLineHandling = TrailingBlankLineHandling.Preserve,
+            NewLine = "\n"
+        };
+        var builder = new StringBuilder();
+        
+        // Zero-width space is not whitespace according to char.IsWhiteSpace
+        var result = LineProcessor.ProcessLine("Hello\u200BWorld", options, builder);
+        
+        Assert.Equal("Hello\u200BWorld", result.ToString());
+    }
+
+    [Fact]
+    public void IsBlank_OnlyZeroWidthSpace_ReturnsFalse()
+    {
+        // Zero-width space (U+200B) is not considered whitespace by char.IsWhiteSpace
+        Assert.False(LineProcessor.IsBlank("\u200B"));
+    }
+
+    [Fact]
+    public void SplitIntoSections_WithEmojis()
+    {
+        var text = "\n😀 Line 1\n😁 Line 2\n\n";
+        var result = LineProcessor.SplitIntoSections(text, out var leading, out var content, out var trailing);
+        
+        Assert.True(result);
+        Assert.Equal("\n", leading.ToString());
+        Assert.Contains("😀", content.ToString());
+        Assert.Equal("\n", trailing.ToString());
+    }
+
+    [Fact]
+    public void CountLines_VeryLongText()
+    {
+        var sb = new StringBuilder();
+        for (int i = 0; i < 10000; i++)
+        {
+            sb.Append("Line ").Append(i);
+            if (i < 9999) sb.Append('\n'); // Don't add \n after the last line
+        }
+        var text = sb.ToString();
+        
+        Assert.Equal(10000, LineProcessor.CountLines(text));
+    }
+
+    #endregion
+
     #region Process Tests
 
     [Fact]

@@ -314,4 +314,155 @@ public class ProcessedLineEnumeratorTests
         Assert.Single(lines);
         Assert.Equal("Hello---World", lines[0]);
     }
+
+    #region Edge Cases - Unicode and Extremes
+
+    [Fact]
+    public void ProcessedLines_WithEmojis()
+    {
+        var text = "😀 Line 1\n😁 Line 2\n😂 Line 3";
+        var lines = new List<string>();
+        
+        foreach (var line in LineProcessor.EnumerateProcessedLines(text))
+        {
+            lines.Add(line.ToString());
+        }
+        
+        Assert.Equal(3, lines.Count);
+        Assert.Equal("😀 Line 1", lines[0]);
+        Assert.Equal("😁 Line 2", lines[1]);
+        Assert.Equal("😂 Line 3", lines[2]);
+    }
+
+    [Fact]
+    public void ProcessedLines_CollapseInnerWithUnicodeSpaces()
+    {
+        var options = new LineProcessingOptions
+        {
+            LeadingWhitespaceHandling = LeadingWhitespaceHandling.Remove,
+            InnerWhitespaceHandling = InnerWhitespaceHandling.Collapse,
+            InnerWhitespaceReplacement = ' ',
+            TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
+            LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
+            InnerBlankLineHandling = InnerBlankLineHandling.Remove,
+            TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
+            NewLine = "\n"
+        };
+        
+        var text = "Hello\u00A0\u00A0World\nTest\u2003\u2003Line";
+        var lines = new List<string>();
+        
+        foreach (var line in LineProcessor.EnumerateProcessedLines(text, options))
+        {
+            lines.Add(line.ToString());
+        }
+        
+        Assert.Equal(2, lines.Count);
+        Assert.Equal("Hello World", lines[0]);
+        Assert.Equal("Test Line", lines[1]);
+    }
+
+    [Fact]
+    public void ProcessedLines_EmojiInWhitespaceCollapse()
+    {
+        var options = new LineProcessingOptions
+        {
+            LeadingWhitespaceHandling = LeadingWhitespaceHandling.Remove,
+            InnerWhitespaceHandling = InnerWhitespaceHandling.Collapse,
+            InnerWhitespaceReplacement = "😀",
+            TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
+            LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
+            InnerBlankLineHandling = InnerBlankLineHandling.Remove,
+            TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
+            NewLine = "\n"
+        };
+        
+        var text = "Hello   World";
+        var lines = new List<string>();
+        
+        foreach (var line in LineProcessor.EnumerateProcessedLines(text, options))
+        {
+            lines.Add(line.ToString());
+        }
+        
+        Assert.Single(lines);
+        Assert.Equal("Hello😀World", lines[0]);
+    }
+
+    [Fact]
+    public void ProcessedLines_VeryLongLine()
+    {
+        var longLine = new string('x', 50000);
+        var text = longLine + "\nShort";
+        var lines = new List<string>();
+        
+        foreach (var line in LineProcessor.EnumerateProcessedLines(text))
+        {
+            lines.Add(line.ToString());
+        }
+        
+        Assert.Equal(2, lines.Count);
+        Assert.Equal(50000, lines[0].Length);
+        Assert.Equal("Short", lines[1]);
+    }
+
+    [Fact]
+    public void ProcessedLines_OnlyUnicodeWhitespace()
+    {
+        var options = new LineProcessingOptions
+        {
+            LeadingWhitespaceHandling = LeadingWhitespaceHandling.Remove,
+            InnerWhitespaceHandling = InnerWhitespaceHandling.Remove,
+            InnerWhitespaceReplacement = ' ',
+            TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
+            LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
+            InnerBlankLineHandling = InnerBlankLineHandling.Remove,
+            TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
+            NewLine = "\n"
+        };
+        
+        var text = "\u00A0\u00A0\n\u2003\u2003\n\u3000\u3000";
+        var lines = new List<string>();
+        
+        foreach (var line in LineProcessor.EnumerateProcessedLines(text, options))
+        {
+            lines.Add(line.ToString());
+        }
+        
+        Assert.Empty(lines);
+    }
+
+    [Fact]
+    public void ProcessedLines_CombiningCharacters()
+    {
+        var text = "Cafe\u0301\nNaive\u0308"; // e and i with combining diacritics
+        var lines = new List<string>();
+        
+        foreach (var line in LineProcessor.EnumerateProcessedLines(text))
+        {
+            lines.Add(line.ToString());
+        }
+        
+        Assert.Equal(2, lines.Count);
+        Assert.Equal("Cafe\u0301", lines[0]);
+        Assert.Equal("Naive\u0308", lines[1]);
+    }
+
+    [Fact]
+    public void ProcessedLines_MixedEmojiAndText()
+    {
+        var text = "  😀 Hello  \n  🌍 World  ";
+        var lines = new List<string>();
+        
+        foreach (var line in LineProcessor.EnumerateProcessedLines(text))
+        {
+            lines.Add(line.ToString());
+        }
+        
+        Assert.Equal(2, lines.Count);
+        Assert.Equal("  😀 Hello", lines[0]);
+        Assert.Equal("  🌍 World", lines[1]);
+    }
+
+    #endregion
 }

@@ -236,4 +236,82 @@ public class CharOrStringTests
         var cos = CharOrString.FromString("");
         Assert.Equal(0, cos.Length);
     }
+
+    #region Edge Cases - Unicode
+
+    [Fact]
+    public void String_WithEmoji_CorrectLength()
+    {
+        var emoji = "😀"; // Single emoji, but 2 UTF-16 code units (surrogate pair)
+        var cos = CharOrString.FromString(emoji);
+        
+        Assert.Equal(2, cos.Length); // Length is in char units, not Unicode scalar values
+        Assert.Equal(emoji, cos.AsString());
+    }
+
+    [Fact]
+    public void String_WithMultipleEmojis()
+    {
+        var text = "Hello 😀 World 🌍";
+        var cos = CharOrString.FromString(text);
+        
+        Assert.Equal(text, cos.AsString());
+        Assert.Equal(text.Length, cos.Length);
+    }
+
+    [Fact]
+    public void String_WithZeroWidthCharacters()
+    {
+        var text = "Hello\u200BWorld"; // Contains zero-width space
+        var cos = CharOrString.FromString(text);
+        
+        Assert.Equal(text, cos.AsString());
+        Assert.Equal(11, cos.Length);
+    }
+
+    [Fact]
+    public void String_WithCombiningCharacters()
+    {
+        var text = "e\u0301"; // e with combining acute accent
+        var cos = CharOrString.FromString(text);
+        
+        Assert.Equal(text, cos.AsString());
+        Assert.Equal(2, cos.Length);
+    }
+
+    [Fact]
+    public void Equals_EmojiStrings()
+    {
+        var cos1 = CharOrString.FromString("😀");
+        var cos2 = CharOrString.FromString("😀");
+        var cos3 = CharOrString.FromString("😁");
+        
+        Assert.True(cos1.Equals(cos2));
+        Assert.False(cos1.Equals(cos3));
+    }
+
+    [Fact]
+    public void WriteTo_Emoji_Success()
+    {
+        var emoji = "😀";
+        var cos = CharOrString.FromString(emoji);
+        Span<char> destination = stackalloc char[10];
+        
+        int written = cos.WriteTo(destination);
+        
+        Assert.Equal(2, written);
+        Assert.Equal(emoji, new string(destination.Slice(0, written)));
+    }
+
+    [Fact]
+    public void String_VeryLong()
+    {
+        var longString = new string('x', 10000);
+        var cos = CharOrString.FromString(longString);
+        
+        Assert.Equal(10000, cos.Length);
+        Assert.Equal(longString, cos.AsString());
+    }
+
+    #endregion
 }

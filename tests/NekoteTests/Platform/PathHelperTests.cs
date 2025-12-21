@@ -1,4 +1,4 @@
-﻿using Nekote.Platform;
+using Nekote.Platform;
 
 namespace Nekote.Tests.Platform;
 
@@ -313,9 +313,8 @@ public partial class PathHelperTests
     [InlineData(@"\??\")]
     public void PathHelper_MalformedDevicePath_ThrowsAppropriately(string malformedPath)
     {
-        // Note: Reflection wraps exceptions in TargetInvocationException
-        var ex = Assert.Throws<System.Reflection.TargetInvocationException>(() => PathHelper_GetRootLength(malformedPath));
-        Assert.IsType<ArgumentException>(ex.InnerException);
+        var ex = Assert.Throws<ArgumentException>(() => PathHelper.GetRootLength(malformedPath, PathOptions.Windows, out _));
+        Assert.NotNull(ex);
     }
 
     [Theory]
@@ -323,9 +322,8 @@ public partial class PathHelperTests
     [InlineData(@"//")]
     public void PathHelper_MalformedUncPath_ThrowsAppropriately(string malformedPath)
     {
-        // Note: Reflection wraps exceptions in TargetInvocationException
-        var ex = Assert.Throws<System.Reflection.TargetInvocationException>(() => PathHelper_GetRootLength(malformedPath));
-        Assert.IsType<ArgumentException>(ex.InnerException);
+        var ex = Assert.Throws<ArgumentException>(() => PathHelper.GetRootLength(malformedPath, PathOptions.Windows, out _));
+        Assert.NotNull(ex);
     }
 
     #endregion

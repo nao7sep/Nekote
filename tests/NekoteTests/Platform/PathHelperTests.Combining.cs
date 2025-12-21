@@ -1,4 +1,5 @@
-﻿using Nekote.Platform;
+using Nekote.Platform;
+using OperatingSystem = Nekote.Platform.OperatingSystem;
 
 namespace Nekote.Tests.Platform;
 

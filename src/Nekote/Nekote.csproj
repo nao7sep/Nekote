@@ -14,9 +14,9 @@
     <Description>Reusable utilities for file management, tagging, hashing, and storage patterns</Description>
 
     <!-- Version Information - Keep these three in sync -->
-    <Version>0.3.0</Version>
-    <AssemblyVersion>0.3.0</AssemblyVersion>
-    <FileVersion>0.3.0</FileVersion>
+    <Version>0.4.0</Version>
+    <AssemblyVersion>0.4.0</AssemblyVersion>
+    <FileVersion>0.4.0</FileVersion>
 
     <!-- Author and Legal -->
     <Authors>Yoshinao Inoguchi</Authors>

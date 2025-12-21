@@ -74,7 +74,7 @@ public sealed record LineProcessingOptions
     public required TrailingBlankLineHandling TrailingBlankLineHandling { get; init; }
 
     /// <summary>
-    /// Gets the line separator string to use when joining lines back into a single text.
+    /// Gets the line separator to use when joining lines back into a single text.
     /// </summary>
     /// <remarks>
     /// <para>
@@ -82,14 +82,10 @@ public sealed record LineProcessingOptions
     /// This property is required.
     /// </para>
     /// <para>
-    /// Note: This property is a <c>string</c> rather than <see cref="CharOrString"/> because line separators
-    /// must support multi-character sequences like <c>"\r\n"</c>. In contrast, the replacement properties
-    /// (<see cref="InnerWhitespaceReplacement"/>) use <see cref="CharOrString"/>
-    /// with single-character defaults for performance, as they may be applied millions of times
-    /// when processing large text files (e.g., server access logs, database dumps, CSV datasets, system logs).
+    /// This property is used by <see cref="LineProcessor.Process"/> to reconstruct multi-line text.
     /// </para>
     /// </remarks>
-    public required string NewLine { get; init; }
+    public required CharOrString NewLine { get; init; }
 
     /// <summary>
     /// Default line processing options: preserve line whitespace structure, normalize blank lines.
@@ -99,7 +95,7 @@ public sealed record LineProcessingOptions
     /// removes trailing whitespace per line, removes leading/trailing blank lines,
     /// and collapses consecutive blank lines to single separators.
     /// </remarks>
-    public static readonly LineProcessingOptions Default = new()
+    public static readonly LineProcessingOptions Default = new() 
     {
         LeadingWhitespaceHandling = LeadingWhitespaceHandling.Preserve,
         InnerWhitespaceHandling = InnerWhitespaceHandling.Preserve,
@@ -111,22 +107,45 @@ public sealed record LineProcessingOptions
         NewLine = Environment.NewLine
     };
 
-    /// <summary>
-    /// Minimal line processing options: aggressive whitespace and blank line removal.
-    /// </summary>
     /// <remarks>
-    /// This configuration removes all leading/inner/trailing whitespace and removes all blank lines.
-    /// Primarily useful for testing and scenarios where minimal representation with no whitespace is desired.
+    /// <para>
+    /// This configuration removes all leading/trailing/inner whitespace, removes all blank lines,
+    /// and sets the line separator to a single space.
+    /// </para>
+    /// <para>
+    /// This is designed to be used with <see cref="LineProcessor.ToSingleLine(ReadOnlySpan{char}, System.Text.StringBuilder?, System.Text.StringBuilder?)"/>
+    /// to produce a clean, single-line representation of the input text where logical breaks are replaced by spaces.
+    /// </para>
     /// </remarks>
-    public static readonly LineProcessingOptions Minimal = new()
+    public static readonly LineProcessingOptions SingleLine = new()
     {
         LeadingWhitespaceHandling = LeadingWhitespaceHandling.Remove,
-        InnerWhitespaceHandling = InnerWhitespaceHandling.Remove,
+        InnerWhitespaceHandling = InnerWhitespaceHandling.Collapse,
         InnerWhitespaceReplacement = ' ',
         TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
         LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
         InnerBlankLineHandling = InnerBlankLineHandling.Remove,
         TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
-        NewLine = Environment.NewLine
+        NewLine = ' '
+    };
+
+    /// <summary>
+    /// Minimal line processing options: aggressive whitespace and blank line removal.
+    /// </summary>
+    /// <remarks>
+    /// This configuration removes all leading/inner/trailing whitespace and removes all blank lines.
+    /// It uses an empty string for the line separator, effectively joining all content directly.
+    /// Primarily useful for testing and scenarios where absolute minimal representation is desired.
+    /// </remarks>
+    public static readonly LineProcessingOptions Minimal = new() 
+    {
+        LeadingWhitespaceHandling = LeadingWhitespaceHandling.Remove,
+        InnerWhitespaceHandling = InnerWhitespaceHandling.Remove,
+        InnerWhitespaceReplacement = string.Empty,
+        TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
+        LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
+        InnerBlankLineHandling = InnerBlankLineHandling.Remove,
+        TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
+        NewLine = string.Empty
     };
 }

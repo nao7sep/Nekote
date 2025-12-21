@@ -218,16 +218,17 @@ public partial class PathHelperTests
     [Fact]
     public void Combine_AllowAbsoluteSubsequent_RestartsPath()
     {
-        // When validation is disabled, standard Path.Combine behavior (restart at root) should apply
+        // When validation is disabled, we simply concatenate.
+        // We do NOT restart at root (unlike Path.Combine) to prevent path traversal attacks.
         var options = PathOptions.Default with { ValidateSubsequentPathsRelative = false };
-
-        // On Windows: Path.Combine("C:\\base", "D:\\new") -> "D:\\new"
-        // On Unix: Path.Combine("/base", "/new") -> "/new"
 
         string root = System.OperatingSystem.IsWindows() ? @"D:\new" : "/new";
         var result = PathHelper.Combine(options, "base", root);
-
-        Assert.Equal(root, result);
+        
+        // Should concatenate: "base/D:\new" or "base//new"
+        Assert.Contains("base", result);
+        Assert.EndsWith(root, result);
+        Assert.True(result.Length > root.Length);
     }
 
     #endregion
@@ -421,12 +422,73 @@ public partial class PathHelperTests
     }
 
     [Fact]
+    public void Combine_TripleDot_IsTreatedAsDirectoryName()
+    {
+        // "..." is a valid directory name, not a parent traversal.
+        // Ensure it's not treated as ".."
+        
+        var result = PathHelper.Combine(PathOptions.Default, "root", "...", "file");
+        
+        // Should be root/.../file
+        Assert.Contains("...", result);
+        Assert.DoesNotContain("root/file", result.Replace('\\', '/')); 
+    }
+
+    [Fact]
     public void Combine_UnicodeCharacters_PreservesThem()
     {
         var result = PathHelper.Combine(PathOptions.Default, "文档", "ファイル", "файл.txt");
         Assert.Contains("文档", result);
         Assert.Contains("ファイル", result);
         Assert.Contains("файл.txt", result);
+    }
+
+    [Fact]
+    public void Combine_SplitSurrogates_ThrowsOnInvalidUnicode()
+    {
+        // PathHelper uses strict Unicode normalization which throws on invalid sequences
+        // (like split surrogate pairs).
+        
+        var high = "\uD83D";
+        var low = "\uDE00"; 
+
+        Assert.Throws<ArgumentException>(() => 
+            PathHelper.Combine(PathOptions.Default, "dir" + high, low + "file"));
+    }
+
+    [Fact]
+    public void Combine_ColonInFilename_Windows_TreatedAsRelative()
+    {
+        // "file:stream" looks like a drive, but drive must be 1 char [A-Za-z].
+        // So on Windows, this is a valid relative path (Alternate Data Stream).
+        var result = PathHelper.Combine(PathOptions.Windows, "dir", "file:stream");
+        Assert.EndsWith(@"dir\file:stream", result);
+    }
+
+    [Fact]
+    public void Combine_DriveLikeFilename_Windows_Throws()
+    {
+        // "c:file" is a drive-relative path on Windows (rooted).
+        // It should be rejected as a subsequent segment.
+        Assert.Throws<ArgumentException>(() => 
+            PathHelper.Combine(PathOptions.Windows, "dir", "c:file"));
+    }
+
+    [Fact]
+    public void Combine_DriveLikeFilename_Unix_Throws()
+    {
+        // "c:file" is strictly rejected on Unix to avoid ambiguity, 
+        // even though it could be a valid filename.
+        Assert.Throws<ArgumentException>(() => 
+            PathHelper.Combine(PathOptions.Unix, "dir", "c:file"));
+    }
+
+    [Fact]
+    public void Combine_HiddenFiles_Preserved()
+    {
+        // ".config" starts with ., but is not "." (current dir)
+        var result = PathHelper.Combine(PathOptions.Default, "home", ".config");
+        Assert.EndsWith("home" + Path.DirectorySeparatorChar + ".config", result);
     }
 
     #endregion

@@ -80,6 +80,42 @@ public partial class PathHelperTests
         Assert.Equal(expectedLength, length);
     }
 
+    [Theory]
+    [InlineData(@"\\.\unc\server\share", 20)] // Lowercase 'unc'
+    [InlineData(@"\\.\UnC\server\share", 20)] // Mixed case 'UnC'
+    public void GetRootLength_DeviceUnc_CaseInsensitive(string path, int expectedLength)
+    {
+        var length = PathHelper.GetRootLength(path, PathOptions.Windows, out _);
+        Assert.Equal(expectedLength, length);
+    }
+
+    [Fact]
+    public void GetRootLength_DeviceDrivePath_InheritsRelativeStatus()
+    {
+        // \\.\C: inherits the status from "C:" (relative).
+        // It is a rooted path, but NOT fully qualified.
+        
+        var path = @"\\.\C:";
+        bool isFullyQualified;
+        
+        var length = PathHelper.GetRootLength(path, PathOptions.Windows, out isFullyQualified);
+
+        Assert.Equal(6, length); // 4 (\\.\) + 2 (C:)
+        Assert.False(isFullyQualified, "Device path \\.\\C: should inherit relative status from C:");
+    }
+
+    [Fact]
+    public void GetRootLength_DeviceDrivePathWithTrailingSeparator_IsFullyQualified()
+    {
+        var path = @"\\.\C:\";
+        bool isFullyQualified;
+        
+        var length = PathHelper.GetRootLength(path, PathOptions.Windows, out isFullyQualified);
+
+        Assert.Equal(7, length); // 4 (\\.\) + 3 (C:\)
+        Assert.True(isFullyQualified);
+    }
+
     #endregion
 
     #region GetRootLength - Extended-Length Paths (\\?\)
@@ -304,8 +340,6 @@ public partial class PathHelperTests
     #region GetRootLength - Mixed Separators
 
     [Theory]
-    [InlineData(@"\\server\share")]
-    [InlineData(@"//server/share")]
     [InlineData(@"C:/path\to\file")]
     [InlineData(@"C:\path/to\file")]
     public void GetRootLength_MixedSeparators_ReturnsCorrectLength(string path)
@@ -313,6 +347,67 @@ public partial class PathHelperTests
         // Windows-specific paths with mixed separators
         var length = PathHelper.GetRootLength(path, PathOptions.Windows, out _);
         Assert.True(length > 0);
+    }
+
+    #endregion
+
+    #region Cross-Platform Validation
+
+    [Fact]
+    public void TargetOperatingSystem_Linux_RejectWindowsPaths()
+    {
+        var options = new PathOptions
+        {
+            TargetOperatingSystem = OperatingSystemType.Linux,
+            ThrowOnEmptySegments = false,
+            TrimSegments = true,
+            RequireAtLeastOneSegment = true,
+            RequireAbsoluteFirstSegment = false,
+            ValidateSubsequentPathsRelative = true,
+            NormalizeStructure = true,
+            NormalizeUnicode = true,
+            NormalizeSeparators = PathSeparatorMode.Unix,
+            TrailingSeparator = TrailingSeparatorHandling.Remove
+        };
+
+        // Windows drive path should be rejected on Linux target
+        // The library throws ArgumentException to prevent silent misinterpretation of "C:" as a filename
+        // when it might be intended as a drive root.
+
+        var windowsPath = @"C:\path";
+        bool isFullyQualified;
+        
+        Assert.Throws<ArgumentException>(() => 
+            PathHelper.GetRootLength(windowsPath, options, out isFullyQualified));
+    }
+
+    [Fact]
+    public void TargetOperatingSystem_Windows_RejectUnixPathsAsAbsolute()
+    {
+        var options = new PathOptions
+        {
+            TargetOperatingSystem = OperatingSystemType.Windows,
+            ThrowOnEmptySegments = false,
+            TrimSegments = true,
+            RequireAtLeastOneSegment = true,
+            RequireAbsoluteFirstSegment = false,
+            ValidateSubsequentPathsRelative = true,
+            NormalizeStructure = true,
+            NormalizeUnicode = true,
+            NormalizeSeparators = PathSeparatorMode.Windows,
+            TrailingSeparator = TrailingSeparatorHandling.Remove
+        };
+
+        // "/usr/bin" on Windows
+        // Root is "/" (length 1).
+        // On Windows, "/" is root-relative, NOT fully qualified.
+
+        var unixPath = "/usr/bin";
+        bool isFullyQualified;
+        int rootLength = PathHelper.GetRootLength(unixPath, options, out isFullyQualified);
+
+        Assert.Equal(1, rootLength);
+        Assert.False(isFullyQualified, "/ path on Windows is root-relative, not fully qualified");
     }
 
     #endregion

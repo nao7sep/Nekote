@@ -229,6 +229,17 @@ public partial class PathHelperTests
         Assert.Equal(expected, result);
     }
 
+    [Theory]
+    [InlineData("a/..", "")]
+    [InlineData(".", "")]
+    [InlineData("./.", "")]
+    [InlineData("dir/../.", "")]
+    public void NormalizeStructure_ResolvesToEmptyString(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
+    }
+
     #endregion
 
     #region NormalizeStructure - Special Characters
@@ -313,6 +324,21 @@ public partial class PathHelperTests
         var result = PathHelper.NormalizeStructure(path);
 
         Assert.Equal(path, result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_EncodedSeparators_NotDecoded()
+    {
+        // URL-encoded separators (%2F) should NOT be treated as separators.
+        // PathHelper does not decode URIs.
+        
+        var encoded = "dir1%2F..%2Fdir2/file";
+        var result = PathHelper.NormalizeStructure(encoded);
+        
+        // Should be treated as: "dir1%2F..%2Fdir2" / "file"
+        // The first part is a single directory name.
+        
+        Assert.Equal("dir1%2F..%2Fdir2/file", result);
     }
 
     #endregion
@@ -848,6 +874,18 @@ public partial class PathHelperTests
         var result = PathHelper.NormalizeStructure(split);
 
         Assert.Equal(split, result);
+    }
+
+    [Fact]
+    public void NormalizeStructure_SneakyTraversal_ClampsCorrectly()
+    {
+        // Try to trick the normalizer with mixed separators and redundant dots
+        
+        var sneaky = @"/var/www/html/../../../etc/passwd";
+        var result = PathHelper.NormalizeStructure(sneaky);
+        
+        // Should clamp at root
+        Assert.Equal("/etc/passwd", result);
     }
 
     #endregion

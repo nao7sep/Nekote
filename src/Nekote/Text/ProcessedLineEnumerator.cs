@@ -34,11 +34,11 @@ public ref struct ProcessedLineEnumerator
     /// Initializes a new instance of the <see cref="ProcessedLineEnumerator"/> struct.
     /// </summary>
     /// <param name="text">The text to iterate over.</param>
-    /// <param name="options">The options defining how whitespace and blank lines should be handled.</param>
-    /// <param name="builder">A StringBuilder used as a buffer for line processing. If null, a new one is created.</param>
-    public ProcessedLineEnumerator(ReadOnlySpan<char> text, LineProcessingOptions options, StringBuilder? builder)
+    /// <param name="options">The options defining how whitespace and blank lines should be handled. If <c>null</c>, <see cref="LineProcessingOptions.Default"/> is used.</param>
+    /// <param name="builder">A StringBuilder used as a buffer for line processing. If <c>null</c>, a new one is created internally.</param>
+    public ProcessedLineEnumerator(ReadOnlySpan<char> text, LineProcessingOptions? options = null, StringBuilder? builder = null)
     {
-        _options = options;
+        _options = options ?? LineProcessingOptions.Default;
         _builder = builder ?? new StringBuilder();
         _current = default;
         _hasYieldedBlankInSequence = false;

@@ -50,18 +50,6 @@ public class LineProcessor
     }
 
     /// <summary>
-    /// Returns an enumerator that iterates through and processes lines in the text according to the specified options.
-    /// </summary>
-    /// <param name="text">The text to enumerate lines from.</param>
-    /// <param name="options">The options defining how whitespace and blank lines should be handled.</param>
-    /// <param name="builder">Optional StringBuilder buffer. If null, a new one is created internally.</param>
-    /// <returns>A <see cref="ProcessedLineEnumerator"/> for the specified text and options.</returns>
-    public static ProcessedLineEnumerator EnumerateProcessedLines(ReadOnlySpan<char> text, LineProcessingOptions options, StringBuilder? builder = null)
-    {
-        return new ProcessedLineEnumerator(text, options, builder);
-    }
-
-    /// <summary>
     /// Returns an enumerator that iterates through the lines in the text.
     /// </summary>
     /// <param name="text">The text to enumerate lines from.</param>
@@ -159,6 +147,18 @@ public class LineProcessor
     }
 
     /// <summary>
+    /// Returns an enumerator that iterates through and processes lines in the text according to the specified options.
+    /// </summary>
+    /// <param name="text">The text to enumerate lines from.</param>
+    /// <param name="options">The options defining how whitespace and blank lines should be handled. If <c>null</c>, <see cref="LineProcessingOptions.Default"/> is used.</param>
+    /// <param name="builder">Optional StringBuilder buffer. If null, a new one is created internally.</param>
+    /// <returns>A <see cref="ProcessedLineEnumerator"/> for the specified text and options.</returns>
+    public static ProcessedLineEnumerator EnumerateProcessedLines(ReadOnlySpan<char> text, LineProcessingOptions? options = null, StringBuilder? builder = null)
+    {
+        return new ProcessedLineEnumerator(text, options, builder);
+    }
+
+    /// <summary>
     /// Processes a single line of text according to the specified options, handling leading, inner, and trailing whitespace.
     /// </summary>
     /// <param name="line">The line content to process.</param>
@@ -166,6 +166,10 @@ public class LineProcessor
     /// <param name="builder">A StringBuilder used for constructing the result when modifications are necessary.</param>
     /// <returns>A span representing the processed line. This may be a slice of the original line or a new string.</returns>
     /// <remarks>
+    /// <para>
+    /// This is a low-level method. For high-level processing, use <see cref="Process"/> or <see cref="EnumerateProcessedLines"/>.
+    /// As a low-level method, it requires explicit options and does not provide convenience defaulting to <see cref="LineProcessingOptions.Default"/>.
+    /// </para>
     /// <para>
     /// This method is optimized for the most common scenarios:
     /// <list type="bullet">

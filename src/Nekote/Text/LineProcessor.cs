@@ -212,4 +212,109 @@ public class LineProcessor
 
         return builder.ToString();
     }
+
+    /// <summary>
+    /// Splits the text into three parts: leading blank lines, the main content (from the first visible line to the last visible line), and trailing blank lines.
+    /// </summary>
+    /// <param name="text">The text to split.</param>
+    /// <param name="leadingBlankLines">When this method returns, contains the span of leading blank lines. If no visible content is found, contains the entire text.</param>
+    /// <param name="content">When this method returns, contains the main content span. Empty if no visible content is found.</param>
+    /// <param name="trailingBlankLines">When this method returns, contains the span of trailing blank lines.</param>
+    /// <returns><c>true</c> if at least one visible character is found; otherwise, <c>false</c>.</returns>
+    /// <remarks>
+    /// <para>
+    /// If the text is empty, all output spans are empty, and the method returns <c>false</c>.
+    /// </para>
+    /// <para>
+    /// If the text contains only whitespace, it is considered to have no visible content. In this case, 
+    /// <paramref name="leadingBlankLines"/> will contain the entire text, and the other outputs will be empty.
+    /// This fallback behavior ensures that "lines before visible content" (leading) captures the structure
+    /// even when "lines after visible content" (trailing) cannot exist.
+    /// </para>
+    /// </remarks>
+    public static bool SplitIntoSections(ReadOnlySpan<char> text, out ReadOnlySpan<char> leadingBlankLines, out ReadOnlySpan<char> content, out ReadOnlySpan<char> trailingBlankLines)
+    {
+        if (text.IsEmpty)
+        {
+            leadingBlankLines = ReadOnlySpan<char>.Empty;
+            content = ReadOnlySpan<char>.Empty;
+            trailingBlankLines = ReadOnlySpan<char>.Empty;
+            return false;
+        }
+
+        // 1. Find the first visible character
+        int firstVisibleIndex = -1;
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (!char.IsWhiteSpace(text[i]))
+            {
+                firstVisibleIndex = i;
+                break;
+            }
+        }
+
+        // If no visible char found, the whole text is "leading blank lines"
+        if (firstVisibleIndex < 0)
+        {
+            leadingBlankLines = text;
+            content = ReadOnlySpan<char>.Empty;
+            trailingBlankLines = ReadOnlySpan<char>.Empty;
+            return false;
+        }
+
+        // 2. Calculate Leading Cut
+        // Find the last newline character before the first visible character.
+        // The leading section ends after that newline.
+        int leadingEnd = 0;
+        int lastNewlineBefore = text.Slice(0, firstVisibleIndex).LastIndexOfAny('\r', '\n');
+        
+        if (lastNewlineBefore >= 0)
+        {
+            leadingEnd = lastNewlineBefore + 1;
+        }
+
+        leadingBlankLines = text.Slice(0, leadingEnd);
+
+        // 3. Find the last visible character
+        int lastVisibleIndex = -1;
+        for (int i = text.Length - 1; i >= firstVisibleIndex; i--)
+        {
+            if (!char.IsWhiteSpace(text[i]))
+            {
+                lastVisibleIndex = i;
+                break;
+            }
+        }
+
+        // 4. Calculate Trailing Cut
+        // Find the first newline character after the last visible character.
+        // The content section ends after that newline (including it).
+        int contentEnd = text.Length;
+        
+        // We look for the first newline starting AFTER the last visible character.
+        int newlineIndex = text.Slice(lastVisibleIndex + 1).IndexOfAny('\r', '\n');
+
+        if (newlineIndex >= 0)
+        {
+            // Found a newline. Need to include it in the content.
+            int absoluteNewlineIndex = lastVisibleIndex + 1 + newlineIndex;
+            
+            // Check for CRLF (\r\n)
+            if (text[absoluteNewlineIndex] == '\r' && 
+                absoluteNewlineIndex + 1 < text.Length && 
+                text[absoluteNewlineIndex + 1] == '\n')
+            {
+                contentEnd = absoluteNewlineIndex + 2;
+            }
+            else
+            {
+                contentEnd = absoluteNewlineIndex + 1;
+            }
+        }
+
+        content = text.Slice(leadingEnd, contentEnd - leadingEnd);
+        trailingBlankLines = text.Slice(contentEnd);
+        
+        return true;
+    }
 }

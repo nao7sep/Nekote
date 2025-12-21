@@ -159,6 +159,53 @@ public class LineProcessor
     }
 
     /// <summary>
+    /// Processes the text according to the specified options and returns the resulting string.
+    /// </summary>
+    /// <param name="text">The text to process.</param>
+    /// <param name="options">The options defining how lines, whitespace, and blank lines should be handled. If <c>null</c>, <see cref="LineProcessingOptions.Default"/> is used.</param>
+    /// <param name="resultBuilder">Optional StringBuilder to use as the accumulator for the final result. If <c>null</c>, a new one is created. The processed text is appended to this builder.</param>
+    /// <param name="lineBuffer">Optional StringBuilder to use as a temporary buffer for line processing. If <c>null</c>, a new one is created.</param>
+    /// <returns>The processed text string (the content of the result builder).</returns>
+    /// <remarks>
+    /// This method orchestrates the entire processing pipeline: splitting the text into sections (leading, content, trailing),
+    /// iterating through each line to apply whitespace and blank line policies, and finally joining the processed lines
+    /// using the configured <see cref="LineProcessingOptions.NewLine"/> separator.
+    /// </remarks>
+    public static string Process(ReadOnlySpan<char> text, LineProcessingOptions? options = null, StringBuilder? resultBuilder = null, StringBuilder? lineBuffer = null)
+    {
+        if (text.IsEmpty)
+        {
+            return string.Empty;
+        }
+
+        options ??= LineProcessingOptions.Default;
+
+        // Use provided result builder or create a new one.
+        // Heuristic: if creating new, start with the original length.
+        resultBuilder ??= new StringBuilder(text.Length);
+
+        // Use provided line buffer or create a new one.
+        lineBuffer ??= new StringBuilder();
+
+        var enumerator = EnumerateProcessedLines(text, options, lineBuffer);
+        bool first = true;
+
+        foreach (var line in enumerator)
+        {
+            if (!first)
+            {
+                // Join lines using the configured NewLine separator.
+                resultBuilder.Append(options.NewLine);
+            }
+
+            resultBuilder.Append(line);
+            first = false;
+        }
+
+        return resultBuilder.ToString();
+    }
+
+    /// <summary>
     /// Processes a single line of text according to the specified options, handling leading, inner, and trailing whitespace.
     /// </summary>
     /// <param name="line">The line content to process.</param>
@@ -174,8 +221,8 @@ public class LineProcessor
     /// This method is optimized for the most common scenarios:
     /// <list type="bullet">
     /// <item>Trailing whitespace is checked first as it is significantly more frequently trimmed than indentation.</item>
-    /// <item>If <see cref="LeadingWhitespaceHandling"/> and <see cref="InnerWhitespaceHandling"/> are both 
-    /// <see cref="LeadingWhitespaceHandling.Preserve"/>, the method returns a slice of the original span, 
+    /// <item>If <see cref="LeadingWhitespaceHandling"/> and <see cref="InnerWhitespaceHandling"/> are both
+    /// <see cref="LeadingWhitespaceHandling.Preserve"/>, the method returns a slice of the original span,
     /// avoiding allocations regardless of <see cref="TrailingWhitespaceHandling"/>.</item>
     /// </list>
     /// </para>
@@ -235,7 +282,7 @@ public class LineProcessor
             }
         }
 
-        // Fast Path: Preserve Inner Whitespace (Already handled Leading+Inner=Preserve above, 
+        // Fast Path: Preserve Inner Whitespace (Already handled Leading+Inner=Preserve above,
         // this handles Leading=Remove, Inner=Preserve)
         if (options.InnerWhitespaceHandling == InnerWhitespaceHandling.Preserve)
         {
@@ -246,7 +293,7 @@ public class LineProcessor
         }
 
         // Slow Path: Allocation Required
-        // At this point, InnerWhitespaceHandling is either Collapse or Remove, and we know 
+        // At this point, InnerWhitespaceHandling is either Collapse or Remove, and we know
         // there is content between firstVisible and lastVisible that may contain whitespace.
         builder.Clear();
 
@@ -339,7 +386,7 @@ public class LineProcessor
     /// If the text is empty, all output spans are empty, and the method returns <c>false</c>.
     /// </para>
     /// <para>
-    /// If the text contains only whitespace, it is considered to have no visible content. In this case, 
+    /// If the text contains only whitespace, it is considered to have no visible content. In this case,
     /// <paramref name="leadingBlankLines"/> will contain the entire text, and the other outputs will be empty.
     /// This fallback behavior ensures that "lines before visible content" (leading) captures the structure
     /// even when "lines after visible content" (trailing) cannot exist.
@@ -380,7 +427,7 @@ public class LineProcessor
         // The leading section ends after that newline.
         int leadingEnd = 0;
         int lastNewlineBefore = text.Slice(0, firstVisibleIndex).LastIndexOfAny('\r', '\n');
-        
+
         if (lastNewlineBefore >= 0)
         {
             leadingEnd = lastNewlineBefore + 1;
@@ -403,7 +450,7 @@ public class LineProcessor
         // Find the first newline character after the last visible character.
         // The content section ends after that newline (including it).
         int contentEnd = text.Length;
-        
+
         // We look for the first newline starting AFTER the last visible character.
         int newlineIndex = text.Slice(lastVisibleIndex + 1).IndexOfAny('\r', '\n');
 
@@ -411,10 +458,10 @@ public class LineProcessor
         {
             // Found a newline. Need to include it in the content.
             int absoluteNewlineIndex = lastVisibleIndex + 1 + newlineIndex;
-            
+
             // Check for CRLF (\r\n)
-            if (text[absoluteNewlineIndex] == '\r' && 
-                absoluteNewlineIndex + 1 < text.Length && 
+            if (text[absoluteNewlineIndex] == '\r' &&
+                absoluteNewlineIndex + 1 < text.Length &&
                 text[absoluteNewlineIndex + 1] == '\n')
             {
                 contentEnd = absoluteNewlineIndex + 2;
@@ -427,7 +474,7 @@ public class LineProcessor
 
         content = text.Slice(leadingEnd, contentEnd - leadingEnd);
         trailingBlankLines = text.Slice(contentEnd);
-        
+
         return true;
     }
 }

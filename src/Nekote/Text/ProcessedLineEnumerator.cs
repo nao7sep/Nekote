@@ -18,10 +18,10 @@ public ref struct ProcessedLineEnumerator
 
     private Phase _phase;
     private ReadOnlySpan<char> _remaining; // Current slice being iterated in the current phase
-    
+
     private readonly ReadOnlySpan<char> _contentSpan;
     private readonly ReadOnlySpan<char> _trailingSpan;
-    
+
     private readonly LineProcessingOptions _options;
     private readonly StringBuilder _builder;
     private ReadOnlySpan<char> _current;

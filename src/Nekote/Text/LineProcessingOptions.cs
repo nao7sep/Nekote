@@ -1,4 +1,6 @@
-﻿namespace Nekote.Text;
+using System;
+
+namespace Nekote.Text;
 
 /// <summary>
 /// Configuration options for line-level text processing operations.
@@ -82,7 +84,7 @@ public sealed record LineProcessingOptions
     /// <para>
     /// Note: This property is a <c>string</c> rather than <see cref="CharOrString"/> because line separators
     /// must support multi-character sequences like <c>"\r\n"</c>. In contrast, the replacement properties
-    /// (<see cref="InnerWhitespaceReplacement"/>, <see cref="NewlineReplacement"/>) use <see cref="CharOrString"/>
+    /// (<see cref="InnerWhitespaceReplacement"/>) use <see cref="CharOrString"/>
     /// with single-character defaults for performance, as they may be applied millions of times
     /// when processing large text files (e.g., server access logs, database dumps, CSV datasets, system logs).
     /// </para>
@@ -90,30 +92,12 @@ public sealed record LineProcessingOptions
     public required string NewLine { get; init; }
 
     /// <summary>
-    /// Gets how newline sequences should be handled when flattening multi-line text into a single line.
-    /// </summary>
-    /// <remarks>
-    /// This property is required.
-    /// </remarks>
-    public required NewlineHandling NewlineHandling { get; init; }
-
-    /// <summary>
-    /// Gets the replacement character or string to use when replacing or collapsing newlines.
-    /// </summary>
-    /// <remarks>
-    /// This property is only used when <see cref="NewlineHandling"/> is set to <see cref="NewlineHandling.ReplaceEach"/>
-    /// or <see cref="NewlineHandling.CollapseConsecutive"/>. This property is required.
-    /// </remarks>
-    public required CharOrString NewlineReplacement { get; init; }
-
-    /// <summary>
-    /// Default line processing options: preserve line whitespace structure, normalize blank lines, collapse newlines.
+    /// Default line processing options: preserve line whitespace structure, normalize blank lines.
     /// </summary>
     /// <remarks>
     /// This configuration is suitable for most text processing scenarios:
     /// removes trailing whitespace per line, removes leading/trailing blank lines,
-    /// collapses consecutive blank lines to single separators, and collapses consecutive
-    /// newlines when flattening to single-line (useful for preview text generation).
+    /// and collapses consecutive blank lines to single separators.
     /// </remarks>
     public static readonly LineProcessingOptions Default = new()
     {
@@ -124,18 +108,15 @@ public sealed record LineProcessingOptions
         LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
         InnerBlankLineHandling = InnerBlankLineHandling.Collapse,
         TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
-        NewLine = Environment.NewLine,
-        NewlineHandling = NewlineHandling.CollapseConsecutive,
-        NewlineReplacement = ' '
+        NewLine = Environment.NewLine
     };
 
     /// <summary>
     /// Minimal line processing options: aggressive whitespace and blank line removal.
     /// </summary>
     /// <remarks>
-    /// This configuration removes all leading/inner/trailing whitespace, removes all blank lines,
-    /// and removes all newlines when flattening to single-line. Primarily useful
-    /// for testing and scenarios where minimal representation with no whitespace is desired.
+    /// This configuration removes all leading/inner/trailing whitespace and removes all blank lines.
+    /// Primarily useful for testing and scenarios where minimal representation with no whitespace is desired.
     /// </remarks>
     public static readonly LineProcessingOptions Minimal = new()
     {
@@ -146,8 +127,6 @@ public sealed record LineProcessingOptions
         LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
         InnerBlankLineHandling = InnerBlankLineHandling.Remove,
         TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
-        NewLine = Environment.NewLine,
-        NewlineHandling = NewlineHandling.Remove,
-        NewlineReplacement = ' '
+        NewLine = Environment.NewLine
     };
 }

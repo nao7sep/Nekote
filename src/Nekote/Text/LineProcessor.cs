@@ -50,6 +50,93 @@ public class LineProcessor
     }
 
     /// <summary>
+    /// Counts the number of lines in the specified text span.
+    /// </summary>
+    /// <param name="text">The text to count lines in.</param>
+    /// <returns>The number of lines in the text. Returns 0 if the text is empty.</returns>
+    /// <remarks>
+    /// This method properly handles all standard line ending conventions (\r\n, \n, \r).
+    /// </remarks>
+    public static int CountLines(ReadOnlySpan<char> text)
+    {
+        if (text.IsEmpty)
+        {
+            return 0;
+        }
+
+        int count = 1;
+        int index;
+        ReadOnlySpan<char> remaining = text;
+
+        while ((index = remaining.IndexOfAny('\r', '\n')) >= 0)
+        {
+            count++;
+
+            // Handle CRLF
+            if (remaining[index] == '\r' && index + 1 < remaining.Length && remaining[index + 1] == '\n')
+            {
+                remaining = remaining.Slice(index + 2);
+            }
+            else
+            {
+                remaining = remaining.Slice(index + 1);
+            }
+        }
+
+        return count;
+    }
+
+    /// <summary>
+    /// Determines whether the specified line is empty or consists only of whitespace characters.
+    /// </summary>
+    /// <param name="line">The line to check.</param>
+    /// <returns><c>true</c> if the line is blank; otherwise, <c>false</c>.</returns>
+    public static bool IsBlank(ReadOnlySpan<char> line)
+    {
+        for (int i = 0; i < line.Length; i++)
+        {
+            if (!char.IsWhiteSpace(line[i]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Gets the leading whitespace at the beginning of the line.
+    /// </summary>
+    /// <param name="line">The line to inspect.</param>
+    /// <returns>A span containing the leading whitespace characters. If the line consists entirely of whitespace, the entire line is returned.</returns>
+    public static ReadOnlySpan<char> GetLeadingWhitespace(ReadOnlySpan<char> line)
+    {
+        int i = 0;
+        while (i < line.Length && char.IsWhiteSpace(line[i]))
+        {
+            i++;
+        }
+
+        return line.Slice(0, i);
+    }
+
+    /// <summary>
+    /// Gets the trailing whitespace at the end of the line.
+    /// </summary>
+    /// <param name="line">The line to inspect.</param>
+    /// <returns>A span containing the trailing whitespace characters. If the line consists entirely of whitespace, the entire line is returned.</returns>
+    public static ReadOnlySpan<char> GetTrailingWhitespace(ReadOnlySpan<char> line)
+    {
+        int i = line.Length - 1;
+        while (i >= 0 && char.IsWhiteSpace(line[i]))
+        {
+            i--;
+        }
+
+        return line.Slice(i + 1);
+    }
+
+    /// <summary>
     /// Processes a single line of text according to the specified options, handling leading, inner, and trailing whitespace.
     /// </summary>
     /// <param name="line">The line content to process.</param>

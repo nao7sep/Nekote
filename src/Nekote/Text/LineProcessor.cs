@@ -50,6 +50,16 @@ public class LineProcessor
     }
 
     /// <summary>
+    /// Returns an enumerator that iterates through the lines in the text.
+    /// </summary>
+    /// <param name="text">The text to enumerate lines from.</param>
+    /// <returns>A <see cref="LineEnumerator"/> for the specified text.</returns>
+    public static LineEnumerator EnumerateLines(ReadOnlySpan<char> text)
+    {
+        return new LineEnumerator(text);
+    }
+
+    /// <summary>
     /// Counts the number of lines in the specified text span.
     /// </summary>
     /// <param name="text">The text to count lines in.</param>

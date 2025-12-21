@@ -166,6 +166,7 @@ public ref struct ProcessedLineEnumerator
             case Phase.Content:
                 _phase = Phase.Trailing;
                 _remaining = _trailingSpan;
+                _hasYieldedBlankInSequence = false; // Reset for clarity when leaving Content phase
                 break;
             case Phase.Trailing:
                 _phase = Phase.Done;

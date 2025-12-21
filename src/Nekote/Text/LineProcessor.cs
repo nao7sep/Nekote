@@ -263,7 +263,8 @@ public class LineProcessor
     /// </para>
     /// <para>
     /// If inner whitespace requires modification (collapse or remove) and the region between visible characters
-    /// contains whitespace, the method will use the provided <paramref name="builder"/> and return a new string.
+    /// contains whitespace, the method will use the provided <paramref name="builder"/> to construct a new string
+    /// and return a span pointing to that string. The returned span remains valid as long as the string is referenced.
     /// </para>
     /// </remarks>
     public static ReadOnlySpan<char> ProcessLine(ReadOnlySpan<char> line, LineProcessingOptions options, StringBuilder builder)
@@ -460,6 +461,8 @@ public class LineProcessor
         // 2. Calculate Leading Cut
         // Find the last newline character before the first visible character.
         // The leading section ends after that newline.
+        // Edge case: if firstVisibleIndex is 0 (visible content starts immediately),
+        // lastNewlineBefore will be -1, correctly leaving leadingEnd at 0 (no leading blank lines).
         int leadingEnd = 0;
         int lastNewlineBefore = text.Slice(0, firstVisibleIndex).LastIndexOfAny('\r', '\n');
         

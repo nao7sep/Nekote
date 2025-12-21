@@ -5,7 +5,7 @@
 /// </summary>
 public static class NiniSectionWriter
 {
-    private static readonly string EmptySectionComment = "# (empty section)";
+    public static readonly string EmptySectionComment = "# (empty section)";
 
     /// <summary>
     /// Writes an array of NINI sections to formatted text.

@@ -41,7 +41,7 @@ public static partial class PathHelper
     /// <summary>
     /// Checks if a character is a path separator.
     /// </summary>
-    private static bool IsSeparator(char c)
+    internal static bool IsSeparator(char c)
     {
         return c == '/' || c == '\\';
     }

@@ -50,6 +50,18 @@ public class LineProcessor
     }
 
     /// <summary>
+    /// Returns an enumerator that iterates through and processes lines in the text according to the specified options.
+    /// </summary>
+    /// <param name="text">The text to enumerate lines from.</param>
+    /// <param name="options">The options defining how whitespace and blank lines should be handled.</param>
+    /// <param name="builder">Optional StringBuilder buffer. If null, a new one is created internally.</param>
+    /// <returns>A <see cref="ProcessedLineEnumerator"/> for the specified text and options.</returns>
+    public static ProcessedLineEnumerator EnumerateProcessedLines(ReadOnlySpan<char> text, LineProcessingOptions options, StringBuilder? builder = null)
+    {
+        return new ProcessedLineEnumerator(text, options, builder);
+    }
+
+    /// <summary>
     /// Returns an enumerator that iterates through the lines in the text.
     /// </summary>
     /// <param name="text">The text to enumerate lines from.</param>

@@ -17,7 +17,9 @@ public partial class PathHelperTests
     [InlineData("relative", "path", "relative\\path")] // Windows default
     public void Combine_TwoSegments_CombinesCorrectly(string path1, string path2, string expected)
     {
-        var result = PathHelper.Combine(PathOptions.Default, path1, path2);
+        // Use Windows options for tests with drive letters
+        var options = path1.Length >= 2 && path1[1] == ':' ? PathOptions.Windows : PathOptions.Default;
+        var result = PathHelper.Combine(options, path1, path2);
         // Normalize separators for comparison
         Assert.Equal(expected.Replace('\\', '/'), result.Replace('\\', '/'));
     }
@@ -37,7 +39,8 @@ public partial class PathHelperTests
     [InlineData("a", "b", "c", "a\\b\\c")]
     public void Combine_ThreeSegments_CombinesCorrectly(string path1, string path2, string path3, string expected)
     {
-        var result = PathHelper.Combine(PathOptions.Default, path1, path2, path3);
+        var options = path1.Length >= 2 && path1[1] == ':' ? PathOptions.Windows : PathOptions.Default;
+        var result = PathHelper.Combine(options, path1, path2, path3);
         Assert.Equal(expected.Replace('\\', '/'), result.Replace('\\', '/'));
     }
 
@@ -46,7 +49,8 @@ public partial class PathHelperTests
     [InlineData("/usr", "local", "share", "doc", "/usr/local/share/doc")]
     public void Combine_FourSegments_CombinesCorrectly(string path1, string path2, string path3, string path4, string expected)
     {
-        var result = PathHelper.Combine(PathOptions.Default, path1, path2, path3, path4);
+        var options = path1.Length >= 2 && path1[1] == ':' ? PathOptions.Windows : PathOptions.Default;
+        var result = PathHelper.Combine(options, path1, path2, path3, path4);
         Assert.Equal(expected.Replace('\\', '/'), result.Replace('\\', '/'));
     }
 
@@ -140,7 +144,10 @@ public partial class PathHelperTests
     // because it lacks a drive letter. It's only fully qualified on Unix.
     public void Combine_RequireAbsoluteFirst_WithAbsolute_Succeeds(string absolutePath)
     {
-        var options = PathOptions.Default with { RequireAbsoluteFirstSegment = true };
+        // Use Windows options for Windows-specific paths
+        var options = (absolutePath.StartsWith(@"\\") || (absolutePath.Length >= 2 && absolutePath[1] == ':'))
+            ? PathOptions.Windows with { RequireAbsoluteFirstSegment = true }
+            : PathOptions.Default with { RequireAbsoluteFirstSegment = true };
         var result = PathHelper.Combine(options, absolutePath, "file.txt");
         Assert.NotEmpty(result);
     }
@@ -180,7 +187,7 @@ public partial class PathHelperTests
     [Fact]
     public void Combine_ValidateSubsequentRelative_WithRelative_Succeeds()
     {
-        var options = PathOptions.Default with { ValidateSubsequentPathsRelative = true };
+        var options = PathOptions.Windows with { ValidateSubsequentPathsRelative = true };
         var result = PathHelper.Combine(options, "C:\\base", "relative", "path");
         Assert.NotEmpty(result);
     }
@@ -192,7 +199,7 @@ public partial class PathHelperTests
     [InlineData("D:relative")]
     public void Combine_ValidateSubsequentRelative_WithRooted_Throws(string rootedPath)
     {
-        var options = PathOptions.Default with { ValidateSubsequentPathsRelative = true };
+        var options = PathOptions.Windows with { ValidateSubsequentPathsRelative = true };
         var ex = Assert.Throws<ArgumentException>(() =>
             PathHelper.Combine(options, "C:\\base", rootedPath));
         Assert.Contains("must be a relative path", ex.Message);
@@ -202,7 +209,7 @@ public partial class PathHelperTests
     public void Combine_ValidateSubsequentRelative_PreventsSilentReplacement()
     {
         // Without validation, Path.Combine would silently replace base with absolute
-        var options = PathOptions.Default with { ValidateSubsequentPathsRelative = true };
+        var options = PathOptions.Windows with { ValidateSubsequentPathsRelative = true };
         var ex = Assert.Throws<ArgumentException>(() =>
             PathHelper.Combine(options, "C:\\base", "D:\\other"));
         Assert.Contains("must be a relative path", ex.Message);

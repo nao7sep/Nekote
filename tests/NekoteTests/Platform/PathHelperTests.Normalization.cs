@@ -104,7 +104,7 @@ public partial class PathHelperTests
     [InlineData(@"C:\..\..\file", @"C:\file")]
     public void NormalizeStructure_WindowsDrivePath_ClampsAtRoot(string input, string expected)
     {
-        var result = PathHelper.NormalizeStructure(input);
+        var result = PathHelper.NormalizeStructure(input, PathOptions.Windows);
         Assert.Equal(expected, result);
     }
 
@@ -115,7 +115,7 @@ public partial class PathHelperTests
     [InlineData(@"\\server\share\dir\.\file", @"\\server\share\dir\file")]  // . removes itself only, dir remains
     public void NormalizeStructure_UncPath_ClampsAtShareRoot(string input, string expected)
     {
-        var result = PathHelper.NormalizeStructure(input);
+        var result = PathHelper.NormalizeStructure(input, PathOptions.Windows);
         Assert.Equal(expected, result);
     }
 
@@ -125,7 +125,7 @@ public partial class PathHelperTests
     [InlineData(@"\\.\Device\..\other", @"\\.\Device\other")]  // .. clamps at device root
     public void NormalizeStructure_DeviceAndExtendedPaths_ClampsAtRoot(string input, string expected)
     {
-        var result = PathHelper.NormalizeStructure(input);
+        var result = PathHelper.NormalizeStructure(input, PathOptions.Windows);
         Assert.Equal(expected, result);
     }
 
@@ -149,7 +149,7 @@ public partial class PathHelperTests
     [InlineData("//server/share", "//server/share")]
     public void NormalizeStructure_UncPrefix_Preserved(string input, string expected)
     {
-        var result = PathHelper.NormalizeStructure(input);
+        var result = PathHelper.NormalizeStructure(input, PathOptions.Windows);
         Assert.Equal(expected, result);
     }
 
@@ -196,7 +196,11 @@ public partial class PathHelperTests
     [InlineData(@"\\server\share")]
     public void NormalizeStructure_RootOnly_ReturnsAsIs(string input)
     {
-        var result = PathHelper.NormalizeStructure(input);
+        // Use Windows options for Windows-specific paths
+        var options = (input.StartsWith(@"\\") || (input.Length >= 2 && input[1] == ':'))
+            ? PathOptions.Windows
+            : PathOptions.Default;
+        var result = PathHelper.NormalizeStructure(input, options);
         Assert.Equal(input, result);
     }
 
@@ -212,7 +216,7 @@ public partial class PathHelperTests
     [InlineData("C:", "C:")]
     public void NormalizeStructure_DriveOnly_HandlesCorrectly(string input, string expected)
     {
-        var result = PathHelper.NormalizeStructure(input);
+        var result = PathHelper.NormalizeStructure(input, PathOptions.Windows);
         Assert.Equal(expected, result);
     }
 
@@ -221,7 +225,7 @@ public partial class PathHelperTests
     [InlineData(@"C:dir1\dir2\..\..", @"C:")]
     public void NormalizeStructure_DriveRelativePaths_NormalizesCorrectly(string input, string expected)
     {
-        var result = PathHelper.NormalizeStructure(input);
+        var result = PathHelper.NormalizeStructure(input, PathOptions.Windows);
         Assert.Equal(expected, result);
     }
 
@@ -618,7 +622,7 @@ public partial class PathHelperTests
     public void NormalizeStructure_ComplexWindowsPath_HandlesCorrectly()
     {
         var input = @"C:\Program Files\.\MyApp\..\Other\..\..\Windows\System32";
-        var result = PathHelper.NormalizeStructure(input);
+        var result = PathHelper.NormalizeStructure(input, PathOptions.Windows);
         Assert.Equal(@"C:\Windows\System32", result);
     }
 
@@ -653,7 +657,7 @@ public partial class PathHelperTests
         // Normalization should treat ":streamname" as part of the filename, NOT as a drive or separator.
 
         var path = @"C:\data\file.txt:secret_stream";
-        var result = PathHelper.NormalizeStructure(path);
+        var result = PathHelper.NormalizeStructure(path, PathOptions.Windows);
 
         Assert.Equal(@"C:\data\file.txt:secret_stream", result);
     }
@@ -683,7 +687,7 @@ public partial class PathHelperTests
         // IF we were truly Unix-aware: "C:" is a dir. ".." goes out. Result -> "file" (or "../file").
         // BUT PathHelper assumes "C:" is a drive root. Roots clamp "..". Result -> "C:/file".
 
-        var result = PathHelper.NormalizeStructure(unixPath);
+        var result = PathHelper.NormalizeStructure(unixPath, PathOptions.Windows);
 
         // Asserting the CURRENT behavior (clamping).
         // This confirms the library is "Windows-Safe" even on Unix, arguably "Unix-Hostile" for this edge case.
@@ -812,7 +816,7 @@ public partial class PathHelperTests
         // So "C:\" + "/Windows" -> "C:\/Windows" -> "C:\Windows" (consecutive removal).
 
         var path = @"C:\/Windows";
-        var result = PathHelper.NormalizeStructure(path);
+        var result = PathHelper.NormalizeStructure(path, PathOptions.Windows);
 
         // Should remove the redundant separator
         Assert.True(result == @"C:\Windows" || result == @"C:/Windows");

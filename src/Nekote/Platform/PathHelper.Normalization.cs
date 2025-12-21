@@ -389,7 +389,7 @@ public static partial class PathHelper
     {
         if (options.NormalizeStructure)
         {
-            path = NormalizeStructure(path);
+            path = NormalizeStructure(path, options);
         }
 
         if (options.NormalizeSeparators != PathSeparatorMode.Preserve)

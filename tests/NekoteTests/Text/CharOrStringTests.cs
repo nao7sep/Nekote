@@ -8,7 +8,7 @@ public class CharOrStringTests
     public void FromChar_CreatesCharInstance()
     {
         var cos = CharOrString.FromChar('x');
-        
+
         Assert.True(cos.IsChar);
         Assert.False(cos.IsString);
         Assert.Equal('x', cos.AsChar());
@@ -19,7 +19,7 @@ public class CharOrStringTests
     public void FromString_CreatesStringInstance()
     {
         var cos = CharOrString.FromString("hello");
-        
+
         Assert.False(cos.IsChar);
         Assert.True(cos.IsString);
         Assert.Equal("hello", cos.AsString());
@@ -36,7 +36,7 @@ public class CharOrStringTests
     public void ImplicitConversion_FromChar()
     {
         CharOrString cos = 'x';
-        
+
         Assert.True(cos.IsChar);
         Assert.Equal('x', cos.AsChar());
     }
@@ -45,7 +45,7 @@ public class CharOrStringTests
     public void ImplicitConversion_FromString()
     {
         CharOrString cos = "hello";
-        
+
         Assert.True(cos.IsString);
         Assert.Equal("hello", cos.AsString());
     }
@@ -53,7 +53,7 @@ public class CharOrStringTests
     [Fact]
     public void ImplicitConversion_NullStringThrows()
     {
-        Assert.Throws<ArgumentNullException>(() => 
+        Assert.Throws<ArgumentNullException>(() =>
         {
             CharOrString cos = (string)null!;
         });
@@ -63,7 +63,7 @@ public class CharOrStringTests
     public void AsChar_ThrowsWhenContainsString()
     {
         var cos = CharOrString.FromString("hello");
-        
+
         var ex = Assert.Throws<InvalidOperationException>(() => cos.AsChar());
         Assert.Contains("does not contain a character", ex.Message);
     }
@@ -72,7 +72,7 @@ public class CharOrStringTests
     public void AsString_ThrowsWhenContainsChar()
     {
         var cos = CharOrString.FromChar('x');
-        
+
         var ex = Assert.Throws<InvalidOperationException>(() => cos.AsString());
         Assert.Contains("does not contain a string", ex.Message);
     }
@@ -82,7 +82,7 @@ public class CharOrStringTests
     {
         var cos = CharOrString.FromString("hello");
         var span = cos.AsSpan();
-        
+
         Assert.Equal(5, span.Length);
         Assert.Equal("hello", new string(span));
     }
@@ -91,7 +91,7 @@ public class CharOrStringTests
     public void AsSpan_ThrowsWhenContainsChar()
     {
         var cos = CharOrString.FromChar('x');
-        
+
         var ex = Assert.Throws<InvalidOperationException>(() => cos.AsSpan());
         Assert.Contains("does not contain a string", ex.Message);
     }
@@ -103,7 +103,7 @@ public class CharOrStringTests
     {
         var cos1 = CharOrString.FromChar(left);
         var cos2 = CharOrString.FromChar(right);
-        
+
         Assert.Equal(expected, cos1.Equals(cos2));
         Assert.Equal(expected, cos1 == cos2);
         Assert.Equal(!expected, cos1 != cos2);
@@ -117,7 +117,7 @@ public class CharOrStringTests
     {
         var cos1 = CharOrString.FromString(left);
         var cos2 = CharOrString.FromString(right);
-        
+
         Assert.Equal(expected, cos1.Equals(cos2));
         Assert.Equal(expected, cos1 == cos2);
         Assert.Equal(!expected, cos1 != cos2);
@@ -128,7 +128,7 @@ public class CharOrStringTests
     {
         var charCos = CharOrString.FromChar('x');
         var stringCos = CharOrString.FromString("x");
-        
+
         Assert.False(charCos.Equals(stringCos));
         Assert.False(charCos == stringCos);
         Assert.True(charCos != stringCos);
@@ -139,7 +139,7 @@ public class CharOrStringTests
     {
         var cos1 = CharOrString.FromChar('x');
         var cos2 = CharOrString.FromChar('x');
-        
+
         Assert.Equal(cos1.GetHashCode(), cos2.GetHashCode());
     }
 
@@ -148,7 +148,7 @@ public class CharOrStringTests
     {
         var cos1 = CharOrString.FromString("hello");
         var cos2 = CharOrString.FromString("hello");
-        
+
         Assert.Equal(cos1.GetHashCode(), cos2.GetHashCode());
     }
 
@@ -171,9 +171,9 @@ public class CharOrStringTests
     {
         var cos = CharOrString.FromChar('x');
         Span<char> destination = stackalloc char[5];
-        
+
         int written = cos.WriteTo(destination);
-        
+
         Assert.Equal(1, written);
         Assert.Equal('x', destination[0]);
     }
@@ -183,7 +183,7 @@ public class CharOrStringTests
     {
         var cos = CharOrString.FromChar('x');
         Span<char> destination = new char[0];
-        
+
         ArgumentException ex = null!;
         try
         {
@@ -193,7 +193,7 @@ public class CharOrStringTests
         {
             ex = e;
         }
-        
+
         Assert.NotNull(ex);
         Assert.Contains("too small", ex.Message, StringComparison.OrdinalIgnoreCase);
     }
@@ -203,9 +203,9 @@ public class CharOrStringTests
     {
         var cos = CharOrString.FromString("hello");
         Span<char> destination = stackalloc char[10];
-        
+
         int written = cos.WriteTo(destination);
-        
+
         Assert.Equal(5, written);
         Assert.Equal("hello", new string(destination.Slice(0, written)));
     }
@@ -215,7 +215,7 @@ public class CharOrStringTests
     {
         var cos = CharOrString.FromString("hello");
         Span<char> destination = new char[3];
-        
+
         ArgumentException ex = null!;
         try
         {
@@ -225,7 +225,7 @@ public class CharOrStringTests
         {
             ex = e;
         }
-        
+
         Assert.NotNull(ex);
         Assert.Contains("too small", ex.Message, StringComparison.OrdinalIgnoreCase);
     }
@@ -244,7 +244,7 @@ public class CharOrStringTests
     {
         var emoji = "😀"; // Single emoji, but 2 UTF-16 code units (surrogate pair)
         var cos = CharOrString.FromString(emoji);
-        
+
         Assert.Equal(2, cos.Length); // Length is in char units, not Unicode scalar values
         Assert.Equal(emoji, cos.AsString());
     }
@@ -254,7 +254,7 @@ public class CharOrStringTests
     {
         var text = "Hello 😀 World 🌍";
         var cos = CharOrString.FromString(text);
-        
+
         Assert.Equal(text, cos.AsString());
         Assert.Equal(text.Length, cos.Length);
     }
@@ -264,7 +264,7 @@ public class CharOrStringTests
     {
         var text = "Hello\u200BWorld"; // Contains zero-width space
         var cos = CharOrString.FromString(text);
-        
+
         Assert.Equal(text, cos.AsString());
         Assert.Equal(11, cos.Length);
     }
@@ -274,7 +274,7 @@ public class CharOrStringTests
     {
         var text = "e\u0301"; // e with combining acute accent
         var cos = CharOrString.FromString(text);
-        
+
         Assert.Equal(text, cos.AsString());
         Assert.Equal(2, cos.Length);
     }
@@ -285,7 +285,7 @@ public class CharOrStringTests
         var cos1 = CharOrString.FromString("😀");
         var cos2 = CharOrString.FromString("😀");
         var cos3 = CharOrString.FromString("😁");
-        
+
         Assert.True(cos1.Equals(cos2));
         Assert.False(cos1.Equals(cos3));
     }
@@ -296,9 +296,9 @@ public class CharOrStringTests
         var emoji = "😀";
         var cos = CharOrString.FromString(emoji);
         Span<char> destination = stackalloc char[10];
-        
+
         int written = cos.WriteTo(destination);
-        
+
         Assert.Equal(2, written);
         Assert.Equal(emoji, new string(destination.Slice(0, written)));
     }
@@ -308,7 +308,7 @@ public class CharOrStringTests
     {
         var longString = new string('x', 10000);
         var cos = CharOrString.FromString(longString);
-        
+
         Assert.Equal(10000, cos.Length);
         Assert.Equal(longString, cos.AsString());
     }
@@ -322,7 +322,7 @@ public class CharOrStringTests
 
         Assert.False(def.IsChar, "Default should not be Char");
         Assert.False(def.IsString, "Default should not be String");
-        
+
         // Accessing values should throw
         Assert.Throws<InvalidOperationException>(() => def.AsChar());
         Assert.Throws<InvalidOperationException>(() => def.AsString());
@@ -330,7 +330,7 @@ public class CharOrStringTests
 
         // ToString() on default struct returns null
         Assert.Null(def.ToString());
-        
+
         // Length throws NullReferenceException because internal string is null
         Assert.Throws<NullReferenceException>(() => _ = def.Length);
     }
@@ -338,9 +338,9 @@ public class CharOrStringTests
     [Fact]
     public void WriteTo_ExactBufferSize()
     {
-        // Edge Case: Buffer is EXACTLY the size needed. 
+        // Edge Case: Buffer is EXACTLY the size needed.
         // Checks for off-by-one errors in bounds checking.
-        
+
         // Char
         var charCos = CharOrString.FromChar('A');
         Span<char> charDest = stackalloc char[1]; // Exact size

@@ -37,6 +37,36 @@ public class LineProcessorTests
         Assert.Equal(2, LineProcessor.CountLines("Line 1\nLine 2\n"));
     }
 
+    [Theory]
+    [InlineData("")]
+    [InlineData("A")]
+    [InlineData("\n")]
+    [InlineData("A\n")]
+    [InlineData("\nA")]
+    [InlineData("A\nB")]
+    [InlineData("A\n\n")]
+    [InlineData("\n\n")]
+    [InlineData("A\rB")]
+    [InlineData("A\r\nB")]
+    [InlineData("😀")]
+    [InlineData("😀\n")]
+    [InlineData("😀\n😁")]
+    [InlineData("Line with emoji 😀\nAnother line 🌍")]
+    [InlineData("e\u0301\n")] // Combining character
+    public void CountLines_Consistency(string text)
+    {
+        int processorCount = LineProcessor.CountLines(text);
+        int parserCount = LineParser.CountLines(text);
+        int enumerateCount = 0;
+        foreach (var _ in LineProcessor.EnumerateLines(text))
+        {
+            enumerateCount++;
+        }
+
+        Assert.Equal(processorCount, parserCount);
+        Assert.Equal(processorCount, enumerateCount);
+    }
+
     #endregion
 
     #region IsBlank Tests
@@ -109,9 +139,9 @@ public class LineProcessorTests
     {
         var options = LineProcessingOptions.Default;
         var builder = new StringBuilder();
-        
+
         var result = LineProcessor.ProcessLine("", options, builder);
-        
+
         Assert.True(result.IsEmpty);
     }
 
@@ -130,9 +160,9 @@ public class LineProcessorTests
             NewLine = "\n"
         };
         var builder = new StringBuilder();
-        
+
         var result = LineProcessor.ProcessLine("  Hello  World  ", options, builder);
-        
+
         Assert.Equal("  Hello  World  ", result.ToString());
     }
 
@@ -151,9 +181,9 @@ public class LineProcessorTests
             NewLine = "\n"
         };
         var builder = new StringBuilder();
-        
+
         var result = LineProcessor.ProcessLine("  Hello  World  ", options, builder);
-        
+
         Assert.Equal("Hello  World  ", result.ToString());
     }
 
@@ -172,9 +202,9 @@ public class LineProcessorTests
             NewLine = "\n"
         };
         var builder = new StringBuilder();
-        
+
         var result = LineProcessor.ProcessLine("  Hello  World  ", options, builder);
-        
+
         Assert.Equal("  Hello  World", result.ToString());
     }
 
@@ -193,9 +223,9 @@ public class LineProcessorTests
             NewLine = "\n"
         };
         var builder = new StringBuilder();
-        
+
         var result = LineProcessor.ProcessLine("  Hello   World  ", options, builder);
-        
+
         Assert.Equal("  Hello World  ", result.ToString());
     }
 
@@ -214,9 +244,9 @@ public class LineProcessorTests
             NewLine = "\n"
         };
         var builder = new StringBuilder();
-        
+
         var result = LineProcessor.ProcessLine("  Hello   World  ", options, builder);
-        
+
         Assert.Equal("Hello_World", result.ToString());
     }
 
@@ -235,9 +265,9 @@ public class LineProcessorTests
             NewLine = "\n"
         };
         var builder = new StringBuilder();
-        
+
         var result = LineProcessor.ProcessLine("  Hello   World  ", options, builder);
-        
+
         Assert.Equal("HelloWorld", result.ToString());
     }
 
@@ -256,9 +286,9 @@ public class LineProcessorTests
             NewLine = "\n"
         };
         var builder = new StringBuilder();
-        
+
         var result = LineProcessor.ProcessLine("     ", options, builder);
-        
+
         Assert.True(result.IsEmpty);
     }
 
@@ -292,7 +322,7 @@ public class LineProcessorTests
     public void SplitIntoSections_EmptyText()
     {
         var result = LineProcessor.SplitIntoSections("", out var leading, out var content, out var trailing);
-        
+
         Assert.False(result);
         Assert.True(leading.IsEmpty);
         Assert.True(content.IsEmpty);
@@ -303,7 +333,7 @@ public class LineProcessorTests
     public void SplitIntoSections_OnlyWhitespace()
     {
         var result = LineProcessor.SplitIntoSections("   \n  \n  ", out var leading, out var content, out var trailing);
-        
+
         Assert.False(result);
         Assert.Equal("   \n  \n  ", leading.ToString());
         Assert.True(content.IsEmpty);
@@ -315,7 +345,7 @@ public class LineProcessorTests
     {
         var text = "Line 1\nLine 2\nLine 3";
         var result = LineProcessor.SplitIntoSections(text, out var leading, out var content, out var trailing);
-        
+
         Assert.True(result);
         Assert.True(leading.IsEmpty);
         Assert.Equal("Line 1\nLine 2\nLine 3", content.ToString());
@@ -327,7 +357,7 @@ public class LineProcessorTests
     {
         var text = "\n\nLine 1\nLine 2";
         var result = LineProcessor.SplitIntoSections(text, out var leading, out var content, out var trailing);
-        
+
         Assert.True(result);
         Assert.Equal("\n\n", leading.ToString());
         Assert.Equal("Line 1\nLine 2", content.ToString());
@@ -339,7 +369,7 @@ public class LineProcessorTests
     {
         var text = "Line 1\nLine 2\n\n\n";
         var result = LineProcessor.SplitIntoSections(text, out var leading, out var content, out var trailing);
-        
+
         Assert.True(result);
         Assert.True(leading.IsEmpty);
         Assert.Equal("Line 1\nLine 2\n", content.ToString());
@@ -351,7 +381,7 @@ public class LineProcessorTests
     {
         var text = "\n\nLine 1\nLine 2\n\n\n";
         var result = LineProcessor.SplitIntoSections(text, out var leading, out var content, out var trailing);
-        
+
         Assert.True(result);
         Assert.Equal("\n\n", leading.ToString());
         Assert.Equal("Line 1\nLine 2\n", content.ToString());
@@ -363,7 +393,7 @@ public class LineProcessorTests
     {
         var text = "Hello World\n\n";
         var result = LineProcessor.SplitIntoSections(text, out var leading, out var content, out var trailing);
-        
+
         Assert.True(result);
         Assert.True(leading.IsEmpty);
         Assert.Equal("Hello World\n", content.ToString());
@@ -420,9 +450,9 @@ public class LineProcessorTests
     {
         var options = LineProcessingOptions.Default;
         var builder = new StringBuilder();
-        
+
         var result = LineProcessor.ProcessLine("  Hello 😀 World  ", options, builder);
-        
+
         Assert.Equal("  Hello 😀 World", result.ToString());
     }
 
@@ -441,9 +471,9 @@ public class LineProcessorTests
             NewLine = "\n"
         };
         var builder = new StringBuilder();
-        
+
         var result = LineProcessor.ProcessLine("Hello\u00A0\u00A0\u2003World", options, builder);
-        
+
         // Unicode whitespace should be collapsed to single space
         Assert.Equal("Hello World", result.ToString());
     }
@@ -453,9 +483,9 @@ public class LineProcessorTests
     {
         var options = LineProcessingOptions.Default;
         var builder = new StringBuilder();
-        
+
         var result = LineProcessor.ProcessLine("😀😁😂", options, builder);
-        
+
         Assert.Equal("😀😁😂", result.ToString());
     }
 
@@ -474,10 +504,10 @@ public class LineProcessorTests
             NewLine = "\n"
         };
         var builder = new StringBuilder();
-        
+
         // Zero-width space is not whitespace according to char.IsWhiteSpace
         var result = LineProcessor.ProcessLine("Hello\u200BWorld", options, builder);
-        
+
         Assert.Equal("Hello\u200BWorld", result.ToString());
     }
 
@@ -493,7 +523,7 @@ public class LineProcessorTests
     {
         var text = "\n😀 Line 1\n😁 Line 2\n\n";
         var result = LineProcessor.SplitIntoSections(text, out var leading, out var content, out var trailing);
-        
+
         Assert.True(result);
         Assert.Equal("\n", leading.ToString());
         Assert.Contains("😀", content.ToString());
@@ -510,7 +540,7 @@ public class LineProcessorTests
             if (i < 9999) sb.Append('\n'); // Don't add \n after the last line
         }
         var text = sb.ToString();
-        
+
         Assert.Equal(10000, LineProcessor.CountLines(text));
     }
 
@@ -530,7 +560,7 @@ public class LineProcessorTests
     {
         var text = "\n\nLine 1\nLine 2\n\n\n";
         var result = LineProcessor.Process(text);
-        
+
         Assert.Equal($"Line 1{Environment.NewLine}Line 2", result);
     }
 
@@ -539,7 +569,7 @@ public class LineProcessorTests
     {
         var text = "Line 1\n\n\nLine 2";
         var result = LineProcessor.Process(text);
-        
+
         Assert.Equal($"Line 1{Environment.NewLine}{Environment.NewLine}Line 2", result);
     }
 
@@ -548,7 +578,7 @@ public class LineProcessorTests
     {
         var text = "  Line 1  \n  Line 2  ";
         var result = LineProcessor.Process(text, LineProcessingOptions.Minimal);
-        
+
         Assert.Equal("Line1Line2", result);
     }
 
@@ -557,7 +587,7 @@ public class LineProcessorTests
     {
         var text = "Line 1\nLine 2\nLine 3";
         var result = LineProcessor.ToSingleLine(text);
-        
+
         Assert.Equal("Line 1 Line 2 Line 3", result);
     }
 
@@ -566,7 +596,7 @@ public class LineProcessorTests
     {
         var text = "\nLine 1\n\nLine 2\n";
         var result = LineProcessor.ToSingleLine(text);
-        
+
         Assert.Equal("Line 1 Line 2", result);
     }
 

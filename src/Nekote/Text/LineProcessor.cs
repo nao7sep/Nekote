@@ -54,6 +54,11 @@ public class LineProcessor
     /// </summary>
     /// <param name="text">The text to enumerate lines from.</param>
     /// <returns>A <see cref="LineEnumerator"/> for the specified text.</returns>
+    /// <remarks>
+    /// This method treats line breaks as terminators, not separators. 
+    /// A line break followed by the end of the text does not start a new empty line.
+    /// For example, "A\n" yields one line ("A"), while "A\n\n" yields two lines ("A", "").
+    /// </remarks>
     public static LineEnumerator EnumerateLines(ReadOnlySpan<char> text)
     {
         return new LineEnumerator(text);

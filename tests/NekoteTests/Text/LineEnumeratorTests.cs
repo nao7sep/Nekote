@@ -9,12 +9,12 @@ public class LineEnumeratorTests
     {
         var text = "";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Empty(lines);
     }
 
@@ -23,12 +23,12 @@ public class LineEnumeratorTests
     {
         var text = "Hello World";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Single(lines);
         Assert.Equal("Hello World", lines[0]);
     }
@@ -38,12 +38,12 @@ public class LineEnumeratorTests
     {
         var text = "Line 1\nLine 2\nLine 3";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(3, lines.Count);
         Assert.Equal("Line 1", lines[0]);
         Assert.Equal("Line 2", lines[1]);
@@ -55,12 +55,12 @@ public class LineEnumeratorTests
     {
         var text = "Line 1\r\nLine 2\r\nLine 3";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(3, lines.Count);
         Assert.Equal("Line 1", lines[0]);
         Assert.Equal("Line 2", lines[1]);
@@ -72,12 +72,12 @@ public class LineEnumeratorTests
     {
         var text = "Line 1\rLine 2\rLine 3";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(3, lines.Count);
         Assert.Equal("Line 1", lines[0]);
         Assert.Equal("Line 2", lines[1]);
@@ -89,12 +89,12 @@ public class LineEnumeratorTests
     {
         var text = "Line 1\nLine 2\r\nLine 3\rLine 4";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(4, lines.Count);
         Assert.Equal("Line 1", lines[0]);
         Assert.Equal("Line 2", lines[1]);
@@ -107,12 +107,12 @@ public class LineEnumeratorTests
     {
         var text = "Line 1\n\nLine 3";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(3, lines.Count);
         Assert.Equal("Line 1", lines[0]);
         Assert.Equal("", lines[1]);
@@ -124,12 +124,12 @@ public class LineEnumeratorTests
     {
         var text = "Line 1\nLine 2\n";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Equal("Line 1", lines[0]);
         Assert.Equal("Line 2", lines[1]);
@@ -140,12 +140,12 @@ public class LineEnumeratorTests
     {
         var text = "Line 1\n\n\nLine 4";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(4, lines.Count);
         Assert.Equal("Line 1", lines[0]);
         Assert.Equal("", lines[1]);
@@ -160,15 +160,15 @@ public class LineEnumeratorTests
         // Ensures the last line is correctly identified and not skipped.
         var text = "Line1\r";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         // "Line1\r" -> "Line1" (trailing line break is treated as terminator, not starting a new empty line)
         Assert.Single(lines);
-        Assert.Equal("Line1", lines[0]); 
+        Assert.Equal("Line1", lines[0]);
     }
 
     #region Edge Cases - Unicode and Extremes
@@ -178,12 +178,12 @@ public class LineEnumeratorTests
     {
         var text = "Hello 😀\nWorld 🌍\nTest 🎉";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(3, lines.Count);
         Assert.Equal("Hello 😀", lines[0]);
         Assert.Equal("World 🌍", lines[1]);
@@ -195,12 +195,12 @@ public class LineEnumeratorTests
     {
         var text = "Line\u200B1\nLine\u200B2"; // Zero-width space
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Contains("\u200B", lines[0]);
         Assert.Contains("\u200B", lines[1]);
@@ -211,12 +211,12 @@ public class LineEnumeratorTests
     {
         var text = "Cafe\u0301\nNaive\u0308"; // e and i with combining diacritics
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Equal("Cafe\u0301", lines[0]);
         Assert.Equal("Naive\u0308", lines[1]);
@@ -228,12 +228,12 @@ public class LineEnumeratorTests
         var longLine = new string('x', 100000);
         var text = longLine + "\nShort";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Equal(100000, lines[0].Length);
         Assert.Equal("Short", lines[1]);
@@ -244,12 +244,12 @@ public class LineEnumeratorTests
     {
         var text = "😀😁😂\n🌍🌎🌏";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Equal("😀😁😂", lines[0]);
         Assert.Equal("🌍🌎🌏", lines[1]);
@@ -261,12 +261,12 @@ public class LineEnumeratorTests
         // Note: LineProcessor uses IndexOfAny('\r', '\n'), so Unicode line separator (U+2028) is NOT treated as line break
         var text = "Line1\u2028Line2";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         // U+2028 is not recognized as a line break by this implementation
         Assert.Single(lines);
         Assert.Equal("Line1\u2028Line2", lines[0]);

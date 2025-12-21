@@ -9,12 +9,12 @@ public class ProcessedLineEnumeratorTests
     public void EmptyText_NoLines()
     {
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(""))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Empty(lines);
     }
 
@@ -23,12 +23,12 @@ public class ProcessedLineEnumeratorTests
     {
         var text = "\n\nLine 1\nLine 2";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Equal("Line 1", lines[0]);
         Assert.Equal("Line 2", lines[1]);
@@ -39,12 +39,12 @@ public class ProcessedLineEnumeratorTests
     {
         var text = "Line 1\nLine 2\n\n\n";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Equal("Line 1", lines[0]);
         Assert.Equal("Line 2", lines[1]);
@@ -55,12 +55,12 @@ public class ProcessedLineEnumeratorTests
     {
         var text = "Line 1\n\n\nLine 2";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(3, lines.Count);
         Assert.Equal("Line 1", lines[0]);
         Assert.Equal("", lines[1]);
@@ -72,12 +72,12 @@ public class ProcessedLineEnumeratorTests
     {
         var text = "Line 1  \nLine 2\t";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Equal("Line 1", lines[0]);
         Assert.Equal("Line 2", lines[1]);
@@ -97,15 +97,15 @@ public class ProcessedLineEnumeratorTests
             TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
             NewLine = "\n"
         };
-        
+
         var text = "\n\nLine 1";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text, options))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(3, lines.Count);
         Assert.Equal("", lines[0]);
         Assert.Equal("", lines[1]);
@@ -126,15 +126,15 @@ public class ProcessedLineEnumeratorTests
             TrailingBlankLineHandling = TrailingBlankLineHandling.Preserve,
             NewLine = "\n"
         };
-        
+
         var text = "Line 1\n\n\n";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text, options))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(3, lines.Count);
         Assert.Equal("Line 1", lines[0]);
         Assert.Equal("", lines[1]);
@@ -155,15 +155,15 @@ public class ProcessedLineEnumeratorTests
             TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
             NewLine = "\n"
         };
-        
+
         var text = "Line 1\n\n\nLine 2";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text, options))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Equal("Line 1", lines[0]);
         Assert.Equal("Line 2", lines[1]);
@@ -183,15 +183,15 @@ public class ProcessedLineEnumeratorTests
             TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
             NewLine = "\n"
         };
-        
+
         var text = "  Line   1  \n  Line   2  ";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text, options))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Equal("Line 1", lines[0]);
         Assert.Equal("Line 2", lines[1]);
@@ -211,15 +211,15 @@ public class ProcessedLineEnumeratorTests
             TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
             NewLine = "\n"
         };
-        
+
         var text = "   \n   \n   ";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text, options))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Empty(lines);
     }
 
@@ -228,12 +228,12 @@ public class ProcessedLineEnumeratorTests
     {
         var text = "Line 1\n\nLine 2\n\n\nLine 3\n\nLine 4";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         // Default collapses consecutive blank lines to one
         Assert.Equal(7, lines.Count);
         Assert.Equal("Line 1", lines[0]);
@@ -250,12 +250,12 @@ public class ProcessedLineEnumeratorTests
     {
         var text = "Hello World";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Single(lines);
         Assert.Equal("Hello World", lines[0]);
     }
@@ -274,15 +274,15 @@ public class ProcessedLineEnumeratorTests
             TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
             NewLine = "\n"
         };
-        
+
         var text = "  Line 1\n    Line 2";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text, options))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Equal("  Line 1", lines[0]);
         Assert.Equal("    Line 2", lines[1]);
@@ -302,15 +302,15 @@ public class ProcessedLineEnumeratorTests
             TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
             NewLine = "\n"
         };
-        
+
         var text = "Hello   World";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text, options))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Single(lines);
         Assert.Equal("Hello---World", lines[0]);
     }
@@ -322,12 +322,12 @@ public class ProcessedLineEnumeratorTests
     {
         var text = "😀 Line 1\n😁 Line 2\n😂 Line 3";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(3, lines.Count);
         Assert.Equal("😀 Line 1", lines[0]);
         Assert.Equal("😁 Line 2", lines[1]);
@@ -348,15 +348,15 @@ public class ProcessedLineEnumeratorTests
             TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
             NewLine = "\n"
         };
-        
+
         var text = "Hello\u00A0\u00A0World\nTest\u2003\u2003Line";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text, options))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Equal("Hello World", lines[0]);
         Assert.Equal("Test Line", lines[1]);
@@ -376,15 +376,15 @@ public class ProcessedLineEnumeratorTests
             TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
             NewLine = "\n"
         };
-        
+
         var text = "Hello   World";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text, options))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Single(lines);
         Assert.Equal("Hello😀World", lines[0]);
     }
@@ -395,12 +395,12 @@ public class ProcessedLineEnumeratorTests
         var longLine = new string('x', 50000);
         var text = longLine + "\nShort";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Equal(50000, lines[0].Length);
         Assert.Equal("Short", lines[1]);
@@ -420,15 +420,15 @@ public class ProcessedLineEnumeratorTests
             TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
             NewLine = "\n"
         };
-        
+
         var text = "\u00A0\u00A0\n\u2003\u2003\n\u3000\u3000";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text, options))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Empty(lines);
     }
 
@@ -437,12 +437,12 @@ public class ProcessedLineEnumeratorTests
     {
         var text = "Cafe\u0301\nNaive\u0308"; // e and i with combining diacritics
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Equal("Cafe\u0301", lines[0]);
         Assert.Equal("Naive\u0308", lines[1]);
@@ -453,12 +453,12 @@ public class ProcessedLineEnumeratorTests
     {
         var text = "  😀 Hello  \n  🌍 World  ";
         var lines = new List<string>();
-        
+
         foreach (var line in LineProcessor.EnumerateProcessedLines(text))
         {
             lines.Add(line.ToString());
         }
-        
+
         Assert.Equal(2, lines.Count);
         Assert.Equal("  😀 Hello", lines[0]);
         Assert.Equal("  🌍 World", lines[1]);

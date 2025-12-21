@@ -95,7 +95,7 @@ public sealed record LineProcessingOptions
     /// removes trailing whitespace per line, removes leading/trailing blank lines,
     /// and collapses consecutive blank lines to single separators.
     /// </remarks>
-    public static readonly LineProcessingOptions Default = new() 
+    public static readonly LineProcessingOptions Default = new()
     {
         LeadingWhitespaceHandling = LeadingWhitespaceHandling.Preserve,
         InnerWhitespaceHandling = InnerWhitespaceHandling.Preserve,
@@ -140,7 +140,7 @@ public sealed record LineProcessingOptions
     /// It uses an empty string for the line separator, effectively joining all content directly.
     /// Primarily useful for testing and scenarios where absolute minimal representation is desired.
     /// </remarks>
-    public static readonly LineProcessingOptions Minimal = new() 
+    public static readonly LineProcessingOptions Minimal = new()
     {
         LeadingWhitespaceHandling = LeadingWhitespaceHandling.Remove,
         InnerWhitespaceHandling = InnerWhitespaceHandling.Remove,

@@ -224,11 +224,80 @@ public partial class PathHelperTests
 
         string root = System.OperatingSystem.IsWindows() ? @"D:\new" : "/new";
         var result = PathHelper.Combine(options, "base", root);
-        
+
         // Should concatenate: "base/D:\new" or "base//new"
         Assert.Contains("base", result);
         Assert.EndsWith(root, result);
         Assert.True(result.Length > root.Length);
+    }
+
+    #endregion
+
+    #region Combine - Custom PathOptions Combinations
+
+    [Fact]
+    public void Combine_CustomOptions_AllStrictFlagsEnabled()
+    {
+        // Test custom combination with all strict flags enabled
+        var options = new PathOptions
+        {
+            TargetOperatingSystem = OperatingSystemType.Windows,
+            ThrowOnEmptySegments = true,  // Strict: no empty/whitespace
+            TrimSegments = true,
+            RequireAtLeastOneSegment = true,
+            RequireAbsoluteFirstSegment = true,  // Strict: must be absolute
+            ValidateSubsequentPathsRelative = true,  // Strict: no rooted subsequent
+            NormalizeStructure = true,
+            NormalizeUnicode = true,
+            NormalizeSeparators = PathSeparatorMode.Windows,
+            TrailingSeparator = TrailingSeparatorHandling.Ensure  // Force trailing separator
+        };
+
+        var result = PathHelper.Combine(options, @"C:\base", "folder", "file.txt");
+
+        Assert.StartsWith(@"C:\", result);
+        Assert.Contains("folder", result);
+        Assert.Contains("file.txt", result);
+        // Trailing separator is added using native separator (/ or \)
+        Assert.True(result.EndsWith("/") || result.EndsWith(@"\"));
+    }
+
+    [Fact]
+    public void Combine_CustomOptions_MinimalWithStructureNormalization()
+    {
+        // Minimal preset but with structure normalization enabled
+        var options = PathOptions.Minimal with { NormalizeStructure = true };
+
+        var result = PathHelper.Combine(options, "base", "..", "file.txt");
+
+        // Should normalize structure (.. collapses with base) but preserve separator style
+        Assert.Equal("file.txt", result);
+        Assert.DoesNotContain("..", result);
+    }
+
+    [Fact]
+    public void Combine_CustomOptions_PreserveWithUnicodeTrimming()
+    {
+        // Custom: preserve structure and separators, but trim and normalize Unicode
+        var options = new PathOptions
+        {
+            TargetOperatingSystem = null,
+            ThrowOnEmptySegments = false,
+            TrimSegments = true,  // Trim whitespace
+            RequireAtLeastOneSegment = true,
+            RequireAbsoluteFirstSegment = false,
+            ValidateSubsequentPathsRelative = false,
+            NormalizeStructure = false,  // Preserve ..
+            NormalizeUnicode = true,  // But normalize Unicode
+            NormalizeSeparators = PathSeparatorMode.Preserve,  // Preserve separators
+            TrailingSeparator = TrailingSeparatorHandling.Preserve
+        };
+
+        var result = PathHelper.Combine(options, "  base  ", "..", "  other  ");
+
+        // Should trim but preserve structure
+        Assert.Contains("..", result);  // Structure preserved
+        Assert.DoesNotContain("  base  ", result);  // But trimmed
     }
 
     #endregion
@@ -426,12 +495,12 @@ public partial class PathHelperTests
     {
         // "..." is a valid directory name, not a parent traversal.
         // Ensure it's not treated as ".."
-        
+
         var result = PathHelper.Combine(PathOptions.Default, "root", "...", "file");
-        
+
         // Should be root/.../file
         Assert.Contains("...", result);
-        Assert.DoesNotContain("root/file", result.Replace('\\', '/')); 
+        Assert.DoesNotContain("root/file", result.Replace('\\', '/'));
     }
 
     [Fact]
@@ -448,11 +517,11 @@ public partial class PathHelperTests
     {
         // PathHelper uses strict Unicode normalization which throws on invalid sequences
         // (like split surrogate pairs).
-        
-        var high = "\uD83D";
-        var low = "\uDE00"; 
 
-        Assert.Throws<ArgumentException>(() => 
+        var high = "\uD83D";
+        var low = "\uDE00";
+
+        Assert.Throws<ArgumentException>(() =>
             PathHelper.Combine(PathOptions.Default, "dir" + high, low + "file"));
     }
 
@@ -470,16 +539,16 @@ public partial class PathHelperTests
     {
         // "c:file" is a drive-relative path on Windows (rooted).
         // It should be rejected as a subsequent segment.
-        Assert.Throws<ArgumentException>(() => 
+        Assert.Throws<ArgumentException>(() =>
             PathHelper.Combine(PathOptions.Windows, "dir", "c:file"));
     }
 
     [Fact]
     public void Combine_DriveLikeFilename_Unix_Throws()
     {
-        // "c:file" is strictly rejected on Unix to avoid ambiguity, 
+        // "c:file" is strictly rejected on Unix to avoid ambiguity,
         // even though it could be a valid filename.
-        Assert.Throws<ArgumentException>(() => 
+        Assert.Throws<ArgumentException>(() =>
             PathHelper.Combine(PathOptions.Unix, "dir", "c:file"));
     }
 

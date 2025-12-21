@@ -94,10 +94,10 @@ public partial class PathHelperTests
     {
         // \\.\C: inherits the status from "C:" (relative).
         // It is a rooted path, but NOT fully qualified.
-        
+
         var path = @"\\.\C:";
         bool isFullyQualified;
-        
+
         var length = PathHelper.GetRootLength(path, PathOptions.Windows, out isFullyQualified);
 
         Assert.Equal(6, length); // 4 (\\.\) + 2 (C:)
@@ -109,7 +109,7 @@ public partial class PathHelperTests
     {
         var path = @"\\.\C:\";
         bool isFullyQualified;
-        
+
         var length = PathHelper.GetRootLength(path, PathOptions.Windows, out isFullyQualified);
 
         Assert.Equal(7, length); // 4 (\\.\) + 3 (C:\)
@@ -304,6 +304,56 @@ public partial class PathHelperTests
 
     #endregion
 
+    #region GetRootLength - Cross-Platform Validation Edge Cases
+
+    [Theory]
+    [InlineData(@"\\server\share", OperatingSystemType.Linux)]
+    [InlineData(@"\\server\share", OperatingSystemType.MacOS)]
+    [InlineData(@"\\.\Device", OperatingSystemType.Linux)]
+    [InlineData(@"\\?\C:\path", OperatingSystemType.Linux)]
+    [InlineData(@"\\?\C:\path", OperatingSystemType.MacOS)]
+    public void GetRootLength_WindowsSpecificSyntax_RejectedOnUnixTarget(string windowsPath, OperatingSystemType target)
+    {
+        // Security: Windows-specific syntax should be rejected on Unix targets
+        // to prevent silent misinterpretation
+        var options = PathOptions.Default with { TargetOperatingSystem = target };
+
+        var ex = Assert.Throws<ArgumentException>(() =>
+            PathHelper.GetRootLength(windowsPath, options, out _));
+
+        Assert.Contains("only valid for Windows", ex.Message);
+    }
+
+    [Theory]
+    [InlineData(@"C:\base", "/etc/passwd")]  // Unix-style subsequent segment on Windows
+    [InlineData(@"D:\data", @"\other")]  // Root-relative subsequent segment
+    public void GetRootLength_MixedPlatformSyntaxInCombine_ValidatedCorrectly(string first, string second)
+    {
+        // When combining paths, subsequent rooted segments should be caught
+        var options = PathOptions.Windows with { ValidateSubsequentPathsRelative = true };
+
+        var ex = Assert.Throws<ArgumentException>(() =>
+            PathHelper.Combine(options, first, second));
+
+        Assert.Contains("must be a relative path", ex.Message);
+    }
+
+    [Theory]
+    [InlineData(@"C:", 2, false)]  // Drive without separator - drive-relative
+    [InlineData(@"C:\", 3, true)]  // Drive with separator - fully qualified
+    [InlineData(@"C:/", 3, true)]  // Drive with forward slash - fully qualified
+    [InlineData("C", 0, false)]  // Just letter, no colon - NOT a drive, relative path
+    public void GetRootLength_DriveLetterBoundaries_PreciseDetection(string path, int expectedLength, bool expectedFullyQualified)
+    {
+        // Boundary test: precise distinction between drive paths and non-drive paths
+        var length = PathHelper.GetRootLength(path, PathOptions.Windows, out bool isFullyQualified);
+
+        Assert.Equal(expectedLength, length);
+        Assert.Equal(expectedFullyQualified, isFullyQualified);
+    }
+
+    #endregion
+
     #region GetRootLength - Edge Cases
 
     [Theory]
@@ -376,8 +426,8 @@ public partial class PathHelperTests
 
         var windowsPath = @"C:\path";
         bool isFullyQualified;
-        
-        Assert.Throws<ArgumentException>(() => 
+
+        Assert.Throws<ArgumentException>(() =>
             PathHelper.GetRootLength(windowsPath, options, out isFullyQualified));
     }
 

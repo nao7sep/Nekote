@@ -129,6 +129,20 @@ public partial class PathHelperTests
         Assert.Equal(expected, result);
     }
 
+    [Theory]
+    [InlineData(@"\\server\share\folder\..\..\..\..\exploit", @"\\server\share\exploit")]
+    [InlineData(@"C:\Windows\System32\..\..\..\..\..\etc\passwd", @"C:\etc\passwd")]
+    [InlineData("/var/www/html/../../../../../../etc/passwd", "/etc/passwd")]
+    public void NormalizeStructure_ExcessiveParentTraversal_ClampsAtRootBoundary(string input, string expected)
+    {
+        // Security test: multiple .. attempts cannot escape root
+        var options = input.StartsWith(@"\\") || (input.Length >= 2 && input[1] == ':')
+            ? PathOptions.Windows
+            : PathOptions.Default;
+        var result = PathHelper.NormalizeStructure(input, options);
+        Assert.Equal(expected, result);
+    }
+
     #endregion
 
     #region NormalizeStructure - Consecutive Separator Removal
@@ -202,6 +216,16 @@ public partial class PathHelperTests
             : PathOptions.Default;
         var result = PathHelper.NormalizeStructure(input, options);
         Assert.Equal(input, result);
+    }
+
+    [Theory]
+    [InlineData(".", "")]  // Single dot as entire path - removed by normalization
+    [InlineData("..", "..")]  // Single parent dir as entire path - preserved as relative
+    [InlineData("...", "...")]  // Triple dot as filename - valid in most filesystems
+    public void NormalizeStructure_DotOnlyPaths_HandleCorrectly(string input, string expected)
+    {
+        var result = PathHelper.NormalizeStructure(input);
+        Assert.Equal(expected, result);
     }
 
     [Fact]
@@ -331,13 +355,13 @@ public partial class PathHelperTests
     {
         // URL-encoded separators (%2F) should NOT be treated as separators.
         // PathHelper does not decode URIs.
-        
+
         var encoded = "dir1%2F..%2Fdir2/file";
         var result = PathHelper.NormalizeStructure(encoded);
-        
+
         // Should be treated as: "dir1%2F..%2Fdir2" / "file"
         // The first part is a single directory name.
-        
+
         Assert.Equal("dir1%2F..%2Fdir2/file", result);
     }
 
@@ -880,10 +904,10 @@ public partial class PathHelperTests
     public void NormalizeStructure_SneakyTraversal_ClampsCorrectly()
     {
         // Try to trick the normalizer with mixed separators and redundant dots
-        
+
         var sneaky = @"/var/www/html/../../../etc/passwd";
         var result = PathHelper.NormalizeStructure(sneaky);
-        
+
         // Should clamp at root
         Assert.Equal("/etc/passwd", result);
     }

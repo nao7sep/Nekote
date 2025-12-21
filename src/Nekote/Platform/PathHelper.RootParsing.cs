@@ -1014,18 +1014,16 @@ public static partial class PathHelper
     /// <strong>Fully Qualified Determination:</strong>
     /// </para>
     /// <para>
-    /// Whether a path with this root is considered fully qualified depends on the target operating system:
+    /// This method only detects the presence of a root segment. The fully-qualified determination
+    /// is handled by the caller based on the target operating system:
     /// <list type="bullet">
-    /// <item>When <paramref name="options"/>.TargetOperatingSystem is Unix (Linux/MacOS): <c>true</c> (absolute path)</item>
-    /// <item>When <paramref name="options"/>.TargetOperatingSystem is Windows: <c>false</c> (root-relative, depends on current drive)</item>
-    /// <item>When <paramref name="options"/>.TargetOperatingSystem is null: Uses current runtime OS</item>
+    /// <item>On Unix (Linux/MacOS): A single separator indicates a fully qualified absolute path</item>
+    /// <item>On Windows: A single separator indicates a root-relative path (NOT fully qualified, depends on current drive)</item>
     /// </list>
     /// </para>
     /// </remarks>
     /// <param name="path">The path to parse.</param>
-    /// <param name="options">Path options containing target OS for fully-qualified determination.</param>
     /// <param name="length">Receives 1 if the path starts with a separator; otherwise, 0.</param>
-    /// <param name="isFullyQualified">Receives true if the path is fully qualified on the target OS; otherwise, false.</param>
     /// <returns>True if the path starts with a single separator; otherwise, false.</returns>
     private static bool ParseRootSegment(ReadOnlySpan<char> path, out int length)
     {

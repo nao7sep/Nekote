@@ -167,8 +167,8 @@ public record PathOptions
     /// Example: <c>dir1/./dir2/../dir3</c> becomes <c>dir1/dir3</c>
     /// </para>
     /// <para>
-    /// Note: This normalization preserves relative paths. Use <c>CombineToAbsolute</c>
-    /// with <see cref="Path.GetFullPath"/> to convert to absolute paths.
+    /// Note: This normalization preserves relative paths. To convert relative paths to absolute paths,
+    /// use <see cref="Path.GetFullPath"/> after normalization.
     /// </para>
     /// </remarks>
     public required bool NormalizeStructure { get; init; }

@@ -50,7 +50,7 @@ public sealed record LineProcessingOptions
     /// Gets how leading blank lines before the first visible line should be handled.
     /// </summary>
     /// <remarks>
-    /// A blank line is one that is null or contains only whitespace characters.
+    /// A blank line is one that is empty or contains only whitespace characters.
     /// This property is required.
     /// </remarks>
     public required LeadingBlankLineHandling LeadingBlankLineHandling { get; init; }
@@ -59,7 +59,7 @@ public sealed record LineProcessingOptions
     /// Gets how consecutive blank lines between visible content should be handled.
     /// </summary>
     /// <remarks>
-    /// A blank line is one that is null or contains only whitespace characters.
+    /// A blank line is one that is empty or contains only whitespace characters.
     /// This property is required.
     /// </remarks>
     public required InnerBlankLineHandling InnerBlankLineHandling { get; init; }
@@ -68,7 +68,7 @@ public sealed record LineProcessingOptions
     /// Gets how trailing blank lines after the last visible line should be handled.
     /// </summary>
     /// <remarks>
-    /// A blank line is one that is null or contains only whitespace characters.
+    /// A blank line is one that is empty or contains only whitespace characters.
     /// This property is required.
     /// </remarks>
     public required TrailingBlankLineHandling TrailingBlankLineHandling { get; init; }
@@ -107,6 +107,9 @@ public sealed record LineProcessingOptions
         NewLine = Environment.NewLine
     };
 
+    /// <summary>
+    /// Single line processing options: removes all whitespace boundaries and blank lines, joins with spaces.
+    /// </summary>
     /// <remarks>
     /// <para>
     /// This configuration removes all leading/trailing/inner whitespace, removes all blank lines,

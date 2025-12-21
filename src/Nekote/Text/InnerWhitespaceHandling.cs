@@ -12,7 +12,7 @@ public enum InnerWhitespaceHandling
 
     /// <summary>
     /// Collapse consecutive whitespace sequences to a single replacement character or string.
-    /// The replacement value is specified via method parameters.
+    /// The replacement value is specified by the <see cref="LineProcessingOptions.InnerWhitespaceReplacement"/> property.
     /// </summary>
     Collapse,
 

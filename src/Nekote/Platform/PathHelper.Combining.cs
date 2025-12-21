@@ -391,7 +391,9 @@ public static partial class PathHelper
         }
 
         // Determine separator based on target OS
-        char separator = options.TargetOperatingSystem == OperatingSystemType.Windows
+        // When TargetOperatingSystem is null, use the current platform's separator
+        var targetOS = options.TargetOperatingSystem ?? OperatingSystem.Current;
+        char separator = targetOS == OperatingSystemType.Windows
             ? PathSeparators.Windows
             : PathSeparators.Unix;
 

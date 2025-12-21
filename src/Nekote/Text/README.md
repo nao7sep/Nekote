@@ -6,14 +6,14 @@ Provides robust, culture-safe text processing utilities and a high-performance, 
 
 ### Foundational Utilities
 - **TextEncoding.cs** - Cached encoding instances for optimized file operations.
-  - Standardizes the namespace on `Utf8NoBom` to ensure cross-platform compatibility and modern toolchain support.
+  - Provides `Utf8NoBom` (recommended default), `Utf8WithBom`, `Utf16`, and `Utf32` to avoid repeated allocation.
 - **TextEscaper.cs** - Centralized escaping logic for HTML, URL, CSV, and NINI values.
-  - **Invariants**: Delegates to .NET BCL (`WebUtility`, `Uri`) for HTML5 and RFC 3986 compliance; implements custom RFC 4180 logic for CSV.
+  - **Invariants**: Delegates to .NET BCL (`WebUtility`, `Uri`) for HTML and URL compliance; implements custom logic for CSV (RFC 4180) and NiniValue (backslash sequences).
 - **EscapeMode.cs** - Defines the supported escaping strategies.
 - **TypedStringConverter.cs** - Culture-independent translation between strings and .NET types.
   - **Invariants**: Strictly enforces `InvariantCulture` to prevent locale-dependent configuration parsing bugs (e.g., decimal separator issues).
 - **StringValidator.cs** - Security-focused validation for format identifiers.
-  - Rejects ambiguous patterns like leading/trailing whitespace or internal indentation to prevent homograph attacks and parsing drift.
+  - Rejects leading/trailing whitespace and invalid characters (separators, comment markers, section markers) to prevent ambiguity and format conflicts.
 
 ### Structural Parsing
 - **LineParser.cs** - High-performance line splitting and joining.
@@ -35,6 +35,6 @@ Provides robust, culture-safe text processing utilities and a high-performance, 
 - **NiniSectionParser.cs** - Orchestrates paragraph-level parsing into sections.
   - Relationship: Delegates individual paragraph content parsing to `NiniKeyValueParser`.
 - **NiniSectionWriter.cs** - Formats multiple sections into a cohesive document.
-  - **Invariants**: Automatically inserts `# (empty section)` comments to ensure empty sections are preserved during round-trips.
+  - **Invariants**: Inserts `# (empty section)` comments for sections with no keys, enabling round-trip preservation (parse → write → parse yields identical structure).
 - **NiniFile.cs** - The primary high-level interface for configuration management.
   - Relationship: Bridges `NiniSection` models with `TypedStringConverter` to provide the end-user API for typed data access.

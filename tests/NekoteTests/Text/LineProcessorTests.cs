@@ -583,6 +583,34 @@ public class LineProcessorTests
     }
 
     [Fact]
+    public void Process_Minimal_RemovesBlankLines()
+    {
+        var text = "\n\n  Line 1  \n\n  Line 2  \n\n";
+        var result = LineProcessor.Process(text, LineProcessingOptions.Minimal);
+
+        Assert.Equal("Line1Line2", result);
+    }
+
+    [Fact]
+    public void Process_Minimal_RemovesInnerWhitespace()
+    {
+        var text = "Hello   World\nFoo    Bar";
+        var result = LineProcessor.Process(text, LineProcessingOptions.Minimal);
+
+        Assert.Equal("HelloWorldFooBar", result);
+    }
+
+    [Fact]
+    public void Process_Minimal_EmptySeparator()
+    {
+        var text = "Line1\nLine2\nLine3";
+        var result = LineProcessor.Process(text, LineProcessingOptions.Minimal);
+
+        // Should join with empty string (no spaces or newlines)
+        Assert.Equal("Line1Line2Line3", result);
+    }
+
+    [Fact]
     public void ToSingleLine_JoinsWithSpaces()
     {
         var text = "Line 1\nLine 2\nLine 3";
@@ -598,6 +626,33 @@ public class LineProcessorTests
         var result = LineProcessor.ToSingleLine(text);
 
         Assert.Equal("Line 1 Line 2", result);
+    }
+
+    [Fact]
+    public void ToSingleLine_CollapsesInnerWhitespace()
+    {
+        var text = "Hello   World\nFoo    Bar";
+        var result = LineProcessor.ToSingleLine(text);
+
+        Assert.Equal("Hello World Foo Bar", result);
+    }
+
+    [Fact]
+    public void ToSingleLine_RemovesLeadingTrailingWhitespace()
+    {
+        var text = "  Line 1  \n  Line 2  ";
+        var result = LineProcessor.ToSingleLine(text);
+
+        Assert.Equal("Line 1 Line 2", result);
+    }
+
+    [Fact]
+    public void ToSingleLine_ComprehensiveExample()
+    {
+        var text = "\n  Hello   World  \n\n  Foo    Bar  \n";
+        var result = LineProcessor.ToSingleLine(text);
+
+        Assert.Equal("Hello World Foo Bar", result);
     }
 
     #endregion

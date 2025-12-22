@@ -24,7 +24,7 @@ public sealed record LineProcessingOptions
     /// Gets how consecutive whitespace characters within each line should be handled.
     /// </summary>
     /// <remarks>
-    /// When set to <see cref="InnerWhitespaceHandling.Collapse"/>, the replacement character or string
+    /// When set to <see cref="InnerWhitespaceHandling.Collapse"/>, the replacement string
     /// is specified by <see cref="InnerWhitespaceReplacement"/>. This property is required.
     /// </remarks>
     public required InnerWhitespaceHandling InnerWhitespaceHandling { get; init; }

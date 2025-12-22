@@ -197,7 +197,7 @@ NINI uses backslash escaping for special characters in values.
 ```
 Description: This is line one\nThis is line two\nThis is line three
 Path: C:\\Users\\Documents\\file.txt
-Message: He said: \"Hello\"     # Note: quotes don't need escaping
+Message: He said: "Hello"     # Note: quotes don't need escaping
 ```
 
 #### Raw Text Appearance in File

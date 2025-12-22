@@ -14,9 +14,6 @@ Provides robust, culture-safe text processing utilities and a high-performance, 
   - **Invariants**: Strictly enforces `InvariantCulture` to prevent locale-dependent configuration parsing bugs (e.g., decimal separator issues).
 - **StringValidator.cs** - Security-focused validation for format identifiers.
   - Rejects leading/trailing whitespace and invalid characters (separators, comment markers, section markers) to prevent ambiguity and format conflicts.
-- **CharOrString.cs** - Unified representation for single-character or multi-character text values.
-  - Discriminated union struct optimized for the common case of single characters while supporting strings.
-  - Allocation-free (16 bytes), prevents default construction via constructors only accessible through `FromChar`/`FromString` or implicit operators.
 
 ### Structural Parsing
 - **LineParser.cs** - High-performance line splitting and joining.

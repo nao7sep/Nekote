@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Nekote.Text;
 
 namespace Nekote.Tests.Text;
@@ -90,7 +90,7 @@ public class ProcessedLineEnumeratorTests
         {
             LeadingWhitespaceHandling = LeadingWhitespaceHandling.Preserve,
             InnerWhitespaceHandling = InnerWhitespaceHandling.Preserve,
-            InnerWhitespaceReplacement = ' ',
+            InnerWhitespaceReplacement = " ",
             TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
             LeadingBlankLineHandling = LeadingBlankLineHandling.Preserve,
             InnerBlankLineHandling = InnerBlankLineHandling.Preserve,
@@ -119,7 +119,7 @@ public class ProcessedLineEnumeratorTests
         {
             LeadingWhitespaceHandling = LeadingWhitespaceHandling.Preserve,
             InnerWhitespaceHandling = InnerWhitespaceHandling.Preserve,
-            InnerWhitespaceReplacement = ' ',
+            InnerWhitespaceReplacement = " ",
             TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
             LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
             InnerBlankLineHandling = InnerBlankLineHandling.Preserve,
@@ -148,7 +148,7 @@ public class ProcessedLineEnumeratorTests
         {
             LeadingWhitespaceHandling = LeadingWhitespaceHandling.Preserve,
             InnerWhitespaceHandling = InnerWhitespaceHandling.Preserve,
-            InnerWhitespaceReplacement = ' ',
+            InnerWhitespaceReplacement = " ",
             TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
             LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
             InnerBlankLineHandling = InnerBlankLineHandling.Remove,
@@ -176,7 +176,7 @@ public class ProcessedLineEnumeratorTests
         {
             LeadingWhitespaceHandling = LeadingWhitespaceHandling.Remove,
             InnerWhitespaceHandling = InnerWhitespaceHandling.Collapse,
-            InnerWhitespaceReplacement = ' ',
+            InnerWhitespaceReplacement = " ",
             TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
             LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
             InnerBlankLineHandling = InnerBlankLineHandling.Remove,
@@ -204,7 +204,7 @@ public class ProcessedLineEnumeratorTests
         {
             LeadingWhitespaceHandling = LeadingWhitespaceHandling.Remove,
             InnerWhitespaceHandling = InnerWhitespaceHandling.Preserve,
-            InnerWhitespaceReplacement = ' ',
+            InnerWhitespaceReplacement = " ",
             TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
             LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
             InnerBlankLineHandling = InnerBlankLineHandling.Remove,
@@ -267,7 +267,7 @@ public class ProcessedLineEnumeratorTests
         {
             LeadingWhitespaceHandling = LeadingWhitespaceHandling.Preserve,
             InnerWhitespaceHandling = InnerWhitespaceHandling.Preserve,
-            InnerWhitespaceReplacement = ' ',
+            InnerWhitespaceReplacement = " ",
             TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
             LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
             InnerBlankLineHandling = InnerBlankLineHandling.Remove,
@@ -341,7 +341,7 @@ public class ProcessedLineEnumeratorTests
         {
             LeadingWhitespaceHandling = LeadingWhitespaceHandling.Remove,
             InnerWhitespaceHandling = InnerWhitespaceHandling.Collapse,
-            InnerWhitespaceReplacement = ' ',
+            InnerWhitespaceReplacement = " ",
             TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
             LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
             InnerBlankLineHandling = InnerBlankLineHandling.Remove,
@@ -413,7 +413,7 @@ public class ProcessedLineEnumeratorTests
         {
             LeadingWhitespaceHandling = LeadingWhitespaceHandling.Remove,
             InnerWhitespaceHandling = InnerWhitespaceHandling.Remove,
-            InnerWhitespaceReplacement = ' ',
+            InnerWhitespaceReplacement = " ",
             TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
             LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
             InnerBlankLineHandling = InnerBlankLineHandling.Remove,

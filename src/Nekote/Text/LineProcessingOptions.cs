@@ -30,13 +30,14 @@ public sealed record LineProcessingOptions
     public required InnerWhitespaceHandling InnerWhitespaceHandling { get; init; }
 
     /// <summary>
-    /// Gets the replacement character or string to use when collapsing consecutive inner whitespace.
+    /// Gets the replacement string to use when collapsing consecutive inner whitespace.
     /// </summary>
     /// <remarks>
     /// This property is only used when <see cref="InnerWhitespaceHandling"/> is set to <see cref="InnerWhitespaceHandling.Collapse"/>.
+    /// Common values include <c>" "</c> (single space) or <c>""</c> (empty string).
     /// This property is required.
     /// </remarks>
-    public required CharOrString InnerWhitespaceReplacement { get; init; }
+    public required string InnerWhitespaceReplacement { get; init; }
 
     /// <summary>
     /// Gets how trailing whitespace at the end of each line should be handled.
@@ -79,13 +80,14 @@ public sealed record LineProcessingOptions
     /// <remarks>
     /// <para>
     /// Common values include <c>"\n"</c> (Unix), <c>"\r\n"</c> (Windows), or <c>Environment.NewLine</c> (platform-specific).
+    /// Can also be a single space <c>" "</c> or empty string <c>""</c> for joining lines directly.
     /// This property is required.
     /// </para>
     /// <para>
     /// This property is used by <see cref="LineProcessor.Process"/> to reconstruct multi-line text.
     /// </para>
     /// </remarks>
-    public required CharOrString NewLine { get; init; }
+    public required string NewLine { get; init; }
 
     /// <summary>
     /// Default line processing options: preserve line whitespace structure, normalize blank lines.
@@ -99,7 +101,7 @@ public sealed record LineProcessingOptions
     {
         LeadingWhitespaceHandling = LeadingWhitespaceHandling.Preserve,
         InnerWhitespaceHandling = InnerWhitespaceHandling.Preserve,
-        InnerWhitespaceReplacement = ' ',
+        InnerWhitespaceReplacement = " ",
         TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
         LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
         InnerBlankLineHandling = InnerBlankLineHandling.Collapse,
@@ -124,12 +126,12 @@ public sealed record LineProcessingOptions
     {
         LeadingWhitespaceHandling = LeadingWhitespaceHandling.Remove,
         InnerWhitespaceHandling = InnerWhitespaceHandling.Collapse,
-        InnerWhitespaceReplacement = ' ',
+        InnerWhitespaceReplacement = " ",
         TrailingWhitespaceHandling = TrailingWhitespaceHandling.Remove,
         LeadingBlankLineHandling = LeadingBlankLineHandling.Remove,
         InnerBlankLineHandling = InnerBlankLineHandling.Remove,
         TrailingBlankLineHandling = TrailingBlankLineHandling.Remove,
-        NewLine = ' '
+        NewLine = " "
     };
 
     /// <summary>

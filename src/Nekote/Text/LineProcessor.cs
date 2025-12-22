@@ -55,7 +55,7 @@ public class LineProcessor
     /// <param name="text">The text to enumerate lines from.</param>
     /// <returns>A <see cref="LineEnumerator"/> for the specified text.</returns>
     /// <remarks>
-    /// This method treats line breaks as terminators, not separators. 
+    /// This method treats line breaks as terminators, not separators.
     /// A line break followed by the end of the text does not start a new empty line.
     /// For example, "A\n" yields one line ("A"), while "A\n\n" yields two lines ("A", "").
     /// </remarks>
@@ -168,7 +168,7 @@ public class LineProcessor
         }
 
         options ??= LineProcessingOptions.Default;
-        CharOrString separator = options.NewLine;
+        string separator = options.NewLine;
 
         // Use provided result builder or create a new one.
         resultBuilder ??= new StringBuilder(text.Length);
@@ -179,33 +179,15 @@ public class LineProcessor
         var enumerator = EnumerateProcessedLines(text, options, lineBuffer);
         bool first = true;
 
-        if (separator.IsChar)
+        foreach (var line in enumerator)
         {
-            char sep = separator.AsChar();
-            foreach (var line in enumerator)
+            if (!first)
             {
-                if (!first)
-                {
-                    resultBuilder.Append(sep);
-                }
-
-                resultBuilder.Append(line);
-                first = false;
+                resultBuilder.Append(separator);
             }
-        }
-        else
-        {
-            ReadOnlySpan<char> sep = separator.AsSpan();
-            foreach (var line in enumerator)
-            {
-                if (!first)
-                {
-                    resultBuilder.Append(sep);
-                }
 
-                resultBuilder.Append(line);
-                first = false;
-            }
+            resultBuilder.Append(line);
+            first = false;
         }
 
         return resultBuilder.ToString();
@@ -342,48 +324,23 @@ public class LineProcessor
         else if (options.InnerWhitespaceHandling == InnerWhitespaceHandling.Collapse)
         {
             bool pendingWhitespace = false;
+            string replacement = options.InnerWhitespaceReplacement;
 
-            // Split logic for char vs string replacement to avoid checks inside the loop.
-            if (options.InnerWhitespaceReplacement.IsChar)
+            for (int i = firstVisible; i <= lastVisible; i++)
             {
-                char replacement = options.InnerWhitespaceReplacement.AsChar();
-                for (int i = firstVisible; i <= lastVisible; i++)
+                char c = line[i];
+                if (char.IsWhiteSpace(c))
                 {
-                    char c = line[i];
-                    if (char.IsWhiteSpace(c))
-                    {
-                        pendingWhitespace = true;
-                    }
-                    else
-                    {
-                        if (pendingWhitespace)
-                        {
-                            builder.Append(replacement);
-                            pendingWhitespace = false;
-                        }
-                        builder.Append(c);
-                    }
+                    pendingWhitespace = true;
                 }
-            }
-            else
-            {
-                string replacement = options.InnerWhitespaceReplacement.AsString();
-                for (int i = firstVisible; i <= lastVisible; i++)
+                else
                 {
-                    char c = line[i];
-                    if (char.IsWhiteSpace(c))
+                    if (pendingWhitespace)
                     {
-                        pendingWhitespace = true;
+                        builder.Append(replacement);
+                        pendingWhitespace = false;
                     }
-                    else
-                    {
-                        if (pendingWhitespace)
-                        {
-                            builder.Append(replacement);
-                            pendingWhitespace = false;
-                        }
-                        builder.Append(c);
-                    }
+                    builder.Append(c);
                 }
             }
         }

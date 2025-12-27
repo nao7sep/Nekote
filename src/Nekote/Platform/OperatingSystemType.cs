@@ -4,14 +4,11 @@
 /// Represents the type of operating system.
 /// </summary>
 /// <remarks>
-/// <para>
 /// Currently supports Windows, Linux, and MacOS (desktop platforms).
 /// Following YAGNI principles, Nekote starts with desktop platform support.
-/// </para>
-/// <para>
+/// 
 /// Future expansion to mobile platforms (Android, iOS) and browser environments (WebAssembly)
 /// is planned but not yet implemented. Other platforms return <see cref="Unknown"/>.
-/// </para>
 /// </remarks>
 public enum OperatingSystemType
 {

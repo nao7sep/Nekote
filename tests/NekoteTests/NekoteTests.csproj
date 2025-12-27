@@ -10,7 +10,7 @@
     <RootNamespace>Nekote.Tests</RootNamespace>
 
     <!-- Version Information - Keep in sync with Nekote.csproj -->
-    <Version>0.5.0</Version>
+    <Version>0.6.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

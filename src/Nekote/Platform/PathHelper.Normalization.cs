@@ -14,97 +14,68 @@ public static partial class PathHelper
     /// <returns>The path with <c>.</c> and <c>..</c> segments resolved and consecutive separators removed.</returns>
     /// <exception cref="ArgumentException">Thrown when the path root is malformed (e.g., invalid device path or missing UNC server name).</exception>
     /// <remarks>
-    /// <para>
-    /// <strong>Normalization Operations:</strong>
-    /// </para>
-    /// <para>
-    /// 1. <strong>Current Directory (<c>.</c>) Removal:</strong>
-    /// <list type="bullet">
-    /// <item><c>dir/./file</c> → <c>dir/file</c> (single dot is redundant)</item>
-    /// <item><c>./file</c> → <c>file</c> (leading dot removed)</item>
-    /// <item><c>path/.</c> → <c>path</c> (trailing dot removed)</item>
-    /// <item>Pattern matched: <c>/./</c> where both slashes must be present (single trailing dot also matched)</item>
-    /// </list>
-    /// </para>
-    /// <para>
-    /// 2. <strong>Parent Directory (<c>..</c>) Resolution:</strong>
-    /// </para>
-    /// <para>
+    /// Normalization Operations:
+    /// 
+    /// 1. Current Directory (<c>.</c>) Removal:
+    /// - <c>dir/./file</c> → <c>dir/file</c> (single dot is redundant)
+    /// - <c>./file</c> → <c>file</c> (leading dot removed)
+    /// - <c>path/.</c> → <c>path</c> (trailing dot removed)
+    /// - Pattern matched: <c>/./</c> where both slashes must be present (single trailing dot also matched)
+    /// 
+    /// 2. Parent Directory (<c>..</c>) Resolution:
+    /// 
     /// For absolute/rooted paths (clamped at root):
-    /// <list type="bullet">
-    /// <item><c>/usr/../bin</c> → <c>/bin</c> (go up from usr to root, then into bin)</item>
-    /// <item><c>/../../file</c> → <c>/file</c> (can't go above root, extra .. ignored)</item>
-    /// <item><c>C:\Windows\..\Users</c> → <c>C:\Users</c> (same for Windows)</item>
-    /// <item><c>\\server\share\..\other</c> → <c>\\server\other</c> (share is part of root)</item>
-    /// <item><c>\\?\C:\dir\..\file</c> → <c>\\?\C:\file</c> (device paths also clamp)</item>
-    /// </list>
-    /// </para>
-    /// <para>
+    /// - <c>/usr/../bin</c> → <c>/bin</c> (go up from usr to root, then into bin)
+    /// - <c>/../../file</c> → <c>/file</c> (can't go above root, extra .. ignored)
+    /// - <c>C:\Windows\..\Users</c> → <c>C:\Users</c> (same for Windows)
+    /// - <c>\\server\share\..\other</c> → <c>\\server\other</c> (share is part of root)
+    /// - <c>\\?\C:\dir\..\file</c> → <c>\\?\C:\file</c> (device paths also clamp)
+    /// 
     /// For relative paths (preserved):
-    /// <list type="bullet">
-    /// <item><c>dir1/dir2/../file</c> → <c>dir1/file</c> (normal collapse)</item>
-    /// <item><c>../../file</c> → <c>../../file</c> (leading .. preserved, can't resolve without filesystem context)</item>
-    /// <item><c>dir1/../../file</c> → <c>../file</c> (one .. collapses with dir1, other preserved)</item>
-    /// </list>
-    /// </para>
-    /// <para>
-    /// <strong>Security Rationale for Root Clamping:</strong>
-    /// </para>
-    /// <para>
+    /// - <c>dir1/dir2/../file</c> → <c>dir1/file</c> (normal collapse)
+    /// - <c>../../file</c> → <c>../../file</c> (leading .. preserved, can't resolve without filesystem context)
+    /// - <c>dir1/../../file</c> → <c>../file</c> (one .. collapses with dir1, other preserved)
+    /// 
+    /// Security Rationale for Root Clamping:
+    /// 
     /// Absolute paths clamp at root because:
-    /// <list type="bullet">
-    /// <item><c>/../../etc/passwd</c> and <c>/../../../etc/passwd</c> both resolve to <c>/etc/passwd</c> on actual filesystems</item>
-    /// <item>All major OSes (Linux, Windows, macOS) perform this clamping in their kernel/filesystem layer</item>
-    /// <item>Preserving extra <c>..</c> could create false security expectations (path looks safe but isn't)</item>
-    /// <item>No semantic difference between <c>/../file</c> and <c>/file</c> in practice</item>
-    /// </list>
-    /// </para>
-    /// <para>
-    /// 3. <strong>Consecutive Separator Removal:</strong>
-    /// <list type="bullet">
-    /// <item><c>usr//bin</c> → <c>usr/bin</c> (double slash has no special meaning on Windows, same as single)</item>
-    /// <item><c>dir///file</c> → <c>dir/file</c> (any number of consecutive slashes → one)</item>
-    /// <item><c>//server/share</c> → <c>//server/share</c> (UNC preserved - first two slashes are root)</item>
-    /// <item><c>///usr/bin</c> → <c>/usr/bin</c> (invalid Unix triple-slash, normalized to absolute)</item>
-    /// </list>
-    /// </para>
-    /// <para>
-    /// <strong>Algorithm Design (Inspired by .NET's RemoveRelativeSegments):</strong>
-    /// </para>
-    /// <para>
+    /// - <c>/../../etc/passwd</c> and <c>/../../../etc/passwd</c> both resolve to <c>/etc/passwd</c> on actual filesystems
+    /// - All major OSes (Linux, Windows, macOS) perform this clamping in their kernel/filesystem layer
+    /// - Preserving extra <c>..</c> could create false security expectations (path looks safe but isn't)
+    /// - No semantic difference between <c>/../file</c> and <c>/file</c> in practice
+    /// 
+    /// 3. Consecutive Separator Removal:
+    /// - <c>usr//bin</c> → <c>usr/bin</c> (double slash has no special meaning on Windows, same as single)
+    /// - <c>dir///file</c> → <c>dir/file</c> (any number of consecutive slashes → one)
+    /// - <c>//server/share</c> → <c>//server/share</c> (UNC preserved - first two slashes are root)
+    /// - <c>///usr/bin</c> → <c>/usr/bin</c> (invalid Unix triple-slash, normalized to absolute)
+    /// 
+    /// Algorithm Design (Inspired by .NET's RemoveRelativeSegments):
+    /// 
     /// Uses single-pass streaming with lookahead:
-    /// <list type="bullet">
-    /// <item>Extract root using <see cref="GetRootLength"/> (handles device, UNC, drive, absolute)</item>
-    /// <item>Scan for first separator after root to determine separator style (preserve user's choice)</item>
-    /// <item>Stream character-by-character with <see cref="StringBuilder"/>, checking patterns at separators</item>
-    /// <item>Lookahead patterns: <c>//</c> (consecutive), <c>/./</c> (current dir), <c>/../</c> (parent dir)</item>
-    /// <item>For <c>..</c>: unwind StringBuilder to previous separator (efficient in-place modification)</item>
-    /// <item>Root boundary check: <c>isRooted</c> flag determines clamp vs preserve behavior</item>
-    /// </list>
-    /// </para>
-    /// <para>
-    /// <strong>Edge Cases Handled:</strong>
-    /// </para>
-    /// <para>
-    /// <list type="bullet">
-    /// <item><c>C:</c> (drive without separator) - root is 2 chars, normalized as-is</item>
-    /// <item><c>C:path\..\file</c> (drive-relative) - treated as rooted path (rootLength=2, clamps at root like <c>C:file</c>)</item>
-    /// <item><c>\path</c> (root-relative Windows) - root is 1 char, treated as absolute</item>
-    /// <item><c>\\.\Device\..\other</c> - device path, clamps at root (can't escape device namespace)</item>
-    /// <item><c>\\?\UNC\server\share\..\other</c> - device UNC, clamps at <c>\\?\UNC\server\share</c></item>
-    /// <item>Empty path, whitespace-only path - returned unchanged</item>
-    /// <item>Path that is all root (<c>C:\</c>) - returned unchanged</item>
-    /// <item>Trailing separators - preserved if present in final segment</item>
-    /// </list>
-    /// </para>
-    /// <para>
-    /// <strong>Difference from .NET's Path.GetFullPath:</strong>
-    /// </para>
-    /// <para>
+    /// - Extract root using <see cref="GetRootLength"/> (handles device, UNC, drive, absolute)
+    /// - Scan for first separator after root to determine separator style (preserve user's choice)
+    /// - Stream character-by-character with <see cref="StringBuilder"/>, checking patterns at separators
+    /// - Lookahead patterns: <c>//</c> (consecutive), <c>/./</c> (current dir), <c>/../</c> (parent dir)
+    /// - For <c>..</c>: unwind StringBuilder to previous separator (efficient in-place modification)
+    /// - Root boundary check: <c>isRooted</c> flag determines clamp vs preserve behavior
+    /// 
+    /// Edge Cases Handled:
+    /// 
+    /// - <c>C:</c> (drive without separator) - root is 2 chars, normalized as-is
+    /// - <c>C:path\..\file</c> (drive-relative) - treated as rooted path (rootLength=2, clamps at root like <c>C:file</c>)
+    /// - <c>\path</c> (root-relative Windows) - root is 1 char, treated as absolute
+    /// - <c>\\.\Device\..\other</c> - device path, clamps at root (can't escape device namespace)
+    /// - <c>\\?\UNC\server\share\..\other</c> - device UNC, clamps at <c>\\?\UNC\server\share</c>
+    /// - Empty path, whitespace-only path - returned unchanged
+    /// - Path that is all root (<c>C:\</c>) - returned unchanged
+    /// - Trailing separators - preserved if present in final segment
+    /// 
+    /// Difference from .NET's Path.GetFullPath:
+    /// 
     /// <see cref="Path.GetFullPath"/> resolves to absolute path using current directory and drive context.
     /// This method only normalizes structure without filesystem access or current directory resolution.
     /// Example: <c>dir/../file</c> stays relative; <c>GetFullPath</c> would prepend <c>C:\CurrentDir\</c>.
-    /// </para>
     /// </remarks>
     public static string NormalizeStructure(string path, PathOptions? options = null)
     {
@@ -267,12 +238,10 @@ public static partial class PathHelper
     /// <param name="mode">The separator mode to apply.</param>
     /// <returns>The path with separators normalized.</returns>
     /// <remarks>
-    /// <list type="bullet">
-    /// <item><see cref="PathSeparatorMode.Preserve"/> - No changes to separators</item>
-    /// <item><see cref="PathSeparatorMode.Windows"/> - All separators become backslashes (<c>\</c>)</item>
-    /// <item><see cref="PathSeparatorMode.Unix"/> - All separators become forward slashes (<c>/</c>)</item>
-    /// <item><see cref="PathSeparatorMode.Native"/> - All separators become the platform's default separator</item>
-    /// </list>
+    /// - <see cref="PathSeparatorMode.Preserve"/> - No changes to separators
+    /// - <see cref="PathSeparatorMode.Windows"/> - All separators become backslashes (<c>\</c>)
+    /// - <see cref="PathSeparatorMode.Unix"/> - All separators become forward slashes (<c>/</c>)
+    /// - <see cref="PathSeparatorMode.Native"/> - All separators become the platform's default separator
     /// </remarks>
     public static string NormalizeSeparators(string path, PathSeparatorMode mode)
     {
@@ -330,11 +299,9 @@ public static partial class PathHelper
     /// <param name="handling">How to handle trailing separators.</param>
     /// <returns>The path with trailing separator handling applied.</returns>
     /// <remarks>
-    /// <list type="bullet">
-    /// <item><see cref="TrailingSeparatorHandling.Preserve"/> - No changes to trailing separator</item>
-    /// <item><see cref="TrailingSeparatorHandling.Remove"/> - Remove trailing separator if present</item>
-    /// <item><see cref="TrailingSeparatorHandling.Ensure"/> - Ensure trailing separator is present</item>
-    /// </list>
+    /// - <see cref="TrailingSeparatorHandling.Preserve"/> - No changes to trailing separator
+    /// - <see cref="TrailingSeparatorHandling.Remove"/> - Remove trailing separator if present
+    /// - <see cref="TrailingSeparatorHandling.Ensure"/> - Ensure trailing separator is present
     /// </remarks>
     public static string HandleTrailingSeparator(string path, TrailingSeparatorHandling handling)
     {
@@ -364,16 +331,13 @@ public static partial class PathHelper
     /// <param name="path">The path to normalize.</param>
     /// <returns>The path with Unicode characters normalized to NFC form.</returns>
     /// <remarks>
-    /// <para>
     /// This normalization is critical for cross-platform applications, particularly when working with macOS.
     /// macOS file systems store filenames in NFD (decomposed) form, where characters like "café" are stored
     /// as separate base + combining characters (e + ´). This can cause string comparison failures and dictionary
     /// lookup misses when comparing paths across platforms.
-    /// </para>
-    /// <para>
+    /// 
     /// Normalizing to NFC ensures consistent string representation across all platforms, preventing
     /// "file not found" errors when paths are constructed on one platform and used on another.
-    /// </para>
     /// </remarks>
     public static string NormalizeUnicode(string path)
     {

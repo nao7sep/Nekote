@@ -6,21 +6,17 @@ namespace Nekote.Text;
 /// Converts between nullable strings and typed values with culture-safe defaults.
 /// </summary>
 /// <remarks>
-/// <para>
 /// This "wrapper" class exists to enforce InvariantCulture for all conversions.
 /// Configuration files are admin/power-user facing content that must work globally.
-/// </para>
-/// <para>
+/// 
 /// Without InvariantCulture:
 /// - A German user saves "Timeout: 1,5" (decimal comma)
 /// - A US user opens the file and fails to parse "1,5" (expects decimal point)
 /// - The same happens for dates: "14.12.2025" vs "12/14/2025"
-/// </para>
-/// <para>
+/// 
 /// By enforcing InvariantCulture, configuration values remain portable across all locales.
 /// Users editing config files manually must use invariant format (e.g., "1.5" not "1,5").
 /// This is standard practice for .ini, .conf, .properties, and similar files.
-/// </para>
 /// </remarks>
 public static class TypedStringConverter
 {

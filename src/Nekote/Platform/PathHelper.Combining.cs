@@ -350,33 +350,27 @@ public static partial class PathHelper
     /// <param name="segments">Pre-validated, filtered path segments to combine.</param>
     /// <returns>Combined path string with appropriate separators but before normalization.</returns>
     /// <remarks>
-    /// <para>
     /// This method replaces the use of <see cref="Path.Combine(string[])"/> to avoid platform-specific
     /// behavior and mixed-separator issues. Instead of relying on the runtime platform's separator,
     /// we use the separator specified by <see cref="PathOptions.TargetOperatingSystem"/>.
-    /// </para>
-    /// <para>
-    /// <strong>Why not use Path.Combine?</strong>
-    /// </para>
-    /// <list type="bullet">
-    /// <item>Path.Combine uses the runtime platform's separator, which creates mixed-separator paths
-    /// when combining Windows-style paths (C:\base) on Unix (/), resulting in "C:\base/dir/file".</item>
-    /// <item>These mixed-separator intermediate paths fail validation in GetRootLength when checking
-    /// for Windows-specific syntax on non-Windows platforms.</item>
-    /// <item>By using the target OS separator from the start, we avoid creating invalid intermediate
-    /// paths and provide predictable cross-platform behavior.</item>
-    /// </list>
-    /// <para>
-    /// <strong>Security Note:</strong> Unlike Path.Combine, this method does NOT restart on rooted segments.
+    /// 
+    /// Why not use Path.Combine?
+    /// 
+    /// - Path.Combine uses the runtime platform's separator, which creates mixed-separator paths
+    /// when combining Windows-style paths (C:\base) on Unix (/), resulting in "C:\base/dir/file".
+    /// - These mixed-separator intermediate paths fail validation in GetRootLength when checking
+    /// for Windows-specific syntax on non-Windows platforms.
+    /// - By using the target OS separator from the start, we avoid creating invalid intermediate
+    /// paths and provide predictable cross-platform behavior.
+    /// 
+    /// Security Note: Unlike Path.Combine, this method does NOT restart on rooted segments.
     /// Path.Combine's behavior of discarding previous segments when encountering an absolute path is a
     /// security risk (path traversal attack vector). Instead, we rely on <see cref="PathOptions.ValidateSubsequentPathsRelative"/>
     /// to explicitly reject rooted subsequent segments when security is required. If validation is disabled,
     /// segments are concatenated as-is, making the behavior explicit rather than silent.
-    /// </para>
-    /// <para>
-    /// <strong>Implementation:</strong> Simply joins segments with the appropriate separator character.
+    /// 
+    /// Implementation: Simply joins segments with the appropriate separator character.
     /// Structure normalization (handling .., ., etc.) is handled by <see cref="ApplyNormalization"/>.
-    /// </para>
     /// </remarks>
     private static string CombineInternal(PathOptions options, List<string> segments)
     {

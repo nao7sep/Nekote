@@ -218,24 +218,19 @@ public class LineProcessor
     /// <param name="builder">A StringBuilder used for constructing the result when modifications are necessary.</param>
     /// <returns>A span representing the processed line. This may be a slice of the original line or a new string.</returns>
     /// <remarks>
-    /// <para>
     /// This is a low-level method. For high-level processing, use <see cref="Process"/> or <see cref="EnumerateProcessedLines"/>.
     /// As a low-level method, it requires explicit options and does not provide convenience defaulting to <see cref="LineProcessingOptions.Default"/>.
-    /// </para>
-    /// <para>
+    /// 
     /// This method is optimized for the most common scenarios:
-    /// <list type="bullet">
-    /// <item>Trailing whitespace is checked first as it is significantly more frequently trimmed than indentation.</item>
-    /// <item>If <see cref="LeadingWhitespaceHandling"/> and <see cref="InnerWhitespaceHandling"/> are both
+    /// 
+    /// - Trailing whitespace is checked first as it is significantly more frequently trimmed than indentation.
+    /// - If <see cref="LeadingWhitespaceHandling"/> and <see cref="InnerWhitespaceHandling"/> are both
     /// <see cref="LeadingWhitespaceHandling.Preserve"/>, the method returns a slice of the original span,
-    /// avoiding allocations regardless of <see cref="TrailingWhitespaceHandling"/>.</item>
-    /// </list>
-    /// </para>
-    /// <para>
+    /// avoiding allocations regardless of <see cref="TrailingWhitespaceHandling"/>.
+    /// 
     /// If inner whitespace requires modification (collapse or remove) and the region between visible characters
     /// contains whitespace, the method will use the provided <paramref name="builder"/> to construct a new string
     /// and return a span pointing to that string. The returned span remains valid as long as the string is referenced.
-    /// </para>
     /// </remarks>
     public static ReadOnlySpan<char> ProcessLine(ReadOnlySpan<char> line, LineProcessingOptions options, StringBuilder builder)
     {
@@ -363,15 +358,12 @@ public class LineProcessor
     /// <param name="trailingBlankLines">When this method returns, contains the span of trailing blank lines.</param>
     /// <returns><c>true</c> if at least one visible character is found; otherwise, <c>false</c>.</returns>
     /// <remarks>
-    /// <para>
     /// If the text is empty, all output spans are empty, and the method returns <c>false</c>.
-    /// </para>
-    /// <para>
+    /// 
     /// If the text contains only whitespace, it is considered to have no visible content. In this case,
     /// <paramref name="leadingBlankLines"/> will contain the entire text, and the other outputs will be empty.
     /// This fallback behavior ensures that "lines before visible content" (leading) captures the structure
     /// even when "lines after visible content" (trailing) cannot exist.
-    /// </para>
     /// </remarks>
     public static bool SplitIntoSections(ReadOnlySpan<char> text, out ReadOnlySpan<char> leadingBlankLines, out ReadOnlySpan<char> content, out ReadOnlySpan<char> trailingBlankLines)
     {

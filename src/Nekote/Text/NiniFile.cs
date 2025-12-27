@@ -6,21 +6,17 @@ namespace Nekote.Text;
 /// Represents a NINI file with typed value access.
 /// </summary>
 /// <remarks>
-/// <para>
 /// A line-based text format organizing key-value pairs into named sections.
 /// Uses key:value syntax (not key=value), supports [section] or @section markers,
 /// and includes #, //, and ; style comments. Not a full INI parser - this is a
 /// simplified format designed for clarity and culture-safe portable configuration.
-/// </para>
-/// <para>
+/// 
 /// Example usage:
-/// <code>
+/// 
 /// var file = NiniFile.Load("config.txt");
 /// int port = file.GetInt32("Database", "Port", defaultValue: 5432);
 /// file.SetValue("Database", "Host", "localhost");
 /// file.Save("config.txt");
-/// </code>
-/// </para>
 /// </remarks>
 public class NiniFile
 {

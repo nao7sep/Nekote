@@ -6,16 +6,13 @@ namespace Nekote.Text;
 /// Provides commonly used text encodings for file operations.
 /// </summary>
 /// <remarks>
-/// <para>
 /// This utility provides cached encoding instances to avoid repeated allocation.
 /// UTF-8 without BOM is the recommended default for cross-platform text files.
-/// </para>
-/// <para>
+/// 
 /// BOM (Byte Order Mark) considerations:
 /// - UTF-8 with BOM can cause issues with Unix tools, shebangs, and some parsers
 /// - UTF-8 without BOM is the standard for configuration files, source code, and cross-platform text
 /// - UTF-16/UTF-32 require BOM for proper detection
-/// </para>
 /// </remarks>
 public static class TextEncoding
 {

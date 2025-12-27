@@ -78,14 +78,11 @@ public sealed record LineProcessingOptions
     /// Gets the line separator to use when joining lines back into a single text.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// Common values include <c>"\n"</c> (Unix), <c>"\r\n"</c> (Windows), or <c>Environment.NewLine</c> (platform-specific).
     /// Can also be a single space <c>" "</c> or empty string <c>""</c> for joining lines directly.
     /// This property is required.
-    /// </para>
-    /// <para>
+    /// 
     /// This property is used by <see cref="LineProcessor.Process"/> to reconstruct multi-line text.
-    /// </para>
     /// </remarks>
     public required string NewLine { get; init; }
 
@@ -113,14 +110,11 @@ public sealed record LineProcessingOptions
     /// Single line processing options: removes all whitespace boundaries and blank lines, joins with spaces.
     /// </summary>
     /// <remarks>
-    /// <para>
     /// This configuration removes all leading/trailing/inner whitespace, removes all blank lines,
     /// and sets the line separator to a single space.
-    /// </para>
-    /// <para>
+    /// 
     /// This is designed to be used with <see cref="LineProcessor.ToSingleLine(ReadOnlySpan{char}, System.Text.StringBuilder?, System.Text.StringBuilder?)"/>
     /// to produce a clean, single-line representation of the input text where logical breaks are replaced by spaces.
-    /// </para>
     /// </remarks>
     public static readonly LineProcessingOptions SingleLine = new()
     {

@@ -6,17 +6,18 @@
 public enum InnerWhitespaceHandling
 {
     /// <summary>
-    /// Preserve consecutive whitespace as-is.
+    /// Preserve all whitespace characters as-is, including consecutive whitespace sequences.
     /// </summary>
     Preserve,
 
     /// <summary>
-    /// Collapse consecutive whitespace to a single replacement character (see <see cref="LineProcessingOptions.InnerWhitespaceReplacement"/>).
+    /// Collapse consecutive whitespace sequences to a single replacement character or string.
+    /// The replacement value is specified by the <see cref="LineProcessingOptions.InnerWhitespaceReplacement"/> property.
     /// </summary>
     Collapse,
 
     /// <summary>
-    /// Remove all inner whitespace.
+    /// Remove all inner whitespace characters entirely.
     /// </summary>
     Remove
 }

@@ -7,13 +7,9 @@ public static partial class PathHelper
     #region Path Combining
 
     /// <summary>
-    /// Combines two or more path segments into a normalized path.
+    /// Combines two path segments into a normalized path.
     /// </summary>
-    /// <remarks>
-    /// The <c>options</c> parameter controls filtering, validation, and normalization behavior.
-    /// If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.
-    /// </remarks>
-    /// <param name="options">Path options (filtering, validation, normalization). If <c>null</c>, uses <see cref="PathOptions.Default"/>.</param>
+    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="path1">The first path segment.</param>
     /// <param name="path2">The second path segment.</param>
     /// <returns>A normalized path.</returns>
@@ -25,8 +21,14 @@ public static partial class PathHelper
         return ApplyNormalization(options, combined);
     }
 
-    /// <inheritdoc cref="Combine(PathOptions?, string?, string?)"/>
+    /// <summary>
+    /// Combines three path segments into a normalized path.
+    /// </summary>
+    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
     /// <param name="path3">The third path segment.</param>
+    /// <returns>A normalized path.</returns>
     public static string Combine(PathOptions? options, string? path1, string? path2, string? path3)
     {
         options ??= PathOptions.Default;
@@ -35,9 +37,15 @@ public static partial class PathHelper
         return ApplyNormalization(options, combined);
     }
 
-    /// <inheritdoc cref="Combine(PathOptions?, string?, string?)"/>
+    /// <summary>
+    /// Combines four path segments into a normalized path.
+    /// </summary>
+    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
     /// <param name="path3">The third path segment.</param>
     /// <param name="path4">The fourth path segment.</param>
+    /// <returns>A normalized path.</returns>
     public static string Combine(PathOptions? options, string? path1, string? path2, string? path3, string? path4)
     {
         options ??= PathOptions.Default;
@@ -49,11 +57,7 @@ public static partial class PathHelper
     /// <summary>
     /// Combines any number of path segments into a normalized path.
     /// </summary>
-    /// <remarks>
-    /// The <c>options</c> parameter controls filtering, validation, and normalization behavior.
-    /// If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.
-    /// </remarks>
-    /// <param name="options">Path options (filtering, validation, normalization). If <c>null</c>, uses <see cref="PathOptions.Default"/>.</param>
+    /// <param name="options">The path options controlling filtering, validation, and normalization behavior. If <c>null</c>, defaults to <see cref="PathOptions.Default"/>.</param>
     /// <param name="paths">Path segments to combine.</param>
     /// <returns>A normalized path.</returns>
     public static string Combine(PathOptions? options, params string?[] paths)
@@ -69,68 +73,152 @@ public static partial class PathHelper
     #region Convenience Overloads
 
     /// <summary>
-    /// Combines path segments using native platform separators.
+    /// Combines two path segments using native platform separators.
     /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <returns>A normalized path with native platform separators.</returns>
     /// <remarks>
-    /// Convenience wrapper around <see cref="Combine(PathOptions?, string?[])"/> with <see cref="PathOptions.Native"/>.
-    /// Overloads support 2, 3, 4, or any number of segments.
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?)"/> with <see cref="PathOptions.Native"/>.
     /// </remarks>
     public static string CombineNative(string? path1, string? path2)
         => Combine(PathOptions.Native, path1, path2);
 
-    /// <inheritdoc cref="CombineNative(string?, string?)"/>
+    /// <summary>
+    /// Combines three path segments using native platform separators.
+    /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <param name="path3">The third path segment.</param>
+    /// <returns>A normalized path with native platform separators.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?, string?)"/> with <see cref="PathOptions.Native"/>.
+    /// </remarks>
     public static string CombineNative(string? path1, string? path2, string? path3)
         => Combine(PathOptions.Native, path1, path2, path3);
 
-    /// <inheritdoc cref="CombineNative(string?, string?)"/>
+    /// <summary>
+    /// Combines four path segments using native platform separators.
+    /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <param name="path3">The third path segment.</param>
+    /// <param name="path4">The fourth path segment.</param>
+    /// <returns>A normalized path with native platform separators.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?, string?, string?)"/> with <see cref="PathOptions.Native"/>.
+    /// </remarks>
     public static string CombineNative(string? path1, string? path2, string? path3, string? path4)
         => Combine(PathOptions.Native, path1, path2, path3, path4);
 
-    /// <inheritdoc cref="CombineNative(string?, string?)"/>
+    /// <summary>
+    /// Combines any number of path segments using native platform separators.
+    /// </summary>
+    /// <param name="paths">Path segments to combine.</param>
+    /// <returns>A normalized path with native platform separators.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?[])"/> with <see cref="PathOptions.Native"/>.
+    /// </remarks>
     public static string CombineNative(params string?[] paths)
         => Combine(PathOptions.Native, paths);
 
     /// <summary>
-    /// Combines path segments using Windows-style separators (backslashes).
+    /// Combines two path segments using Windows-style separators (backslashes).
     /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <returns>A normalized path with Windows-style separators.</returns>
     /// <remarks>
-    /// Convenience wrapper around <see cref="Combine(PathOptions?, string?[])"/> with <see cref="PathOptions.Windows"/>.
-    /// Overloads support 2, 3, 4, or any number of segments.
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?)"/> with <see cref="PathOptions.Windows"/>.
     /// </remarks>
     public static string CombineWindows(string? path1, string? path2)
         => Combine(PathOptions.Windows, path1, path2);
 
-    /// <inheritdoc cref="CombineWindows(string?, string?)"/>
+    /// <summary>
+    /// Combines three path segments using Windows-style separators (backslashes).
+    /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <param name="path3">The third path segment.</param>
+    /// <returns>A normalized path with Windows-style separators.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?, string?)"/> with <see cref="PathOptions.Windows"/>.
+    /// </remarks>
     public static string CombineWindows(string? path1, string? path2, string? path3)
         => Combine(PathOptions.Windows, path1, path2, path3);
 
-    /// <inheritdoc cref="CombineWindows(string?, string?)"/>
+    /// <summary>
+    /// Combines four path segments using Windows-style separators (backslashes).
+    /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <param name="path3">The third path segment.</param>
+    /// <param name="path4">The fourth path segment.</param>
+    /// <returns>A normalized path with Windows-style separators.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?, string?, string?)"/> with <see cref="PathOptions.Windows"/>.
+    /// </remarks>
     public static string CombineWindows(string? path1, string? path2, string? path3, string? path4)
         => Combine(PathOptions.Windows, path1, path2, path3, path4);
 
-    /// <inheritdoc cref="CombineWindows(string?, string?)"/>
+    /// <summary>
+    /// Combines any number of path segments using Windows-style separators (backslashes).
+    /// </summary>
+    /// <param name="paths">Path segments to combine.</param>
+    /// <returns>A normalized path with Windows-style separators.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?[])"/> with <see cref="PathOptions.Windows"/>.
+    /// </remarks>
     public static string CombineWindows(params string?[] paths)
         => Combine(PathOptions.Windows, paths);
 
     /// <summary>
-    /// Combines path segments using Unix-style separators (forward slashes).
+    /// Combines two path segments using Unix-style separators (forward slashes).
     /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <returns>A normalized path with Unix-style separators.</returns>
     /// <remarks>
-    /// Convenience wrapper around <see cref="Combine(PathOptions?, string?[])"/> with <see cref="PathOptions.Unix"/>.
-    /// Overloads support 2, 3, 4, or any number of segments.
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?)"/> with <see cref="PathOptions.Unix"/>.
     /// </remarks>
     public static string CombineUnix(string? path1, string? path2)
         => Combine(PathOptions.Unix, path1, path2);
 
-    /// <inheritdoc cref="CombineUnix(string?, string?)"/>
+    /// <summary>
+    /// Combines three path segments using Unix-style separators (forward slashes).
+    /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <param name="path3">The third path segment.</param>
+    /// <returns>A normalized path with Unix-style separators.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?, string?)"/> with <see cref="PathOptions.Unix"/>.
+    /// </remarks>
     public static string CombineUnix(string? path1, string? path2, string? path3)
         => Combine(PathOptions.Unix, path1, path2, path3);
 
-    /// <inheritdoc cref="CombineUnix(string?, string?)"/>
+    /// <summary>
+    /// Combines four path segments using Unix-style separators (forward slashes).
+    /// </summary>
+    /// <param name="path1">The first path segment.</param>
+    /// <param name="path2">The second path segment.</param>
+    /// <param name="path3">The third path segment.</param>
+    /// <param name="path4">The fourth path segment.</param>
+    /// <returns>A normalized path with Unix-style separators.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?, string?, string?, string?)"/> with <see cref="PathOptions.Unix"/>.
+    /// </remarks>
     public static string CombineUnix(string? path1, string? path2, string? path3, string? path4)
         => Combine(PathOptions.Unix, path1, path2, path3, path4);
 
-    /// <inheritdoc cref="CombineUnix(string?, string?)"/>
+    /// <summary>
+    /// Combines any number of path segments using Unix-style separators (forward slashes).
+    /// </summary>
+    /// <param name="paths">Path segments to combine.</param>
+    /// <returns>A normalized path with Unix-style separators.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="Combine(PathOptions?, string?[])"/> with <see cref="PathOptions.Unix"/>.
+    /// </remarks>
     public static string CombineUnix(params string?[] paths)
         => Combine(PathOptions.Unix, paths);
 

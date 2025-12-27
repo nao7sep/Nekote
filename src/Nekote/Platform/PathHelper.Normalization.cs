@@ -216,10 +216,12 @@ public static partial class PathHelper
     #region Separator Normalization
 
     /// <summary>
-    /// Converts path separators to Unix-style forward slashes, Windows-style backslashes, or the native platform separator.
+    /// Converts all path separators in the specified path to Unix-style forward slashes (<c>/</c>).
     /// </summary>
+    /// <param name="path">The path to convert.</param>
+    /// <returns>The path with all backslashes replaced by forward slashes.</returns>
     /// <remarks>
-    /// Convenience wrappers around <see cref="NormalizeSeparators"/> with predefined modes.
+    /// This is a convenience wrapper around <see cref="NormalizeSeparators"/> with <see cref="PathSeparatorMode.Unix"/>.
     /// </remarks>
     public static string ToUnixPath(string path)
     {
@@ -227,14 +229,31 @@ public static partial class PathHelper
         return NormalizeSeparators(path, PathSeparatorMode.Unix);
     }
 
-    /// <inheritdoc cref="ToUnixPath"/>
+    /// <summary>
+    /// Converts all path separators in the specified path to Windows-style backslashes (<c>\</c>).
+    /// </summary>
+    /// <param name="path">The path to convert.</param>
+    /// <returns>The path with all forward slashes replaced by backslashes.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="NormalizeSeparators"/> with <see cref="PathSeparatorMode.Windows"/>.
+    /// </remarks>
     public static string ToWindowsPath(string path)
     {
         ArgumentNullException.ThrowIfNull(path);
         return NormalizeSeparators(path, PathSeparatorMode.Windows);
     }
 
-    /// <inheritdoc cref="ToUnixPath"/>
+    /// <summary>
+    /// Converts all path separators in the specified path to the native separator for the current platform.
+    /// </summary>
+    /// <param name="path">The path to convert.</param>
+    /// <returns>
+    /// On Windows, returns the path with forward slashes replaced by backslashes.
+    /// On Unix-like systems, returns the path with backslashes replaced by forward slashes.
+    /// </returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="NormalizeSeparators"/> with <see cref="PathSeparatorMode.Native"/>.
+    /// </remarks>
     public static string ToNativePath(string path)
     {
         ArgumentNullException.ThrowIfNull(path);
@@ -276,10 +295,13 @@ public static partial class PathHelper
     #region Trailing Separator Normalization
 
     /// <summary>
-    /// Ensures a trailing path separator or removes it as specified.
+    /// Ensures the path has a trailing separator.
     /// </summary>
+    /// <param name="path">The path to process.</param>
+    /// <returns>The path with a trailing separator added if not already present.</returns>
     /// <remarks>
-    /// Convenience wrappers around <see cref="HandleTrailingSeparator"/> with predefined modes.
+    /// This is a convenience wrapper around <see cref="HandleTrailingSeparator"/> with <see cref="TrailingSeparatorHandling.Ensure"/>.
+    /// The native platform separator is used when adding a trailing separator.
     /// </remarks>
     public static string EnsureTrailingSeparator(string path)
     {
@@ -287,7 +309,14 @@ public static partial class PathHelper
         return HandleTrailingSeparator(path, TrailingSeparatorHandling.Ensure);
     }
 
-    /// <inheritdoc cref="EnsureTrailingSeparator"/>
+    /// <summary>
+    /// Removes the trailing separator from the path if present.
+    /// </summary>
+    /// <param name="path">The path to process.</param>
+    /// <returns>The path with any trailing separator removed.</returns>
+    /// <remarks>
+    /// This is a convenience wrapper around <see cref="HandleTrailingSeparator"/> with <see cref="TrailingSeparatorHandling.Remove"/>.
+    /// </remarks>
     public static string RemoveTrailingSeparator(string path)
     {
         ArgumentNullException.ThrowIfNull(path);

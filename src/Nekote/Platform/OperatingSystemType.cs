@@ -15,10 +15,19 @@
 /// </remarks>
 public enum OperatingSystemType
 {
+    /// <summary>
+    /// Windows operating system.
+    /// </summary>
     Windows,
 
+    /// <summary>
+    /// Linux operating system.
+    /// </summary>
     Linux,
 
+    /// <summary>
+    /// macOS (Apple desktop/laptop operating system).
+    /// </summary>
     MacOS,
 
     /// <summary>

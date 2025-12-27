@@ -5,9 +5,13 @@
 /// </summary>
 public enum LeadingWhitespaceHandling
 {
-    /// <summary>Preserve leading whitespace.</summary>
+    /// <summary>
+    /// Preserve all leading whitespace characters as-is.
+    /// </summary>
     Preserve,
 
-    /// <summary>Remove leading whitespace.</summary>
+    /// <summary>
+    /// Remove all leading whitespace characters.
+    /// </summary>
     Remove
 }

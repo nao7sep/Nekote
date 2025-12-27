@@ -6,17 +6,17 @@ namespace Nekote.Text;
 public record NiniSection
 {
     /// <summary>
-    /// If None, this section has no explicit marker.
+    /// The marker style used for this section. If None, this section has no explicit marker.
     /// </summary>
     public required NiniSectionMarkerStyle Marker { get; init; }
 
     /// <summary>
-    /// Empty string when Marker is None (unmarked key-value pairs).
+    /// The section name. Empty string when Marker is None (unmarked key-value pairs).
     /// </summary>
     public required string Name { get; init; }
 
     /// <summary>
-    /// Empty dictionary if section has no content.
+    /// The key-value pairs in this section. Empty dictionary if section has no content.
     /// </summary>
     public required Dictionary<string, string> KeyValues { get; init; }
 }

@@ -529,7 +529,10 @@ public static partial class PathHelper
     /// No default value is provided - callers must explicitly choose based on context.</param>
     /// <param name="length">Receives the length of the segment (and separator if present).</param>
     /// <returns>True if a valid non-empty segment was found; otherwise, false.</returns>
-    private static bool ParseDelimitedSegment(ReadOnlySpan<char> path, bool requireDelimiter, out int length)
+    private static bool ParseDelimitedSegment(
+        ReadOnlySpan<char> path,
+        bool requireDelimiter,
+        out int length)
     {
         length = 0;
 

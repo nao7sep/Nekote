@@ -5,13 +5,19 @@ namespace Nekote.Text;
 /// </summary>
 public enum NiniSectionMarkerStyle
 {
-    /// <summary>No section marker.</summary>
+    /// <summary>
+    /// No section marker - paragraph contains only key-value pairs.
+    /// </summary>
     None,
 
-    /// <summary>INI-style brackets: [SectionName]</summary>
+    /// <summary>
+    /// INI-style brackets: [SectionName]
+    /// </summary>
     IniBrackets,
 
-    /// <summary>At-prefix style: @SectionName</summary>
+    /// <summary>
+    /// At-prefix style: @SectionName
+    /// </summary>
     AtPrefix
 }
 

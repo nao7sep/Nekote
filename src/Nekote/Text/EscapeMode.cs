@@ -5,15 +5,25 @@
 /// </summary>
 public enum EscapeMode
 {
-    /// <summary>NINI escaping: line breaks become \n, backslashes become \\.</summary>
+    /// <summary>
+    /// NINI value escaping. Line breaks become literal \n, backslashes become \\.
+    /// Used for embedding multi-line text in NINI format values.
+    /// </summary>
     NiniValue,
 
-    /// <summary>CSV escaping per RFC 4180: quoted values with doubled quotes.</summary>
+    /// <summary>
+    /// CSV format escaping following RFC 4180. Values containing commas, quotes, or line breaks
+    /// are wrapped in quotes with internal quotes doubled.
+    /// </summary>
     Csv,
 
-    /// <summary>URL percent encoding: special characters as %XX hex.</summary>
+    /// <summary>
+    /// URL percent encoding. Encodes special characters as %XX hex values. Spaces may become + or %20.
+    /// </summary>
     Url,
 
-    /// <summary>HTML entity encoding: special characters as HTML entities.</summary>
+    /// <summary>
+    /// HTML entity encoding. Converts special characters to HTML entities like &amp;, &lt;, &gt;, &quot;, etc.
+    /// </summary>
     Html
 }

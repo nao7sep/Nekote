@@ -34,28 +34,94 @@ namespace Nekote.Text;
 /// </remarks>
 public sealed record NiniOptions
 {
-    /// <summary>Key-value separator when parsing (e.g., <c>':'</c> for NINI, <c>'='</c> for INI).</summary>
+    // ===== Parsing Settings =====
+    // Control how input text is interpreted
+
+    /// <summary>
+    /// Gets the separator character used when parsing key-value pairs.
+    /// </summary>
+    /// <remarks>
+    /// This character splits lines into key and value parts when reading input.
+    /// Keys cannot contain this character. Common values: <c>':'</c> (NINI), <c>'='</c> (INI).
+    /// This property is required.
+    /// </remarks>
     public required char SeparatorChar { get; init; }
 
+    /// <summary>
+    /// Gets the string comparer for section names.
+    /// </summary>
+    /// <remarks>
+    /// Used for section name dictionaries and equality comparisons when looking up sections.
+    /// This property is required.
+    /// </remarks>
     public required StringComparer SectionNameComparer { get; init; }
 
+    /// <summary>
+    /// Gets the string comparer for key names.
+    /// </summary>
+    /// <remarks>
+    /// Used for key name dictionaries and equality comparisons when looking up keys.
+    /// This property is required.
+    /// </remarks>
     public required StringComparer KeyComparer { get; init; }
 
-    /// <summary>Key-value separator in output (e.g., <c>": "</c>, <c>":"</c>, or <c>"="</c>).</summary>
+    // ===== Output Formatting =====
+    // Control how output text is generated
+
+    /// <summary>
+    /// Gets the separator string used when writing key-value pairs.
+    /// </summary>
+    /// <remarks>
+    /// This string appears between keys and values in generated output.
+    /// Common values: <c>": "</c> (NINI), <c>":"</c> (taskKiller), <c>"="</c> (INI).
+    /// This property is required.
+    /// </remarks>
     public required string OutputSeparator { get; init; }
 
-    /// <summary>Section marker style for output.</summary>
+    /// <summary>
+    /// Gets the section marker style used when writing files.
+    /// </summary>
+    /// <remarks>
+    /// Choose <c>AtPrefix</c> for @Section or <c>IniBrackets</c> for [Section] style.
+    /// This property is required.
+    /// </remarks>
     public required NiniSectionMarkerStyle MarkerStyle { get; init; }
 
-    /// <summary>Line ending for output (e.g., <c>"\r\n"</c> or <c>"\n"</c>).</summary>
+    /// <summary>
+    /// Gets the newline sequence used when writing files.
+    /// </summary>
+    /// <remarks>
+    /// Common values: <c>"\r\n"</c> (Windows), <c>"\n"</c> (Unix/Linux/macOS).
+    /// This property is required.
+    /// </remarks>
     public required string NewLine { get; init; }
 
-    /// <summary>Sort keys alphabetically when writing.</summary>
+    /// <summary>
+    /// Gets whether to sort keys alphabetically when writing.
+    /// </summary>
+    /// <remarks>
+    /// This property is required.
+    /// </remarks>
     public required bool SortKeys { get; init; }
 
-    /// <summary>Sort section names alphabetically when writing (preamble always first).</summary>
+    /// <summary>
+    /// Gets whether to sort section names alphabetically when writing.
+    /// </summary>
+    /// <remarks>
+    /// The preamble (unnamed section) is always written first regardless of this setting.
+    /// This property is required.
+    /// </remarks>
     public required bool SortSections { get; init; }
 
+    // ===== File I/O Settings =====
+    // Control file reading and writing behavior
+
+    /// <summary>
+    /// Gets the text encoding used for file I/O operations.
+    /// </summary>
+    /// <remarks>
+    /// This property is required.
+    /// </remarks>
     public required Encoding Encoding { get; init; }
 
     // ===== Predefined Instances =====

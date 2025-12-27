@@ -58,6 +58,10 @@ public static class TextEscaper
         };
     }
 
+    /// <summary>
+    /// Escapes text for NINI value format. Line breaks become literal \n, backslashes become \\,
+    /// carriage returns become \r, and tabs become \t.
+    /// </summary>
     private static string EscapeNiniValue(string text)
     {
         var result = new StringBuilder(text.Length + 16);
@@ -87,6 +91,10 @@ public static class TextEscaper
         return result.ToString();
     }
 
+    /// <summary>
+    /// Unescapes text from NINI value format. Literal \n becomes line breaks, \\ becomes backslash,
+    /// \r becomes carriage return, and \t becomes tab.
+    /// </summary>
     private static string UnescapeNiniValue(string escapedText)
     {
         var result = new StringBuilder(escapedText.Length);
@@ -132,6 +140,10 @@ public static class TextEscaper
         return result.ToString();
     }
 
+    /// <summary>
+    /// Escapes text for CSV format following RFC 4180. Values containing commas, double quotes, or line breaks
+    /// are wrapped in double quotes with internal quotes doubled.
+    /// </summary>
     private static string EscapeCsv(string text)
     {
         // Check if escaping is needed
@@ -156,6 +168,9 @@ public static class TextEscaper
         return result.ToString();
     }
 
+    /// <summary>
+    /// Unescapes text from CSV format. Removes surrounding quotes and converts doubled quotes back to single quotes.
+    /// </summary>
     private static string UnescapeCsv(string escapedText)
     {
         // Check if text is quoted
@@ -183,6 +198,13 @@ public static class TextEscaper
         return result.ToString();
     }
 
+    /// <summary>
+    /// Escapes text for URL query strings using percent encoding. 
+    /// </summary>
+    /// <remarks>
+    /// Uses <see cref="Uri.EscapeDataString"/> to ensure full compliance with RFC 3986.
+    /// Properly handles surrogate pairs and international characters by encoding them to UTF-8 before percent-encoding.
+    /// </remarks>
     private static string EscapeUrl(string text)
     {
         // Built-in Uri.EscapeDataString is highly optimized and handles RFC 3986 correctly,
@@ -190,6 +212,13 @@ public static class TextEscaper
         return Uri.EscapeDataString(text);
     }
 
+    /// <summary>
+    /// Unescapes text from URL percent encoding.
+    /// </summary>
+    /// <remarks>
+    /// Uses <see cref="Uri.UnescapeDataString"/> to convert %XX sequences back to their original characters.
+    /// Handles UTF-8 encoded sequences and edge cases where % might be literal or incomplete.
+    /// </remarks>
     private static string UnescapeUrl(string escapedText)
     {
         // Built-in Uri.UnescapeDataString is more robust than manual parsing,
@@ -197,12 +226,26 @@ public static class TextEscaper
         return Uri.UnescapeDataString(escapedText);
     }
 
+    /// <summary>
+    /// Escapes text for HTML by converting special characters to HTML entities.
+    /// </summary>
+    /// <remarks>
+    /// Uses <see cref="WebUtility.HtmlEncode"/> to ensure compliance with HTML5 specification.
+    /// Handles all standard named entities and numeric references.
+    /// </remarks>
     private static string EscapeHtml(string text)
     {
         // WebUtility.HtmlEncode is the standard .NET way to safely encode HTML content.
         return WebUtility.HtmlEncode(text);
     }
 
+    /// <summary>
+    /// Unescapes text from HTML entities back to original characters.
+    /// </summary>
+    /// <remarks>
+    /// Uses <see cref="WebUtility.HtmlDecode"/> which supports the full HTML5 entity set
+    /// including thousands of named entities and all decimal/hexadecimal numeric references.
+    /// </remarks>
     private static string UnescapeHtml(string escapedText)
     {
         // WebUtility.HtmlDecode handles the massive HTML5 entity set and complex 

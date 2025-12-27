@@ -5,12 +5,18 @@
 /// </summary>
 public enum InnerBlankLineHandling
 {
-    /// <summary>Preserve consecutive blank lines as-is.</summary>
+    /// <summary>
+    /// Preserve all consecutive blank lines as-is.
+    /// </summary>
     Preserve,
 
-    /// <summary>Collapse consecutive blank lines to a single one.</summary>
+    /// <summary>
+    /// Collapse consecutive blank lines into a single blank line.
+    /// </summary>
     Collapse,
 
-    /// <summary>Remove blank lines between content.</summary>
+    /// <summary>
+    /// Remove all blank lines between visible content.
+    /// </summary>
     Remove
 }

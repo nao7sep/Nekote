@@ -5,9 +5,13 @@
 /// </summary>
 public enum TrailingBlankLineHandling
 {
-    /// <summary>Preserve trailing blank lines.</summary>
+    /// <summary>
+    /// Preserve all trailing blank lines as-is.
+    /// </summary>
     Preserve,
 
-    /// <summary>Remove trailing blank lines.</summary>
+    /// <summary>
+    /// Remove all trailing blank lines.
+    /// </summary>
     Remove
 }

@@ -5,23 +5,15 @@
 /// </summary>
 public enum PathSeparatorMode
 {
-    /// <summary>
-    /// Preserve existing separators without modification (mixed separators allowed).
-    /// </summary>
+    /// <summary>Preserve existing separators.</summary>
     Preserve,
 
-    /// <summary>
-    /// Convert all separators to the platform-native separator (backslash on Windows, forward slash on Unix).
-    /// </summary>
+    /// <summary>Convert to platform-native separator.</summary>
     Native,
 
-    /// <summary>
-    /// Convert all separators to Unix-style forward slashes (<c>/</c>).
-    /// </summary>
+    /// <summary>Convert to Unix-style forward slashes.</summary>
     Unix,
 
-    /// <summary>
-    /// Convert all separators to Windows-style backslashes (<c>\</c>).
-    /// </summary>
+    /// <summary>Convert to Windows-style backslashes.</summary>
     Windows
 }

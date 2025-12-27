@@ -5,13 +5,9 @@
 /// </summary>
 public enum TrailingWhitespaceHandling
 {
-    /// <summary>
-    /// Preserve all trailing whitespace characters as-is.
-    /// </summary>
+    /// <summary>Preserve trailing whitespace.</summary>
     Preserve,
 
-    /// <summary>
-    /// Remove all trailing whitespace characters.
-    /// </summary>
+    /// <summary>Remove trailing whitespace.</summary>
     Remove
 }

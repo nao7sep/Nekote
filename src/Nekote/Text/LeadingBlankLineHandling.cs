@@ -5,13 +5,9 @@
 /// </summary>
 public enum LeadingBlankLineHandling
 {
-    /// <summary>
-    /// Preserve all leading blank lines as-is.
-    /// </summary>
+    /// <summary>Preserve leading blank lines.</summary>
     Preserve,
 
-    /// <summary>
-    /// Remove all leading blank lines.
-    /// </summary>
+    /// <summary>Remove leading blank lines.</summary>
     Remove
 }

@@ -19,27 +19,15 @@ namespace Nekote.Text;
 /// </remarks>
 public static class TextEncoding
 {
-    /// <summary>
-    /// UTF-8 encoding without Byte Order Mark (BOM).
-    /// Recommended default for cross-platform text files.
-    /// </summary>
+    /// <summary>UTF-8 without BOM (recommended for cross-platform use).</summary>
     public static readonly Encoding Utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
 
-    /// <summary>
-    /// UTF-8 encoding with Byte Order Mark (BOM).
-    /// Used by Windows Notepad and some legacy applications.
-    /// </summary>
+    /// <summary>UTF-8 with BOM (used by Windows Notepad and legacy apps).</summary>
     public static readonly Encoding Utf8WithBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: true);
 
-    /// <summary>
-    /// UTF-16 Little Endian with BOM.
-    /// Native encoding for Windows (used by .NET strings internally).
-    /// </summary>
+    /// <summary>UTF-16 Little Endian with BOM (native .NET string encoding).</summary>
     public static readonly Encoding Utf16 = Encoding.Unicode;
 
-    /// <summary>
-    /// UTF-32 Little Endian with BOM.
-    /// Rarely used; included for completeness.
-    /// </summary>
+    /// <summary>UTF-32 Little Endian with BOM (rarely used).</summary>
     public static readonly Encoding Utf32 = Encoding.UTF32;
 }

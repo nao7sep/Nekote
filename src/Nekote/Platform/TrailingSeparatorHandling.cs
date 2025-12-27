@@ -5,18 +5,12 @@
 /// </summary>
 public enum TrailingSeparatorHandling
 {
-    /// <summary>
-    /// Preserve the trailing separator as-is (present or absent).
-    /// </summary>
+    /// <summary>Preserve trailing separator as-is.</summary>
     Preserve,
 
-    /// <summary>
-    /// Remove the trailing separator if present.
-    /// </summary>
+    /// <summary>Remove trailing separator if present.</summary>
     Remove,
 
-    /// <summary>
-    /// Ensure a trailing separator is present, adding it if missing.
-    /// </summary>
+    /// <summary>Ensure trailing separator is present.</summary>
     Ensure
 }
